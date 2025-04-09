@@ -22,7 +22,7 @@ public class ServiceAvis implements IService<Avis>{
 
         String qry = "INSERT INTO avis (note, commentaire, date_creation, formation_id) VALUES (?, ?, ? ,?)";
         try {
-            PreparedStatement pstm = cnx.prepareStatement(qry);
+            PreparedStatement pstm = cnx.prepareStatement(qry,Statement.RETURN_GENERATED_KEYS);
             pstm.setFloat(1, avis.getNote());
             pstm.setString(2, avis.getCommentaire());
             pstm.setTimestamp(3, Timestamp.valueOf(avis.getDateCreation()));
@@ -30,8 +30,15 @@ public class ServiceAvis implements IService<Avis>{
             //pstm.setInt(4, avis.getFormationId());
             int rowsAffected = pstm.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Avis added successfully!");
-                updateFormationScore(avis.getFormationId());
+
+                ResultSet rs = pstm.getGeneratedKeys();
+                if (rs.next()) {
+                    int generatedId = rs.getInt(1);
+                    avis.setId(generatedId); // Set the ID on the Avis object
+                    System.out.println("Avis added successfully with ID: " + generatedId);
+                    updateFormationScore(avis.getFormationId());
+
+                }
             } else {
                 System.out.println("Failed to add Avis.");
             }

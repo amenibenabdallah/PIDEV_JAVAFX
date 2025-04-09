@@ -116,7 +116,7 @@
       <option name="presentableId" value="Default" />
       <updated>1744181201388</updated>
       <workItem from="1744181202623" duration="6583000" />
-      <workItem from="1744195526108" duration="12148000" />
+      <workItem from="1744195526108" duration="14103000" />
     </task>
     <servers />
   </component>
@@ -141,6 +141,15 @@
           <url>file://$PROJECT_DIR$/src/main/java/tn/esprit/test/Main.java</url>
           <line>4</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/tn/esprit/test/TestAvis.java</url>
+          <line>7</line>
+          <properties class="tn.esprit.test.TestAvis" method="main">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

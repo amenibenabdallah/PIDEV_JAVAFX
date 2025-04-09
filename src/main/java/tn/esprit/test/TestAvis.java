@@ -16,50 +16,28 @@ public class TestAvis {
             }
         }
 
-        // Step 2: Add three Avis records
-        System.out.println("\n=== Adding Three Avis Records ===");
+        // Step 2: Add two Avis records
+        System.out.println("\n=== Adding Two Avis Records ===");
         Avis avis1 = new Avis(3.0f, "Average course.", LocalDateTime.now(), 1);
         serviceAvis.add(avis1);
 
         Avis avis2 = new Avis(5.0f, "Excellent course!", LocalDateTime.now(), 1);
         serviceAvis.add(avis2);
 
-        Avis avis3 = new Avis(4.0f, "Good course.", LocalDateTime.now(), 1);
-        serviceAvis.add(avis3);
-
         System.out.println("All Avis records after adding:");
         for (Avis a : serviceAvis.getAll()) {
             System.out.println(a);
         }
 
-        // Step 3: Update the second Avis (avis2)
-        System.out.println("\n=== Updating the Second Avis (ID: " + avis2.getId() + ") ===");
-        Avis updatedAvis2 = new Avis(2.0f, "Updated: Not so great.", LocalDateTime.now(), 1);
-        updatedAvis2.setId(avis2.getId());
-        serviceAvis.update(updatedAvis2);
+        // Step 3: Update the first Avis (avis1)
+        System.out.println("\n=== Updating the First Avis (ID: " + avis1.getId() + ") ===");
+        Avis updatedAvis1 = new Avis(4.0f, "Updated: Good course!", LocalDateTime.now(), 1);
+        updatedAvis1.setId(avis1.getId());
+        serviceAvis.update(updatedAvis1);
 
         System.out.println("All Avis records after updating:");
         for (Avis a : serviceAvis.getAll()) {
             System.out.println(a);
         }
-
-        // Step 4: Delete the third Avis (avis3)
-        System.out.println("\n=== Deleting the Third Avis (ID: " + avis3.getId() + ") ===");
-        serviceAvis.delete(avis3);
-
-        System.out.println("All Avis records after deleting the third Avis:");
-        for (Avis a : serviceAvis.getAll()) {
-            System.out.println(a);
-        }
-
-        // Step 5: Clean up - Delete the remaining Avis records
-        System.out.println("\n=== Cleaning Up: Deleting Remaining Avis ===");
-        serviceAvis.delete(avis1);
-        serviceAvis.delete(avis2);
-
-        System.out.println("All Avis records after final cleanup:");
-        for (Avis a : serviceAvis.getAll()) {
-            System.out.println(a);
-        }
     }
-    }
+}
