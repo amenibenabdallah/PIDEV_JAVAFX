@@ -68,13 +68,46 @@ public class ServiceAvis implements IService<Avis>{
     }
 
     @Override
-    public void update(Avis avis) {
+    public void update(Avis avis ) {
+        String qry = "UPDATE avis SET note = ?, commentaire = ?, date_creation = ?, formation_id = ? WHERE id = ?";
+        try {
+            PreparedStatement pstm = cnx.prepareStatement(qry);
+            pstm.setFloat(1, avis.getNote());
+            pstm.setString(2, avis.getCommentaire());
+            pstm.setTimestamp(3, Timestamp.valueOf(avis.getDateCreation()));
+            pstm.setInt(4, avis.getFormationId());
+            pstm.setInt(5, avis.getId());
+
+            int rowsAffected = pstm.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Avis updated successfully for ID: " + avis.getId());
+                updateFormationScore(avis.getFormationId());
+            } else {
+                System.out.println("Failed to update Avis. No record found with ID: " + avis.getId());
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating Avis: " + e.getMessage());
+        }
 
     }
 
     @Override
     public void delete(Avis avis) {
-
+        int formationId = avis.getFormationId(); // Store formationId before deletion
+        String qry = "DELETE FROM avis WHERE id = ?";
+        try {
+            PreparedStatement pstm = cnx.prepareStatement(qry);
+            pstm.setInt(1, avis.getId());
+            int rowsAffected = pstm.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Avis deleted successfully!");
+                updateFormationScore(formationId);
+            } else {
+                System.out.println("No Avis found with ID: " + avis.getId());
+            }
+        } catch (SQLException e) {
+            System.out.println("Error deleting Avis: " + e.getMessage());
+        }
     }
 
     //helper function for the calcul of the formation score
@@ -88,7 +121,7 @@ public class ServiceAvis implements IService<Avis>{
         // Check if a FormationScore already exists for this formation
         FormationScore formationScore = serviceFormationScore.getByFormationId(formationId);
 
-        if (averageScore == 0.0) {
+        if (nombreAvis == 0) {
             // No Avis records exist for this formation, delete the FormationScore if it exists
             if (formationScore != null) {
                 String qry = "DELETE FROM formation_score WHERE formation_id = ?";
