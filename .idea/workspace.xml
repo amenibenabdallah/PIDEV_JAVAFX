@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/AddAvisStyles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AddAvis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AddAvis.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/AddAvis.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AddAvis.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/AddAvisStyles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AddAvisStyles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +49,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/LENOVO/AppData/Local/SceneBuilder/SceneBuilder.exe",
+    "last_opened_file_path": "C:/Users/LENOVO/Desktop/PIDEV_JAVAFX/src/main/resources/fonts",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -60,6 +61,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX\src\main\resources\fonts" />
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX" />
     </key>
   </component>
@@ -133,7 +135,7 @@
       <option name="presentableId" value="Default" />
       <updated>1744181201388</updated>
       <workItem from="1744181202623" duration="6583000" />
-      <workItem from="1744195526108" duration="22539000" />
+      <workItem from="1744195526108" duration="26733000" />
     </task>
     <servers />
   </component>

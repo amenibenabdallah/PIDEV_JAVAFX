@@ -5,7 +5,7 @@
 
 <GridPane xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="tn.esprit.controllers.AddAvis"
-          alignment="CENTER" hgap="10" vgap="10" style="-fx-padding: 20;"
+          hgap="10" vgap="15" style="-fx-padding: 20;"
           stylesheets="@AddAvisStyles.css">
 
     <!-- Title -->
@@ -13,17 +13,16 @@
            styleClass="title-label" GridPane.halignment="CENTER"/>
 
     <!-- Star Rating -->
-    <Label text="Rating:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <Label text="Rating:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label"/>
     <HBox fx:id="starRatingBox" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-    <!-- Commentaire -->
-    <Label text="Comment:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-    <TextField fx:id="commentaireTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="200"
-               styleClass="text-field"/>
+    <!-- Comment -->
+    <Label text="Comment:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label"/>
+    <TextArea fx:id="commentaireTextField" prefWidth="400" prefHeight="100" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="text-area"/>
 
     <!-- Formation ID -->
-    <Label text="Formation ID:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-    <ComboBox fx:id="formationIdComboBox" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="200"/>
+    <Label text="Formation :" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="label"/>
+    <ComboBox fx:id="formationIdComboBox" prefWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="combo-box"/>
 
     <!-- Buttons -->
     <HBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2" GridPane.halignment="CENTER">

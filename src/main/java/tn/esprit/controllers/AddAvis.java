@@ -15,7 +15,7 @@ public class AddAvis {
     private HBox starRatingBox;
 
     @FXML
-    private TextField commentaireTextField;
+    private TextArea commentaireTextField;
 
     @FXML
     private ComboBox<Integer> formationIdComboBox;
@@ -29,10 +29,10 @@ public class AddAvis {
         // Initialize the ServiceAvis
         serviceAvis = new ServiceAvis();
 
-        // Initialize the star rating system
+        // Initialize the star rating system with 5 empty stars
         stars = new Label[5];
         for (int i = 0; i < 5; i++) {
-            Label star = new Label("★"); // Use the same filled star for all
+            Label star = new Label("☆"); // Empty star (unselected)
             star.getStyleClass().add("star"); // Apply unselected style initially
             final int index = i + 1;
             star.setOnMouseClicked(event -> setRating(index));
@@ -49,8 +49,8 @@ public class AddAvis {
         rating = newRating;
         // Update star visuals
         for (int i = 0; i < 5; i++) {
+            stars[i].setText(i < rating ? "★" : "☆"); // Filled star for selected, empty for unselected
             stars[i].getStyleClass().setAll(i < rating ? "star-selected" : "star");
-
         }
     }
 
