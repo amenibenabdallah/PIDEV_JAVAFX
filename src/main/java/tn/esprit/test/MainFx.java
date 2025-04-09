@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class MainFx extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/AddAvis.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/ListAvis.fxml"));
         primaryStage.setTitle("Formini application");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
