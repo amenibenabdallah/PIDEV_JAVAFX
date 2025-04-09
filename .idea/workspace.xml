@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AddAvis.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/AddAvis.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceAvis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceAvis.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/TestAvis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/TestAvis.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainFx.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,9 +61,22 @@
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.TestAvis">
+  <component name="RunManager" selected="Application.MainFx">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="tn.esprit.test.Main" />
+      <module name="java_pi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tn.esprit.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainFx" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tn.esprit.test.MainFx" />
       <module name="java_pi" />
       <extension name="coverage">
         <pattern>
@@ -102,6 +116,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MainFx" />
         <item itemvalue="Application.TestAvis" />
         <item itemvalue="Application.Main" />
       </list>
@@ -116,7 +131,7 @@
       <option name="presentableId" value="Default" />
       <updated>1744181201388</updated>
       <workItem from="1744181202623" duration="6583000" />
-      <workItem from="1744195526108" duration="14103000" />
+      <workItem from="1744195526108" duration="17687000" />
     </task>
     <servers />
   </component>
