@@ -5,19 +5,21 @@
 
 <GridPane xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="tn.esprit.controllers.AddAvis"
-          alignment="CENTER" hgap="10" vgap="10" style="-fx-padding: 20;">
+          alignment="CENTER" hgap="10" vgap="10" style="-fx-padding: 20;"
+          stylesheets="@AddAvisStyles.css">
 
     <!-- Title -->
     <Label text="Add New Avis" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"
-           style="-fx-font-size: 16px; -fx-font-weight: bold;" GridPane.halignment="CENTER"/>
+           styleClass="title-label" GridPane.halignment="CENTER"/>
 
-    <!-- Note (Rating) -->
+    <!-- Star Rating -->
     <Label text="Rating:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-    <ComboBox fx:id="noteComboBox" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200"/>
+    <HBox fx:id="starRatingBox" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
     <!-- Commentaire -->
     <Label text="Comment:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-    <TextField fx:id="commentaireTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="200"/>
+    <TextField fx:id="commentaireTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="200"
+               styleClass="text-field"/>
 
     <!-- Formation ID -->
     <Label text="Formation ID:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
@@ -25,8 +27,8 @@
 
     <!-- Buttons -->
     <HBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2" GridPane.halignment="CENTER">
-        <Button text="Add Avis" onAction="#handleAddAvis" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-        <Button text="Cancel" onAction="#handleCancel" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+        <Button text="Add Avis" onAction="#handleAddAvis" styleClass="button,add-button"/>
+        <Button text="Cancel" onAction="#handleCancel" styleClass="button,cancel-button"/>
     </HBox>
 
 </GridPane>

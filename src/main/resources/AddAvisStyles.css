@@ -1,0 +1,67 @@
+/* Root styles for the entire interface */
+.root {
+    -fx-background-color: white; /* White background */
+    -fx-font-family: "Arial";
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: black; /* Black text for labels */
+    -fx-font-size: 14px;
+}
+
+/* Title label */
+.title-label {
+    -fx-text-fill: black;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* TextField */
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-text-fill: black;
+    -fx-prompt-text-fill: gray;
+}
+
+/* Buttons */
+.button {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+/* Add Avis button (Red) */
+.add-button {
+    -fx-background-color: #ff0000; /* Red */
+}
+
+.add-button:hover {
+    -fx-background-color: #cc0000; /* Darker red on hover */
+}
+
+/* Cancel button (Black) */
+.cancel-button {
+    -fx-background-color: #000000; /* Black */
+}
+
+.cancel-button:hover {
+    -fx-background-color: #333333; /* Darker black/gray on hover */
+}
+
+/* Star rating (unselected: gray, semi-transparent) */
+.star {
+    -fx-font-size: 24px; /* Fixed size for consistency */
+    -fx-text-fill: #808080; /* Gray for unselected stars */
+    -fx-opacity: 0.3; /* Semi-transparent to mimic "empty" look */
+}
+
+/* Selected star (gold, fully opaque) */
+.star-selected {
+    -fx-font-size: 24px; /* Fixed size for consistency */
+    -fx-text-fill: #FFD700; /* Gold for selected stars */
+    -fx-opacity: 1.0; /* Fully opaque for selected stars */
+}
