@@ -9,8 +9,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AddAvis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AddAvis.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ListAvisController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ListAvisController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/AddAvis.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AddAvis.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/AddAvisStyles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AddAvisStyles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ListAvis.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ListAvis.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ListAvisStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ListAvisStyle.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +137,7 @@
       <workItem from="1744181202623" duration="6583000" />
       <workItem from="1744195526108" duration="31479000" />
       <workItem from="1744282817868" duration="1215000" />
-      <workItem from="1744357703447" duration="4575000" />
+      <workItem from="1744357703447" duration="8118000" />
     </task>
     <servers />
   </component>

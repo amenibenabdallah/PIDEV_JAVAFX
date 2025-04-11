@@ -40,15 +40,20 @@ public class AddAvis {
     @FXML
     private VBox addAvisForm;
 
+    @FXML
+    private Button addButton; // Reference to Add/Update button
+
     private ServiceAvis serviceAvis;
     private ListAvisController listAvisController;
     private static final int FORMATION_ID = 1;
-    private int selectedRating = 0; // Store the selected rating
+    private float selectedRating = 0; // Changed to float to match Avis
+    private Avis currentAvis; // Track the Avis being edited (null if adding)
 
     @FXML
     public void initialize() {
         serviceAvis = new ServiceAvis();
-        // Initialize the ComboBox (already set to "1" in FXML)
+        formationComboBox.setItems(FXCollections.observableArrayList("1"));
+        formationComboBox.setValue("1");
     }
 
     public void setListAvisController(ListAvisController controller) {
@@ -59,21 +64,18 @@ public class AddAvis {
     private void handleStarClick(MouseEvent event) {
         Label clickedStar = (Label) event.getSource();
         String starId = clickedStar.getId();
-        int rating = switch (starId) {
-            case "star1" -> 1;
-            case "star2" -> 2;
-            case "star3" -> 3;
-            case "star4" -> 4;
-            case "star5" -> 5;
-            default -> 0;
+        selectedRating = switch (starId) {
+            case "star1" -> 1.0f;
+            case "star2" -> 2.0f;
+            case "star3" -> 3.0f;
+            case "star4" -> 4.0f;
+            case "star5" -> 5.0f;
+            default -> 0.0f;
         };
-
-        selectedRating = rating;
         updateStarStyles();
     }
 
     private void updateStarStyles() {
-        // Update the style of each star based on the selected rating
         star1.getStyleClass().setAll("star", selectedRating >= 1 ? "star-selected" : "star");
         star2.getStyleClass().setAll("star", selectedRating >= 2 ? "star-selected" : "star");
         star3.getStyleClass().setAll("star", selectedRating >= 3 ? "star-selected" : "star");
@@ -101,17 +103,25 @@ public class AddAvis {
             String formationIdStr = formationComboBox.getValue();
             int formationId = Integer.parseInt(formationIdStr);
 
-            // Create a new Avis
-            Avis newAvis = new Avis();
-            newAvis.setNote(selectedRating);
-            newAvis.setCommentaire(commentaire);
-            newAvis.setFormationId(formationId);
-            newAvis.setDateCreation(LocalDateTime.now());
+            // Create or update Avis
+            if (currentAvis == null) {
+                // Adding new Avis
+                Avis newAvis = new Avis();
+                newAvis.setNote(selectedRating);
+                newAvis.setCommentaire(commentaire);
+                newAvis.setFormationId(formationId);
+                newAvis.setDateCreation(LocalDateTime.now());
+                serviceAvis.add(newAvis);
+            } else {
+                // Updating existing Avis
+                currentAvis.setNote(selectedRating);
+                currentAvis.setCommentaire(commentaire);
+                currentAvis.setFormationId(formationId);
+                currentAvis.setDateCreation(LocalDateTime.now()); // Or keep original date
+                serviceAvis.update(currentAvis);
+            }
 
-            // Add the Avis using the service
-            serviceAvis.add(newAvis);
-
-            // Refresh the list in ListAvisController
+            // Refresh the list
             if (listAvisController != null) {
                 listAvisController.refreshAvisList();
             }
@@ -120,26 +130,35 @@ public class AddAvis {
             clearForm();
 
         } catch (Exception e) {
-            showAlert("Erreur", "Une erreur s'est produite lors de l'ajout de l'avis.");
+            showAlert("Erreur", "Une erreur s'est produite lors de l'opération.");
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void handleCancel() {
-        // Clear the form
+     void handleCancel() {
         clearForm();
-        // Let ListAvisController handle the visibility
         if (listAvisController != null) {
             listAvisController.refreshAvisList();
         }
     }
 
-    private void clearForm() {
+    public void editAvis(Avis avis) {
+        currentAvis = avis;
+        selectedRating = avis.getNote();
+        commentaireField.setText(avis.getCommentaire());
+        formationComboBox.setValue(String.valueOf(avis.getFormationId()));
+        updateStarStyles();
+        addButton.setText("Update Avis");
+    }
+
+     void clearForm() {
         selectedRating = 0;
         updateStarStyles();
         commentaireField.clear();
         formationComboBox.setValue("1");
+        currentAvis = null;
+        addButton.setText("Add Avis");
     }
 
     private void showAlert(String title, String message) {

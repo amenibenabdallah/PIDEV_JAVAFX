@@ -116,3 +116,23 @@
     -fx-font-size: 16px;
     -fx-font-weight: bold;
 }
+.edit-button {
+    -fx-background-color: #007BFF; /* Blue */
+    -fx-pref-width: 80px;
+    -fx-pref-height: 30px;
+}
+
+.edit-button:hover {
+    -fx-background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Delete button (Red) */
+.delete-button {
+    -fx-background-color: #DC3545; /* Red */
+    -fx-pref-width: 80px;
+    -fx-pref-height: 30px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #bd2130; /* Darker red on hover */
+}

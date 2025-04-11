@@ -45,7 +45,7 @@
 
     <!-- Buttons -->
     <HBox spacing="20" alignment="CENTER">
-        <Button text="Add Avis" onAction="#handleAdd" styleClass="button,add-button"/>
+        <Button fx:id="addButton" text="Add Avis" onAction="#handleAdd" styleClass="button,add-button"/>
         <Button text="Cancel" onAction="#handleCancel" styleClass="button,cancel-button"/>
     </HBox>
 

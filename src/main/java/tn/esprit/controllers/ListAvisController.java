@@ -14,6 +14,7 @@ import tn.esprit.services.ServiceAvis;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 public class ListAvisController {
 
@@ -33,39 +34,30 @@ public class ListAvisController {
     private VBox addAvisContainer;
 
     private ServiceAvis serviceAvis;
-    private static final int FORMATION_ID = 1; // Filter by Formation ID = 1
-    private AddAvis addAvisController; // Updated to AddAvis
+    private static final int FORMATION_ID = 1;
+    private AddAvis addAvisController;
 
     @FXML
     public void initialize() {
-        // Initialize the ServiceAvis
         serviceAvis = new ServiceAvis();
-
-        // Load the Avis data
         loadAvisData();
     }
 
     private void loadAvisData() {
-        // Clear the FlowPane
         avisFlowPane.getChildren().clear();
-
-        // Fetch all Avis records and filter by Formation ID = 1
         List<Avis> avisList = serviceAvis.getAll().stream()
                 .filter(avis -> avis.getFormationId() == FORMATION_ID)
                 .toList();
 
-        // Calculate the average rating and number of Avis
         double averageRating = avisList.isEmpty() ? 0.0 : avisList.stream()
                 .mapToDouble(Avis::getNote)
                 .average()
                 .orElse(0.0);
         int avisCount = avisList.size();
 
-        // Update the labels
         averageScoreLabel.setText(String.format("%.1f/5", averageRating));
         avisCountLabel.setText(String.valueOf(avisCount));
 
-        // Create a card for each filtered Avis
         for (Avis avis : avisList) {
             VBox card = createAvisCard(avis);
             avisFlowPane.getChildren().add(card);
@@ -73,19 +65,16 @@ public class ListAvisController {
     }
 
     private VBox createAvisCard(Avis avis) {
-        // Card container
         VBox card = new VBox(10);
         card.getStyleClass().add("card");
 
-        // Rating (Stars)
         HBox ratingBox = new HBox(5);
         for (int i = 1; i <= 5; i++) {
             Label star = new Label("★");
-            star.getStyleClass().add(i <= avis.getNote() ? "star-selected" : "star");
+            star.getStyleClass().add(i <= Math.round(avis.getNote()) ? "star-selected" : "star");
             ratingBox.getChildren().add(star);
         }
 
-        // Date and Time
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         String date = avis.getDateCreation().format(dateFormatter);
@@ -94,18 +83,27 @@ public class ListAvisController {
         Label dateLabel = new Label(date + "  " + time);
         dateLabel.getStyleClass().add("date-label");
 
-        // Comment
         Label commentLabel = new Label(avis.getCommentaire());
         commentLabel.getStyleClass().add("comment-text");
         commentLabel.setWrapText(true);
 
-        // Add all elements to the card
-        card.getChildren().addAll(ratingBox, dateLabel, commentLabel);
+        // Add Edit and Delete buttons
+        HBox buttonBox = new HBox(10);
+        Button editButton = new Button("Edit");
+        editButton.getStyleClass().addAll("button", "edit-button");
+        editButton.setOnAction(e -> handleEdit(avis));
 
-        // Apply fade-in animation
+        Button deleteButton = new Button("Delete");
+        deleteButton.getStyleClass().addAll("button", "delete-button");
+        deleteButton.setOnAction(e -> handleDelete(avis));
+
+        buttonBox.getChildren().addAll(editButton, deleteButton);
+
+        card.getChildren().addAll(ratingBox, dateLabel, commentLabel, buttonBox);
+
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), card);
-        fadeTransition.setFromValue(0.0); // Start at 0 opacity
-        fadeTransition.setToValue(1.0);   // End at full opacity
+        fadeTransition.setFromValue(0.0);
+        fadeTransition.setToValue(1.0);
         fadeTransition.play();
 
         return card;
@@ -115,20 +113,20 @@ public class ListAvisController {
     private void handleToggleAddForm() {
         try {
             if (addAvisContainer.isVisible()) {
-                // Hide the form
                 addAvisContainer.setVisible(false);
                 addAvisContainer.setManaged(false);
                 toggleAddFormButton.setText("Ajouter un avis");
+                if (addAvisController != null) {
+                    addAvisController.clearForm();
+                }
             } else {
-                // Load AddAvis.fxml if not already loaded
                 if (addAvisContainer.getChildren().isEmpty()) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddAvis.fxml"));
                     VBox addAvisForm = loader.load();
-                    addAvisController = loader.getController(); // Updated to AddAvis
-                    addAvisController.setListAvisController(this); // Pass reference to this controller
+                    addAvisController = loader.getController();
+                    addAvisController.setListAvisController(this);
                     addAvisContainer.getChildren().setAll(addAvisForm);
                 }
-                // Show the form
                 addAvisContainer.setVisible(true);
                 addAvisContainer.setManaged(true);
                 toggleAddFormButton.setText("Masquer le formulaire");
@@ -139,10 +137,39 @@ public class ListAvisController {
         }
     }
 
-    // Method to be called by AddAvis to refresh the list
+    private void handleEdit(Avis avis) {
+        try {
+            if (addAvisContainer.getChildren().isEmpty()) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddAvis.fxml"));
+                VBox addAvisForm = loader.load();
+                addAvisController = loader.getController();
+                addAvisController.setListAvisController(this);
+                addAvisContainer.getChildren().setAll(addAvisForm);
+            }
+            addAvisController.editAvis(avis);
+            addAvisContainer.setVisible(true);
+            addAvisContainer.setManaged(true);
+            toggleAddFormButton.setText("Masquer le formulaire");
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load the Edit Avis form.");
+        }
+    }
+
+    private void handleDelete(Avis avis) {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirmer la suppression");
+        confirm.setHeaderText(null);
+        confirm.setContentText("Voulez-vous vraiment supprimer cet avis ?");
+        Optional<ButtonType> result = confirm.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            serviceAvis.delete(avis);
+            refreshAvisList();
+        }
+    }
+
     public void refreshAvisList() {
         loadAvisData();
-        // Hide the form after adding
         addAvisContainer.setVisible(false);
         addAvisContainer.setManaged(false);
         toggleAddFormButton.setText("Ajouter un avis");
