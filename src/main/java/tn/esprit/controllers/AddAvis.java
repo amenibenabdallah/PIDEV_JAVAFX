@@ -1,9 +1,11 @@
 package tn.esprit.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 import tn.esprit.models.Avis;
 import tn.esprit.services.ServiceAvis;
 
@@ -12,92 +14,136 @@ import java.time.LocalDateTime;
 public class AddAvis {
 
     @FXML
-    private HBox starRatingBox;
+    private HBox ratingBox;
 
     @FXML
-    private TextArea commentaireTextField;
+    private Label star1;
 
     @FXML
-    private ComboBox<Integer> formationIdComboBox;
+    private Label star2;
+
+    @FXML
+    private Label star3;
+
+    @FXML
+    private Label star4;
+
+    @FXML
+    private Label star5;
+
+    @FXML
+    private TextArea commentaireField;
+
+    @FXML
+    private ComboBox<String> formationComboBox;
+
+    @FXML
+    private VBox addAvisForm;
 
     private ServiceAvis serviceAvis;
-    private float rating = 0.0f; // Default rating set to 0
-    private Label[] stars; // Array to hold star nodes
+    private ListAvisController listAvisController;
+    private static final int FORMATION_ID = 1;
+    private int selectedRating = 0; // Store the selected rating
 
     @FXML
     public void initialize() {
-        // Initialize the ServiceAvis
         serviceAvis = new ServiceAvis();
-
-        // Initialize the star rating system with 5 empty stars
-        stars = new Label[5];
-        for (int i = 0; i < 5; i++) {
-            Label star = new Label("☆"); // Empty star (unselected)
-            star.getStyleClass().add("star"); // Apply unselected style initially
-            final int index = i + 1;
-            star.setOnMouseClicked(event -> setRating(index));
-            stars[i] = star;
-            starRatingBox.getChildren().add(star);
-        }
-
-        // Populate the formationId ComboBox with sample formation IDs (e.g., 1, 2, 3)
-        formationIdComboBox.getItems().addAll(1, 2, 3);
-        formationIdComboBox.setValue(1); // Default value
+        // Initialize the ComboBox (already set to "1" in FXML)
     }
 
-    private void setRating(int newRating) {
-        rating = newRating;
-        // Update star visuals
-        for (int i = 0; i < 5; i++) {
-            stars[i].setText(i < rating ? "★" : "☆"); // Filled star for selected, empty for unselected
-            stars[i].getStyleClass().setAll(i < rating ? "star-selected" : "star");
-        }
+    public void setListAvisController(ListAvisController controller) {
+        this.listAvisController = controller;
     }
 
     @FXML
-    private void handleAddAvis() {
-        // Get the input values
-        String commentaire = commentaireTextField.getText();
-        Integer formationId = formationIdComboBox.getValue();
+    private void handleStarClick(MouseEvent event) {
+        Label clickedStar = (Label) event.getSource();
+        String starId = clickedStar.getId();
+        int rating = switch (starId) {
+            case "star1" -> 1;
+            case "star2" -> 2;
+            case "star3" -> 3;
+            case "star4" -> 4;
+            case "star5" -> 5;
+            default -> 0;
+        };
 
-        // Validate the input
-        if (commentaire == null || commentaire.trim().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Validation Error", "Comment cannot be empty.");
-            return;
-        }
-        if (rating == 0.0f) {
-            showAlert(Alert.AlertType.ERROR, "Validation Error", "Please select a rating.");
-            return;
-        }
+        selectedRating = rating;
+        updateStarStyles();
+    }
 
-        // Create a new Avis object
-        Avis avis = new Avis(rating, commentaire, LocalDateTime.now(), formationId);
+    private void updateStarStyles() {
+        // Update the style of each star based on the selected rating
+        star1.getStyleClass().setAll("star", selectedRating >= 1 ? "star-selected" : "star");
+        star2.getStyleClass().setAll("star", selectedRating >= 2 ? "star-selected" : "star");
+        star3.getStyleClass().setAll("star", selectedRating >= 3 ? "star-selected" : "star");
+        star4.getStyleClass().setAll("star", selectedRating >= 4 ? "star-selected" : "star");
+        star5.getStyleClass().setAll("star", selectedRating >= 5 ? "star-selected" : "star");
+    }
 
-        // Add the Avis to the database
-        int originalId = avis.getId(); // Should be 0 before adding
-        serviceAvis.add(avis);
-        int generatedId = avis.getId(); // Get the ID after adding
+    @FXML
+    private void handleAdd() {
+        try {
+            // Validate the rating
+            if (selectedRating < 1 || selectedRating > 5) {
+                showAlert("Erreur", "Veuillez sélectionner une note (1 à 5 étoiles).");
+                return;
+            }
 
-        // Check if the ID changed (indicating a successful add)
-        if (generatedId != originalId && generatedId > 0) {
-            showAlert(Alert.AlertType.INFORMATION, "Success", "Avis added successfully with ID: " + generatedId);
-            // Close the window
-            Stage stage = (Stage) commentaireTextField.getScene().getWindow();
-            stage.close();
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to add Avis.");
+            // Get the comment
+            String commentaire = commentaireField.getText();
+            if (commentaire == null || commentaire.trim().isEmpty()) {
+                showAlert("Erreur", "Le commentaire ne peut pas être vide.");
+                return;
+            }
+
+            // Get the formation ID
+            String formationIdStr = formationComboBox.getValue();
+            int formationId = Integer.parseInt(formationIdStr);
+
+            // Create a new Avis
+            Avis newAvis = new Avis();
+            newAvis.setNote(selectedRating);
+            newAvis.setCommentaire(commentaire);
+            newAvis.setFormationId(formationId);
+            newAvis.setDateCreation(LocalDateTime.now());
+
+            // Add the Avis using the service
+            serviceAvis.add(newAvis);
+
+            // Refresh the list in ListAvisController
+            if (listAvisController != null) {
+                listAvisController.refreshAvisList();
+            }
+
+            // Clear the form
+            clearForm();
+
+        } catch (Exception e) {
+            showAlert("Erreur", "Une erreur s'est produite lors de l'ajout de l'avis.");
+            e.printStackTrace();
         }
     }
 
     @FXML
     private void handleCancel() {
-        // Close the window without saving
-        Stage stage = (Stage) commentaireTextField.getScene().getWindow();
-        stage.close();
+        // Clear the form
+        clearForm();
+        // Let ListAvisController handle the visibility
+        if (listAvisController != null) {
+            listAvisController.refreshAvisList();
+        }
     }
 
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
+    private void clearForm() {
+        selectedRating = 0;
+        updateStarStyles();
+        commentaireField.clear();
+        formationComboBox.setValue("1");
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);

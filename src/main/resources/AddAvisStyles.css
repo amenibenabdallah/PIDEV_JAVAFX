@@ -1,56 +1,76 @@
 /* Root styles for the entire interface */
 .root {
-    -fx-background-color: linear-gradient(to bottom, #FFF5F5, #FFE6E6); /* Red gradient background */
-    -fx-background-radius: 15px; /* Rounded corners */
-    -fx-border-radius: 15px;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 5); /* Enhanced shadow for floating effect */
-    -fx-font-family: "Segoe UI", "Arial", sans-serif; /* Modern font */
+    -fx-background-color: #F8E6E6; /* Light pink background */
+    -fx-font-family: "Arial", sans-serif; /* Font to match screenshot */
 }
 
-/* GridPane container */
-.grid-pane {
-    -fx-background-color: transparent; /* Transparent to show root gradient */
-    -fx-background-radius: 15px;
-    -fx-border-radius: 15px;
-    -fx-padding: 25px; /* More padding for a spacious look */
+/* VBox container */
+.vbox {
+    -fx-background-color: transparent;
+    -fx-padding: 20px;
 }
 
-/* Title label */
+/* Title label (for ListAvis) */
 .title-label {
-    -fx-text-fill: #2D3748; /* Dark slate gray for a modern look */
+    -fx-text-fill: #000000; /* True black */
     -fx-font-size: 24px;
     -fx-font-weight: bold;
 }
 
-/* Labels */
-.label {
-    -fx-text-fill: #4A5568; /* Slightly lighter gray for labels */
+/* Form title label (for AddAvis) */
+.form-title-label {
+    -fx-text-fill: #000000; /* True black */
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Score labels (Average Score and Number of Avis) */
+.score-label {
+    -fx-text-fill: #000000; /* True black */
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+}
+
+/* FlowPane for cards */
+.flow-pane {
+    -fx-background-color: transparent;
+}
+
+/* Card style */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 3); /* Subtle shadow */
+    -fx-padding: 15px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 100px;
+}
+
+/* Star rating (unselected: gray) */
+.star {
     -fx-font-size: 16px;
-    -fx-font-weight: bold; /* Bold labels */
+    -fx-text-fill: #D3D3D3; /* Light gray for unselected stars */
 }
 
-/* TextArea */
-.text-area {
-    -fx-background-color: white;
-    -fx-border-color: #FF6347; /* Red border */
-    -fx-border-width: 2px;
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
-    -fx-text-fill: #2D3748;
-    -fx-font-size: 14px;
-    -fx-wrap-text: true; /* Allow text wrapping */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); /* Subtle shadow */
+/* Selected star (gold) */
+.star-selected {
+    -fx-font-size: 16px;
+    -fx-text-fill: #FFD700; /* Gold for selected stars */
 }
 
-/* ComboBox */
-.combo-box {
-    -fx-background-color: white;
-    -fx-border-color: #FF6347; /* Red border */
-    -fx-border-width: 2px;
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
+/* Date label */
+.date-label {
+    -fx-text-fill: #888888; /* Gray for date */
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+}
+
+/* Comment text */
+.comment-text {
+    -fx-text-fill: #000000; /* True black */
     -fx-font-size: 14px;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); /* Subtle shadow */
+    -fx-wrap-text: true;
 }
 
 /* Buttons */
@@ -59,46 +79,56 @@
     -fx-text-fill: white;
     -fx-border-radius: 8px;
     -fx-background-radius: 8px;
-    -fx-pref-width: 140px;
-    -fx-pref-height: 45px;
     -fx-font-weight: bold;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2); /* Subtle shadow */
 }
 
-/* Add Avis button (Red with gradient) */
+/* Add Avis button (Red) */
 .add-button {
-    -fx-background-color: linear-gradient(to bottom, #FF6347, #E5533D); /* Gradient red */
+    -fx-background-color: #FF4040; /* Red to match screenshot */
+    -fx-pref-width: 120px;
+    -fx-pref-height: 40px;
 }
 
 .add-button:hover {
-    -fx-background-color: linear-gradient(to bottom, #E5533D, #D14334); /* Darker gradient on hover */
+    -fx-background-color: #E63939; /* Slightly darker red on hover */
 }
 
-/* Cancel button (Gray with gradient) */
+/* Cancel button (Gray) */
 .cancel-button {
-    -fx-background-color: linear-gradient(to bottom, #6C757D, #5A6268); /* Gradient gray */
+    -fx-background-color: #666666; /* Gray to match screenshot */
+    -fx-pref-width: 120px;
+    -fx-pref-height: 40px;
 }
 
 .cancel-button:hover {
-    -fx-background-color: linear-gradient(to bottom, #5A6268, #4B5257); /* Darker gradient on hover */
+    -fx-background-color: #555555; /* Darker gray on hover */
 }
 
-/* Star rating (unselected: gray, empty star) */
-.star {
-    -fx-font-size: 28px;
-    -fx-text-fill: #D3D3D3; /* Light gray for unselected stars */
-    -fx-opacity: 1.0;
+/* Form styles */
+.form-label {
+    -fx-text-fill: #000000; /* True black */
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
 }
 
-/* Selected star (gold, filled star) */
-.star-selected {
-    -fx-font-size: 28px;
-    -fx-text-fill: #FFD700; /* Gold for selected stars */
-    -fx-opacity: 1.0;
+.form-text-area {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 100px;
+    -fx-background-color: white;
+    -fx-border-color: #FF4040; /* Red border to match screenshot */
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
 }
 
-/* Hover effect for stars */
-.star:hover, .star-selected:hover {
-    -fx-scale-x: 1.1; /* Slight scale-up on hover */
-    -fx-scale-y: 1.1;
+.form-combo-box {
+    -fx-pref-width: 300px;
+    -fx-background-color: white;
+    -fx-border-color: #FF4040; /* Red border to match screenshot */
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-size: 14px;
 }

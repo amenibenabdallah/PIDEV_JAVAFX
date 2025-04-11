@@ -5,36 +5,42 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="tn.esprit.controllers.ListAvisController"
-      spacing="20" style="-fx-padding: 20;"
+      spacing="20" style="-fx-padding: 20; -fx-background-color: #F8E6E6;"
       stylesheets="@ListAvisStyle.css">
 
     <!-- Top Bar: Title and Button -->
-    <HBox alignment="CENTER" spacing="10">
+    <HBox alignment="CENTER_LEFT" spacing="10">
         <Label text="AVIS" styleClass="title-label"/>
         <Region HBox.hgrow="ALWAYS"/> <!-- Spacer to push button to the right -->
-        <Button text="Ajouter un avis" onAction="#handleAddAvis" styleClass="button,add-button"/>
+        <Button fx:id="toggleAddFormButton" text="Ajouter un avis" onAction="#handleToggleAddForm" styleClass="button,add-button"/>
     </HBox>
 
-    <!-- Average Rating and Number of Avis with Icons -->
-    <HBox spacing="30" alignment="CENTER_LEFT" styleClass="stats-highlight">
-        <!-- Average Rating with Smiley Icon and Progress Bar -->
-        <VBox spacing="5">
-            <HBox spacing="5">
-                <Label fx:id="smileyIconLabel" text="😊" styleClass="icon-label"/>
-                <Label fx:id="averageScoreLabel" text="Note Moyenne: 0.0/5" styleClass="score-label"/>
+    <!-- SplitPane for side-by-side layout -->
+    <SplitPane dividerPositions="0.7" VBox.vgrow="ALWAYS">
+        <!-- Left Side: Avis List -->
+        <VBox spacing="10">
+            <!-- Average Rating and Number of Avis -->
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <!-- Average Rating -->
+                <HBox spacing="5">
+                    <Label text="Note Moyenne:" styleClass="score-label"/>
+                    <Label fx:id="averageScoreLabel" text="0.0/5" styleClass="score-label"/>
+                </HBox>
+                <!-- Number of Avis -->
+                <HBox spacing="5">
+                    <Label text="Nombre d'avis:" styleClass="score-label"/>
+                    <Label fx:id="avisCountLabel" text="0" styleClass="score-label"/>
+                </HBox>
             </HBox>
-            <ProgressBar fx:id="scoreProgressBar" progress="0.0" prefWidth="150" styleClass="score-progress"/>
-        </VBox>
-        <!-- Number of Avis with People Icon -->
-        <HBox spacing="5">
-            <Label text="👥" styleClass="icon-label"/>
-            <Label fx:id="avisCountLabel" text="Nombre d'avis: 0" styleClass="score-label"/>
-        </HBox>
-    </HBox>
 
-    <!-- FlowPane for Cards -->
-    <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;">
-        <FlowPane fx:id="avisFlowPane" hgap="20" vgap="20" style="-fx-padding: 10;"/>
-    </ScrollPane>
+            <!-- FlowPane for Cards -->
+            <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                <FlowPane fx:id="avisFlowPane" hgap="20" vgap="20" style="-fx-padding: 10;"/>
+            </ScrollPane>
+        </VBox>
+
+        <!-- Right Side: Placeholder for AddAvis Form -->
+        <VBox fx:id="addAvisContainer" spacing="20" style="-fx-padding: 20;" visible="false" managed="false"/>
+    </SplitPane>
 
 </VBox>

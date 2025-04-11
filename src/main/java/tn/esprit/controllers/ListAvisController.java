@@ -3,16 +3,10 @@ package tn.esprit.controllers;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import tn.esprit.models.Avis;
 import tn.esprit.services.ServiceAvis;
@@ -30,16 +24,17 @@ public class ListAvisController {
     private Label averageScoreLabel;
 
     @FXML
-    private Label smileyIconLabel; // Renamed from heartIconLabel
-
-    @FXML
     private Label avisCountLabel;
 
     @FXML
-    private ProgressBar scoreProgressBar;
+    private Button toggleAddFormButton;
+
+    @FXML
+    private VBox addAvisContainer;
 
     private ServiceAvis serviceAvis;
     private static final int FORMATION_ID = 1; // Filter by Formation ID = 1
+    private AddAvis addAvisController; // Updated to AddAvis
 
     @FXML
     public void initialize() {
@@ -67,31 +62,8 @@ public class ListAvisController {
         int avisCount = avisList.size();
 
         // Update the labels
-        averageScoreLabel.setText(String.format("Note Moyenne: %.1f/5", averageRating));
-        // Apply conditional style based on the rating
-        averageScoreLabel.getStyleClass().removeAll("score-label-good", "score-label-bad");
-        scoreProgressBar.getStyleClass().removeAll("score-progress-good", "score-progress-bad");
-        if (averageRating > 2.5) {
-            averageScoreLabel.getStyleClass().add("score-label-good"); // Green for ratings above 2.5
-            scoreProgressBar.getStyleClass().add("score-progress-good"); // Green progress bar
-        } else {
-            averageScoreLabel.getStyleClass().add("score-label-bad"); // Red for ratings 2.5 or below
-            scoreProgressBar.getStyleClass().add("score-progress-bad"); // Red progress bar
-        }
-
-        // Update the progress bar (rating out of 5)
-        scoreProgressBar.setProgress(averageRating / 5.0);
-
-        // Update the smiley icon based on the rating
-        if (averageRating > 4.0) {
-            smileyIconLabel.setText("😊"); // Beaming face for ratings above 4
-        } else if (averageRating >= 3.0) {
-            smileyIconLabel.setText("🙂"); // Slightly smiling face for ratings between 3 and 4
-        } else {
-            smileyIconLabel.setText("😐"); // Neutral face for ratings below 3
-        }
-
-        avisCountLabel.setText("Nombre d'avis: " + avisCount);
+        averageScoreLabel.setText(String.format("%.1f/5", averageRating));
+        avisCountLabel.setText(String.valueOf(avisCount));
 
         // Create a card for each filtered Avis
         for (Avis avis : avisList) {
@@ -119,18 +91,8 @@ public class ListAvisController {
         String date = avis.getDateCreation().format(dateFormatter);
         String time = avis.getDateCreation().format(timeFormatter);
 
-        Label dateLabel = new Label(date);
+        Label dateLabel = new Label(date + "  " + time);
         dateLabel.getStyleClass().add("date-label");
-
-        HBox timeBox = new HBox(5);
-        Label clockIcon = new Label("🕒"); // Clock icon (Unicode)
-        clockIcon.getStyleClass().add("clock-icon");
-        Label timeLabel = new Label(time);
-        timeLabel.getStyleClass().add("time-label");
-        timeBox.getChildren().addAll(clockIcon, timeLabel);
-
-        HBox dateTimeBox = new HBox(10);
-        dateTimeBox.getChildren().addAll(dateLabel, timeBox);
 
         // Comment
         Label commentLabel = new Label(avis.getCommentaire());
@@ -138,7 +100,7 @@ public class ListAvisController {
         commentLabel.setWrapText(true);
 
         // Add all elements to the card
-        card.getChildren().addAll(ratingBox, dateTimeBox, commentLabel);
+        card.getChildren().addAll(ratingBox, dateLabel, commentLabel);
 
         // Apply fade-in animation
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), card);
@@ -150,29 +112,44 @@ public class ListAvisController {
     }
 
     @FXML
-    private void handleAddAvis() {
+    private void handleToggleAddForm() {
         try {
-            // Load the AddAvis.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddAvis.fxml"));
-            Parent root = loader.load();
-
-            // Create a new stage for the AddAvis window
-            Stage addStage = new Stage();
-            addStage.setTitle("Formiai application");
-            addStage.setScene(new Scene(root));
-            addStage.show();
-
-            // Close the current ListAvis window
-            Stage currentStage = (Stage) avisFlowPane.getScene().getWindow();
-            currentStage.close();
+            if (addAvisContainer.isVisible()) {
+                // Hide the form
+                addAvisContainer.setVisible(false);
+                addAvisContainer.setManaged(false);
+                toggleAddFormButton.setText("Ajouter un avis");
+            } else {
+                // Load AddAvis.fxml if not already loaded
+                if (addAvisContainer.getChildren().isEmpty()) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddAvis.fxml"));
+                    VBox addAvisForm = loader.load();
+                    addAvisController = loader.getController(); // Updated to AddAvis
+                    addAvisController.setListAvisController(this); // Pass reference to this controller
+                    addAvisContainer.getChildren().setAll(addAvisForm);
+                }
+                // Show the form
+                addAvisContainer.setVisible(true);
+                addAvisContainer.setManaged(true);
+                toggleAddFormButton.setText("Masquer le formulaire");
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Failed to open the Add Avis window.");
+            showAlert("Error", "Failed to load the Add Avis form.");
         }
     }
 
+    // Method to be called by AddAvis to refresh the list
+    public void refreshAvisList() {
+        loadAvisData();
+        // Hide the form after adding
+        addAvisContainer.setVisible(false);
+        addAvisContainer.setManaged(false);
+        toggleAddFormButton.setText("Ajouter un avis");
+    }
+
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
