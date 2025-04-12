@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import tn.esprit.models.Promotion;
 import tn.esprit.services.ServicePromotion;
+import java.time.LocalDate;
 
 public class ModifierPromotionViewController {
     @FXML private TextField codeField;
@@ -29,18 +30,106 @@ public class ModifierPromotionViewController {
 
     @FXML
     private void handleEnregistrer() {
-        promotion.setCodePromo(codeField.getText());
-        promotion.setDescription(descriptionField.getText());
-        promotion.setRemise(Double.parseDouble(remiseField.getText()));
-        promotion.setDateExpiration(dateExpirationField.getValue());
-        promotion.setInscriptionCoursId(Integer.parseInt(inscriptionIdField.getText()));
-        promotion.setApprenantId(Integer.parseInt(apprenantIdField.getText()));
-        service.update(promotion);
-        ((Stage) codeField.getScene().getWindow()).close();
+        try {
+            resetFieldStyles();
+
+            // ========== VALIDATION CODE PROMO ==========
+            if (codeField.getText().isEmpty()) {
+                codeField.setStyle("-fx-border-color: red;");
+                showAlert("Erreur", "Le code promo est obligatoire");
+                return;
+            }
+
+            // ========== VALIDATION DESCRIPTION ==========
+            if (descriptionField.getText().isEmpty()) {
+                descriptionField.setStyle("-fx-border-color: red;");
+                showAlert("Erreur", "La description est obligatoire");
+                return;
+            }
+
+            // ========== VALIDATION REMISE ==========
+            double remise;
+            try {
+                remise = Double.parseDouble(remiseField.getText());
+                if (remise <= 0 || remise > 100) {
+                    remiseField.setStyle("-fx-border-color: red;");
+                    showAlert("Erreur", "La remise doit être entre 0.01 et 100");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                remiseField.setStyle("-fx-border-color: red;");
+                showAlert("Erreur", "Format numérique invalide pour la remise");
+                return;
+            }
+
+            // ========== VALIDATION DATE ==========
+            if (dateExpirationField.getValue() == null ||
+                    dateExpirationField.getValue().isBefore(LocalDate.now())) {
+                dateExpirationField.setStyle("-fx-border-color: red;");
+                showAlert("Erreur", "La date d'expiration doit être dans le futur");
+                return;
+            }
+
+            // ========== VALIDATION IDs ==========
+            int inscriptionId, apprenantId;
+            try {
+                inscriptionId = Integer.parseInt(inscriptionIdField.getText());
+                apprenantId = Integer.parseInt(apprenantIdField.getText());
+
+                if (inscriptionId <= 0 || apprenantId <= 0) {
+                    inscriptionIdField.setStyle("-fx-border-color: red;");
+                    apprenantIdField.setStyle("-fx-border-color: red;");
+                    showAlert("Erreur", "Les IDs doivent être positifs");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                inscriptionIdField.setStyle("-fx-border-color: red;");
+                apprenantIdField.setStyle("-fx-border-color: red;");
+                showAlert("Erreur", "Format numérique invalide pour les IDs");
+                return;
+            }
+
+            // Mise à jour de la promotion
+            promotion.setCodePromo(codeField.getText());
+            promotion.setDescription(descriptionField.getText());
+            promotion.setRemise(remise);
+            promotion.setDateExpiration(dateExpirationField.getValue());
+            promotion.setInscriptionCoursId(inscriptionId);
+            promotion.setApprenantId(apprenantId);
+
+            service.update(promotion);
+            closeWindow();
+
+        } catch (Exception e) {
+            showAlert("Erreur critique", "Erreur inattendue : " + e.getMessage());
+        }
     }
 
     @FXML
     private void handleAnnuler() {
-        ((Stage) codeField.getScene().getWindow()).close();
+        closeWindow();
+    }
+
+    // ========== MÉTHODES UTILITAIRES ==========
+    private void resetFieldStyles() {
+        codeField.setStyle("");
+        descriptionField.setStyle("");
+        remiseField.setStyle("");
+        dateExpirationField.setStyle("");
+        inscriptionIdField.setStyle("");
+        apprenantIdField.setStyle("");
+    }
+
+    private void closeWindow() {
+        Stage stage = (Stage) codeField.getScene().getWindow();
+        stage.close();
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

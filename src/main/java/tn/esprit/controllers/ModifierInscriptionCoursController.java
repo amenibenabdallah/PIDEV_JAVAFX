@@ -24,7 +24,6 @@ public class ModifierInscriptionCoursController {
     @FXML private TextField apprenantIdField;
     @FXML private TextField formationIdField;
 
-
     private InscriptionCours selected;
     private final ServiceInscriptionCours service = new ServiceInscriptionCours();
 
@@ -41,8 +40,6 @@ public class ModifierInscriptionCoursController {
             apprenantIdField.setText(String.valueOf(inscription.getApprenantId()));
             formationIdField.setText(String.valueOf(inscription.getFormationId()));
 
-
-
             // Conserver la date d'inscription sans modification
             selected.setDateInscreption(inscription.getDateInscreption());
         }
@@ -50,42 +47,116 @@ public class ModifierInscriptionCoursController {
 
     @FXML
     private void modifierInscriptionCours(ActionEvent event) {
-        if (selected != null) {
-            try {
-                // Mise à jour des champs
-                selected.setNomApprenant(nomApprenantField.getText());
-                selected.setEmail(emailField.getText());
-                selected.setCin(cinField.getText());
-                selected.setNomFormation(nomFormationField.getText());
-                selected.setMontant(Double.parseDouble(montantField.getText()));
-                selected.setStatus(statusComboBox.getValue());
-                selected.setTypePaiement(typePaiementComboBox.getValue());
-                selected.setApprenantId(selected.getApprenantId());
-                selected.setFormationId(selected.getFormationId());
-                // Log des valeurs pour débogage
-                System.out.println("🆔 ID à modifier : " + selected.getId());
-                System.out.println("🔁 Mise à jour de l'inscription avec ID : " + selected.getId());
+        // Réinitialiser les styles avant toute validation
+        resetFieldStyles();
 
-                // Appel au service pour mettre à jour dans la base de données
-                service.update(selected);
+        if (!validateFields()) return;
 
-                // Fermer la fenêtre actuelle
-                Stage stage = (Stage) nomApprenantField.getScene().getWindow();
-                stage.close();
+        try {
+            selected.setNomApprenant(nomApprenantField.getText());
+            selected.setEmail(emailField.getText());
+            selected.setCin(cinField.getText());
+            selected.setNomFormation(nomFormationField.getText());
+            selected.setMontant(Double.parseDouble(montantField.getText()));
+            selected.setStatus(statusComboBox.getValue());
+            selected.setTypePaiement(typePaiementComboBox.getValue());
+            selected.setApprenantId(Integer.parseInt(apprenantIdField.getText()));
+            selected.setFormationId(Integer.parseInt(formationIdField.getText()));
 
-                // Réouvrir l'interface d'affichage
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherInscriptionView.fxml"));
-                Parent root = loader.load();
-                Stage newStage = new Stage();
-                newStage.setScene(new Scene(root));
-                newStage.setTitle("Liste des Inscriptions");
-                newStage.show();
+            // Log des valeurs
+            System.out.println("🔁 Mise à jour de l'inscription avec ID : " + selected.getId());
 
-            } catch (Exception e) {
-                e.printStackTrace(); // Affiche la trace d'erreur complète
-                showAlert("Erreur", "Une erreur s'est produite lors de la modification.");
-            }
+            // Mise à jour en BDD
+            service.update(selected);
+
+            // Fermer et recharger
+            Stage stage = (Stage) nomApprenantField.getScene().getWindow();
+            stage.close();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherInscriptionView.fxml"));
+            Parent root = loader.load();
+            Stage newStage = new Stage();
+            newStage.setScene(new Scene(root));
+            newStage.setTitle("Liste des Inscriptions");
+            newStage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Une erreur s'est produite lors de la modification.");
         }
+    }
+
+    private boolean validateFields() {
+        if (nomApprenantField.getText().isEmpty()) {
+            showError(nomApprenantField, "Le nom de l'apprenant est requis.");
+            return false;
+        }
+
+        if (!cinField.getText().matches("\\d{8}")) {
+            showError(cinField, "CIN doit contenir exactement 8 chiffres.");
+            return false;
+        }
+
+        if (!emailField.getText().matches("^\\S+@\\S+\\.\\S+$")) {
+            showError(emailField, "Email invalide.");
+            return false;
+        }
+
+        if (nomFormationField.getText().isEmpty()) {
+            showError(nomFormationField, "Le nom de la formation est requis.");
+            return false;
+        }
+
+        if (typePaiementComboBox.getValue() == null) {
+            showAlert("Validation", "Veuillez sélectionner un type de paiement.");
+            return false;
+        }
+
+        double montant;
+        try {
+            montant = Double.parseDouble(montantField.getText());
+            if (montant <= 0) {
+                showError(montantField, "Le montant doit être supérieur à 0.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            showError(montantField, "Montant invalide.");
+            return false;
+        }
+
+        if (statusComboBox.getValue() == null || statusComboBox.getValue().isEmpty()) {
+            showAlert("Validation", "Le statut est requis.");
+            return false;
+        }
+
+        try {
+            int apprenantId = Integer.parseInt(apprenantIdField.getText());
+            int formationId = Integer.parseInt(formationIdField.getText());
+            if (apprenantId <= 0 || formationId <= 0) {
+                showAlert("Validation", "Les IDs doivent être des entiers positifs.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Validation", "ID Apprenant ou ID Formation invalide.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void showError(TextField field, String message) {
+        field.setStyle("-fx-border-color: red;");
+        showAlert("Validation", message);
+    }
+
+    private void resetFieldStyles() {
+        nomApprenantField.setStyle("");
+        emailField.setStyle("");
+        cinField.setStyle("");
+        nomFormationField.setStyle("");
+        montantField.setStyle("");
+        apprenantIdField.setStyle("");
+        formationIdField.setStyle("");
     }
 
     @FXML

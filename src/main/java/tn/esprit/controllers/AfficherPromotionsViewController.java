@@ -64,16 +64,28 @@ public class AfficherPromotionsViewController {
 
     private void handleEdit(Promotion promotion) {
         try {
+            // Fermer la fenêtre actuelle (affichage)
+            Stage currentStage = (Stage) tablePromotions.getScene().getWindow();
+            currentStage.close();
+
+            // Ouvrir la fenêtre de modification
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierPromotionView.fxml"));
             Parent root = loader.load();
             ModifierPromotionViewController controller = loader.getController();
             controller.initData(promotion);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.showAndWait();
-            loadData(); // Rafraîchir après modification
+            stage.showAndWait(); // Attendre la fermeture de la modification
+
+            // Réouvrir l'affichage après modification
+            FXMLLoader listLoader = new FXMLLoader(getClass().getResource("/AfficherPromotionsView.fxml"));
+            Parent listRoot = listLoader.load();
+            Stage listStage = new Stage();
+            listStage.setScene(new Scene(listRoot));
+            listStage.show();
+
         } catch (IOException e) {
-            showAlert("Erreur", "Impossible de charger la vue de modification.");
+            showAlert("Erreur", "Impossible d'ouvrir la vue de modification.");
         }
     }
 
