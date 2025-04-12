@@ -4,26 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/UserListController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Admin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/apprenants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/instructeurs.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/users.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/TestUserCrud.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/listtest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/UserList.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/apprenants.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/inscription.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/users.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/MyDataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/MyDataBase.java" afterDir="false" />
-    </list>
+    <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit after  modifications" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -173,6 +154,31 @@
       <workItem from="1744370064117" duration="13545000" />
       <workItem from="1744406195942" duration="4207000" />
     </task>
+    <task id="LOCAL-00001" summary="commit after  modifications">
+      <option name="closed" value="true" />
+      <created>1744415863325</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1744415863325</updated>
+    </task>
+    <task id="LOCAL-00002" summary="commit after  modifications">
+      <option name="closed" value="true" />
+      <created>1744416064507</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1744416064507</updated>
+    </task>
+    <task id="LOCAL-00003" summary="commit after  modifications">
+      <option name="closed" value="true" />
+      <created>1744416085869</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1744416085869</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,6 +206,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="commit after  modifications" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit after  modifications" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
