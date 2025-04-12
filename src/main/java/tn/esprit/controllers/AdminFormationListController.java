@@ -79,7 +79,15 @@ public class AdminFormationListController implements Initializable {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(decimalFormat.format(item));
+                    setText(decimalFormat.format(item)+ "/5");
+                    // Apply color based on the note value
+                    if (item < 3) {
+                        setStyle("-fx-text-fill: #e74c3c;"); // Red for poor (< 3)
+                    } else if (item >= 3 && item < 4) {
+                        setStyle("-fx-text-fill: #f39c12;"); // Orange for average (3 to <4)
+                    } else {
+                        setStyle("-fx-text-fill: #2ecc71;"); // Green for good (≥ 4)
+                    }
                 }
             }
         });
