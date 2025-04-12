@@ -10,9 +10,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import tn.esprit.models.users;
 import tn.esprit.services.UserService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import tn.esprit.utils.SessionManager;
 
 import java.io.IOException;
@@ -44,7 +44,11 @@ public class LoginController {
                 if (passwordEncoder.matches(password, user.getPassword())) {
                     showAlert("Succès", "Connexion réussie!", Alert.AlertType.INFORMATION);
                     sessionManager.setUtilisateurConnecte(user);
+
                     System.out.println(sessionManager.getUtilisateurConnecte().getId());
+                    System.out.println(sessionManager.getUtilisateurConnecte().getRoles());
+                    System.out.println(sessionManager.getUtilisateurConnecte().getUserType());
+
 
 
                 } else {
