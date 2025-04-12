@@ -1,6 +1,7 @@
 package tn.esprit.controllers;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -41,6 +42,7 @@ public class ListAvisController {
     public void initialize() {
         serviceAvis = new ServiceAvis();
         loadAvisData();
+
     }
 
     private void loadAvisData() {
@@ -65,10 +67,10 @@ public class ListAvisController {
     }
 
     private VBox createAvisCard(Avis avis) {
-        VBox card = new VBox(10);
+        VBox card = new VBox(15);
         card.getStyleClass().add("card");
 
-        HBox ratingBox = new HBox(5);
+        HBox ratingBox = new HBox(8);
         for (int i = 1; i <= 5; i++) {
             Label star = new Label("★");
             star.getStyleClass().add(i <= Math.round(avis.getNote()) ? "star-selected" : "star");
@@ -87,13 +89,12 @@ public class ListAvisController {
         commentLabel.getStyleClass().add("comment-text");
         commentLabel.setWrapText(true);
 
-        // Add Edit and Delete buttons
-        HBox buttonBox = new HBox(10);
+        HBox buttonBox = new HBox(15);
         Button editButton = new Button("Edit");
         editButton.getStyleClass().addAll("button", "edit-button");
         editButton.setOnAction(e -> handleEdit(avis));
 
-        Button deleteButton = new Button("Delete");
+        Button deleteButton = new Button("🗑️"); // Unicode trash can icon
         deleteButton.getStyleClass().addAll("button", "delete-button");
         deleteButton.setOnAction(e -> handleDelete(avis));
 
@@ -101,10 +102,10 @@ public class ListAvisController {
 
         card.getChildren().addAll(ratingBox, dateLabel, commentLabel, buttonBox);
 
-        FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), card);
-        fadeTransition.setFromValue(0.0);
-        fadeTransition.setToValue(1.0);
-        fadeTransition.play();
+        FadeTransition fade = new FadeTransition(Duration.millis(600), card);
+        fade.setFromValue(0.0);
+        fade.setToValue(1.0);
+        fade.play();
 
         return card;
     }
@@ -113,12 +114,18 @@ public class ListAvisController {
     private void handleToggleAddForm() {
         try {
             if (addAvisContainer.isVisible()) {
-                addAvisContainer.setVisible(false);
-                addAvisContainer.setManaged(false);
-                toggleAddFormButton.setText("Ajouter un avis");
-                if (addAvisController != null) {
-                    addAvisController.clearForm();
-                }
+                TranslateTransition slideOut = new TranslateTransition(Duration.millis(400), addAvisContainer);
+                slideOut.setToX(300);
+                slideOut.setOnFinished(e -> {
+                    addAvisContainer.setVisible(false);
+                    addAvisContainer.setManaged(false);
+                    addAvisContainer.setTranslateX(0);
+                    toggleAddFormButton.setText("Ajouter un avis");
+                    if (addAvisController != null) {
+                        addAvisController.clearForm();
+                    }
+                });
+                slideOut.play();
             } else {
                 if (addAvisContainer.getChildren().isEmpty()) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddAvis.fxml"));
@@ -130,6 +137,10 @@ public class ListAvisController {
                 addAvisContainer.setVisible(true);
                 addAvisContainer.setManaged(true);
                 toggleAddFormButton.setText("Masquer le formulaire");
+                addAvisContainer.setTranslateX(300);
+                TranslateTransition slideIn = new TranslateTransition(Duration.millis(400), addAvisContainer);
+                slideIn.setToX(0);
+                slideIn.play();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -150,6 +161,10 @@ public class ListAvisController {
             addAvisContainer.setVisible(true);
             addAvisContainer.setManaged(true);
             toggleAddFormButton.setText("Masquer le formulaire");
+            addAvisContainer.setTranslateX(300);
+            TranslateTransition slideIn = new TranslateTransition(Duration.millis(400), addAvisContainer);
+            slideIn.setToX(0);
+            slideIn.play();
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Failed to load the Edit Avis form.");

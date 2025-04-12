@@ -1,138 +1,324 @@
-/* Root styles for the entire interface */
+/* ListAvisStyle.css */
+
+/* Root styles */
 .root {
-    -fx-background-color: linear-gradient(to bottom, #FFF5F5, #FFE6E6); /* Red gradient background */
-    -fx-font-family: "Segoe UI", "Arial", sans-serif; /* Modern font */
+    -fx-background-color: linear-gradient(to bottom right, #ff6b6b, #4a00e0);
+    -fx-font-family: "Poppins", "Segoe UI", "Arial", sans-serif;
 }
 
-/* VBox container */
+/* Main container */
 .vbox {
-    -fx-background-color: transparent; /* Transparent to show root gradient */
-    -fx-padding: 25px; /* More padding for a spacious look */
+    -fx-background-color: transparent;
+    -fx-padding: 30px;
 }
 
-/* Title label */
+/* Title label (Header "AVIS") */
 .title-label {
-    -fx-text-fill: #000000; /* True black */
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-font-size: 28px;
+    -fx-font-weight: 700;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
 }
 
-/* Score labels (Average Score and Number of Avis) */
-.score-label {
-    -fx-text-fill: #000000; /* True black */
+/* Stats Card */
+.stats-card {
+    -fx-background-color: linear-gradient(to right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0, 0, 4);
+    -fx-padding: 15px;
+    -fx-alignment: center;
+}
+
+/* Stats Icon */
+.stats-icon {
+    -fx-font-size: 20px;
+    -fx-text-fill: #ffd700; /* Gold color for icons */
+}
+
+/* Stats Label */
+.stats-label {
+    -fx-text-fill: #333333;
     -fx-font-size: 16px;
-    -fx-font-weight: bold;
+    -fx-font-weight: 600;
+}
+
+/* Stats Value */
+.stats-value {
+    -fx-text-fill: #ff416c; /* Match the app's accent color */
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
 }
 
 /* FlowPane for cards */
 .flow-pane {
     -fx-background-color: transparent;
+    -fx-padding: 10px;
+    -fx-hgap: 10px; /* Reduced from 25px to fit 3 cards */
 }
 
-/* Card style */
+/* Card style (Glassmorphism) */
 .card {
-    -fx-background-color: white;
-    -fx-background-radius: 15px;
-    -fx-border-radius: 15px;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 5); /* Shadow for floating effect */
-    -fx-padding: 15px;
-    -fx-pref-width: 250px;
-    -fx-pref-height: 200px;
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 5);
+    -fx-padding: 20px;
+    -fx-pref-width: 280px; /* Increased from 250px to fill empty space */
+    -fx-pref-height: 220px;
+    -fx-transition: all 0.3s ease;
 }
 
-/* Star rating (unselected: gray) */
+.card:hover {
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+    -fx-background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Star rating */
 .star {
-    -fx-font-size: 20px;
-    -fx-text-fill: #D3D3D3; /* Light gray for unselected stars */
+    -fx-font-size: 18px;
+    -fx-text-fill: #b0b0b0;
+    -fx-opacity: 0.7;
 }
 
-/* Selected star (gold) */
 .star-selected {
-    -fx-font-size: 20px;
-    -fx-text-fill: #FFD700; /* Gold for selected stars */
+    -fx-font-size: 18px;
+    -fx-text-fill: #ffd700;
+    -fx-opacity: 1.0;
 }
 
-/* Date and time labels */
+/* Date label */
 .date-label {
-    -fx-text-fill: #000000; /* True black */
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
-
-.time-label {
-    -fx-text-fill: #555555; /* Slightly darker gray for contrast with black text */
+    -fx-text-fill: #333333;
     -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 /* Comment text */
 .comment-text {
-    -fx-text-fill: #000000; /* True black */
+    -fx-text-fill: #333333;
     -fx-font-size: 14px;
+    -fx-font-weight: 400;
     -fx-wrap-text: true;
 }
 
 /* Buttons */
 .button {
     -fx-font-size: 14px;
-    -fx-text-fill: white;
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
-    -fx-font-weight: bold;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2); /* Subtle shadow */
+    -fx-text-fill: #ffffff;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-font-weight: 600;
+    -fx-padding: 10px 20px;
+    -fx-transition: all 0.2s ease;
 }
 
-/* Add Avis button (Red with gradient) */
+/* Add button */
 .add-button {
-    -fx-background-color: linear-gradient(to bottom, #FF4040, #E63939); /* Match vibrant red theme */
-    -fx-pref-width: 140px;
-    -fx-pref-height: 45px;
+    -fx-background-color: linear-gradient(to right, #ff416c, #ff4b2b);
+    -fx-pref-width: 160px;
+    -fx-pref-height: 50px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 4);
 }
 
 .add-button:hover {
-    -fx-background-color: linear-gradient(to bottom, #E63939, #CC3333); /* Darker red on hover */
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-background-color: linear-gradient(to right, #e63939, #e63939);
 }
 
-/* Clock icon (simulated with a label) */
-.clock-icon {
-    -fx-text-fill: #555555; /* Slightly darker gray for contrast */
-    -fx-font-size: 12px;
-}
-
-/* Score label with conditional color */
-.score-label-good {
-    -fx-text-fill: #00CC00; /* Green for scores above 2.5 */
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-}
-
-.score-label-bad {
-    -fx-text-fill: #FF0000; /* Red for scores 2.5 or below */
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-}
-
-/* Icon styles */
-.icon-label {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-}
+/* Edit button (Gold) */
 .edit-button {
-    -fx-background-color: #007BFF; /* Blue */
-    -fx-pref-width: 80px;
-    -fx-pref-height: 30px;
+    -fx-background-color: #ffd700;
+    -fx-text-fill: #333333;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 35px;
 }
 
 .edit-button:hover {
-    -fx-background-color: #0056b3; /* Darker blue on hover */
+    -fx-background-color: #e6c200;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
 }
 
-/* Delete button (Red) */
+/* Delete button (Icon with red square background) */
 .delete-button {
-    -fx-background-color: #DC3545; /* Red */
-    -fx-pref-width: 80px;
-    -fx-pref-height: 30px;
+    -fx-background-color: #ff4b2b;
+    -fx-background-radius: 8px;
+    -fx-padding: 5px;
+    -fx-pref-width: 35px;
+    -fx-pref-height: 35px;
+    -fx-text-fill: #ffffff; /* White trash can icon */
+    -fx-graphic: null; /* Remove any graphic set by the controller */
+    -fx-content-display: text-only; /* Ensure only the text (icon) is displayed */
+    -fx-font-size: 16px; /* Size of the icon */
+    -fx-text: "🗑️"; /* Trash can emoji */
 }
 
 .delete-button:hover {
-    -fx-background-color: #bd2130; /* Darker red on hover */
+    -fx-background-color: #e63939;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+/* Cancel button */
+.cancel-button {
+    -fx-background-color: #6c757d;
+    -fx-pref-width: 120px;
+    -fx-pref-height: 40px;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #5a6268;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Form styles */
+.form-label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+}
+
+/* Form title (Add New Avis / Edit Avis) */
+.form-title-label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 24px;
+    -fx-font-weight: 700;
+}
+
+.form-text-area {
+    -fx-pref-width: 320px;
+    -fx-pref-height: 120px;
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-text-fill: #333333;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-transition: all 0.3s ease;
+}
+
+.form-text-area:focused {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-border-color: transparent;
+}
+
+.form-combo-box {
+    -fx-pref-width: 320px;
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-text-fill: #333333;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+}
+
+.form-combo-box .list-cell {
+    -fx-text-fill: #333333;
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-padding: 5px 10px;
+}
+
+.form-combo-box .list-cell:hover {
+    -fx-background-color: rgba(255, 255, 246, 0.2);
+}
+
+.form-combo-box .list-view {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 3);
+}
+
+/* Form container */
+.add-avis-form {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 30px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 5);
+}
+
+/* Parent container of the form */
+.add-avis-container {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-transition: all 0.5s ease;
+}
+
+/* SplitPane and its children */
+.split-pane,
+.split-pane *.split-pane-divider {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Modern ScrollPane Styling */
+.scroll-pane {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Scrollbar Styling */
+.scroll-pane .scroll-bar:vertical,
+.scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-pref-width: 8px; /* Thin scrollbar */
+    -fx-pref-height: 8px;
+}
+
+/* Scrollbar Thumb (the draggable part) */
+.scroll-pane .scroll-bar .thumb {
+    -fx-background-color: rgba(255, 255, 255, 0.3); /* Light, semi-transparent thumb */
+    -fx-background-radius: 4px; /* Rounded edges */
+    -fx-background-insets: 2, 0, 0;
+    -fx-transition: all 0.2s ease;
+}
+
+.scroll-pane .scroll-bar .thumb:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.5); /* Slightly brighter on hover */
+}
+
+/* Scrollbar Track (the background of the scrollbar) */
+.scroll-pane .scroll-bar .track {
+    -fx-background-color: transparent; /* No visible track */
+    -fx-background-radius: 0;
+}
+
+/* Scrollbar Buttons (increment/decrement arrows) */
+.scroll-pane .scroll-bar .increment-button,
+.scroll-pane .scroll-bar .decrement-button {
+    -fx-background-color: transparent; /* Hide buttons */
+    -fx-pref-width: 0; /* Remove space */
+    -fx-pref-height: 0;
+}
+
+.scroll-pane .scroll-bar .increment-arrow,
+.scroll-pane .scroll-bar .decrement-arrow {
+    -fx-shape: ""; /* Remove arrows */
+    -fx-padding: 0;
 }

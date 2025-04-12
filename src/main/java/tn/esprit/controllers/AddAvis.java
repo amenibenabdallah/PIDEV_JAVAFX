@@ -41,13 +41,16 @@ public class AddAvis {
     private VBox addAvisForm;
 
     @FXML
-    private Button addButton; // Reference to Add/Update button
+    private Button addButton;
+
+    @FXML
+    private Label titleLabel; // New reference for dynamic title
 
     private ServiceAvis serviceAvis;
     private ListAvisController listAvisController;
     private static final int FORMATION_ID = 1;
-    private float selectedRating = 0; // Changed to float to match Avis
-    private Avis currentAvis; // Track the Avis being edited (null if adding)
+    private float selectedRating = 0;
+    private Avis currentAvis;
 
     @FXML
     public void initialize() {
@@ -86,26 +89,21 @@ public class AddAvis {
     @FXML
     private void handleAdd() {
         try {
-            // Validate the rating
             if (selectedRating < 1 || selectedRating > 5) {
                 showAlert("Erreur", "Veuillez sélectionner une note (1 à 5 étoiles).");
                 return;
             }
 
-            // Get the comment
             String commentaire = commentaireField.getText();
             if (commentaire == null || commentaire.trim().isEmpty()) {
                 showAlert("Erreur", "Le commentaire ne peut pas être vide.");
                 return;
             }
 
-            // Get the formation ID
             String formationIdStr = formationComboBox.getValue();
             int formationId = Integer.parseInt(formationIdStr);
 
-            // Create or update Avis
             if (currentAvis == null) {
-                // Adding new Avis
                 Avis newAvis = new Avis();
                 newAvis.setNote(selectedRating);
                 newAvis.setCommentaire(commentaire);
@@ -113,20 +111,17 @@ public class AddAvis {
                 newAvis.setDateCreation(LocalDateTime.now());
                 serviceAvis.add(newAvis);
             } else {
-                // Updating existing Avis
                 currentAvis.setNote(selectedRating);
                 currentAvis.setCommentaire(commentaire);
                 currentAvis.setFormationId(formationId);
-                currentAvis.setDateCreation(LocalDateTime.now()); // Or keep original date
+                currentAvis.setDateCreation(LocalDateTime.now());
                 serviceAvis.update(currentAvis);
             }
 
-            // Refresh the list
             if (listAvisController != null) {
                 listAvisController.refreshAvisList();
             }
 
-            // Clear the form
             clearForm();
 
         } catch (Exception e) {
@@ -136,7 +131,7 @@ public class AddAvis {
     }
 
     @FXML
-     void handleCancel() {
+    private void handleCancel() {
         clearForm();
         if (listAvisController != null) {
             listAvisController.refreshAvisList();
@@ -150,6 +145,7 @@ public class AddAvis {
         formationComboBox.setValue(String.valueOf(avis.getFormationId()));
         updateStarStyles();
         addButton.setText("Update Avis");
+        titleLabel.setText("Edit Avis"); // Update title
     }
 
      void clearForm() {
@@ -159,6 +155,7 @@ public class AddAvis {
         formationComboBox.setValue("1");
         currentAvis = null;
         addButton.setText("Add Avis");
+        titleLabel.setText("Add New Avis"); // Reset title
     }
 
     private void showAlert(String title, String message) {

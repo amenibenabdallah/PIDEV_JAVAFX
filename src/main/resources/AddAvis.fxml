@@ -1,52 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="addAvisForm" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="tn.esprit.controllers.AddAvis"
-      spacing="20" style="-fx-padding: 20;"
-      stylesheets="@ListAvisStyle.css">
+<VBox fx:id="addAvisForm" alignment="CENTER" spacing="25" style="-fx-border-width: 0; -fx-border-color: transparent;" styleClass="add-avis-form" stylesheets="@ListAvisStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="tn.esprit.controllers.AddAvis">
 
     <!-- Title -->
-    <Label text="Add New Avis" styleClass="form-title-label"/>
+    <Label fx:id="titleLabel" styleClass="form-title-label" text="Laisser un Avis" />
 
-    <!-- Rating Field (Stars) -->
-    <HBox spacing="10">
-        <Label text="Rating:" styleClass="form-label"/>
-        <HBox fx:id="ratingBox" spacing="5">
-            <Label fx:id="star1" text="★" styleClass="star" onMouseClicked="#handleStarClick"/>
-            <Label fx:id="star2" text="★" styleClass="star" onMouseClicked="#handleStarClick"/>
-            <Label fx:id="star3" text="★" styleClass="star" onMouseClicked="#handleStarClick"/>
-            <Label fx:id="star4" text="★" styleClass="star" onMouseClicked="#handleStarClick"/>
-            <Label fx:id="star5" text="★" styleClass="star" onMouseClicked="#handleStarClick"/>
+    <!-- Rating Field -->
+    <HBox alignment="CENTER" spacing="15">
+        <Label styleClass="form-label" text="Note" />
+        <HBox fx:id="ratingBox" spacing="8">
+            <Label fx:id="star1" onMouseClicked="#handleStarClick" styleClass="star" text="★" />
+            <Label fx:id="star2" onMouseClicked="#handleStarClick" styleClass="star" text="★" />
+            <Label fx:id="star3" onMouseClicked="#handleStarClick" styleClass="star" text="★" />
+            <Label fx:id="star4" onMouseClicked="#handleStarClick" styleClass="star" text="★" />
+            <Label fx:id="star5" onMouseClicked="#handleStarClick" styleClass="star" text="★" />
         </HBox>
     </HBox>
 
     <!-- Comment Field -->
-    <VBox spacing="5">
-        <Label text="Comment:" styleClass="form-label"/>
-        <TextArea fx:id="commentaireField" wrapText="true" styleClass="form-text-area"/>
+    <VBox alignment="CENTER" spacing="8">
+        <Label styleClass="form-label" text="Commentaire" />
+        <TextArea fx:id="commentaireField" styleClass="form-text-area" wrapText="true" />
     </VBox>
 
     <!-- Formation Field -->
-    <HBox spacing="10">
-        <Label text="Formation:" styleClass="form-label"/>
-        <ComboBox fx:id="formationComboBox" value="1" styleClass="form-combo-box">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="1"/>
-                </FXCollections>
-            </items>
-        </ComboBox>
+    <HBox alignment="CENTER" spacing="15">
+        <Label styleClass="form-label" text="Formation:" />
+        <ComboBox fx:id="formationComboBox" styleClass="form-combo-box" />
     </HBox>
 
     <!-- Buttons -->
-    <HBox spacing="20" alignment="CENTER">
-        <Button fx:id="addButton" text="Add Avis" onAction="#handleAdd" styleClass="button,add-button"/>
-        <Button text="Cancel" onAction="#handleCancel" styleClass="button,cancel-button"/>
+    <HBox alignment="CENTER" spacing="25">
+        <Button fx:id="addButton" onAction="#handleAdd" styleClass="button,add-button" text="Ajouter" />
+        <Button onAction="#handleCancel" styleClass="button,cancel-button" text="Cancel" />
     </HBox>
 
 </VBox>

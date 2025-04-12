@@ -68,7 +68,7 @@
 
 /* Comment text */
 .comment-text {
-    -fx-text-fill: #000000; /* True black */
+    -fx-text-fill: #FF4040; /* True black */
     -fx-font-size: 14px;
     -fx-wrap-text: true;
 }
