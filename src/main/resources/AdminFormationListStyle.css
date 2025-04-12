@@ -75,6 +75,7 @@
     -fx-border-color: transparent;
     -fx-table-cell-border-color: transparent; /* Remove grid lines */
     -fx-table-header-border-color: transparent;
+    -fx-fixed-cell-size: 60; /* Increase row height */
 }
 
 .table-view .column-header-background {
@@ -86,47 +87,22 @@
 
 .table-view .column-header {
     -fx-background-color: transparent;
+    -fx-padding: 0; /* Remove default padding */
 }
 
 .table-view .column-header .label {
-    -fx-font-size: 14px;
+    -fx-font-size: 16px; /* Match data font size */
     -fx-font-weight: bold;
     -fx-text-fill: #333;
-    -fx-padding: 12 10 12 10;
+    -fx-alignment: center-left; /* Left-align headers */
+    -fx-padding: 10 10 10 10; /* Consistent padding with data cells */
 }
 
-/* Align column headers */
-.table-column {
-    -fx-alignment: center;
-}
-
-/* Align column headers specifically */
-.table-column:header {
-    -fx-alignment: center;
-}
-
-.table-column:header:nth-child(1) {
-    -fx-alignment: center-left; /* Formation column header */
-}
-
-.table-column:header:nth-child(2) {
-    -fx-alignment: center; /* Note Moyenne column header */
-}
-
-.table-column:header:nth-child(3) {
-    -fx-alignment: center; /* Nombre d’Avis column header */
-}
-
-.table-column:header:nth-child(4) {
-    -fx-alignment: center; /* Actions column header */
-}
-
-/* Increase row height and align data */
+/* Increase row height */
 .table-row-cell {
     -fx-background-color: #ffffff;
     -fx-border-color: transparent;
-    -fx-padding: 10;
-    -fx-cell-size: 50; /* Increase row height */
+    -fx-fixed-cell-size: 60; /* Reinforce row height */
 }
 
 .table-row-cell:filled:hover {
@@ -138,26 +114,10 @@
 }
 
 .table-view .table-cell {
-    -fx-font-size: 14px;
+    -fx-font-size: 16px; /* Increase font size for better clarity */
     -fx-text-fill: #333;
-    -fx-alignment: center;
-}
-
-/* Align data in each column */
-.table-column:nth-child(1) .table-cell {
-    -fx-alignment: center-left; /* Formation column data */
-}
-
-.table-column:nth-child(2) .table-cell {
-    -fx-alignment: center; /* Note Moyenne column data */
-}
-
-.table-column:nth-child(3) .table-cell {
-    -fx-alignment: center; /* Nombre d’Avis column data */
-}
-
-.table-column:nth-child(4) .table-cell {
-    -fx-alignment: center; /* Actions column data */
+    -fx-alignment: center-left; /* Left-align data */
+    -fx-padding: 10 10 10 10; /* Consistent padding */
 }
 
 /* Modernize the Avis button */
@@ -167,7 +127,7 @@
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-background-radius: 20; /* Rounded corners */
-    -fx-padding: 8 20 8 20;
+    -fx-padding: 8 20 8 20; /* Consistent button padding */
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2); /* Subtle shadow */
     -fx-border-color: transparent;
