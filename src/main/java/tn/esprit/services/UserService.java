@@ -91,7 +91,10 @@ public class UserService {
     }
     public List<users> getAllUsers() {
         List<users> list = new ArrayList<>();
-        String sql = "SELECT id, nom,email, roles FROM users";
+        String sql = "SELECT id, nom, email, roles FROM users " +
+                "WHERE roles = '[\"ROLE_APPRENANT\"]' " +
+                "OR roles = '[\"ROLE_INSTRUCTEUR\"]'";
+
         try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
 
@@ -99,9 +102,8 @@ public class UserService {
                 users u = new users();
                 u.setId(rs.getInt("id"));
                 u.setNom(rs.getString("nom"));
-                u.setRoles(rs.getString("roles"));
                 u.setEmail(rs.getString("email"));
-
+                u.setRoles(rs.getString("roles"));
                 list.add(u);
             }
         } catch (SQLException e) {
@@ -109,6 +111,7 @@ public class UserService {
         }
         return list;
     }
+
     public void deleteUser(int id) {
         String sql = "DELETE FROM users WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -194,7 +197,10 @@ public class UserService {
                     user.setPassword(rs.getString("password"));
                     user.setNom(rs.getString("nom"));
                     user.setPrenom(rs.getString("prenom"));
-                    // ... autres champs
+                    user.setRoles(rs.getString("roles"));
+                    user.setUserType(rs.getString("user_type"));
+
+
                     return user;
                 }
             }
@@ -203,40 +209,26 @@ public class UserService {
         }
         return null;
     }
-    public boolean addInstructeur(instructeurs instructeur) {
-        String query = "INSERT INTO users (email, roles, password, nom, prenom, date_de_naissance, reset_token, user_type, image, cv) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
-
-        try (
-             PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-
-            statement.setString(1, instructeur.getEmail());
-            statement.setString(2, instructeur.getRoles());
-            statement.setString(3, instructeur.getPassword());
-            statement.setString(4, instructeur.getNom());
-            statement.setString(5, instructeur.getPrenom());
-            statement.setDate(6, Date.valueOf(instructeur.getDateNaissance()));
-            statement.setString(7, instructeur.getResetToken());
-            statement.setString(8, instructeur.getUserType());
-            statement.setString(9, instructeur.getImage());
-            statement.setString(10, instructeur.getCv());
-
-            int affectedRows = statement.executeUpdate();
-
-            if (affectedRows == 0) {
-                return false;
+    public users findUserById(int id) {
+        users u = null;
+        String sql = "SELECT * FROM users WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                u = new users();
+                u.setId(rs.getInt("id"));
+                u.setNom(rs.getString("nom"));
+                u.setEmail(rs.getString("email"));
+                u.setPassword(rs.getString("password"));
+                u.setRoles(rs.getString("roles"));        // Récupère les rôles
+                u.setUserType(rs.getString("user_type"));  // Récupère le type de rôle
             }
-
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    instructeur.setId(generatedKeys.getInt(1));
-                }
-            }
-            return true;
         } catch (SQLException e) {
-            System.err.println("Erreur lors de l'ajout de l'instructeur: " + e.getMessage());
-            return false;
+            System.err.println("❌ Erreur lors de la récupération de l'utilisateur par ID : " + e.getMessage());
         }
+        return u;
     }
+
 
 }

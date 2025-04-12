@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit after modification" />
+    <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/TestUserCrud.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/TestUserCrud.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/inscription.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/inscription.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,6 +25,7 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIEW_PUSH_PROTECTED_ONLY" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -62,7 +68,7 @@
     &quot;git-widget-placeholder&quot;: &quot;Yassmine-Gestion-Utilisateur&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/PIDEV_JAVAFX&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Yassm/Documents/PIDEV_JAVAFX&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -82,6 +88,10 @@
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="tn.esprit.test" />
+    </key>
+    <key name="MoveInnerDialog.RECENTS_KEY">
+      <recent name="tn.esprit.controllers" />
+      <recent name="tn.esprit" />
     </key>
   </component>
   <component name="RunManager" selected="Application.TestUserCrud">
@@ -128,9 +138,9 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.listtest" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.TestUserCrud" />
+      <item itemvalue="Application.listtest" />
     </list>
     <recent_temporary>
       <list>
@@ -218,7 +228,23 @@
       <option name="project" value="LOCAL" />
       <updated>1744417711701</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="commit after modification">
+      <option name="closed" value="true" />
+      <created>1744417754529</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1744417754529</updated>
+    </task>
+    <task id="LOCAL-00010" summary="commit after modification">
+      <option name="closed" value="true" />
+      <created>1744417827650</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1744417827650</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

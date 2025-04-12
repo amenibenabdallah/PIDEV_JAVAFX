@@ -96,10 +96,35 @@
                             <Label fx:id="imageLabel" text="Aucune image sélectionnée" style="-fx-text-fill: #7f8c8d;"/>
                             <ImageView fx:id="imagePreview" fitHeight="100.0" fitWidth="100.0" preserveRatio="true"/>
                         </HBox>
+                        <!-- Ajoutez ces éléments après le bloc Image dans votre GridPane -->
 
+                        <!-- Spécialité (visible seulement pour instructeur) -->
+                        <Label text="Spécialité :" fx:id="lblSpecialite" GridPane.rowIndex="9" GridPane.columnIndex="0"
+                               style="-fx-font-weight: bold; -fx-text-fill: #34495e;"
+                               visible="false"/>
+
+                        <TextField fx:id="specialiteField" promptText="Votre spécialité" GridPane.rowIndex="9" GridPane.columnIndex="1"
+                                   style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"
+                                   visible="false"/>
+
+                        <!-- CV (visible seulement pour instructeur) -->
+                        <Label text="CV :" fx:id="lblCV" GridPane.rowIndex="10" GridPane.columnIndex="0"
+                               style="-fx-font-weight: bold; -fx-text-fill: #34495e;"
+                               visible="false"/>
+
+                        <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="10" GridPane.columnIndex="1">
+                            <Button fx:id="btnChoisirCV" text="Choisir un CV" onAction="#choisirCV"
+                                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5;"
+                                    visible="false"/>
+                            <Label fx:id="cvLabel" text="Aucun CV sélectionné" style="-fx-text-fill: #7f8c8d;"
+                                   visible="false"/>
+                        </HBox>
+
+                        <!-- N'oubliez pas d'ajouter les RowConstraints supplémentaires -->
                         <rowConstraints>
                             <RowConstraints/><RowConstraints/><RowConstraints/><RowConstraints/><RowConstraints/>
                             <RowConstraints/><RowConstraints/><RowConstraints/><RowConstraints/>
+                            <RowConstraints/><RowConstraints/> <!-- Ajoutez ces deux lignes pour les nouvelles rangées -->
                         </rowConstraints>
                     </GridPane>
                 </VBox>
