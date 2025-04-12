@@ -1,5 +1,7 @@
 package tn.esprit.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,6 +14,8 @@ import tn.esprit.models.InscriptionCours;
 import tn.esprit.services.ServiceInscriptionCours;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AfficherInscriptionsViewController {
 
@@ -22,9 +26,13 @@ public class AfficherInscriptionsViewController {
     @FXML private TableColumn<InscriptionCours, Double> colMontant;
     @FXML private TableColumn<InscriptionCours, String> colStatut;
     @FXML private TableColumn<InscriptionCours, Void> colAction;
+    @FXML private TextField searchField;
+    @FXML private Pagination pagination;
     @FXML private Button btnRetour;
 
     private final ServiceInscriptionCours service = new ServiceInscriptionCours();
+    private ObservableList<InscriptionCours> inscriptionsList;
+    private static final int ROWS_PER_PAGE = 10;
 
     @FXML
     public void initialize() {
@@ -32,7 +40,8 @@ public class AfficherInscriptionsViewController {
         configureActionColumn();
         loadInscriptions();
 
-        // Action pour le bouton "Retour à l'ajout"
+        searchField.textProperty().addListener((obs, oldText, newText) -> filterAndPaginate());
+        pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex) -> changePage(newIndex.intValue()));
         btnRetour.setOnAction(event -> handleRetour());
     }
 
@@ -53,7 +62,6 @@ public class AfficherInscriptionsViewController {
             {
                 btnEdit.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
                 btnDelete.setStyle("-fx-background-color: #ff4444; -fx-text-fill: white;");
-
                 btnEdit.setOnAction(event -> handleEdit(getCurrentItem()));
                 btnDelete.setOnAction(event -> handleDelete(getCurrentItem()));
             }
@@ -70,6 +78,35 @@ public class AfficherInscriptionsViewController {
         });
     }
 
+    private void loadInscriptions() {
+        List<InscriptionCours> all = service.getAll();
+        inscriptionsList = FXCollections.observableArrayList(all);
+        setupPagination();
+    }
+
+    private void setupPagination() {
+        int pageCount = (int) Math.ceil((double) inscriptionsList.size() / ROWS_PER_PAGE);
+        pagination.setPageCount(pageCount == 0 ? 1 : pageCount);
+        changePage(0);
+    }
+
+    private void changePage(int pageIndex) {
+        int fromIndex = pageIndex * ROWS_PER_PAGE;
+        int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, inscriptionsList.size());
+        tableInscriptions.setItems(FXCollections.observableArrayList(inscriptionsList.subList(fromIndex, toIndex)));
+    }
+
+    private void filterAndPaginate() {
+        String filter = searchField.getText().toLowerCase();
+        List<InscriptionCours> filtered = service.getAll().stream()
+                .filter(i -> i.getNomApprenant().toLowerCase().contains(filter)
+                        || i.getEmail().toLowerCase().contains(filter)
+                        || i.getNomFormation().toLowerCase().contains(filter))
+                .collect(Collectors.toList());
+        inscriptionsList = FXCollections.observableArrayList(filtered);
+        setupPagination();
+    }
+
     private void handleEdit(InscriptionCours inscription) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/modifierInscriptionCoursView.fxml"));
@@ -83,7 +120,6 @@ public class AfficherInscriptionsViewController {
             stage.setTitle("Modifier l'inscription");
             stage.show();
 
-            // Fermer la fenêtre actuelle (affichage)
             Stage currentStage = (Stage) tableInscriptions.getScene().getWindow();
             currentStage.close();
 
@@ -98,17 +134,9 @@ public class AfficherInscriptionsViewController {
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.YES) {
                 service.delete(inscription);
-                refreshTable();
+                loadInscriptions();
             }
         });
-    }
-
-    private void refreshTable() {
-        tableInscriptions.getItems().setAll(service.getAll());
-    }
-
-    private void loadInscriptions() {
-        tableInscriptions.getItems().setAll(service.getAll());
     }
 
     private void handleRetour() {
@@ -121,7 +149,6 @@ public class AfficherInscriptionsViewController {
             stage.setTitle("Ajouter une inscription");
             stage.show();
 
-            // Fermer la fenêtre actuelle
             Stage currentStage = (Stage) btnRetour.getScene().getWindow();
             currentStage.close();
 

@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherPromotionsViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherPromotionsViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AjoutPromotionViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AjoutPromotionViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionCoursViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionCoursViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ModifierInscriptionCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ModifierInscriptionCoursController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ModifierPromotionViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ModifierPromotionViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherInscriptionsViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherInscriptionsViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/InscriptionCours.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/InscriptionCours.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/afficherInscriptionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/afficherInscriptionView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/inscriptionCoursview.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/inscriptionCoursview.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,6 +21,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="HTML File" />
         <option value="FxmlFile" />
       </list>
     </option>
@@ -53,6 +53,7 @@
     "Application.Main.executor": "Run",
     "Application.MainInscription.executor": "Run",
     "Application.TestPromotion.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
     "Maven.java_pi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -75,7 +76,7 @@
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.TestPromotion">
+  <component name="RunManager" selected="Application.MainInscription">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="tn.esprit.test.Main" />
       <module name="java_pi" />
@@ -130,8 +131,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.TestPromotion" />
         <item itemvalue="Application.MainInscription" />
+        <item itemvalue="Application.TestPromotion" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>

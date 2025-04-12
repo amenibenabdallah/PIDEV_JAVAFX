@@ -15,6 +15,7 @@ public class InscriptionCours {
     private int formationId;
     private String nomApprenant; // Ajout de "nom_apprenant"
 
+
     // Constructeur vide
     public InscriptionCours() {
     }
