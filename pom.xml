@@ -46,8 +46,17 @@
             <version>5.7.6</version> <!-- Choisissez la version qui convient à votre projet -->
         </dependency>
 
+
     </dependencies>
     <build>
+        <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.openjfx</groupId>
