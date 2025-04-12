@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.controllers.AfficherPromotionsViewController"
+            prefWidth="800" prefHeight="600">
+
+    <VBox spacing="10" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <Label text="Liste des Promotions" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+        <TableView fx:id="tablePromotions">
+            <columns>
+                <TableColumn text="Code" fx:id="colCode" />
+                <TableColumn text="Description" fx:id="colDescription" />
+                <TableColumn text="Remise (%)" fx:id="colRemise" />
+                <TableColumn text="Expiration" fx:id="colExpiration" />
+                <TableColumn text="Actions" fx:id="colActions" />
+            </columns>
+        </TableView>
+
+        <HBox spacing="10">
+            <Button text="Retour à l'ajout" onAction="#handleRetour"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
