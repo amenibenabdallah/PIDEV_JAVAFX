@@ -66,7 +66,7 @@
 
                    
 
-                    <mainClass>tn.esprit.test.TestUserCrud</mainClass>
+                    <mainClass>tn.esprit.test.MainFx</mainClass>
 
 
                 </configuration>
