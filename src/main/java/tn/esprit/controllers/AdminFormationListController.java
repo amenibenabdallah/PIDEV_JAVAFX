@@ -222,6 +222,7 @@ public class AdminFormationListController implements Initializable, Searchable {
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        title="Rechercher Formation";
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);

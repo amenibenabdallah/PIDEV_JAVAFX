@@ -48,6 +48,7 @@ public class AdminTemplateController implements Initializable {
 
         // Handle dropdown actions
         adminDropdown.setOnAction(event -> handleDropdownAction(adminDropdown.getSelectionModel().getSelectedItem()));
+        // Handle promotions dropdown actions
 
 // Load a working image (add.png) from the classpath
         try {
@@ -82,11 +83,6 @@ public class AdminTemplateController implements Initializable {
     }
 
 
-
-    @FXML
-    private void showPromotionDropdown() {
-        promotionDropdown.show(); // Programmatically show the dropdown menu
-    }
     private void handleDropdownAction(String selectedOption) {
         switch (selectedOption) {
             case "Reconnecter":
