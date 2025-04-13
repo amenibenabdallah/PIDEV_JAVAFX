@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.Messages">
+
+
+
+    <!-- Zone des messages -->
+    <ScrollPane layoutX="230.0" layoutY="14.0" prefHeight="350.0" prefWidth="550.0" fitToWidth="true">
+        <content>
+            <VBox fx:id="messagesBox" spacing="10.0">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+            </VBox>
+        </content>
+    </ScrollPane>
+
+
+    <!-- Zone d'envoi -->
+    <HBox layoutX="230.0" layoutY="380.0" spacing="10.0" prefWidth="550.0">
+        <TextArea fx:id="messageTextArea" promptText="Écrire un message..." prefHeight="50.0" prefWidth="450.0" />
+        <Button text="Envoyer" onAction="#envoyerMessage" />
+    </HBox>
+
+</AnchorPane>
