@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.controllers.AfficherInscriptionsViewController"
+            prefHeight="500.0" prefWidth="900.0">
+
+    <VBox spacing="15" style="-fx-padding: 25;">
+        <!-- Titre et Barre de Recherche -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Liste des Inscriptions" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <TextField fx:id="searchField" promptText="Rechercher..." style="-fx-pref-width: 300px;"/>
+        </HBox>
+
+        <!-- TableView -->
+        <TableView fx:id="tableInscriptions" prefHeight="300">
+            <columns>
+                <TableColumn fx:id="colNom" text="Nom" prefWidth="120"/>
+                <TableColumn fx:id="colEmail" text="Email" prefWidth="180"/>
+                <TableColumn fx:id="colFormation" text="Formation" prefWidth="120"/>
+                <TableColumn fx:id="colMontant" text="Montant" prefWidth="80"/>
+                <TableColumn fx:id="colStatut" text="Statut" prefWidth="80"/>
+                <TableColumn fx:id="colAction" text="Actions" prefWidth="150"/>
+            </columns>
+        </TableView>
+
+        <!-- Pagination et Boutons -->
+        <HBox spacing="20" alignment="CENTER">
+            <Pagination fx:id="pagination" currentPageIndex="0"/>
+            <Button fx:id="btnRetour" text="Retour à l'ajout"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

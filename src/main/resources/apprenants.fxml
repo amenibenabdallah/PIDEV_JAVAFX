@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.controllers.ApprenantController"
+            prefHeight="600.0" prefWidth="800.0">
+
+    <children>
+        <VBox spacing="10" padding="20">
+            <children>
+
+                <Label text="Gestion des Apprenants"
+                       style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+                <!-- TableView -->
+                <TableView fx:id="apprenantTable" prefHeight="200">
+                    <columns>
+                        <TableColumn fx:id="colNom" text="Nom" prefWidth="150"/>
+                        <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="150"/>
+                        <TableColumn fx:id="colEmail" text="Email" prefWidth="200"/>
+                        <TableColumn fx:id="colNiveau" text="Niveau d'étude" prefWidth="150"/>
+                    </columns>
+                </TableView>
+
+                <!-- Formulaire -->
+                <GridPane hgap="10" vgap="10" padding="10">
+                    <children>
+
+                        <Label text="Nom :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="nomField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Prénom :" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextField fx:id="prenomField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Email :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <TextField fx:id="emailField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <Label text="Niveau d'étude :" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="niveauCombo" prefWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Débutant"/>
+                                    <String fx:value="Intermédiaire"/>
+                                    <String fx:value="Avancé"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                        <Label text="Image :" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <HBox spacing="10" GridPane.rowIndex="4" GridPane.columnIndex="1">
+                            <children>
+                                <ImageView fx:id="imageView" fitWidth="100" fitHeight="100" preserveRatio="true"/>
+                                <Button text="Choisir une image" onAction="#choisirImage"/>
+                            </children>
+                        </HBox>
+
+                    </children>
+                </GridPane>
+
+                <!-- Boutons -->
+                <HBox spacing="10">
+                    <Button text="Ajouter" onAction="#ajouter"/>
+                    <Button text="Modifier" onAction="#modifier"/>
+                    <Button text="Supprimer" onAction="#supprimer"/>
+                </HBox>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

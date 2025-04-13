@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.controllers.AjoutPromotionViewController"
+            prefWidth="400" prefHeight="500">
+
+    <VBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <Label text="Ajouter une Promotion" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+        <TextField fx:id="codeField" promptText="Code Promo"/>
+        <TextArea fx:id="descriptionField" promptText="Description" wrapText="true"/>
+        <TextField fx:id="remiseField" promptText="Remise (%)"/>
+        <DatePicker fx:id="dateExpirationField" promptText="Date d'expiration"/>
+        <TextField fx:id="inscriptionIdField" promptText="ID Inscription"/>
+        <TextField fx:id="apprenantIdField" promptText="ID Apprenant"/>
+
+        <HBox spacing="10">
+            <Button text="Ajouter" onAction="#handleAjouter" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            <Button text="Annuler" onAction="#handleAnnuler" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

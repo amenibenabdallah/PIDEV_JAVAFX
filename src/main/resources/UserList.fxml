@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.Image?>
+
+<?import javafx.collections.FXCollections?>
+
+<AnchorPane style="-fx-background-color: #f5f7fa;" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.controllers.UserListController">
+
+    <VBox spacing="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
+        <!-- En-tête avec titre et icône -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <ImageView fitHeight="30" fitWidth="30">
+                <image>
+                    <Image url="@images/name.png" />
+                </image>
+            </ImageView>
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Liste des Utilisateurs">
+                <font>
+                    <Font name="System Bold" size="20.0" />
+                </font>
+            </Label>
+        </HBox>
+
+        <!-- Barre d'outils -->
+        <HBox spacing="10" style="-fx-background-color: #eaf2f8; -fx-background-radius: 5; -fx-padding: 10;">
+            <Button style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 5;" text="Ajouter">
+                <graphic>
+                    <ImageView fitHeight="16" fitWidth="16">
+                        <image>
+                            <Image url="@images/add.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5;" onAction="#handleRefresh" text="Actualiser">
+                <graphic>
+                    <ImageView fitHeight="16" fitWidth="16">
+                        <image>
+                            <Image url="@images/refresh.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <HBox spacing="10">
+                <TextField fx:id="searchField" promptText="Rechercher par nom..." />
+            </HBox>
+        </HBox>
+
+        <!-- TableView avec style amélioré -->
+        <TableView fx:id="userTable" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+            <columns>
+                <TableColumn fx:id="colNom" prefWidth="150" text="Nom"/>
+                <TableColumn fx:id="colEmail" prefWidth="200" text="Email"/>
+                <TableColumn fx:id="colRole" prefWidth="150" text="Rôle"/>
+                <TableColumn fx:id="colActions" prefWidth="200" text="Actions"/>
+            </columns>
+        </TableView>
+
+        <!-- Pagination - Added fx:id -->
+        <Pagination fx:id="pagination" style="-fx-page-information-visible: false;"/>
+    </VBox>
+</AnchorPane>

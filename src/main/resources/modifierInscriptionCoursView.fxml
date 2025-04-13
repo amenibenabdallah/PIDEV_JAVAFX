@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/17"
+            fx:controller="tn.esprit.controllers.ModifierInscriptionCoursController"
+            prefWidth="500" prefHeight="600"
+            style="-fx-background-color: #f0f0f0;">
+
+    <VBox spacing="15" alignment="TOP_CENTER"
+          AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
+
+        <!-- Titre -->
+        <Label text="Modifier Inscription"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+        <!-- Formulaire -->
+        <GridPane hgap="10" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints prefWidth="120" halignment="RIGHT"/>
+                <ColumnConstraints prefWidth="250"/>
+            </columnConstraints>
+
+            <!-- Ligne 1 : Nom Apprenant -->
+            <Label text="Nom Apprenant:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="nomApprenantField" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                       promptText="Entrez le nom"/>
+
+            <!-- Ligne 2 : Email -->
+            <Label text="Email:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="emailField" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                       promptText="Entrez l'email"/>
+
+            <!-- Ligne 3 : CIN -->
+            <Label text="CIN:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="cinField" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                       promptText="Entrez le CIN"/>
+
+            <!-- Ligne 4 : Formation -->
+            <Label text="Nom Formation:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="nomFormationField" GridPane.rowIndex="3" GridPane.columnIndex="1"
+                       promptText="Entrez la formation"/>
+
+            <!-- Ligne 5 : Montant -->
+            <Label text="Montant (€):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <TextField fx:id="montantField" GridPane.rowIndex="4" GridPane.columnIndex="1"
+                       promptText="Entrez le montant"/>
+
+            <!-- Ligne 6 : ID Apprenant -->
+            <Label text="ID Apprenant:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <TextField fx:id="apprenantIdField" GridPane.rowIndex="5" GridPane.columnIndex="1"
+                       editable="false" promptText="ID de l'apprenant"/>
+
+            <!-- Ligne 7 : ID Formation -->
+            <Label text="ID Formation:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <TextField fx:id="formationIdField" GridPane.rowIndex="6" GridPane.columnIndex="1"
+                       editable="false" promptText="ID de la formation"/>
+
+            <!-- Ligne 8 : Statut -->
+            <Label text="Statut:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="statusComboBox" GridPane.rowIndex="7" GridPane.columnIndex="1"
+                      promptText="Sélectionnez un statut">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Payé"/>
+                        <String fx:value="En attente"/>
+                        <String fx:value="Confirmée"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+
+            <!-- Ligne 9 : Type Paiement -->
+            <Label text="Type Paiement:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="typePaiementComboBox" GridPane.rowIndex="8" GridPane.columnIndex="1"
+                      promptText="Sélectionnez un type">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Carte bancaire"/>
+                        <String fx:value="Espèces"/>
+                        <String fx:value="Virement"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </GridPane>
+
+        <!-- Boutons -->
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="Enregistrer" onAction="#modifierInscriptionCours"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            <Button text="Annuler" onAction="#handleAnnuler"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        </HBox>
+
+    </VBox>
+</AnchorPane>
