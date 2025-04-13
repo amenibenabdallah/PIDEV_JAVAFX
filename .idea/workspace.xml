@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminFormationListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminFormationListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/AdminFormationListStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AdminFormationListStyle.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,38 +60,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.MainInscription.executor": "Run",
-    "Application.TestApprenantCrud.executor": "Run",
-    "Application.TestPromotion.executor": "Run",
-    "Application.TestUserCrud.executor": "Run",
-    "Application.listtest.executor": "Run",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Maven.java_pi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Yassmine-Gestion-Utilisateur",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/LENOVO/Desktop/PIDEV_JAVAFX/src/main/resources/images",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "build.tools",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MainInscription.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestApprenantCrud.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestPromotion.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestUserCrud.executor&quot;: &quot;Run&quot;,
+    &quot;Application.listtest.executor&quot;: &quot;Run&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Maven.java_pi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Yassmine-Gestion-Utilisateur&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/LENOVO/Desktop/PIDEV_JAVAFX/src/main/resources/images&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;build.tools&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX\src\main\resources\images" />
@@ -243,6 +245,7 @@
       <workItem from="1744370064117" duration="13545000" />
       <workItem from="1744406195942" duration="4207000" />
       <workItem from="1744533335326" duration="27300000" />
+      <workItem from="1744574818699" duration="1184000" />
     </task>
     <task id="LOCAL-00001" summary="commit after  modifications">
       <option name="closed" value="true" />
