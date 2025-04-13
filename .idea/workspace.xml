@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminFormationListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminFormationListController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,7 +242,7 @@
       <workItem from="1744367318400" duration="2103000" />
       <workItem from="1744370064117" duration="13545000" />
       <workItem from="1744406195942" duration="4207000" />
-      <workItem from="1744533335326" duration="25704000" />
+      <workItem from="1744533335326" duration="27300000" />
     </task>
     <task id="LOCAL-00001" summary="commit after  modifications">
       <option name="closed" value="true" />
