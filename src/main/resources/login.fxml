@@ -1,68 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.LoginController">
 
-<AnchorPane style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2c3e50);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.LoginController">
+    <!-- Centrage total -->
+    <HBox alignment="CENTER" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <VBox alignment="CENTER" spacing="20" prefWidth="400" prefHeight="580" styleClass="form-container">
 
-    <VBox alignment="CENTER" layoutX="50.0" layoutY="50.0" prefWidth="300.0" spacing="20" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 0);">
+            <!-- Logo -->
+            <ImageView fitHeight="90" fitWidth="90" preserveRatio="true" styleClass="logo-image">
+                <image>
+                    <Image url="@images/role.png" />
+                </image>
+            </ImageView>
 
-        <!-- Logo -->
-        <ImageView fitHeight="80" fitWidth="80">
-            <image>
-                <Image url="@images/role.png" />
-            </image>
-        </ImageView>
+            <!-- Titre -->
+            <Label text="Connexion" styleClass="title-label"/>
 
-        <!-- Titre -->
-        <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Connexion" />
+            <!-- Formulaire -->
+            <GridPane hgap="12" vgap="15">
+                <Label text="Email :" styleClass="label-field" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="emailField" promptText="Entrez votre email" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-        <!-- Formulaire -->
-        <GridPane hgap="10" vgap="15">
-            <Label style="-fx-text-fill: #34495e; -fx-font-weight: bold;" text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="emailField" promptText="Entrez votre email" style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Label text="Mot de passe :" styleClass="label-field" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe" styleClass="password-field" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-            <Label style="-fx-text-fill: #34495e; -fx-font-weight: bold;" text="Mot de passe:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe" style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-        </GridPane>
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="35"/>
+                    <ColumnConstraints percentWidth="65"/>
+                </columnConstraints>
+            </GridPane>
 
-        <!-- Bouton Connexion -->
-        <Button onAction="#seConnecter" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 25 8 25;" text="Se connecter">
-            <graphic>
-                <ImageView fitHeight="20" fitWidth="20">
-                    <image>
-                        <Image url="@images/user.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
+            <!-- Bouton Se connecter -->
+            <Button onAction="#seConnecter" text="Se connecter" styleClass="login-button">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20" preserveRatio="true" styleClass="button-icon">
+                        <image>
+                            <Image url="@images/user.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+                <styleClass>
+                    <String fx:value="button-hover"/>
+                </styleClass>
+            </Button>
 
-        <!-- Lien vers Inscription -->
-        <HBox alignment="CENTER" spacing="5">
-            <Label style="-fx-text-fill: #7f8c8d;" text="Nouvel utilisateur?" />
-            <Hyperlink onAction="#goToInscription" style="-fx-text-fill: #3498db; -fx-font-weight: bold; -fx-border-color: transparent;" text="Créer un compte" />
-        </HBox>
+            <!-- Liens inscription et mot de passe oublié -->
+            <HBox alignment="CENTER" spacing="5">
+                <Label text="Nouvel utilisateur ?" style="-fx-text-fill: #666;"/>
+                <Hyperlink onAction="#goToInscription" text="Créer un compte" styleClass="hyperlink-hover"/>
+            </HBox>
 
-        <!-- Mot de passe oublié -->
-        <Hyperlink style="-fx-text-fill: #95a5a6; -fx-font-size: 12px;" text="Mot de passe oublié?" />
-    </VBox>
+            <Hyperlink text="Mot de passe oublié ?" styleClass="hyperlink-hover"/>
+
+        </VBox>
+    </HBox>
+
+    <stylesheets>
+        <URL value="@login.css"/>
+    </stylesheets>
+
 </AnchorPane>

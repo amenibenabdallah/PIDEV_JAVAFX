@@ -11,86 +11,30 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox styleClass="root" stylesheets="@AdminFormationListStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AdminFormationListController">
+<VBox styleClass="main-content" stylesheets="@AdminFormationListStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AdminFormationListController">
 
-    <!-- Sidebar -->
-    <VBox prefHeight="834.0" prefWidth="262.0" styleClass="sidebar">
-        <Label styleClass="sidebar-title" text="FORMINI" />
-        <VBox spacing="10" styleClass="sidebar-menu">
-            <HBox styleClass="sidebar-item">
-                <Label styleClass="sidebar-icon" text="📊" /> <!-- Dashboard -->
-                <Label styleClass="sidebar-label" text="Dashboard" />
-            </HBox>
-            <HBox styleClass="sidebar-item">
-                <Label styleClass="sidebar-icon" text="📚" /> <!-- Formations -->
-                <Label styleClass="sidebar-label" text="Formations" />
-            </HBox>
-            <HBox styleClass="sidebar-item,sidebar-item-selected">
-                <Label styleClass="sidebar-icon" text="💬" /> <!-- Feedback -->
-                <Label styleClass="sidebar-label" text="Feedback" />
-            </HBox>
-            <HBox styleClass="sidebar-item">
-                <Label styleClass="sidebar-icon" text="👥" /> <!-- Utilisateurs -->
-                <Label styleClass="sidebar-label" text="Utilisateurs" />
-            </HBox>
-            <HBox styleClass="sidebar-item">
-                <Label styleClass="sidebar-icon" text="📅" /> <!-- Evenements -->
-                <Label styleClass="sidebar-label" text="Evenements" />
-            </HBox>
-            <HBox styleClass="sidebar-item">
-                <Label styleClass="sidebar-icon" text="🔔" /> <!-- Notifications -->
-                <Label styleClass="sidebar-label" text="Notifications" />
-            </HBox>
-            <HBox styleClass="sidebar-item">
-                <Label styleClass="sidebar-icon" text="🏷️" /> <!-- Categories -->
-                <Label styleClass="sidebar-label" text="Categories" />
-            </HBox>
-            <HBox styleClass="sidebar-item">
-                <Label styleClass="sidebar-icon" text="✅" /> <!-- Evaluation -->
-                <Label styleClass="sidebar-label" text="Evaluation" />
-            </HBox>
+    <!-- TableView for Formations -->
+    <TableView fx:id="formationTableView" layoutX="14.0" layoutY="70.0" prefHeight="400.0" prefWidth="600.0">
+        <columns>
+            <TableColumn fx:id="formationNameColumn" prefWidth="75.0" text="Formation" />
+            <TableColumn fx:id="noteMoyenneColumn" prefWidth="75.0" text="Note Moyenne" />
+            <TableColumn fx:id="nombreAvisColumn" prefWidth="75.0" text="Nombre d’Avis" />
+            <TableColumn fx:id="actionsColumn" prefWidth="75.0" text="Actions" />
+        </columns>
+    </TableView>
 
-            <HBox styleClass="sidebar-item">
-                <Label styleClass="sidebar-icon" text="📋" /> <!-- Liste d'inscription -->
-                <Label styleClass="sidebar-label" text="Liste d'inscription" />
-            </HBox>
-            <HBox styleClass="sidebar-item">
-                <Label styleClass="sidebar-icon" text="🎁" /> <!-- Promotions -->
-                <Label styleClass="sidebar-label" text="Promotions" />
-            </HBox>
-
-        </VBox>
-    </VBox>
-
-    <!-- Main Content -->
-    <VBox styleClass="main-content" HBox.hgrow="ALWAYS">
-        <!-- Header -->
-        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header">
-            <Label styleClass="title-label" text="Liste des Formations" />
+    <!-- Avis Cards (Hidden by Default) -->
+    <VBox fx:id="avisContainer" managed="false" spacing="15" styleClass="avis-container" visible="false">
+        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="avis-header">
+            <Label fx:id="selectedFormationLabel" styleClass="avis-title" text="Avis for Formation" />
             <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="hideAvisButton" onAction="#handleHideAvis" styleClass="button,hide-button" text="Masquer" />
         </HBox>
-
-        <!-- TableView for Formations -->
-        <TableView fx:id="formationTableView" layoutX="14.0" layoutY="70.0" prefHeight="400.0" prefWidth="600.0">
-            <columns>
-                <TableColumn fx:id="formationNameColumn" prefWidth="75.0" text="Formation" />
-                <TableColumn fx:id="noteMoyenneColumn" prefWidth="75.0" text="Note Moyenne" />
-                <TableColumn fx:id="nombreAvisColumn" prefWidth="75.0" text="Nombre d’Avis" />
-                <TableColumn fx:id="actionsColumn" prefWidth="75.0" text="Actions" />
-            </columns>
-        </TableView>
-
-        <!-- Avis Cards (Hidden by Default) -->
-        <VBox fx:id="avisContainer" managed="false" spacing="15" styleClass="avis-container" visible="false">
-            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="avis-header">
-                <Label fx:id="selectedFormationLabel" styleClass="avis-title" text="Avis for Formation" />
-                <Region HBox.hgrow="ALWAYS" />
-                <Button fx:id="hideAvisButton" onAction="#handleHideAvis" styleClass="button,hide-button" text="Masquer" />
-            </HBox>
-            <ScrollPane fitToWidth="true" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
-                <FlowPane fx:id="avisFlowPane" hgap="10" styleClass="flow-pane" vgap="15" />
-            </ScrollPane>
-        </VBox>
+        <ScrollPane fitToWidth="true" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+            <FlowPane fx:id="avisFlowPane" hgap="10" styleClass="flow-pane" vgap="15" />
+        </ScrollPane>
     </VBox>
 
-</HBox>
+
+</VBox>
+

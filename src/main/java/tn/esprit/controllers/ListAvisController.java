@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import tn.esprit.models.Avis;
 import tn.esprit.services.ServiceAvis;
+import tn.esprit.utils.SessionManager;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
@@ -37,6 +38,7 @@ public class ListAvisController {
     private ServiceAvis serviceAvis;
     private static final int FORMATION_ID = 1;
     private AddAvis addAvisController;
+    private final SessionManager sessionManager = new SessionManager(); // Added SessionManager
 
     @FXML
     public void initialize() {
@@ -89,16 +91,26 @@ public class ListAvisController {
         commentLabel.getStyleClass().add("comment-text");
         commentLabel.setWrapText(true);
 
+        // Conditionally show Edit/Delete buttons if the avis belongs to the connected user
+        int connectedUserId = sessionManager.getUtilisateurConnecte().getId();
+        System.out.println("Avis ID: " + avis.getId() + ", Avis apprenant_id: " + avis.getApprenantId() +
+                ", Connected user_id: " + connectedUserId);
+
         HBox buttonBox = new HBox(15);
-        Button editButton = new Button("Edit");
-        editButton.getStyleClass().addAll("button", "edit-button");
-        editButton.setOnAction(e -> handleEdit(avis));
+        if (avis.getApprenantId() == connectedUserId) {
+            System.out.println("Showing Edit/Delete buttons for Avis ID: " + avis.getId());
+            Button editButton = new Button("Edit");
+            editButton.getStyleClass().addAll("button", "edit-button");
+            editButton.setOnAction(e -> handleEdit(avis));
 
-        Button deleteButton = new Button("🗑️"); // Unicode trash can icon
-        deleteButton.getStyleClass().addAll("button", "delete-button");
-        deleteButton.setOnAction(e -> handleDelete(avis));
+            Button deleteButton = new Button("🗑️"); // Unicode trash can icon
+            deleteButton.getStyleClass().addAll("button", "delete-button");
+            deleteButton.setOnAction(e -> handleDelete(avis));
 
-        buttonBox.getChildren().addAll(editButton, deleteButton);
+            buttonBox.getChildren().addAll(editButton, deleteButton);
+        } else {
+            System.out.println("Hiding Edit/Delete buttons for Avis ID: " + avis.getId() + " (apprenant_id mismatch)");
+        }
 
         card.getChildren().addAll(ratingBox, dateLabel, commentLabel, buttonBox);
 
