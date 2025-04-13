@@ -22,17 +22,20 @@
             <version>8.0.33</version>
         </dependency>
 
+
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>17.0.11</version>
+            <classifier>win</classifier>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>17.0.11</version>
+            <classifier>win</classifier>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -64,9 +67,9 @@
                 <version>0.0.8</version>
                 <configuration>
 
-                   
 
-                    <mainClass>tn.esprit.test.TestUserCrud</mainClass>
+
+                    <mainClass>tn.esprit.test.MainFx</mainClass>
 
 
                 </configuration>

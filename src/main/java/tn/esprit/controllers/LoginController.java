@@ -26,7 +26,7 @@ public class LoginController {
     private final  SessionManager sessionManager = new SessionManager() ;
 
     @FXML
-    public void seConnecter() {
+    public void seConnecter(ActionEvent event) {
         String email = emailField.getText().trim();
         String password = passwordField.getText().trim();
 
@@ -40,16 +40,35 @@ public class LoginController {
             System.out.println( password +"\n"+ user.getPassword());
 
             if (user != null) {
-                // Utilisez matches() pour comparer le mot de passe en clair avec le hash stocké
                 if (passwordEncoder.matches(password, user.getPassword())) {
-                    showAlert("Succès", "Connexion réussie!", Alert.AlertType.INFORMATION);
                     sessionManager.setUtilisateurConnecte(user);
 
                     System.out.println(sessionManager.getUtilisateurConnecte().getId());
                     System.out.println(sessionManager.getUtilisateurConnecte().getRoles());
                     System.out.println(sessionManager.getUtilisateurConnecte().getUserType());
 
+                    // Replace the existing navigation logic with this:
+                    String role = user.getRoles();
+                    String fxmlFile;
+                    if (role.contains("ROLE_APPRENANT")) {
+                        fxmlFile = "/ListAvis.fxml";
+                    } else if (role.contains("ROLE_ADMIN")) {
+                        fxmlFile = "/AdminTemplate.fxml";
+                    } else {
+                        showAlert("Erreur", "Rôle non reconnu pour cet utilisateur");
+                        return;
+                    }
 
+                    try {
+                        Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
+                        Scene scene = new Scene(root);
+                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        showAlert("Erreur", "Impossible de charger la page " + fxmlFile);
+                    }
 
                 } else {
                     showAlert("Erreur", "Identifiants incorrects");
