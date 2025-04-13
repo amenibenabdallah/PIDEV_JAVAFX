@@ -53,7 +53,7 @@ public class LoginController {
                     if (role.contains("ROLE_APPRENANT")) {
                         fxmlFile = "/ListAvis.fxml";
                     } else if (role.contains("ROLE_ADMIN")) {
-                        fxmlFile = "/AdminFormationList.fxml";
+                        fxmlFile = "/AdminTemplate.fxml";
                     } else {
                         showAlert("Erreur", "Rôle non reconnu pour cet utilisateur");
                         return;
