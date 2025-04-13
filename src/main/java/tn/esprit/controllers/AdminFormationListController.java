@@ -20,8 +20,9 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
-public class AdminFormationListController implements Initializable {
+public class AdminFormationListController implements Initializable, Searchable {
 
     @FXML
     private TableView<FormationA> formationTableView;
@@ -48,8 +49,9 @@ public class AdminFormationListController implements Initializable {
     private FlowPane avisFlowPane;
 
     private ObservableList<FormationA> formationList;
+    private ObservableList<FormationA> filteredFormationList;
     private final FormationServiceA formationService = new FormationServiceA();
-    private final DecimalFormat decimalFormat = new DecimalFormat("#.#"); // Format to 1 decimal place
+    private final DecimalFormat decimalFormat = new DecimalFormat("#.#");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,7 +62,7 @@ public class AdminFormationListController implements Initializable {
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 setAlignment(Pos.CENTER_LEFT);
-                setPadding(new Insets(10, 10, 10, 10)); // Consistent padding
+                setPadding(new Insets(10, 10, 10, 10));
                 if (empty || item == null) {
                     setText(null);
                 } else {
@@ -75,18 +77,17 @@ public class AdminFormationListController implements Initializable {
             protected void updateItem(Double item, boolean empty) {
                 super.updateItem(item, empty);
                 setAlignment(Pos.CENTER_LEFT);
-                setPadding(new Insets(10, 10, 10, 10)); // Consistent padding
+                setPadding(new Insets(10, 10, 10, 10));
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(decimalFormat.format(item)+ "/5");
-                    // Apply color based on the note value
+                    setText(decimalFormat.format(item) + "/5");
                     if (item < 3) {
-                        setStyle("-fx-text-fill: #e74c3c;"); // Red for poor (< 3)
+                        setStyle("-fx-text-fill: #e74c3c;");
                     } else if (item >= 3 && item < 4) {
-                        setStyle("-fx-text-fill: #f39c12;"); // Orange for average (3 to <4)
+                        setStyle("-fx-text-fill: #f39c12;");
                     } else {
-                        setStyle("-fx-text-fill: #2ecc71;"); // Green for good (≥ 4)
+                        setStyle("-fx-text-fill: #2ecc71;");
                     }
                 }
             }
@@ -98,7 +99,7 @@ public class AdminFormationListController implements Initializable {
             protected void updateItem(Integer item, boolean empty) {
                 super.updateItem(item, empty);
                 setAlignment(Pos.CENTER_LEFT);
-                setPadding(new Insets(10, 10, 10, 10)); // Consistent padding
+                setPadding(new Insets(10, 10, 10, 10));
                 if (empty || item == null) {
                     setText(null);
                 } else {
@@ -107,7 +108,6 @@ public class AdminFormationListController implements Initializable {
             }
         });
 
-        // Set up the Actions column with a button
         actionsColumn.setCellFactory(col -> new TableCell<>() {
             private final Button avisButton = new Button("Avis");
             private final HBox hbox = new HBox(avisButton);
@@ -119,15 +119,15 @@ public class AdminFormationListController implements Initializable {
                     handleShowAvis(formation);
                 });
                 hbox.setAlignment(Pos.CENTER_LEFT);
-                hbox.setPadding(new Insets(10, 10, 10, 10)); // Consistent padding
-                avisButton.setPadding(new Insets(8, 20, 8, 20)); // Match button padding
+                hbox.setPadding(new Insets(10, 10, 10, 10));
+                avisButton.setPadding(new Insets(8, 20, 8, 20));
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 setAlignment(Pos.CENTER_LEFT);
-                setPadding(new Insets(0)); // No extra padding on the cell itself
+                setPadding(new Insets(0));
                 if (empty) {
                     setGraphic(null);
                 } else {
@@ -136,18 +136,20 @@ public class AdminFormationListController implements Initializable {
             }
         });
 
-        // Dynamically adjust column widths to fill the TableView
+        // Dynamically adjust column widths
         formationTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        formationNameColumn.prefWidthProperty().bind(formationTableView.widthProperty().multiply(0.4)); // 40% for Formation
-        noteMoyenneColumn.prefWidthProperty().bind(formationTableView.widthProperty().multiply(0.2)); // 20% for Note Moyenne
-        nombreAvisColumn.prefWidthProperty().bind(formationTableView.widthProperty().multiply(0.2)); // 20% for Nombre d’Avis
-        actionsColumn.prefWidthProperty().bind(formationTableView.widthProperty().multiply(0.2)); // 20% for Actions
+        formationNameColumn.prefWidthProperty().bind(formationTableView.widthProperty().multiply(0.4));
+        noteMoyenneColumn.prefWidthProperty().bind(formationTableView.widthProperty().multiply(0.2));
+        nombreAvisColumn.prefWidthProperty().bind(formationTableView.widthProperty().multiply(0.2));
+        actionsColumn.prefWidthProperty().bind(formationTableView.widthProperty().multiply(0.2));
 
-        // Set a fixed cell size to ensure larger row height
-        formationTableView.setFixedCellSize(60); // Increase row height
+        formationTableView.setFixedCellSize(60);
 
-        // Load formations from the database
+        // Load formations
         loadFormations();
+
+        // Initialize the filtered list
+        filteredFormationList = FXCollections.observableArrayList(formationList);
     }
 
     private void loadFormations() {
@@ -156,44 +158,49 @@ public class AdminFormationListController implements Initializable {
             formationTableView.setItems(formationList);
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle the error (e.g., show an alert to the user)
+            showAlert("Erreur", "Impossible de charger les formations : " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void handleSearch(String searchText) {
+        if (searchText.isEmpty()) {
+            formationTableView.setItems(formationList);
+        } else {
+            filteredFormationList.clear();
+            filteredFormationList.addAll(formationList.stream()
+                    .filter(formation -> formation.getName().toLowerCase().contains(searchText))
+                    .collect(Collectors.toList()));
+            formationTableView.setItems(filteredFormationList);
         }
     }
 
     private void handleShowAvis(FormationA selectedFormation) {
         if (selectedFormation == null) {
-            return; // No formation selected
+            return;
         }
 
-        // Update the selected formation label
         selectedFormationLabel.setText("Avis for " + selectedFormation.getName());
-
-        // Clear previous avis cards
         avisFlowPane.getChildren().clear();
 
-        // Populate avis cards
         for (Avis avis : selectedFormation.getAvisList()) {
             avisFlowPane.getChildren().add(createAvisCard(avis));
         }
 
-        // Show the avis container
         avisContainer.setVisible(true);
         avisContainer.setManaged(true);
     }
 
     @FXML
     private void handleHideAvis() {
-        // Hide the avis container
         avisContainer.setVisible(false);
         avisContainer.setManaged(false);
     }
 
     private VBox createAvisCard(Avis avis) {
-        // Create a card for the avis
         VBox card = new VBox(10);
         card.getStyleClass().add("avis-card");
 
-        // Star rating
         HBox starBox = new HBox(5);
         for (int i = 1; i <= 5; i++) {
             Label star = new Label("★");
@@ -201,18 +208,24 @@ public class AdminFormationListController implements Initializable {
             starBox.getChildren().add(star);
         }
 
-        // Date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Label dateLabel = new Label(avis.getDateCreation().format(formatter));
         dateLabel.getStyleClass().add("date-label");
 
-        // Comment
         Label commentLabel = new Label(avis.getCommentaire());
         commentLabel.getStyleClass().add("comment-text");
 
-        // Add elements to card
         card.getChildren().addAll(starBox, dateLabel, commentLabel);
 
         return card;
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        title="Rechercher Formation";
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

@@ -206,3 +206,43 @@
 .hide-button:hover {
     -fx-background-color: #1557b0;
 }
+/* Search Bar */
+.search-field {
+    -fx-pref-width: 200px;
+    -fx-padding: 8px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d1d1d1;
+    -fx-border-radius: 5px;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #888888;
+}
+
+.search-field:focused {
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+}
+
+/* Admin Image */
+#adminImage {
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+/* Dropdown Menu */
+.admin-dropdown {
+    -fx-pref-width: 150px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d1d1d1;
+    -fx-border-radius: 5px;
+    -fx-font-size: 14px;
+}
+
+.admin-dropdown .list-cell {
+    -fx-padding: 8px;
+}
+
+.admin-dropdown .list-cell:hover {
+    -fx-background-color: #3498db;
+    -fx-text-fill: #ffffff;
+}
