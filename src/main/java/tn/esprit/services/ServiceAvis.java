@@ -19,14 +19,16 @@ public class ServiceAvis implements IService<Avis>{
     }
     @Override
     public void add(Avis avis) {
+        int userId = tn.esprit.utils.SessionManager.getUtilisateurConnecte().getId();
 
-        String qry = "INSERT INTO avis (note, commentaire, date_creation, formation_id) VALUES (?, ?, ? ,?)";
+        String qry = "INSERT INTO avis (note, commentaire, date_creation, formation_id,apprenant_id ) VALUES (?, ?, ? ,?,?)";
         try {
             PreparedStatement pstm = cnx.prepareStatement(qry,Statement.RETURN_GENERATED_KEYS);
             pstm.setFloat(1, avis.getNote());
             pstm.setString(2, avis.getCommentaire());
             pstm.setTimestamp(3, Timestamp.valueOf(avis.getDateCreation()));
             pstm.setInt(4,avis.getFormationId());
+            pstm.setInt(5, userId); // Set the userId
             //pstm.setInt(4, avis.getFormationId());
             int rowsAffected = pstm.executeUpdate();
             if (rowsAffected > 0) {
@@ -65,24 +67,28 @@ public class ServiceAvis implements IService<Avis>{
                 avis.setCommentaire(rs.getString("commentaire"));
                 avis.setDateCreation(rs.getTimestamp("date_creation").toLocalDateTime());
                 avis.setFormationId(rs.getInt("formation_id"));
+                avis.setApprenantId(rs.getInt("apprenant_id"));
+                System.out.println("Retrieved Avis ID: " + avis.getId() + ", apprenant_id: " + avis.getApprenantId());
                 avisList.add(avis);
             }
+            rs.close();
+            stm.close();
         } catch (SQLException e) {
             System.out.println("Error retrieving Avis: " + e.getMessage());
             e.printStackTrace();
         }
-        return avisList;
-    }
+        return avisList;}
 
     @Override
     public void update(Avis avis ) {
-        String qry = "UPDATE avis SET note = ?, commentaire = ?, date_creation = ?, formation_id = ? WHERE id = ?";
+        String qry = "UPDATE avis SET note = ?, commentaire = ?, date_creation = ?, formation_id = ?,apprenant_id = ? WHERE id = ?";
         try {
             PreparedStatement pstm = cnx.prepareStatement(qry);
             pstm.setFloat(1, avis.getNote());
             pstm.setString(2, avis.getCommentaire());
             pstm.setTimestamp(3, Timestamp.valueOf(avis.getDateCreation()));
             pstm.setInt(4, avis.getFormationId());
+            pstm.setInt(5, avis.getApprenantId());
             pstm.setInt(5, avis.getId());
 
             int rowsAffected = pstm.executeUpdate();

@@ -5,6 +5,10 @@ import java.util.Arrays;
 
 public class Avis {
     private int id;
+
+
+
+
     private int formationId;
     private int formationScoreId; // Fixed typo
     private int instructeurId;
