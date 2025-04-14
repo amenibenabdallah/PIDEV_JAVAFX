@@ -1,0 +1,60 @@
+/* Style général */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #f8f9fa;
+}
+
+.message-label {
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+
+.message-date {
+    -fx-text-fill: black;
+    -fx-font-size: 10px;
+    -fx-opacity: 0.6; /* optionnel : rend la date un peu plus discrète */
+}
+
+
+/* ScrollPane */
+.scroll-pane {
+    -fx-background: transparent;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+}
+
+/* VBox contenant les messages */
+#messagesBox {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dee2e6;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+
+/* Zone de texte pour écrire */
+#messageTextArea {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 8;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+
+/* Bouton Envoyer */
+.button {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #0056b3;
+}

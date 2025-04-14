@@ -5,13 +5,21 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.collections.ObservableList;
 import javafx.scene.control.*;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.util.StringConverter;
 import tn.esprit.models.Message;
+import tn.esprit.models.users;
 import tn.esprit.services.MessageService;
+import tn.esprit.models.Discussion;
+import tn.esprit.services.DiscussionService;
+import javafx.scene.layout.VBox;
+import tn.esprit.services.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,7 +31,22 @@ public class Messages extends Application {
     private TextArea messageTextArea;
 
     @FXML
+    private ComboBox<users> userComboBox;
+    @FXML
+    private Button addDiscussionBtn;
+
+    private final UserService userService = new UserService();
+    @FXML
+    private ListView<Discussion> discussionListView;
+    @FXML
     private VBox messagesBox;
+
+    private DiscussionService discussionService;
+
+    public Messages() {
+        discussionService = new DiscussionService();
+    }
+
 
     private final int senderId = 1;
     private final int receiverId = 2;
@@ -40,9 +63,43 @@ public class Messages extends Application {
         primaryStage.show();
     }
 
+
     @FXML
     public void initialize() {
         afficherMessages();
+        refreshDiscussions();
+
+        // Charger les utilisateurs dans la ComboBox
+        List<users> allUsers = userService.getAllUsers();
+        ObservableList<users> observableUsers = FXCollections.observableArrayList(allUsers);
+        userComboBox.setItems(observableUsers);
+
+        userComboBox.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(users user) {
+                if (user == null) return "";  // Évite le crash ici
+                return user.getPrenom() + " " + user.getNom();
+            }
+
+            @Override
+            public users fromString(String string) {
+                return null;  // On ne l'utilise pas
+            }
+
+        });
+
+        addDiscussionBtn.setOnAction(e -> {
+            users selectedUser = userComboBox.getValue();
+            if (selectedUser != null) {
+                discussionService.addDiscussion(senderId, selectedUser.getId());
+                refreshDiscussions();
+            }
+        });
+    }
+
+    private void refreshDiscussions() {
+        ObservableList<Discussion> discussions = FXCollections.observableArrayList(discussionService.getAllDiscussions());
+        discussionListView.setItems(discussions);
     }
 
     private void afficherMessages() {
@@ -51,20 +108,29 @@ public class Messages extends Application {
         List<Message> messages = messageService.getMessages(senderId, receiverId);
 
         for (Message msg : messages) {
-            Label messageLabel = new Label(msg.getCreatedAt() + " : " + msg.getContent());
-            messageLabel.setWrapText(true);
-            messageLabel.setMaxWidth(300);
+            // Label pour le contenu du message
+            Label contentLabel = new Label(msg.getContent());
+            contentLabel.setWrapText(true);
+            contentLabel.setMaxWidth(300);
+            contentLabel.getStyleClass().add("message-label");
 
-            Button deleteButton = new Button("🗑️");
+            // Label pour la date
+            Label dateLabel = new Label(msg.getCreatedAt().toString());
+            dateLabel.getStyleClass().add("message-date");
+
+            // VBox contenant le contenu et la date
+            VBox messageContentBox = new VBox(5, contentLabel, dateLabel);
+
+            Button deleteButton = new Button("❌");
             deleteButton.setOnAction(e -> {
                 messageService.supprimerMessage(msg.getId());
                 afficherMessages();
             });
 
-            Button editButton = new Button("✏️");
+            Button editButton = new Button("✏");
             editButton.setOnAction(e -> modifierMessage(msg));
 
-            HBox messageBox = new HBox(10, messageLabel, editButton, deleteButton);
+            HBox messageBox = new HBox(10, messageContentBox, editButton, deleteButton);
             messageBox.setPadding(new Insets(10));
             messageBox.setMaxWidth(400);
 
@@ -83,6 +149,7 @@ public class Messages extends Application {
             messagesBox.getChildren().add(bubbleWrapper);
         }
     }
+
 
     @FXML
     private void envoyerMessage() {
