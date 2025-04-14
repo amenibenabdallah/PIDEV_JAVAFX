@@ -19,7 +19,7 @@
     </HBox>
 
     <!-- SplitPane for side-by-side layout -->
-    <SplitPane dividerPositions="0.97" prefHeight="110.0" prefWidth="766.0" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+    <SplitPane dividerPositions="0.99" prefHeight="110.0" prefWidth="766.0" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
         <!-- Left Side: Avis List -->
         <VBox prefHeight="107.0" prefWidth="800.0" spacing="15" style="-fx-padding: 10; -fx-border-width: 0; -fx-border-color: transparent;">
             <!-- Stats Card -->

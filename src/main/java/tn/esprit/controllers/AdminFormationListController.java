@@ -14,11 +14,14 @@ import javafx.scene.layout.VBox;
 import tn.esprit.models.Avis;
 import tn.esprit.models.FormationA;
 import tn.esprit.services.FormationServiceA;
+import tn.esprit.services.ServiceAvis;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -51,7 +54,10 @@ public class AdminFormationListController implements Initializable, Searchable {
     private ObservableList<FormationA> formationList;
     private ObservableList<FormationA> filteredFormationList;
     private final FormationServiceA formationService = new FormationServiceA();
+    private final ServiceAvis serviceAvis = new ServiceAvis();
     private final DecimalFormat decimalFormat = new DecimalFormat("#.#");
+    private final List<String> badWords = Arrays.asList("bad", "stupid", "idiot", "terrible", "awful");
+    private FormationA currentFormation;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -180,6 +186,7 @@ public class AdminFormationListController implements Initializable, Searchable {
             return;
         }
 
+        currentFormation = selectedFormation;
         selectedFormationLabel.setText("Avis for " + selectedFormation.getName());
         avisFlowPane.getChildren().clear();
 
@@ -195,17 +202,45 @@ public class AdminFormationListController implements Initializable, Searchable {
     private void handleHideAvis() {
         avisContainer.setVisible(false);
         avisContainer.setManaged(false);
+        currentFormation = null;
     }
 
     private VBox createAvisCard(Avis avis) {
-        VBox card = new VBox(10);
+        VBox card = new VBox(5); // Reduced spacing for tighter layout
         card.getStyleClass().add("avis-card");
+        card.setPrefWidth(300);
+        card.setPrefHeight(180);
+        card.setMinHeight(180);
+        card.setMaxHeight(180);
+
+        // Check for bad words
+        boolean hasBadWord = containsBadWord(avis.getCommentaire());
+        if (hasBadWord) {
+            // Cute design for flagged card
+            card.setStyle("-fx-border-color: #ff4040; -fx-border-width: 2; -fx-border-radius: 10; " +
+                    "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 2, 2);");
+
+            // Flag icon and reason
+            HBox flaggedBox = new HBox(5);
+            flaggedBox.setAlignment(Pos.CENTER_LEFT);
+            Label flagIcon = new Label("\uD83D\uDEA9"); // Unicode for flag emoji (🚩)
+            flagIcon.setStyle("-fx-text-fill: #ff4040; -fx-font-size: 16px; -fx-font-family: 'Arial';");
+            Label flaggedLabel = new Label(" Inappropriate Content");
+            flaggedLabel.setStyle("-fx-text-fill: #ff4040; -fx-font-weight: bold; -fx-font-family: 'Comic Sans MS';");
+            flaggedBox.getChildren().addAll(flagIcon, flaggedLabel);
+            flaggedBox.setStyle("-fx-background-color: #ffe6e6; -fx-background-radius: 5; -fx-padding: 5;");
+            card.getChildren().add(flaggedBox);
+        }
 
         HBox starBox = new HBox(5);
         for (int i = 1; i <= 5; i++) {
             Label star = new Label("★");
             star.getStyleClass().add(i <= (int) avis.getNote() ? "star-selected" : "star");
             starBox.getChildren().add(star);
+        }
+        // Add top padding to starBox in non-flagged cards to align with flagged cards
+        if (!hasBadWord) {
+            starBox.setPadding(new Insets(30, 0, 0, 0)); // Compensate for missing flaggedBox (~30px)
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -214,16 +249,73 @@ public class AdminFormationListController implements Initializable, Searchable {
 
         Label commentLabel = new Label(avis.getCommentaire());
         commentLabel.getStyleClass().add("comment-text");
+        commentLabel.setWrapText(true);
 
-        card.getChildren().addAll(starBox, dateLabel, commentLabel);
+        // Button box for delete button (placeholder for non-flagged cards)
+        HBox buttonBox = new HBox();
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+        buttonBox.setPadding(new Insets(0, 5, 5, 0));
+        buttonBox.setMinHeight(30);
+
+        // Add Delete Button only if the Avis is flagged
+        if (hasBadWord) {
+            Button deleteButton = new Button();
+            Label trashIcon = new Label("\uD83D\uDDD1"); // Unicode for trash can emoji (🗑)
+            trashIcon.setStyle("-fx-text-fill: #ff4040; -fx-font-size: 30px; -fx-font-weight: bold;"); // Even bigger and bold
+            deleteButton.setGraphic(trashIcon);
+            deleteButton.setStyle("-fx-background-color: transparent; -fx-padding: 5;");
+            deleteButton.getStyleClass().add("delete-button");
+            deleteButton.setOnAction(event -> handleDeleteAvis(avis));
+            buttonBox.getChildren().add(deleteButton);
+        }
+
+        card.getChildren().addAll(starBox, dateLabel, commentLabel, buttonBox);
 
         return card;
     }
 
+    private boolean containsBadWord(String comment) {
+        if (comment == null) {
+            return false;
+        }
+        String lowerCaseComment = comment.toLowerCase();
+        return badWords.stream().anyMatch(badWord -> lowerCaseComment.contains(badWord.toLowerCase()));
+    }
+
+    private void handleDeleteAvis(Avis avis) {
+        // Show confirmation dialog
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Delete Avis");
+        confirmAlert.setHeaderText("Are you sure you want to delete this Avis?");
+        confirmAlert.setContentText("This action cannot be undone.");
+        confirmAlert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                // Delete the Avis using ServiceAvis
+                serviceAvis.delete(avis);
+                System.out.println("Avis deleted successfully for ID: " + avis.getId());
+
+                // Reload all formations to refresh the UI
+                loadFormations();
+
+                // Refresh the Avis cards for the current formation
+                if (currentFormation != null) {
+                    currentFormation = formationList.stream()
+                            .filter(f -> f.getId() == currentFormation.getId())
+                            .findFirst()
+                            .orElse(null);
+                    if (currentFormation != null) {
+                        handleShowAvis(currentFormation);
+                    } else {
+                        handleHideAvis();
+                    }
+                }
+            }
+        });
+    }
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        title="Rechercher Formation";
-        alert.setTitle(title);
+        alert.setTitle("Rechercher Formation");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

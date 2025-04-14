@@ -7,10 +7,18 @@
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit session">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherInscriptionsViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherInscriptionsViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainFx.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainInscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainInscription.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/MyDataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/MyDataBase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/AfficherPromotionsView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AfficherPromotionsView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/afficherInscriptionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/afficherInscriptionView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/AdminFormationList.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AdminFormationList.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ListAvis.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ListAvis.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminFormationListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminFormationListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,23 +46,23 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-        &quot;lastFilter&quot;: {
-            &quot;state&quot;: &quot;OPEN&quot;,
-            &quot;assignee&quot;: &quot;Yassminette5&quot;
-        }
-    }</component>
+    "lastFilter": {
+      "state": "OPEN",
+      "assignee": "Yassminette5"
+    }
+  }</component>
   <component name="GithubPullRequestsUISettings">{
-        &quot;selectedUrlAndAccountId&quot;: {
-            &quot;url&quot;: &quot;https://github.com/amenibenabdallah/PIDEV_JAVAFX.git&quot;,
-            &quot;accountId&quot;: &quot;a449f9f8-cadc-4d0c-9afd-7b71d4c0813a&quot;
-        }
-    }</component>
+    "selectedUrlAndAccountId": {
+      "url": "https://github.com/amenibenabdallah/PIDEV_JAVAFX.git",
+      "accountId": "a449f9f8-cadc-4d0c-9afd-7b71d4c0813a"
+    }
+  }</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-        &quot;associatedIndex&quot;: 6
-    }</component>
+    "associatedIndex": 6
+  }</component>
   <component name="ProjectId" id="2vTu56h9e5HqQYkKW6k21FMYCCr" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -64,39 +72,39 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MainFx.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MainInscription.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestApprenantCrud.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestAvis.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestPromotion.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestUserCrud.executor&quot;: &quot;Run&quot;,
-    &quot;Application.listtest.executor&quot;: &quot;Run&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Maven.java_pi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Hazem-Gestion-Inscription&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/LENOVO/Desktop/PIDEV_JAVAFX/src/main/resources/images&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;build.tools&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  }
-}</component>
+    "keyToString": {
+      "Application.Main.executor": "Run",
+      "Application.MainFx.executor": "Run",
+      "Application.MainInscription.executor": "Run",
+      "Application.TestApprenantCrud.executor": "Run",
+      "Application.TestAvis.executor": "Run",
+      "Application.TestPromotion.executor": "Run",
+      "Application.TestUserCrud.executor": "Run",
+      "Application.listtest.executor": "Run",
+      "DefaultHtmlFileTemplate": "HTML File",
+      "Maven.java_pi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
+      "RunOnceActivity.OpenProjectViewOnStart": "true",
+      "RunOnceActivity.ShowReadmeOnStart": "true",
+      "RunOnceActivity.git.unshallow": "true",
+      "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+      "WebServerToolWindowFactoryState": "false",
+      "git-widget-placeholder": "Yassmine-Gestion-Utilisateur",
+      "ignore.virus.scanning.warn.message": "true",
+      "kotlin-language-version-configured": "true",
+      "last_opened_file_path": "C:/Users/LENOVO/Desktop/PIDEV_JAVAFX/src/main/resources/images",
+      "list.type.of.created.stylesheet": "CSS",
+      "node.js.detected.package.eslint": "true",
+      "node.js.detected.package.tslint": "true",
+      "node.js.selected.package.eslint": "(autodetect)",
+      "node.js.selected.package.tslint": "(autodetect)",
+      "nodejs_package_manager_path": "npm",
+      "project.structure.last.edited": "Modules",
+      "project.structure.proportion": "0.0",
+      "project.structure.side.proportion": "0.0",
+      "settings.editor.selected.configurable": "build.tools",
+      "vue.rearranger.settings.migration": "true"
+    }
+  }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX\src\main\resources\images" />
@@ -226,10 +234,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.MainFx" />
-        <item itemvalue="Application.MainInscription" />
-        <item itemvalue="Application.TestAvis" />
         <item itemvalue="Application.TestUserCrud" />
         <item itemvalue="Application.listtest" />
+        <item itemvalue="Application.TestAvis" />
+        <item itemvalue="Application.MainInscription" />
       </list>
     </recent_temporary>
   </component>
@@ -251,7 +259,9 @@
       <workItem from="1744367318400" duration="2103000" />
       <workItem from="1744370064117" duration="13545000" />
       <workItem from="1744406195942" duration="4207000" />
-      <workItem from="1744533335326" duration="25704000" />
+      <workItem from="1744533335326" duration="27300000" />
+      <workItem from="1744574818699" duration="2240000" />
+      <workItem from="1744597669536" duration="318000" />
     </task>
     <task id="LOCAL-00001" summary="commit after  modifications">
       <option name="closed" value="true" />
