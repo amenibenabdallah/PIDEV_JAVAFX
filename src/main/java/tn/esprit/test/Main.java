@@ -1,13 +1,24 @@
+
 package tn.esprit.test;
-import tn.esprit.utils.MyDataBase;
-import java.sql.Connection;
-import java.sql.SQLException;
-public class Main {
-    public static void main(String[] args) {
-        try (Connection conn = MyDataBase.getInstance().getCnx()) {
-            System.out.println("Database connection successful!");
-        } catch (SQLException e) {
-            System.err.println("Failed to connect to the database: " + e.getMessage());
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+    public class Main extends Application {
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/GetAllFormationFront.fxml"));
+
+            Parent root = loader.load();
+            primaryStage.setTitle("Formini application");
+            primaryStage.setScene(new Scene(root, 600, 400));
+            primaryStage.show();
+        }
+
+        public static void main(String[] args) {
+            launch(args);
         }
     }
-}

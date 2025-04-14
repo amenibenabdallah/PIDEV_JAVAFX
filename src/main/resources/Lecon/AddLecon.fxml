@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.lecon.AddLecon">
+
+    <children>
+        <Pane prefHeight="61.0" prefWidth="1126.0" style="-fx-background-color: #5462ff;">
+            <children>
+                <Label layoutX="13.0" layoutY="12.0" text="Lesson Manager" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="30.0"/>
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+
+        <Label layoutX="119.0" layoutY="98.0" prefHeight="42.0" prefWidth="322.0"
+               text="Add a New Lesson" textFill="#6947ff">
+            <font>
+                <Font name="System Bold Italic" size="20.0"/>
+            </font>
+        </Label>
+
+        <Pane layoutX="411.0" layoutY="88.0" prefHeight="420.0" prefWidth="450.0"
+              style="-fx-background-color: #FFFFFF; -fx-background-radius: 10px;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);">
+            <children>
+                <Label layoutX="40.0" layoutY="30.0" text="Title" textFill="#301bef"/>
+                <TextField fx:id="titreTextField" layoutX="160.0" layoutY="28.0" prefWidth="250.0"/>
+
+                <Label layoutX="40.0" layoutY="70.0" text="Content" textFill="#301bef"/>
+                <TextArea fx:id="contenuTextArea" layoutX="160.0" layoutY="68.0" prefWidth="250.0" prefHeight="100.0"/>
+
+                <Label layoutX="40.0" layoutY="185.0" text="Creation Date" textFill="#301bef"/>
+                <DatePicker fx:id="dateCreationPicker" layoutX="160.0" layoutY="183.0" prefWidth="250.0"/>
+
+                <Label layoutX="40.0" layoutY="225.0" text="Formation" textFill="#301bef"/>
+                <ComboBox fx:id="formationComboBox" layoutX="160.0" layoutY="223.0" prefWidth="250.0"/>
+
+                <Label fx:id="errorLabel" layoutX="60.0" layoutY="275.0" textFill="red"/>
+
+                <Button layoutX="130.0" layoutY="320.0" prefHeight="42.0" prefWidth="200.0"
+                        onAction="#handleAddLecon"
+                        style="-fx-background-color: #301bef; -fx-text-fill: white; -fx-font-size: 10pt;
+                               -fx-padding: 10px 20px; -fx-background-radius: 20px;"
+                        text="Add Lesson"/>
+            </children>
+        </Pane>
+
+        <ImageView fitHeight="180.0" fitWidth="230.0" layoutX="100.0" layoutY="200.0" preserveRatio="true"/>
+    </children>
+</AnchorPane>
