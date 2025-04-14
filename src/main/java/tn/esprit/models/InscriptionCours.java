@@ -25,7 +25,7 @@ public class InscriptionCours {
                             String typePaiement, String nomFormation, String cin, String email,
                             int apprenantId, int formationId, String nomApprenant) {
         this.status = status;
-        this.dateInscreption = dateInscreption; // Correction ici aussi
+        this.dateInscreption = dateInscreption;
         this.montant = montant;
         this.typePaiement = typePaiement;
         this.nomFormation = nomFormation;
@@ -33,7 +33,7 @@ public class InscriptionCours {
         this.email = email;
         this.apprenantId = apprenantId;
         this.formationId = formationId;
-        this.nomApprenant = nomApprenant; // Initialisation de "nom_apprenant"
+        this.nomApprenant = nomApprenant;
     }
 
     // Constructeur complet avec ID
@@ -42,7 +42,7 @@ public class InscriptionCours {
                             int apprenantId, int formationId, String nomApprenant) {
         this.id = id;
         this.status = status;
-        this.dateInscreption = dateInscreption; // Correction ici aussi
+        this.dateInscreption = dateInscreption;
         this.montant = montant;
         this.typePaiement = typePaiement;
         this.nomFormation = nomFormation;
@@ -50,7 +50,7 @@ public class InscriptionCours {
         this.email = email;
         this.apprenantId = apprenantId;
         this.formationId = formationId;
-        this.nomApprenant = nomApprenant; // Initialisation de "nom_apprenant"
+        this.nomApprenant = nomApprenant;
     }
 
     // Getters et Setters

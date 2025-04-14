@@ -8,8 +8,8 @@ public class Promotion {
     private String description;
     private double remise;
     private LocalDate dateExpiration;
-    private int inscriptionCoursId;  // 🔸 Ajouté
-    private int apprenantId;         // 🔸 Ajouté
+    private int inscriptionCoursId;
+    private int apprenantId;
 
     public Promotion() {}
 

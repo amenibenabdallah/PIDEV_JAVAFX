@@ -10,9 +10,7 @@
             fx:controller="tn.esprit.controllers.AfficherInscriptionsViewController"
             prefHeight="500.0" prefWidth="900.0"
             style="-fx-background-color: #f4f6f9;">
-    <stylesheets>
-        <URL value="@../styles.css" />
-    </stylesheets>
+
 
     <VBox spacing="20" alignment="TOP_CENTER"
           AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"

@@ -20,7 +20,7 @@ public class InscriptionCoursViewController {
     @FXML private TextField txtNomFormation;
     @FXML private ComboBox<String> typePaiementComboBox;
     @FXML private TextField txtMontant;
-    @FXML private TextField txtStatus;
+    @FXML private ChoiceBox<String> statusChoiceBox;
     @FXML private TextField txtApprenantId;
     @FXML private TextField txtFormationId;
     @FXML private Button btnAjouter;
@@ -29,8 +29,13 @@ public class InscriptionCoursViewController {
 
     @FXML
     public void initialize() {
+        // Initialisation des ComboBox
         typePaiementComboBox.setItems(FXCollections.observableArrayList(
                 "Carte bancaire", "Espèces", "Virement"
+        ));
+
+        statusChoiceBox.setItems(FXCollections.observableArrayList(
+                "Payé", "En attente"
         ));
 
         btnAjouter.setOnAction(event -> ajouterInscription());
@@ -38,7 +43,7 @@ public class InscriptionCoursViewController {
 
     private void ajouterInscription() {
         try {
-            resetFieldStyles(); // ✅ Nettoyer les styles avant vérif
+            resetFieldStyles();
 
             if (txtNomApprenant.getText().isEmpty()) {
                 txtNomApprenant.setStyle("-fx-border-color: red;");
@@ -84,8 +89,8 @@ public class InscriptionCoursViewController {
                 return;
             }
 
-            if (txtStatus.getText().isEmpty()) {
-                txtStatus.setStyle("-fx-border-color: red;");
+            if (statusChoiceBox.getValue() == null) {
+                statusChoiceBox.setStyle("-fx-border-color: red;");
                 showAlert("Validation", "Le statut est requis.");
                 return;
             }
@@ -108,7 +113,6 @@ public class InscriptionCoursViewController {
                 return;
             }
 
-            // Création de l'inscription
             InscriptionCours ins = new InscriptionCours();
             ins.setNomApprenant(txtNomApprenant.getText());
             ins.setCin(txtCin.getText());
@@ -116,19 +120,16 @@ public class InscriptionCoursViewController {
             ins.setNomFormation(txtNomFormation.getText());
             ins.setTypePaiement(typePaiementComboBox.getValue());
             ins.setMontant(montant);
-            ins.setStatus(txtStatus.getText());
+            ins.setStatus(statusChoiceBox.getValue());
             ins.setApprenantId(apprenantId);
             ins.setFormationId(formationId);
             ins.setDateInscreption(LocalDateTime.now());
 
-            // Ajouter via service
             service.add(ins);
 
-            // Fermer la fenêtre actuelle
             Stage currentStage = (Stage) btnAjouter.getScene().getWindow();
             currentStage.close();
 
-            // Affichage
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherInscriptionView.fxml"));
             Parent root = loader.load();
             Stage displayStage = new Stage();
@@ -148,10 +149,10 @@ public class InscriptionCoursViewController {
         txtNomFormation.clear();
         typePaiementComboBox.getSelectionModel().clearSelection();
         txtMontant.clear();
-        txtStatus.clear();
+        statusChoiceBox.getSelectionModel().clearSelection();
         txtApprenantId.clear();
         txtFormationId.clear();
-        resetFieldStyles(); // aussi réinitialise les styles
+        resetFieldStyles();
     }
 
     private void resetFieldStyles() {
@@ -161,7 +162,7 @@ public class InscriptionCoursViewController {
         txtNomFormation.setStyle("");
         typePaiementComboBox.setStyle("");
         txtMontant.setStyle("");
-        txtStatus.setStyle("");
+        statusChoiceBox.setStyle("");
         txtApprenantId.setStyle("");
         txtFormationId.setStyle("");
     }

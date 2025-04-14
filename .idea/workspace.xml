@@ -5,12 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit session">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherInscriptionsViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherInscriptionsViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AjoutPromotionViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AjoutPromotionViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionCoursViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionCoursViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/InscriptionCours.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/InscriptionCours.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Promotion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Promotion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainFx.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainInscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainInscription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/AfficherPromotionsView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AfficherPromotionsView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/AjoutPromotionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AjoutPromotionView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/afficherInscriptionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/afficherInscriptionView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/inscriptionCoursview.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/inscriptionCoursview.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/styles.css" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +125,7 @@
       <recent name="tn.esprit.services" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MainFx">
+  <component name="RunManager" selected="Application.MainInscription">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="tn.esprit.test.Main" />
       <module name="java_pi" />
@@ -225,8 +231,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MainFx" />
         <item itemvalue="Application.MainInscription" />
+        <item itemvalue="Application.MainFx" />
         <item itemvalue="Application.TestAvis" />
         <item itemvalue="Application.TestUserCrud" />
         <item itemvalue="Application.listtest" />

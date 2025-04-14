@@ -13,7 +13,7 @@ public class MainInscription extends Application {
 
         try {
             // Chargement du fichier FXML
-            Parent root = FXMLLoader.load(getClass().getResource("/inscriptionCoursview.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/AjoutPromotionView.fxml"));
             System.out.println("FXML chargé avec succès.");
 
             // Configuration de la scène

@@ -129,6 +129,11 @@ public class AjoutPromotionViewController {
         Stage newStage = new Stage();
         newStage.setScene(new Scene(root));
         newStage.show();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Succès");
+        alert.setHeaderText(null);
+        alert.setContentText("Promotion ajoutée avec succès !");
+        alert.showAndWait();
     }
 
     @FXML

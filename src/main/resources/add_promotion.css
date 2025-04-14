@@ -1,0 +1,66 @@
+/* Arrière-plan bleu ciel */
+.background {
+    -fx-background-color: #3498db;
+}
+
+/* Formulaire centré blanc */
+.form-box {
+    -fx-background-color: white;
+    -fx-padding: 30;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 4);
+    -fx-max-width: 450px;
+}
+
+/* Titre */
+.form-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3498db;
+}
+
+/* Labels */
+.form-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+}
+
+/* Champs */
+.form-field {
+    -fx-font-size: 14px;
+    -fx-pref-width: 250px;
+}
+
+/* Boutons */
+.success-btn {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 25;
+    -fx-background-radius: 20;
+}
+
+.success-btn:hover {
+    -fx-background-color: #27ae60;
+}
+
+.danger-btn {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 25;
+    -fx-background-radius: 20;
+}
+
+.danger-btn:hover {
+    -fx-background-color: #c0392b;
+}
+.form-field {
+    -fx-font-size: 14px;
+    -fx-pref-width: 250px;
+    -fx-background-radius: 8;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-padding: 6 10;
+}
