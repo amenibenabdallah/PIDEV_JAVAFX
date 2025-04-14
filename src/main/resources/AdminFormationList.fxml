@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="main-content" stylesheets="@AdminFormationListStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AdminFormationListController">
+
+    <!-- TableView for Formations -->
+    <TableView fx:id="formationTableView" layoutX="14.0" layoutY="70.0" prefHeight="400.0" prefWidth="600.0">
+        <columns>
+            <TableColumn fx:id="formationNameColumn" prefWidth="75.0" text="Formation" />
+            <TableColumn fx:id="noteMoyenneColumn" prefWidth="75.0" text="Note Moyenne" />
+            <TableColumn fx:id="nombreAvisColumn" prefWidth="75.0" text="Nombre d’Avis" />
+            <TableColumn fx:id="actionsColumn" prefWidth="75.0" text="Actions" />
+        </columns>
+    </TableView>
+
+    <!-- Avis Cards (Hidden by Default) -->
+    <VBox fx:id="avisContainer" managed="false" spacing="15" styleClass="avis-container" visible="false">
+        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="avis-header">
+            <Label fx:id="selectedFormationLabel" styleClass="avis-title" text="Avis for Formation" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="hideAvisButton" onAction="#handleHideAvis" styleClass="button,hide-button" text="Masquer" />
+        </HBox>
+        <ScrollPane fitToWidth="true" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+            <FlowPane fx:id="avisFlowPane" hgap="10" styleClass="flow-pane" vgap="15" />
+        </ScrollPane>
+    </VBox>
+
+
+</VBox>
+

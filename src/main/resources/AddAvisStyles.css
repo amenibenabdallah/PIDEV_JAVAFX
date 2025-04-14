@@ -1,0 +1,134 @@
+/* Root styles for the entire interface */
+.root {
+    -fx-background-color: #F8E6E6; /* Light pink background */
+    -fx-font-family: "Arial", sans-serif; /* Font to match screenshot */
+}
+
+/* VBox container */
+.vbox {
+    -fx-background-color: transparent;
+    -fx-padding: 20px;
+}
+
+/* Title label (for ListAvis) */
+.title-label {
+    -fx-text-fill: #000000; /* True black */
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* Form title label (for AddAvis) */
+.form-title-label {
+    -fx-text-fill: #000000; /* True black */
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Score labels (Average Score and Number of Avis) */
+.score-label {
+    -fx-text-fill: #000000; /* True black */
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+}
+
+/* FlowPane for cards */
+.flow-pane {
+    -fx-background-color: transparent;
+}
+
+/* Card style */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 3); /* Subtle shadow */
+    -fx-padding: 15px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 100px;
+}
+
+/* Star rating (unselected: gray) */
+.star {
+    -fx-font-size: 16px;
+    -fx-text-fill: #D3D3D3; /* Light gray for unselected stars */
+}
+
+/* Selected star (gold) */
+.star-selected {
+    -fx-font-size: 16px;
+    -fx-text-fill: #FFD700; /* Gold for selected stars */
+}
+
+/* Date label */
+.date-label {
+    -fx-text-fill: #888888; /* Gray for date */
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+}
+
+/* Comment text */
+.comment-text {
+    -fx-text-fill: #FF4040; /* True black */
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+
+/* Buttons */
+.button {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2); /* Subtle shadow */
+}
+
+/* Add Avis button (Red) */
+.add-button {
+    -fx-background-color: #FF4040; /* Red to match screenshot */
+    -fx-pref-width: 120px;
+    -fx-pref-height: 40px;
+}
+
+.add-button:hover {
+    -fx-background-color: #E63939; /* Slightly darker red on hover */
+}
+
+/* Cancel button (Gray) */
+.cancel-button {
+    -fx-background-color: #666666; /* Gray to match screenshot */
+    -fx-pref-width: 120px;
+    -fx-pref-height: 40px;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #555555; /* Darker gray on hover */
+}
+
+/* Form styles */
+.form-label {
+    -fx-text-fill: #000000; /* True black */
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+}
+
+.form-text-area {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 100px;
+    -fx-background-color: white;
+    -fx-border-color: #FF4040; /* Red border to match screenshot */
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.form-combo-box {
+    -fx-pref-width: 300px;
+    -fx-background-color: white;
+    -fx-border-color: #FF4040; /* Red border to match screenshot */
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-size: 14px;
+}
