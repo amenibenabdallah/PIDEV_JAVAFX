@@ -1,52 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
 <StackPane xmlns="http://javafx.com/javafx/17"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="tn.esprit.controllers.AjoutPromotionViewController"
            stylesheets="@style.css"
-           styleClass="background"
-           prefWidth="800" prefHeight="700">
+           styleClass="background-blue"
+           prefWidth="800" prefHeight="600">
 
-    <!-- Conteneur centré -->
     <VBox alignment="CENTER" spacing="20">
+        <VBox styleClass="form-container" alignment="CENTER" spacing="15" maxWidth="550">
+            <Label text="Ajouter une Promotion" styleClass="form-title"/>
 
-        <!-- Carte blanche centrée -->
-        <VBox spacing="20" styleClass="form-box" alignment="CENTER">
-            <Label text="Nouvelle Promotion" styleClass="form-title"/>
+            <GridPane hgap="15" vgap="12" alignment="CENTER">
+                <padding><Insets top="10" right="25" bottom="15" left="25"/></padding>
 
-            <GridPane hgap="10" vgap="15" alignment="CENTER">
-                <padding><Insets top="10" right="20" bottom="10" left="20"/></padding>
+                <Label text="Code Promo :" styleClass="form-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="codeField" promptText="Ex : Réduction de printemps" styleClass="form-field" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-                <Label text="Code Promo :" styleClass="form-label" GridPane.rowIndex="0"/>
-                <TextField fx:id="codeField" promptText="Ex: PROMO2024" styleClass="form-field" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label text="Description :" styleClass="form-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextArea fx:id="descriptionField" promptText="Ex : Réduction de printemps" styleClass="form-textarea" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-                <Label text="Description :" styleClass="form-label" GridPane.rowIndex="1"/>
-                <TextArea fx:id="descriptionField" promptText="Description détaillée..." styleClass="form-field"
-                          wrapText="true" prefRowCount="3" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label text="Remise (%) :" styleClass="form-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="remiseField" promptText="Ex : 10.5" styleClass="form-field" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-                <Label text="Remise (%) :" styleClass="form-label" GridPane.rowIndex="2"/>
-                <TextField fx:id="remiseField" promptText="Ex: 15.5" styleClass="form-field" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-
-                <Label text="Date d'expiration :" styleClass="form-label" GridPane.rowIndex="3"/>
+                <Label text="Date Expiration :" styleClass="form-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
                 <DatePicker fx:id="dateExpirationField" styleClass="form-field" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-                <Label text="ID Inscription :" styleClass="form-label" GridPane.rowIndex="4"/>
-                <TextField fx:id="inscriptionIdField" promptText="Numérique" styleClass="form-field" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                <Label text="ID Inscription :" styleClass="form-label" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="inscriptionIdField" promptText="Ex : 1001" styleClass="form-field" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
-                <Label text="ID Apprenant :" styleClass="form-label" GridPane.rowIndex="5"/>
-                <TextField fx:id="apprenantIdField" promptText="Numérique" styleClass="form-field" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                <Label text="ID Apprenant :" styleClass="form-label" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextField fx:id="apprenantIdField" promptText="Ex : 2002" styleClass="form-field" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
-                <HBox spacing="15" alignment="CENTER" GridPane.rowIndex="6" GridPane.columnSpan="2">
-                    <Button text="Annuler" onAction="#handleAnnuler" styleClass="danger-btn"/>
-                    <Button text="Ajouter" onAction="#handleAjouter" styleClass="success-btn"/>
+                <HBox spacing="20" alignment="CENTER" GridPane.rowIndex="6" GridPane.columnSpan="2">
+                    <Button text="Annuler" onAction="#handleAnnuler" styleClass="danger-btn" />
+                    <Button text="Ajouter" onAction="#handleAjouter" styleClass="success-btn" />
                 </HBox>
 
                 <columnConstraints>
-                    <ColumnConstraints halignment="RIGHT" minWidth="130"/>
-                    <ColumnConstraints hgrow="ALWAYS" prefWidth="250"/>
+                    <ColumnConstraints halignment="LEFT" minWidth="100" />
+                    <ColumnConstraints hgrow="ALWAYS" />
                 </columnConstraints>
             </GridPane>
         </VBox>

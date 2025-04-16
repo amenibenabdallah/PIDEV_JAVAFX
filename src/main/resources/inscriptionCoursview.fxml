@@ -4,62 +4,73 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.collections.FXCollections?>
 
-<AnchorPane stylesheets="@style.css" prefHeight="600.0" prefWidth="800.0"
-            xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="tn.esprit.controllers.InscriptionCoursViewController">
+<StackPane stylesheets="@style.css"
+           prefHeight="600.0" prefWidth="800.0"
+           xmlns="http://javafx.com/javafx/17"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="tn.esprit.controllers.InscriptionCoursViewController"
+           alignment="CENTER">
 
-    <GridPane hgap="15" vgap="20" alignment="TOP_CENTER"
-              AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+    <!-- SPLIT BACKGROUND CONTAINER -->
+    <HBox styleClass="split-background" alignment="CENTER">
 
-        <!-- Titre -->
-        <Label text="Formulaire d'inscription à une formation"
-               styleClass="form-title"
-               GridPane.columnSpan="2"/>
+        <!-- LEFT SIDE: FORM -->
+        <VBox spacing="15" alignment="CENTER" styleClass="form-box">
+            <!-- Form Title -->
+            <Label text="Formulaire d'inscription à une formation" styleClass="form-title" />
 
-        <!-- Champs de formulaire -->
-        <Label text="Nom Apprenant :*" styleClass="form-label"/>
-        <TextField fx:id="txtNomApprenant" promptText="Entrer le nom complet" GridPane.columnIndex="1"/>
+            <!-- Form Fields in GridPane -->
+            <GridPane hgap="10" vgap="8" alignment="CENTER">
+                <padding><Insets top="5" right="20" bottom="5" left="20"/></padding>
 
-        <Label text="CIN :*" styleClass="form-label" GridPane.rowIndex="1"/>
-        <TextField fx:id="txtCin" promptText="8 chiffres" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <!-- Nom Apprenant -->
+                <Label text="Nom Apprenant :*" styleClass="form-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtNomApprenant" promptText="Entrer le nom complet" styleClass="form-field" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 
-        <Label text="Email :*" styleClass="form-label" GridPane.rowIndex="2"/>
-        <TextField fx:id="txtEmail" promptText="exemple@mail.com" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <!-- CIN -->
+                <Label text="CIN :*" styleClass="form-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtCin" promptText="8 chiffres" styleClass="form-field" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
 
-        <Label text="Nom Formation :*" styleClass="form-label" GridPane.rowIndex="3"/>
-        <TextField fx:id="txtNomFormation" promptText="Nom de la formation" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                <!-- Email -->
+                <Label text="Email :*" styleClass="form-label" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtEmail" promptText="exemple@mail.com" styleClass="form-field" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
 
-        <Label text="Type de paiement :*" styleClass="form-label" GridPane.rowIndex="4"/>
-        <ComboBox fx:id="typePaiementComboBox" promptText="Choisir une méthode"
-                  GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                <!-- Nom Formation -->
+                <Label text="Nom Formation :*" styleClass="form-label" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtNomFormation" promptText="Nom de la formation" styleClass="form-field" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
 
-        <Label text="Montant :*" styleClass="form-label" GridPane.rowIndex="5"/>
-        <TextField fx:id="txtMontant" promptText="Ex: 250.00" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                <!-- Type de paiement -->
+                <Label text="Type de paiement :*" styleClass="form-label" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="typePaiementComboBox" promptText="Choisir une méthode" styleClass="form-field" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
 
-        <Label text="Statut :*" styleClass="form-label" GridPane.rowIndex="6"/>
-        <ChoiceBox fx:id="statusChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                <!-- Montant -->
+                <Label text="Montant :*" styleClass="form-label" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtMontant" promptText="Ex: 250.00" styleClass="form-field" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
 
-        <Label text="ID Apprenant :*" styleClass="form-label" GridPane.rowIndex="7"/>
-        <TextField fx:id="txtApprenantId" promptText="ID numérique" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                <!-- Statut -->
+                <Label text="Statut :*" styleClass="form-label" GridPane.rowIndex="12" GridPane.columnIndex="0"/>
+                <ChoiceBox fx:id="statusChoiceBox" styleClass="form-field" GridPane.rowIndex="13" GridPane.columnIndex="0"/>
 
-        <Label text="ID Formation :*" styleClass="form-label" GridPane.rowIndex="8"/>
-        <TextField fx:id="txtFormationId" promptText="ID numérique" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+                <!-- ID Apprenant -->
+                <Label text="ID Apprenant :*" styleClass="form-label" GridPane.rowIndex="14" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtApprenantId" promptText="ID numérique" styleClass="form-field" GridPane.rowIndex="15" GridPane.columnIndex="0"/>
 
-        <!-- Boutons -->
-        <HBox spacing="20" alignment="CENTER_RIGHT" GridPane.columnSpan="2" GridPane.rowIndex="9">
-            <Button text="Annuler" onAction="#handleAnnuler" styleClass="danger-btn"/>
-            <Button fx:id="btnAjouter" text="Ajouter" styleClass="success-btn"/>
-        </HBox>
+                <!-- ID Formation -->
+                <Label text="ID Formation :*" styleClass="form-label" GridPane.rowIndex="16" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtFormationId" promptText="ID numérique" styleClass="form-field" GridPane.rowIndex="17" GridPane.columnIndex="0"/>
 
-        <padding>
-            <Insets top="20" right="30" bottom="20" left="30"/>
-        </padding>
+                <!-- Centered Buttons -->
+                <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="18" GridPane.columnIndex="0">
+                    <Button text="Annuler" onAction="#handleAnnuler" styleClass="danger-btn"/>
+                    <Button fx:id="btnAjouter" text="Ajouter" styleClass="success-btn"/>
+                </HBox>
+            </GridPane>
+        </VBox>
 
-        <columnConstraints>
-            <ColumnConstraints halignment="RIGHT" minWidth="150"/>
-            <ColumnConstraints prefWidth="300" hgrow="ALWAYS"/>
-        </columnConstraints>
-
-    </GridPane>
-</AnchorPane>
+        <!-- RIGHT SIDE: WELCOME MESSAGE -->
+        <VBox styleClass="welcome-box" alignment="CENTER">
+            <Label text="Welcome to Formini" styleClass="welcome-title" />
+            <Label text="Enter your details to register for a course." styleClass="welcome-subtitle" />
+        </VBox>
+    </HBox>
+</StackPane>

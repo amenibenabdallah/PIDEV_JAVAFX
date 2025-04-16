@@ -1,0 +1,203 @@
+/* Variables thématiques */
+.root {
+    -primary-color: #2c3e50;
+    -secondary-color: #3498db;
+    -success-color: #27ae60;
+    -danger-color: #e74c3c;
+    -background-color: #f9fafb;
+    -text-color: #2c3e50;
+}
+
+/* Structure générale */
+.header-container {
+    -fx-padding: 25;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 0, 4, 6, 0);
+}
+
+.stats-container {
+    -fx-padding: 15 0 0 0;
+}
+
+.stat-item {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7f8c8d;
+    -fx-padding: 8 15;
+    -fx-background-color: #f4f5f7;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+/* En-tête */
+.header {
+    -fx-alignment: center;
+}
+
+.header-controls {
+    -fx-spacing: 15;
+    -fx-padding: 0 0 0 20;
+}
+
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -primary-color;
+}
+
+.search-field {
+    -fx-pref-width: 300px;
+    -fx-background-color: #f4f5f7;
+    -fx-background-radius: 8;
+    -fx-padding: 10 15;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #a0a4a8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 0, 2, 4, 0);
+}
+
+/* FlowPane for cards */
+.card-list {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+    -fx-alignment: TOP_LEFT;
+}
+
+/* Hide the ScrollPane scrollbar */
+.scroll-pane .scroll-bar:vertical {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-opacity: 0;
+}
+
+/* Card styles */
+.card-container {
+    -fx-spacing: 8;
+    -fx-pref-width: 283; /* 7.5 cm at 96 DPI */
+    -fx-pref-height: 170; /* 4.5 cm at 96 DPI */
+    -fx-background-color: #f7f9fc;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 0, 2, 4, 0);
+    -fx-border-color: #e5e7eb;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-alignment: CENTER_LEFT;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.card-container:hover {
+    -fx-background-color: #e8ecef;
+    -fx-cursor: hand;
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+}
+
+.card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -primary-color;
+}
+
+.status-label {
+    -fx-font-size: 12px;
+    -fx-padding: 2 8;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+}
+
+.status-success {
+    -fx-background-color: -success-color;
+}
+
+.status-warning {
+    -fx-background-color: #f1c40f;
+}
+
+.status-error {
+    -fx-background-color: -danger-color;
+}
+
+/* Boutons */
+.circular-btn {
+    -fx-background-radius: 50%;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-background-color: #e3e5e8;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+}
+
+.primary-btn {
+    -fx-background-color: -secondary-color;
+    -fx-text-fill: white;
+    -fx-padding: 12 25;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(52,152,219,0.3), 0, 4, 6, 0);
+    -fx-cursor: hand;
+}
+
+.text-btn {
+    -fx-text-fill: -secondary-color;
+    -fx-underline: true;
+    -fx-background-color: transparent;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+/* Boutons Modifier / Supprimer */
+.button-modifier {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-padding: 4 10;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+.button-modifier:hover {
+    -fx-background-color: #27ae60;
+}
+
+.button-supprimer {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-padding: 4 10;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+.button-supprimer:hover {
+    -fx-background-color: #c0392b;
+}
+
+/* Pagination */
+.custom-pagination .page-indicator {
+    -fx-background-color: #e3e5e8;
+    -fx-min-width: 32px;
+    -fx-min-height: 32px;
+}
+
+.custom-pagination .page-indicator:selected {
+    -fx-background-color: -secondary-color;
+}
+
+/* États vides */
+.empty-icon {
+    -fx-font-size: 48px;
+    -fx-padding: 0 0 10px 0;
+}
+
+.empty-list-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #9aa4b2;
+    -fx-font-style: italic;
+}
+
+.hint-text {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 13px;
+    -fx-font-style: italic;
+}

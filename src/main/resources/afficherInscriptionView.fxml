@@ -5,46 +5,54 @@
 <?import javafx.geometry.Pos?>
 
 <?import java.net.URL?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="tn.esprit.controllers.AfficherInscriptionsViewController"
-            prefHeight="500.0" prefWidth="900.0"
-            style="-fx-background-color: #f4f6f9;">
+            prefHeight="600.0" prefWidth="1000.0">
 
+    <stylesheets>
+        <URL value="@afficher_inscription.css" />
+    </stylesheets>
 
-    <VBox spacing="20" alignment="TOP_CENTER"
-          AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
-          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-          style="-fx-padding: 25; -fx-background-color: white; -fx-background-radius: 12;
-                 -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 4);">
+    <top>
+        <VBox spacing="15" styleClass="header-container">
+            <!-- En-tête principal -->
+            <HBox spacing="20" alignment="CENTER" styleClass="header">
+                <Label text="📋 Liste des Inscriptions" styleClass="title"/>
+            </HBox>
 
-        <!-- Titre -->
-        <Label text="📋 Liste des Inscriptions"
-               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+            <!-- Statistiques -->
+            <HBox spacing="30" alignment="CENTER" styleClass="stats-container">
+                <Label text="🔢 Total: 0" styleClass="stat-item" fx:id="totalLabel"/>
+                <Label text="✅ Confirmées: 0" styleClass="stat-item" fx:id="confirmedLabel"/>
+                <Label text="⏳ En attente: 0" styleClass="stat-item" fx:id="pendingLabel"/>
+            </HBox>
+        </VBox>
+    </top>
 
-        <!-- TableView -->
-        <TableView fx:id="tableInscriptions" prefHeight="350"
-                   style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dcdde1;">
-            <columns>
-                <TableColumn fx:id="colNom" text="Nom" prefWidth="150"/>
-                <TableColumn fx:id="colEmail" text="Email" prefWidth="250"/>
-                <TableColumn fx:id="colFormation" text="Formation" prefWidth="150"/>
-                <TableColumn fx:id="colMontant" text="Montant (€)" prefWidth="100"/>
-                <TableColumn fx:id="colStatut" text="Statut" prefWidth="120"/>
-                <TableColumn fx:id="colAction" text="Actions" prefWidth="200"/>
-            </columns>
-        </TableView>
+    <center>
+        <!-- Use a ScrollPane to allow scrolling without a visible scrollbar -->
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true">
+            <!-- Use a FlowPane to arrange cards in a grid-like layout -->
+            <FlowPane fx:id="flowPane" hgap="10" vgap="10" alignment="TOP_LEFT" styleClass="card-list">
 
-        <!-- Pagination + bouton retour -->
-        <HBox spacing="20" alignment="CENTER">
-            <Pagination fx:id="pagination" currentPageIndex="0"/>
-            <Button fx:id="btnRetour" text="➕ Ajouter une inscription"
-                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;
-                           -fx-background-radius: 8; -fx-padding: 6 16 6 16; -fx-cursor: hand;">
-                <tooltip>
-                    <Tooltip text="Retourner au formulaire d'ajout" />
-                </tooltip>
-            </Button>
-        </HBox>
-    </VBox>
-</AnchorPane>
+                    <VBox spacing="15" alignment="CENTER_LEFT">
+                        <Label text="📭" styleClass="empty-icon"/>
+                        <Label text="Aucune inscription trouvée" styleClass="empty-list-label"/>
+                        <Button text="➕ Créer une inscription" styleClass="text-btn" onAction="#handleRetour"/>
+                    </VBox>
+
+            </FlowPane>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <!-- Pied de page -->
+        <VBox spacing="15" styleClass="footer">
+            <Pagination fx:id="pagination" styleClass="custom-pagination"/>
+            <HBox spacing="20" alignment="CENTER">
+                <Button fx:id="btnRetour" text="➕ Ajouter une inscription" styleClass="primary-btn"/>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>

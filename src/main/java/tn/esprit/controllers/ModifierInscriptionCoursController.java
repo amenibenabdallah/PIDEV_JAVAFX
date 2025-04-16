@@ -26,7 +26,10 @@ public class ModifierInscriptionCoursController {
 
     private InscriptionCours selected;
     private final ServiceInscriptionCours service = new ServiceInscriptionCours();
-
+    private Runnable refreshCallback;
+    public void setRefreshCallback(Runnable callback) {
+        this.refreshCallback = callback;
+    }
     public void initData(InscriptionCours inscription) {
         this.selected = inscription;
         if (inscription != null) {
