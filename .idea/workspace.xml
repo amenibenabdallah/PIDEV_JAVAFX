@@ -25,6 +25,7 @@
         <option value="HTML File" />
         <option value="FxmlFile" />
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
