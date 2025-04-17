@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/Home.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/interfaces/IService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainFx.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/Test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/MyDataBase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/home.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +16,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="FxmlFile" />
+        <option value="CSS File" />
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -37,13 +28,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="workspaceImportEnabled" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2vTu56h9e5HqQYkKW6k21FMYCCr" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -52,24 +39,66 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
+    "Maven.java_pi [clean].executor": "Run",
+    "Maven.java_pi [compile].executor": "Run",
+    "Maven.java_pi [install].executor": "Run",
+    "Maven.java_pi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
+    "Maven.java_pi [package].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/LENOVO/AppData/Local/SceneBuilder/SceneBuilder.exe",
+    "git-widget-placeholder": "Walid-Gestion-Formation",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/walid/Desktop/Pi_integre/PIDEV_JAVAFX",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\walid\Desktop\pidev_java\PIDEV_JAVAFX\src\main\resources\Lecon" />
+      <recent name="C:\Users\walid\Desktop\pidev_java\PIDEV_JAVAFX\src\main\resources\Formation" />
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\walid\Desktop\pidev_java\PIDEV_JAVAFX\src\main\resources\Formation" />
+      <recent name="C:\Users\walid\Desktop\pidev_java\PIDEV_JAVAFX\src\main\resources\Category" />
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="PIDEV_JAVAFX" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="PIDEV_JAVAFX" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tn.esprit.test.Main" />
+      <module name="java_pi" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\Users\walid\Downloads\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tn.esprit.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="tn.esprit.test.Main" />
       <module name="java_pi" />
@@ -102,6 +131,14 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -111,6 +148,9 @@
       <option name="presentableId" value="Default" />
       <updated>1744181201388</updated>
       <workItem from="1744181202623" duration="3031000" />
+      <workItem from="1744485282294" duration="35980000" />
+      <workItem from="1744924815782" duration="53000" />
+      <workItem from="1744924890759" duration="49000" />
     </task>
     <servers />
   </component>
@@ -128,15 +168,8 @@
       </map>
     </option>
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/tn/esprit/test/Main.java</url>
-          <line>4</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
