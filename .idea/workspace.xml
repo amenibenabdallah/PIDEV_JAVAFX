@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="refonte UI login avec nouveau thème">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/inscription.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/inscription.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +48,9 @@
 }</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
     &quot;associatedIndex&quot;: 6

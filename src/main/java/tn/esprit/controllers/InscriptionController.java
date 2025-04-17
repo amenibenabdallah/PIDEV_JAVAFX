@@ -36,6 +36,7 @@ public class InscriptionController {
     @FXML private ImageView imagePreview;
     @FXML private Label cvLabel;
     @FXML private Button btnChoisirCV;
+    @FXML private Label lblNiveauEtude;
 
     private File selectedImageFile;
     private File selectedCVFile;
@@ -44,21 +45,25 @@ public class InscriptionController {
 
     @FXML
     public void initialize() {
-        // Initialisation des ComboBox
         niveauCombo.getItems().addAll("Débutant", "Intermédiaire", "Avancé");
         rolesCombo.getItems().addAll("ROLE_APPRENANT", "ROLE_INSTRUCTEUR");
 
-        // Masquer les champs spécifiques aux instructeurs par défaut
         toggleInstructeurFields(false);
+        toggleApprenantFields(false);
 
-        // Gestion de la visibilité des champs selon le rôle
         rolesCombo.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            boolean isInstructeur = "ROLE_INSTRUCTEUR".equals(newVal);
-            toggleInstructeurFields(isInstructeur);
-            niveauCombo.setVisible(!isInstructeur);
+            if ("ROLE_INSTRUCTEUR".equals(newVal)) {
+                toggleInstructeurFields(true);
+                toggleApprenantFields(false);
+            } else if ("ROLE_APPRENANT".equals(newVal)) {
+                toggleInstructeurFields(false);
+                toggleApprenantFields(true);
+            } else {
+                toggleInstructeurFields(false);
+                toggleApprenantFields(false);
+            }
         });
 
-        // Contrôles de saisie en temps réel
         setupInputValidation();
     }
 
@@ -66,47 +71,42 @@ public class InscriptionController {
         btnChoisirCV.setVisible(visible);
         cvLabel.setVisible(visible);
 
-
         if (!visible) {
             selectedCVFile = null;
             cvLabel.setText("Aucun CV sélectionné");
         }
     }
 
+    private void toggleApprenantFields(boolean visible) {
+        niveauCombo.setVisible(visible);
+        lblNiveauEtude.setVisible(visible);
+    }
+
     private void setupInputValidation() {
-        // Nom: seulement des lettres, espaces et tirets
         nomField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[a-zA-ZÀ-ÿ\\s\\-]*")) {
-                nomField.setText(oldValue);
-            } else if (newValue.length() > 50) {
+            if (!newValue.matches("[a-zA-ZÀ-ÿ\\s\\-]*") || newValue.length() > 50) {
                 nomField.setText(oldValue);
             }
         });
 
-        // Prénom: mêmes règles que le nom
         prenomField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[a-zA-ZÀ-ÿ\\s\\-]*")) {
-                prenomField.setText(oldValue);
-            } else if (newValue.length() > 50) {
+            if (!newValue.matches("[a-zA-ZÀ-ÿ\\s\\-]*") || newValue.length() > 50) {
                 prenomField.setText(oldValue);
             }
         });
 
-        // Email: validation en temps réel
         emailField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > 100) {
                 emailField.setText(oldValue);
             }
         });
 
-        // Password: maximum 50 caractères
         passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > 50) {
                 passwordField.setText(oldValue);
             }
         });
 
-        // Confirmation password: maximum 50 caractères
         confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > 50) {
                 confirmPasswordField.setText(oldValue);
@@ -128,7 +128,7 @@ public class InscriptionController {
         );
         selectedImageFile = fileChooser.showOpenDialog(null);
         if (selectedImageFile != null) {
-            if (selectedImageFile.length() > 2 * 1024 * 1024) { // 2 MB max
+            if (selectedImageFile.length() > 2 * 1024 * 1024) {
                 showAlert("Erreur", "L'image sélectionnée est trop volumineuse (max 2 Mo)");
                 selectedImageFile = null;
                 imageLabel.setText("Aucune image sélectionnée");
@@ -150,7 +150,7 @@ public class InscriptionController {
         );
         selectedCVFile = fileChooser.showOpenDialog(null);
         if (selectedCVFile != null) {
-            if (selectedCVFile.length() > 5 * 1024 * 1024) { // 5 MB max
+            if (selectedCVFile.length() > 5 * 1024 * 1024) {
                 showAlert("Erreur", "Le fichier sélectionné est trop volumineux (max 5 Mo)");
                 selectedCVFile = null;
                 cvLabel.setText("Aucun CV sélectionné");
@@ -170,31 +170,27 @@ public class InscriptionController {
         String niveau = niveauCombo.getValue();
         String role = rolesCombo.getValue();
 
-        // Validation des champs obligatoires
         if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || password.isEmpty()
                 || confirmPassword.isEmpty() || dateNaissance == null || role == null) {
             showAlert("Erreur", "Tous les champs obligatoires doivent être remplis !");
             return;
         }
 
-        // Validation du nom et prénom
         if (!nom.matches("[a-zA-ZÀ-ÿ\\s\\-]{2,50}")) {
-            showAlert("Erreur", "Le nom doit contenir entre 2 et 50 lettres, espaces ou tirets");
+            showAlert("Erreur", "Le nom doit contenir entre 2 et 50 lettres");
             return;
         }
 
         if (!prenom.matches("[a-zA-ZÀ-ÿ\\s\\-]{2,50}")) {
-            showAlert("Erreur", "Le prénom doit contenir entre 2 et 50 lettres, espaces ou tirets");
+            showAlert("Erreur", "Le prénom doit contenir entre 2 et 50 lettres");
             return;
         }
 
-        // Validation de l'email
         if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,10}$")) {
             showAlert("Erreur", "Adresse e-mail invalide !");
             return;
         }
 
-        // Validation du mot de passe
         if (password.length() < 8) {
             showAlert("Erreur", "Le mot de passe doit contenir au moins 8 caractères !");
             return;
@@ -205,62 +201,39 @@ public class InscriptionController {
             return;
         }
 
-        // Validation de la date de naissance (au moins 13 ans)
         if (Period.between(dateNaissance, LocalDate.now()).getYears() < 13) {
             showAlert("Erreur", "Vous devez avoir au moins 13 ans pour vous inscrire !");
             return;
         }
 
-        // Validation spécifique aux apprenants
-        if (role.equals("ROLE_APPRENANT") && (niveau == null || niveau.isEmpty())) {
+        if ("ROLE_APPRENANT".equals(role) && (niveau == null || niveau.isEmpty())) {
             showAlert("Erreur", "Veuillez sélectionner un niveau pour l'apprenant !");
             return;
         }
 
-        // Validation spécifique aux instructeurs
-        if (role.equals("ROLE_INSTRUCTEUR")) {
-            if (selectedCVFile == null) {
-                showAlert("Erreur", "Veuillez uploader un CV pour les instructeurs !");
-                return;
-            }}
+        if ("ROLE_INSTRUCTEUR".equals(role) && selectedCVFile == null) {
+            showAlert("Erreur", "Veuillez uploader un CV pour les instructeurs !");
+            return;
+        }
 
-
-        // Vérification de l'unicité de l'email
         if (userService.emailExists(email)) {
             showAlert("Erreur", "Cet e-mail est déjà utilisé !");
             return;
         }
 
-        // Hachage du mot de passe
         String hashedPassword = passwordEncoder.encode(password);
 
-        // Création et enregistrement de l'utilisateur
         boolean success;
-        if (role.equals("ROLE_INSTRUCTEUR")) {
+        if ("ROLE_INSTRUCTEUR".equals(role)) {
             instructeurs instructeur = new instructeurs(
-                    email,
-                    role,
-                    hashedPassword,
-                    nom,
-                    prenom,
-                    dateNaissance,
-                    null,
-                    "instructeur",
+                    email, role, hashedPassword, nom, prenom, dateNaissance, null, "instructeur",
                     selectedImageFile != null ? selectedImageFile.getAbsolutePath() : null,
-
                     selectedCVFile.getAbsolutePath()
             );
-            success = userService.addUser(instructeur,"");
+            success = userService.addUser(instructeur, "");
         } else {
             users user = new users(
-                    email,
-                    role,
-                    hashedPassword,
-                    nom,
-                    prenom,
-                    dateNaissance,
-                    null,
-                    "apprenant",
+                    email, role, hashedPassword, nom, prenom, dateNaissance, null, "apprenant",
                     selectedImageFile != null ? selectedImageFile.getAbsolutePath() : null
             );
             success = userService.addUser(user, niveau);
