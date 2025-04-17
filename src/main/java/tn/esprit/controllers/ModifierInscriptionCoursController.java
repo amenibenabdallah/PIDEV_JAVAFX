@@ -48,6 +48,7 @@ public class ModifierInscriptionCoursController {
         }
     }
 
+
     @FXML
     private void modifierInscriptionCours(ActionEvent event) {
         // Réinitialiser les styles avant toute validation
@@ -72,16 +73,17 @@ public class ModifierInscriptionCoursController {
             // Mise à jour en BDD
             service.update(selected);
 
-            // Fermer et recharger
+            // Afficher un message de succès
+            showAlert("Succès", "L'inscription a été modifiée avec succès.");
+
+            // Appeler le callback pour rafraîchir la liste dans l'interface principale
+            if (refreshCallback != null) {
+                refreshCallback.run();
+            }
+
+            // Fermer la fenêtre de modification
             Stage stage = (Stage) nomApprenantField.getScene().getWindow();
             stage.close();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherInscriptionView.fxml"));
-            Parent root = loader.load();
-            Stage newStage = new Stage();
-            newStage.setScene(new Scene(root));
-            newStage.setTitle("Liste des Inscriptions");
-            newStage.show();
 
         } catch (Exception e) {
             e.printStackTrace();

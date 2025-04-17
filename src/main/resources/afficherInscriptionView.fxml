@@ -19,6 +19,7 @@
             <!-- En-tête principal -->
             <HBox spacing="20" alignment="CENTER" styleClass="header">
                 <Label text="📋 Liste des Inscriptions" styleClass="title"/>
+                <Button fx:id="btnRetour" text="➕ Ajouter une inscription" styleClass="primary-btn" onAction="#handleRetour"/>
             </HBox>
 
             <!-- Statistiques -->
@@ -35,13 +36,11 @@
         <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true">
             <!-- Use a FlowPane to arrange cards in a grid-like layout -->
             <FlowPane fx:id="flowPane" hgap="10" vgap="10" alignment="TOP_LEFT" styleClass="card-list">
-
-                    <VBox spacing="15" alignment="CENTER_LEFT">
-                        <Label text="📭" styleClass="empty-icon"/>
-                        <Label text="Aucune inscription trouvée" styleClass="empty-list-label"/>
-                        <Button text="➕ Créer une inscription" styleClass="text-btn" onAction="#handleRetour"/>
-                    </VBox>
-
+                <VBox spacing="15" alignment="CENTER_LEFT">
+                    <Label text="📭" styleClass="empty-icon"/>
+                    <Label text="Aucune inscription trouvée" styleClass="empty-list-label"/>
+                    <Button text="➕ Créer une inscription" styleClass="text-btn" onAction="#handleRetour"/>
+                </VBox>
             </FlowPane>
         </ScrollPane>
     </center>
@@ -50,9 +49,6 @@
         <!-- Pied de page -->
         <VBox spacing="15" styleClass="footer">
             <Pagination fx:id="pagination" styleClass="custom-pagination"/>
-            <HBox spacing="20" alignment="CENTER">
-                <Button fx:id="btnRetour" text="➕ Ajouter une inscription" styleClass="primary-btn"/>
-            </HBox>
         </VBox>
     </bottom>
 </BorderPane>

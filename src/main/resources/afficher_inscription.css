@@ -31,6 +31,8 @@
 /* En-tête */
 .header {
     -fx-alignment: center;
+    -fx-spacing: 20;
+    -fx-padding: 0 10 0 10;
 }
 
 .header-controls {
