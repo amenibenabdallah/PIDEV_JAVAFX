@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"  stylesheets="@styles.css"  fx:controller="tn.esprit.controllers.lecon.GetAllLeconBack"
+            prefWidth="900" prefHeight="600">
+    <children>
+
+        <Label layoutX="30" layoutY="20" text="Afficher les Leçons par Formation" >
+            <font>
+                <Font name="System Bold" size="20.0"/>
+            </font>
+        </Label>
+
+        <Label layoutX="30" layoutY="70" text="Formation:"/>
+        <ComboBox fx:id="formationComboBox" layoutX="100" layoutY="65" prefWidth="250"/>
+
+        <TableView fx:id="leconTableView" layoutX="30" layoutY="110" prefWidth="840" prefHeight="450">
+            <columns>
+                <TableColumn fx:id="idCol" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="titreCol" text="Titre" prefWidth="150"/>
+                <TableColumn fx:id="contenuCol" text="Contenu" prefWidth="300"/>
+                <TableColumn fx:id="dateCreationCol" text="Date Création" prefWidth="200"/>
+                <TableColumn fx:id="actionCol" text="Actions" prefWidth="140"/>
+            </columns>
+        </TableView>
+
+    </children>
+</AnchorPane>

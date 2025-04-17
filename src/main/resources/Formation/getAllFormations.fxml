@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.Formation.GetAllFormationBack">
+    <children>
+        <TableView fx:id="formationTableView" layoutX="0.0" layoutY="140.0" prefHeight="220.0" prefWidth="765.0" style="-fx-background-color: white;">
+            <columns>
+                <TableColumn fx:id="imageColumn" prefWidth="120.0" text="Image" />
+                <TableColumn fx:id="titreColumn" prefWidth="120.0" text="Titre" />
+                <TableColumn fx:id="descriptionColumn" prefWidth="150.0" text="Description" />
+                <TableColumn fx:id="dureeColumn" prefWidth="80.0" text="Durée" />
+                <TableColumn fx:id="niveauColumn" prefWidth="80.0" text="Niveau" />
+                <TableColumn fx:id="prixColumn" prefWidth="80.0" text="Prix" />
+                <TableColumn fx:id="actionColumn" prefWidth="150.39998779296877" text="Action" />
+            </columns>
+        </TableView>
+
+        <!-- Placeholder for filter/search HBox if needed -->
+        <HBox layoutX="31.0" layoutY="25.0" prefHeight="55.0" prefWidth="307.0" spacing="20.0" />
+        <HBox layoutX="31.0" layoutY="70.0" prefHeight="55.0" prefWidth="307.0" spacing="20.0" />
+    </children>
+</AnchorPane>

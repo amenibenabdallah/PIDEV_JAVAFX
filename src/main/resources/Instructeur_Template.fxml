@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
+
+<BorderPane fx:id="rootPane" styleClass="root" stylesheets="@AdminTemplateStyle.css"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.InstructeurTemplateController">
+
+    <!-- Left: Sidebar -->
+    <left>
+        <VBox prefHeight="834.0" prefWidth="262.0" styleClass="sidebar">
+            <Label styleClass="sidebar-title" text="FORMINI" />
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER" pannable="true" styleClass="sidebar-scroll">
+                <VBox spacing="10" styleClass="sidebar-menu">
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="📊" />
+                        <Label styleClass="sidebar-label" text="Dashboard" onMouseClicked="#navigateToDashboard" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="📚" />
+                        <Label styleClass="sidebar-label" text="Formations" onMouseClicked="#navigateToFormations" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="🏷️" />
+                        <Label styleClass="sidebar-label" text="Categories" onMouseClicked="#navigateToCategories" />
+                    </HBox>
+                    <!-- ✅ New Section for Leçons -->
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="📖" />
+                        <Label styleClass="sidebar-label" text="Leçons" onMouseClicked="#navigateToLecons" />
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </left>
+
+    <!-- Center: Main Content Area -->
+    <center>
+        <VBox fx:id="contentArea" styleClass="main-content" BorderPane.alignment="CENTER" />
+    </center>
+
+    <!-- Top: Header -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header">
+            <Label fx:id="pageTitle" styleClass="title-label" text="Dashboard" />
+            <TextField fx:id="searchField" promptText="Rechercher..." styleClass="search-field" onAction="#handleSearch" />
+            <Region HBox.hgrow="ALWAYS" />
+            <ImageView fx:id="adminImage" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"/>
+            <ComboBox fx:id="adminDropdown" styleClass="admin-dropdown" />
+        </HBox>
+    </top>
+
+</BorderPane>

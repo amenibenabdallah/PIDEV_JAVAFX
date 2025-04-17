@@ -9,6 +9,7 @@ requires javafx.fxml;
     exports tn.esprit.test;
     opens tn.esprit.controllers to javafx.fxml;
 
-
-
+    opens tn.esprit.controllers.Formation to javafx.fxml; // 👈 ligne nécessaire pour résoudre ton erreur
+    opens tn.esprit.controllers.category to javafx.fxml;
+    opens tn.esprit.controllers.lecon to javafx.fxml;
 }
