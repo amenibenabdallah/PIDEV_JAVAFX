@@ -2,7 +2,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.collections.FXCollections?>
 
 <StackPane stylesheets="@style.css"
            prefHeight="600.0" prefWidth="800.0"
@@ -43,26 +42,18 @@
                 <Label text="Type de paiement :*" styleClass="form-label" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
                 <ComboBox fx:id="typePaiementComboBox" promptText="Choisir une méthode" styleClass="form-field" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
 
-                <!-- Montant -->
-                <Label text="Montant :*" styleClass="form-label" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
-                <TextField fx:id="txtMontant" promptText="Ex: 250.00" styleClass="form-field" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
-
-                <!-- Statut -->
-                <Label text="Statut :*" styleClass="form-label" GridPane.rowIndex="12" GridPane.columnIndex="0"/>
-                <ChoiceBox fx:id="statusChoiceBox" styleClass="form-field" GridPane.rowIndex="13" GridPane.columnIndex="0"/>
-
                 <!-- ID Apprenant -->
-                <Label text="ID Apprenant :*" styleClass="form-label" GridPane.rowIndex="14" GridPane.columnIndex="0"/>
-                <TextField fx:id="txtApprenantId" promptText="ID numérique" styleClass="form-field" GridPane.rowIndex="15" GridPane.columnIndex="0"/>
+                <Label text="ID Apprenant :*" styleClass="form-label" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtApprenantId" promptText="ID numérique" styleClass="form-field" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
 
                 <!-- ID Formation -->
-                <Label text="ID Formation :*" styleClass="form-label" GridPane.rowIndex="16" GridPane.columnIndex="0"/>
-                <TextField fx:id="txtFormationId" promptText="ID numérique" styleClass="form-field" GridPane.rowIndex="17" GridPane.columnIndex="0"/>
+                <Label text="ID Formation :*" styleClass="form-label" GridPane.rowIndex="12" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtFormationId" promptText="ID numérique" styleClass="form-field" GridPane.rowIndex="13" GridPane.columnIndex="0"/>
 
                 <!-- Centered Buttons -->
-                <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="18" GridPane.columnIndex="0">
+                <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="14" GridPane.columnIndex="0">
                     <Button text="Annuler" onAction="#handleAnnuler" styleClass="danger-btn"/>
-                    <Button fx:id="btnAjouter" text="Ajouter" styleClass="success-btn"/>
+                    <Button fx:id="btnAjouter" text="Ajouter" styleClass="success-btn" onAction="#ajouterInscription"/>
                 </HBox>
             </GridPane>
         </VBox>

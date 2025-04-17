@@ -4,46 +4,25 @@ import java.time.LocalDateTime;
 
 public class InscriptionCours {
     private int id;
-    private String status;
-    private LocalDateTime dateInscreption; // Utilisation de "date_inscreption" ici
-    private double montant;
+    private String status = "en attente";      // Valeur par défaut
+    private LocalDateTime dateInscreption;
+    private double montant = 0.0;              // Valeur par défaut
     private String typePaiement;
     private String nomFormation;
     private String cin;
     private String email;
     private int apprenantId;
     private int formationId;
-    private String nomApprenant; // Ajout de "nom_apprenant"
+    private String nomApprenant;
 
-
-    // Constructeur vide
     public InscriptionCours() {
+        // les valeurs par défaut sont déjà initialisées
     }
 
-    // Constructeur sans ID (pour insertion)
-    public InscriptionCours(String status, LocalDateTime dateInscreption, double montant,
-                            String typePaiement, String nomFormation, String cin, String email,
-                            int apprenantId, int formationId, String nomApprenant) {
-        this.status = status;
+    // Constructeur utilisé pour insertion
+    public InscriptionCours(LocalDateTime dateInscreption, String typePaiement, String nomFormation,
+                            String cin, String email, int apprenantId, int formationId, String nomApprenant) {
         this.dateInscreption = dateInscreption;
-        this.montant = montant;
-        this.typePaiement = typePaiement;
-        this.nomFormation = nomFormation;
-        this.cin = cin;
-        this.email = email;
-        this.apprenantId = apprenantId;
-        this.formationId = formationId;
-        this.nomApprenant = nomApprenant;
-    }
-
-    // Constructeur complet avec ID
-    public InscriptionCours(int id, String status, LocalDateTime dateInscreption, double montant,
-                            String typePaiement, String nomFormation, String cin, String email,
-                            int apprenantId, int formationId, String nomApprenant) {
-        this.id = id;
-        this.status = status;
-        this.dateInscreption = dateInscreption;
-        this.montant = montant;
         this.typePaiement = typePaiement;
         this.nomFormation = nomFormation;
         this.cin = cin;
@@ -54,101 +33,45 @@ public class InscriptionCours {
     }
 
     // Getters et Setters
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public String getStatus() {
-        return status;
-    }
+    public LocalDateTime getDateInscreption() { return dateInscreption; }
+    public void setDateInscreption(LocalDateTime dateInscreption) { this.dateInscreption = dateInscreption; }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public double getMontant() { return montant; }
+    public void setMontant(double montant) { this.montant = montant; }
 
-    public LocalDateTime getDateInscreption() {
-        return dateInscreption;
-    }
+    public String getTypePaiement() { return typePaiement; }
+    public void setTypePaiement(String typePaiement) { this.typePaiement = typePaiement; }
 
-    public void setDateInscreption(LocalDateTime dateInscreption) {
-        this.dateInscreption = dateInscreption;
-    }
+    public String getNomFormation() { return nomFormation; }
+    public void setNomFormation(String nomFormation) { this.nomFormation = nomFormation; }
 
-    public double getMontant() {
-        return montant;
-    }
+    public String getCin() { return cin; }
+    public void setCin(String cin) { this.cin = cin; }
 
-    public void setMontant(double montant) {
-        this.montant = montant;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getTypePaiement() {
-        return typePaiement;
-    }
+    public int getApprenantId() { return apprenantId; }
+    public void setApprenantId(int apprenantId) { this.apprenantId = apprenantId; }
 
-    public void setTypePaiement(String typePaiement) {
-        this.typePaiement = typePaiement;
-    }
+    public int getFormationId() { return formationId; }
+    public void setFormationId(int formationId) { this.formationId = formationId; }
 
-    public String getNomFormation() {
-        return nomFormation;
-    }
+    public String getNomApprenant() { return nomApprenant; }
+    public void setNomApprenant(String nomApprenant) { this.nomApprenant = nomApprenant; }
 
-    public void setNomFormation(String nomFormation) {
-        this.nomFormation = nomFormation;
-    }
-
-    public String getCin() {
-        return cin;
-    }
-
-    public void setCin(String cin) {
-        this.cin = cin;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getApprenantId() {
-        return apprenantId;
-    }
-
-    public void setApprenantId(int apprenantId) {
-        this.apprenantId = apprenantId;
-    }
-
-    public int getFormationId() {
-        return formationId;
-    }
-
-    public void setFormationId(int formationId) {
-        this.formationId = formationId;
-    }
-
-    public String getNomApprenant() {
-        return nomApprenant; // Getter pour "nom_apprenant"
-    }
-
-    public void setNomApprenant(String nomApprenant) {
-        this.nomApprenant = nomApprenant; // Setter pour "nom_apprenant"
-    }
-
-    // toString()
     @Override
     public String toString() {
         return "InscriptionCours{" +
                 "id=" + id +
                 ", status='" + status + '\'' +
-                ", dateInscreption=" + dateInscreption + // Utilisation de "date_inscreption"
+                ", dateInscreption=" + dateInscreption +
                 ", montant=" + montant +
                 ", typePaiement='" + typePaiement + '\'' +
                 ", nomFormation='" + nomFormation + '\'' +
@@ -156,7 +79,7 @@ public class InscriptionCours {
                 ", email='" + email + '\'' +
                 ", apprenantId=" + apprenantId +
                 ", formationId=" + formationId +
-                ", nomApprenant='" + nomApprenant + '\'' + // Affichage de "nom_apprenant"
-                "}\n";
+                ", nomApprenant='" + nomApprenant + '\'' +
+                '}';
     }
 }

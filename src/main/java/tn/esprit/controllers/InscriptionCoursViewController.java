@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import tn.esprit.models.InscriptionCours;
 import tn.esprit.services.ServiceInscriptionCours;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class InscriptionCoursViewController {
@@ -19,8 +20,6 @@ public class InscriptionCoursViewController {
     @FXML private TextField txtEmail;
     @FXML private TextField txtNomFormation;
     @FXML private ComboBox<String> typePaiementComboBox;
-    @FXML private TextField txtMontant;
-    @FXML private ChoiceBox<String> statusChoiceBox;
     @FXML private TextField txtApprenantId;
     @FXML private TextField txtFormationId;
     @FXML private Button btnAjouter;
@@ -33,65 +32,41 @@ public class InscriptionCoursViewController {
         typePaiementComboBox.setItems(FXCollections.observableArrayList(
                 "Carte bancaire", "Espèces", "Virement"
         ));
-
-        statusChoiceBox.setItems(FXCollections.observableArrayList(
-                "Payé", "En attente"
-        ));
-
-        btnAjouter.setOnAction(event -> ajouterInscription());
     }
 
+    @FXML
     private void ajouterInscription() {
         try {
             resetFieldStyles();
 
+            // Validation des champs
             if (txtNomApprenant.getText().isEmpty()) {
-                txtNomApprenant.setStyle("-fx-border-color: red;");
-                showAlert("Validation", "Le nom de l'apprenant est requis.");
+                txtNomApprenant.getStyleClass().add("error-border");
+                showAlert(Alert.AlertType.ERROR, "Validation", "Le nom de l'apprenant est requis.");
                 return;
             }
 
             if (!txtCin.getText().matches("\\d{8}")) {
-                txtCin.setStyle("-fx-border-color: red;");
-                showAlert("Validation", "CIN doit contenir exactement 8 chiffres.");
+                txtCin.getStyleClass().add("error-border");
+                showAlert(Alert.AlertType.ERROR, "Validation", "CIN doit contenir exactement 8 chiffres.");
                 return;
             }
 
             if (!txtEmail.getText().matches("^\\S+@\\S+\\.\\S+$")) {
-                txtEmail.setStyle("-fx-border-color: red;");
-                showAlert("Validation", "Email invalide.");
+                txtEmail.getStyleClass().add("error-border");
+                showAlert(Alert.AlertType.ERROR, "Validation", "Email invalide.");
                 return;
             }
 
             if (txtNomFormation.getText().isEmpty()) {
-                txtNomFormation.setStyle("-fx-border-color: red;");
-                showAlert("Validation", "Le nom de la formation est requis.");
+                txtNomFormation.getStyleClass().add("error-border");
+                showAlert(Alert.AlertType.ERROR, "Validation", "Le nom de la formation est requis.");
                 return;
             }
 
             if (typePaiementComboBox.getValue() == null) {
-                typePaiementComboBox.setStyle("-fx-border-color: red;");
-                showAlert("Validation", "Veuillez sélectionner un type de paiement.");
-                return;
-            }
-
-            double montant;
-            try {
-                montant = Double.parseDouble(txtMontant.getText());
-                if (montant <= 0) {
-                    txtMontant.setStyle("-fx-border-color: red;");
-                    showAlert("Validation", "Le montant doit être supérieur à 0.");
-                    return;
-                }
-            } catch (NumberFormatException e) {
-                txtMontant.setStyle("-fx-border-color: red;");
-                showAlert("Validation", "Montant invalide.");
-                return;
-            }
-
-            if (statusChoiceBox.getValue() == null) {
-                statusChoiceBox.setStyle("-fx-border-color: red;");
-                showAlert("Validation", "Le statut est requis.");
+                typePaiementComboBox.getStyleClass().add("error-border");
+                showAlert(Alert.AlertType.ERROR, "Validation", "Veuillez sélectionner un type de paiement.");
                 return;
             }
 
@@ -101,43 +76,50 @@ public class InscriptionCoursViewController {
                 formationId = Integer.parseInt(txtFormationId.getText());
 
                 if (apprenantId <= 0 || formationId <= 0) {
-                    txtApprenantId.setStyle("-fx-border-color: red;");
-                    txtFormationId.setStyle("-fx-border-color: red;");
-                    showAlert("Validation", "Les IDs doivent être des entiers positifs.");
+                    txtApprenantId.getStyleClass().add("error-border");
+                    txtFormationId.getStyleClass().add("error-border");
+                    showAlert(Alert.AlertType.ERROR, "Validation", "Les IDs doivent être des entiers positifs.");
                     return;
                 }
             } catch (NumberFormatException e) {
-                txtApprenantId.setStyle("-fx-border-color: red;");
-                txtFormationId.setStyle("-fx-border-color: red;");
-                showAlert("Validation", "ID Apprenant ou ID Formation invalide.");
+                txtApprenantId.getStyleClass().add("error-border");
+                txtFormationId.getStyleClass().add("error-border");
+                showAlert(Alert.AlertType.ERROR, "Validation", "ID Apprenant ou ID Formation invalide.");
                 return;
             }
 
+            // Création de l'objet InscriptionCours
             InscriptionCours ins = new InscriptionCours();
             ins.setNomApprenant(txtNomApprenant.getText());
             ins.setCin(txtCin.getText());
             ins.setEmail(txtEmail.getText());
             ins.setNomFormation(txtNomFormation.getText());
             ins.setTypePaiement(typePaiementComboBox.getValue());
-            ins.setMontant(montant);
-            ins.setStatus(statusChoiceBox.getValue());
             ins.setApprenantId(apprenantId);
             ins.setFormationId(formationId);
             ins.setDateInscreption(LocalDateTime.now());
 
+            // Ajout à la base de données
             service.add(ins);
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Inscription ajoutée avec succès !");
 
+            // Fermer la fenêtre actuelle et ouvrir la vue d'affichage
             Stage currentStage = (Stage) btnAjouter.getScene().getWindow();
             currentStage.close();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherInscriptionView.fxml"));
-            Parent root = loader.load();
-            Stage displayStage = new Stage();
-            displayStage.setScene(new Scene(root));
-            displayStage.show();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherInscriptionView.fxml"));
+                Parent root = loader.load();
+                Stage displayStage = new Stage();
+                displayStage.setTitle("Liste des Inscriptions");
+                displayStage.setScene(new Scene(root));
+                displayStage.show();
+            } catch (IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la vue d'affichage : " + e.getMessage());
+            }
 
         } catch (Exception e) {
-            showAlert("Erreur", "Une erreur est survenue : " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue : " + e.getMessage());
         }
     }
 
@@ -148,28 +130,25 @@ public class InscriptionCoursViewController {
         txtEmail.clear();
         txtNomFormation.clear();
         typePaiementComboBox.getSelectionModel().clearSelection();
-        txtMontant.clear();
-        statusChoiceBox.getSelectionModel().clearSelection();
         txtApprenantId.clear();
         txtFormationId.clear();
         resetFieldStyles();
     }
 
     private void resetFieldStyles() {
-        txtNomApprenant.setStyle("");
-        txtCin.setStyle("");
-        txtEmail.setStyle("");
-        txtNomFormation.setStyle("");
-        typePaiementComboBox.setStyle("");
-        txtMontant.setStyle("");
-        statusChoiceBox.setStyle("");
-        txtApprenantId.setStyle("");
-        txtFormationId.setStyle("");
+        txtNomApprenant.getStyleClass().remove("error-border");
+        txtCin.getStyleClass().remove("error-border");
+        txtEmail.getStyleClass().remove("error-border");
+        txtNomFormation.getStyleClass().remove("error-border");
+        typePaiementComboBox.getStyleClass().remove("error-border");
+        txtApprenantId.getStyleClass().remove("error-border");
+        txtFormationId.getStyleClass().remove("error-border");
     }
 
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
         alert.setTitle(title);
+        alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
     }
