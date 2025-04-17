@@ -1,6 +1,7 @@
 package tn.esprit.services;
 
 import tn.esprit.models.Discussion;
+import tn.esprit.models.GroupDiscussion;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -51,5 +52,23 @@ public class DiscussionService {
             e.printStackTrace();
         }
     }
+    public List<GroupDiscussion> getGroupsForUser(int userId) throws SQLException {
+        List<GroupDiscussion> groups = new ArrayList<>();
+        String query = "SELECT g.id, g.name FROM diss_grp g " +
+                "JOIN diss_grp_users gu ON g.id = gu.group_id " +
+                "WHERE gu.user_id = ?";
+        PreparedStatement ps = cnx.prepareStatement(query);
+        ps.setInt(1, userId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            GroupDiscussion group = new GroupDiscussion();
+            group.setId(rs.getInt("id"));
+            group.setName(rs.getString("name"));
+            // Tu peux aussi charger les membres ici si nécessaire
+            groups.add(group);
+        }
+        return groups;
+    }
+
 
 }
