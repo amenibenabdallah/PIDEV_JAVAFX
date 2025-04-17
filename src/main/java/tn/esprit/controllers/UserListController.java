@@ -1,7 +1,6 @@
 package tn.esprit.controllers;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,11 +16,8 @@ import tn.esprit.services.UserService;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserListController {
-    @FXML
-    private TextField searchField;
 
     @FXML
     private TableView<users> userTable;
@@ -45,59 +41,52 @@ public class UserListController {
     private final int rowsPerPage = 10;
     private List<users> allUsers;
 
+    private int currentPageIndex = 0;
+
     @FXML
     public void initialize() {
-        // Initialize columns
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colRole.setCellValueFactory(new PropertyValueFactory<>("roles"));
 
-        // Add action buttons
         addActionButtonsToTable();
 
-        // Load data
         allUsers = userService.getAllUsers();
+        setupPagination();
+    }
 
-        // Setup pagination
+    private void setupPagination() {
         int pageCount = (int) Math.ceil((double) allUsers.size() / rowsPerPage);
-        pagination.setPageCount(pageCount);
-        pagination.setPageFactory(this::createPage);
+        pagination.setPageCount(pageCount == 0 ? 1 : pageCount);
 
-        // Setup search
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
-            filterAndPaginate(newVal);
-        });
+        // Préserve la page actuelle (sauf si elle dépasse la limite)
+        if (currentPageIndex >= pagination.getPageCount()) {
+            currentPageIndex = pagination.getPageCount() - 1;
+        }
+
+        pagination.setCurrentPageIndex(currentPageIndex);
+        pagination.setPageFactory(this::createPage);
     }
 
     private TableView<users> createPage(int pageIndex) {
+        this.currentPageIndex = pageIndex;
+
+        if (allUsers == null || allUsers.isEmpty()) {
+            userTable.setItems(FXCollections.observableArrayList());
+            return userTable;
+        }
+
         int fromIndex = pageIndex * rowsPerPage;
         int toIndex = Math.min(fromIndex + rowsPerPage, allUsers.size());
+
+        if (fromIndex > toIndex) {
+            fromIndex = Math.max(0, toIndex - rowsPerPage);
+        }
+
         userTable.setItems(FXCollections.observableArrayList(allUsers.subList(fromIndex, toIndex)));
         return userTable;
     }
 
-    private void filterAndPaginate(String keyword) {
-        if (keyword == null || keyword.isEmpty()) {
-            int pageCount = (int) Math.ceil((double) allUsers.size() / rowsPerPage);
-            pagination.setPageCount(pageCount);
-            pagination.setPageFactory(this::createPage);
-            return;
-        }
-
-        List<users> filtered = allUsers.stream()
-                .filter(user -> user.getNom().toLowerCase().contains(keyword.toLowerCase()) ||
-                        user.getRoles().toLowerCase().contains(keyword.toLowerCase()))
-                .collect(Collectors.toList());
-
-        int pageCount = (int) Math.ceil((double) filtered.size() / rowsPerPage);
-        pagination.setPageCount(pageCount == 0 ? 1 : pageCount);
-        pagination.setPageFactory(pageIndex -> {
-            int fromIndex = pageIndex * rowsPerPage;
-            int toIndex = Math.min(fromIndex + rowsPerPage, filtered.size());
-            userTable.setItems(FXCollections.observableArrayList(filtered.subList(fromIndex, toIndex)));
-            return userTable;
-        });
-    }
     private void addActionButtonsToTable() {
         colActions.setCellFactory(param -> new TableCell<>() {
             private final Button btnEdit = new Button("Modifier");
@@ -105,7 +94,6 @@ public class UserListController {
             private final HBox buttonsBox = new HBox(10, btnEdit, btnDelete);
 
             {
-                // Style des boutons
                 btnEdit.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
                 btnDelete.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
 
@@ -130,16 +118,13 @@ public class UserListController {
 
     private void openEditUserDialog(users user) {
         try {
-            // Charger le fichier FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditUserForm.fxml"));
             Parent root = loader.load();
 
-            // Configurer le contrôleur
             EditUserController controller = loader.getController();
             controller.setUser(user);
             controller.setUserListController(this);
 
-            // Créer la scène et la fenêtre
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Modifier l'utilisateur");
             dialogStage.initModality(Modality.APPLICATION_MODAL);
@@ -168,7 +153,12 @@ public class UserListController {
 
     public void refreshTable() {
         allUsers = userService.getAllUsers();
-        filterAndPaginate(searchField.getText());
+        setupPagination();
+    }
+
+    @FXML
+    public void handleRefresh(ActionEvent actionEvent) {
+        refreshTable();
     }
 
     private void showAlert(String title, String message) {
@@ -177,10 +167,5 @@ public class UserListController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    public void handleRefresh(ActionEvent actionEvent) {
-        allUsers = userService.getAllUsers();
-        filterAndPaginate(searchField.getText());
     }
 }

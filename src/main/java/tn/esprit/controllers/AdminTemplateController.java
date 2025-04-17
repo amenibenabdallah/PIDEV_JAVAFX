@@ -52,7 +52,7 @@ public class AdminTemplateController implements Initializable {
 
 // Load a working image (add.png) from the classpath
         try {
-            URL imageUrl = getClass().getResource("/images/add.png");
+            URL imageUrl = getClass().getResource("/images/admin.jpg");
             if (imageUrl == null) {
                 showAlert("Erreur", "Image add.png not found in /images/");
                 return;
