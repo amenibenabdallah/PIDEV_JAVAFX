@@ -1,5 +1,6 @@
 package tn.esprit.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,8 +19,6 @@ public class ModifierInscriptionCoursController {
     @FXML private TextField emailField;
     @FXML private TextField cinField;
     @FXML private TextField nomFormationField;
-    @FXML private TextField montantField;
-    @FXML private ComboBox<String> statusComboBox;
     @FXML private ComboBox<String> typePaiementComboBox;
     @FXML private TextField apprenantIdField;
     @FXML private TextField formationIdField;
@@ -27,9 +26,19 @@ public class ModifierInscriptionCoursController {
     private InscriptionCours selected;
     private final ServiceInscriptionCours service = new ServiceInscriptionCours();
     private Runnable refreshCallback;
+
     public void setRefreshCallback(Runnable callback) {
         this.refreshCallback = callback;
     }
+
+    @FXML
+    public void initialize() {
+        // Initialisation des ComboBox
+        typePaiementComboBox.setItems(FXCollections.observableArrayList(
+                "Carte bancaire", "Espèces", "Virement"
+        ));
+    }
+
     public void initData(InscriptionCours inscription) {
         this.selected = inscription;
         if (inscription != null) {
@@ -37,8 +46,6 @@ public class ModifierInscriptionCoursController {
             emailField.setText(inscription.getEmail());
             cinField.setText(inscription.getCin());
             nomFormationField.setText(inscription.getNomFormation());
-            montantField.setText(String.valueOf(inscription.getMontant()));
-            statusComboBox.setValue(inscription.getStatus());
             typePaiementComboBox.setValue(inscription.getTypePaiement());
             apprenantIdField.setText(String.valueOf(inscription.getApprenantId()));
             formationIdField.setText(String.valueOf(inscription.getFormationId()));
@@ -47,7 +54,6 @@ public class ModifierInscriptionCoursController {
             selected.setDateInscreption(inscription.getDateInscreption());
         }
     }
-
 
     @FXML
     private void modifierInscriptionCours(ActionEvent event) {
@@ -61,8 +67,6 @@ public class ModifierInscriptionCoursController {
             selected.setEmail(emailField.getText());
             selected.setCin(cinField.getText());
             selected.setNomFormation(nomFormationField.getText());
-            selected.setMontant(Double.parseDouble(montantField.getText()));
-            selected.setStatus(statusComboBox.getValue());
             selected.setTypePaiement(typePaiementComboBox.getValue());
             selected.setApprenantId(Integer.parseInt(apprenantIdField.getText()));
             selected.setFormationId(Integer.parseInt(formationIdField.getText()));
@@ -74,7 +78,7 @@ public class ModifierInscriptionCoursController {
             service.update(selected);
 
             // Afficher un message de succès
-            showAlert("Succès", "L'inscription a été modifiée avec succès.");
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "L'inscription a été modifiée avec succès.");
 
             // Appeler le callback pour rafraîchir la liste dans l'interface principale
             if (refreshCallback != null) {
@@ -87,7 +91,7 @@ public class ModifierInscriptionCoursController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Erreur", "Une erreur s'est produite lors de la modification.");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur s'est produite lors de la modification : " + e.getMessage());
         }
     }
 
@@ -113,24 +117,7 @@ public class ModifierInscriptionCoursController {
         }
 
         if (typePaiementComboBox.getValue() == null) {
-            showAlert("Validation", "Veuillez sélectionner un type de paiement.");
-            return false;
-        }
-
-        double montant;
-        try {
-            montant = Double.parseDouble(montantField.getText());
-            if (montant <= 0) {
-                showError(montantField, "Le montant doit être supérieur à 0.");
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            showError(montantField, "Montant invalide.");
-            return false;
-        }
-
-        if (statusComboBox.getValue() == null || statusComboBox.getValue().isEmpty()) {
-            showAlert("Validation", "Le statut est requis.");
+            showError(typePaiementComboBox, "Veuillez sélectionner un type de paiement.");
             return false;
         }
 
@@ -138,30 +125,32 @@ public class ModifierInscriptionCoursController {
             int apprenantId = Integer.parseInt(apprenantIdField.getText());
             int formationId = Integer.parseInt(formationIdField.getText());
             if (apprenantId <= 0 || formationId <= 0) {
-                showAlert("Validation", "Les IDs doivent être des entiers positifs.");
+                showError(apprenantIdField, "Les IDs doivent être des entiers positifs.");
+                showError(formationIdField, "Les IDs doivent être des entiers positifs.");
                 return false;
             }
         } catch (NumberFormatException e) {
-            showAlert("Validation", "ID Apprenant ou ID Formation invalide.");
+            showError(apprenantIdField, "ID Apprenant ou ID Formation invalide.");
+            showError(formationIdField, "ID Apprenant ou ID Formation invalide.");
             return false;
         }
 
         return true;
     }
 
-    private void showError(TextField field, String message) {
-        field.setStyle("-fx-border-color: red;");
-        showAlert("Validation", message);
+    private void showError(Control field, String message) {
+        field.getStyleClass().add("error-border");
+        showAlert(Alert.AlertType.ERROR, "Validation", message);
     }
 
     private void resetFieldStyles() {
-        nomApprenantField.setStyle("");
-        emailField.setStyle("");
-        cinField.setStyle("");
-        nomFormationField.setStyle("");
-        montantField.setStyle("");
-        apprenantIdField.setStyle("");
-        formationIdField.setStyle("");
+        nomApprenantField.getStyleClass().remove("error-border");
+        emailField.getStyleClass().remove("error-border");
+        cinField.getStyleClass().remove("error-border");
+        nomFormationField.getStyleClass().remove("error-border");
+        typePaiementComboBox.getStyleClass().remove("error-border");
+        apprenantIdField.getStyleClass().remove("error-border");
+        formationIdField.getStyleClass().remove("error-border");
     }
 
     @FXML
@@ -170,9 +159,10 @@ public class ModifierInscriptionCoursController {
         stage.close();
     }
 
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
         alert.setTitle(title);
+        alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
     }

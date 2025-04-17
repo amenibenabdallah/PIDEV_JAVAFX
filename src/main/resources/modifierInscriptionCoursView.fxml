@@ -10,7 +10,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/17"
             fx:controller="tn.esprit.controllers.ModifierInscriptionCoursController"
-            prefWidth="500" prefHeight="600"
+            prefWidth="500" prefHeight="500"
             style="-fx-background-color: #f0f0f0;">
 
     <VBox spacing="15" alignment="TOP_CENTER"
@@ -48,37 +48,19 @@
             <TextField fx:id="nomFormationField" GridPane.rowIndex="3" GridPane.columnIndex="1"
                        promptText="Entrez la formation"/>
 
-            <!-- Ligne 5 : Montant -->
-            <Label text="Montant (€):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-            <TextField fx:id="montantField" GridPane.rowIndex="4" GridPane.columnIndex="1"
-                       promptText="Entrez le montant"/>
-
-            <!-- Ligne 6 : ID Apprenant -->
-            <Label text="ID Apprenant:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-            <TextField fx:id="apprenantIdField" GridPane.rowIndex="5" GridPane.columnIndex="1"
+            <!-- Ligne 5 : ID Apprenant -->
+            <Label text="ID Apprenant:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <TextField fx:id="apprenantIdField" GridPane.rowIndex="4" GridPane.columnIndex="1"
                        editable="false" promptText="ID de l'apprenant"/>
 
-            <!-- Ligne 7 : ID Formation -->
-            <Label text="ID Formation:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-            <TextField fx:id="formationIdField" GridPane.rowIndex="6" GridPane.columnIndex="1"
+            <!-- Ligne 6 : ID Formation -->
+            <Label text="ID Formation:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <TextField fx:id="formationIdField" GridPane.rowIndex="5" GridPane.columnIndex="1"
                        editable="false" promptText="ID de la formation"/>
 
-            <!-- Ligne 8 : Statut -->
-            <Label text="Statut:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-            <ComboBox fx:id="statusComboBox" GridPane.rowIndex="7" GridPane.columnIndex="1"
-                      promptText="Sélectionnez un statut">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Payé"/>
-                        <String fx:value="En attente"/>
-                        <String fx:value="Confirmée"/>
-                    </FXCollections>
-                </items>
-            </ComboBox>
-
-            <!-- Ligne 9 : Type Paiement -->
-            <Label text="Type Paiement:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-            <ComboBox fx:id="typePaiementComboBox" GridPane.rowIndex="8" GridPane.columnIndex="1"
+            <!-- Ligne 7 : Type Paiement -->
+            <Label text="Type Paiement:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="typePaiementComboBox" GridPane.rowIndex="6" GridPane.columnIndex="1"
                       promptText="Sélectionnez un type">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
