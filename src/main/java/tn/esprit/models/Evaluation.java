@@ -11,7 +11,7 @@ public class Evaluation {
     private int instructorId;
     private double score;
     private String niveau;
-    private String status;
+    private int status;
     private LocalDate dateCreation;
     private String education;
     private int yearsOfExperience;
@@ -25,14 +25,14 @@ public class Evaluation {
 
     public Evaluation() {
         this.dateCreation = LocalDate.now();
-        this.status = "PENDING";
+        this.status = 0;
         this.educationWeight = 0.25;
         this.experienceWeight = 0.25;
         this.skillsWeight = 0.25;
         this.certificationsWeight = 0.25;
     }
 
-    public Evaluation(int id, int instructorId, double score, String niveau, String status,
+    public Evaluation(int id, int instructorId, double score, String niveau, int status,
                       LocalDate dateCreation, String education, int yearsOfExperience,
                       String skills, String certifications, instructeurs instructeur) {
         this.id = id;
@@ -66,8 +66,8 @@ public class Evaluation {
     public String getNiveau() { return niveau; }
     public void setNiveau(String niveau) { this.niveau = niveau; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public int getStatus() { return status; }
+    public void setStatus(int status) { this.status = status; }
 
     public LocalDate getDateCreation() { return dateCreation; }
     public void setDateCreation(LocalDate dateCreation) { this.dateCreation = dateCreation; }

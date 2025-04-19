@@ -1,6 +1,6 @@
 package tn.esprit.services;
 
-import tn.esprit.entities.instructeurs;
+import tn.esprit.models.instructeurs;
 import tn.esprit.models.Evaluation;
 import tn.esprit.utils.MyDataBase;
 import org.json.JSONObject;
@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.util.Properties;
 
 public class EvaluationService {
-    private static final String AFFINDA_API_URL = "https://api.affinda.com/v3/documents"; // URL for Affinda API
+    private static final String AFFINDA_API_URL = "https://api.affinda.com/v1/resumes"; // URL for Affinda API
     private final Connection conn; // Database connection
 
     public EvaluationService() {
@@ -24,7 +24,7 @@ public class EvaluationService {
     private String getAffindaApiKey() throws IOException {
         // Load the properties file
         Properties props = new Properties();
-        FileInputStream fis = new FileInputStream("config.properties");
+        FileInputStream fis = new FileInputStream("C:/Users/LENOVO/Desktop/PIDEV_JAVAFX/config.properties");
         props.load(fis);
         fis.close();
 
@@ -79,8 +79,17 @@ public class EvaluationService {
 
         // Check if the API call was successful
         int statusCode = conn.getResponseCode();
-        if (statusCode != 201) {
+        if (statusCode != 200) { // Expect 200 OK based on test output
             System.out.println("Affinda API error: " + statusCode);
+            // Read the error response for debugging
+            BufferedReader errorReader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            StringBuilder errorResponse = new StringBuilder();
+            String errorLine;
+            while ((errorLine = errorReader.readLine()) != null) {
+                errorResponse.append(errorLine);
+            }
+            errorReader.close();
+            System.out.println("Error response: " + errorResponse.toString());
             return null;
         }
 
@@ -93,6 +102,9 @@ public class EvaluationService {
         }
         reader.close();
 
+        // Log the raw response for debugging
+        System.out.println("Raw API response: " + response.toString());
+
         // Convert the response to JSON
         return new JSONObject(response.toString());
     }
@@ -100,37 +112,69 @@ public class EvaluationService {
     // Evaluate the instructor based on their CV
     public Evaluation evaluateInstructeur(instructeurs instructeur) throws Exception {
         // Get the CV path from the instructor
-        String cvPath = instructeur.getCvPath();
+        String cvPath = instructeur.getCv();
         JSONObject cvData = parseCv(cvPath);
         if (cvData == null) {
+            System.out.println("Evaluation failed: No CV data returned from Affinda API.");
             return null; // If CV parsing failed, return null
         }
 
         // Get the main data from the API response
-        JSONObject data = cvData.getJSONObject("data");
-
-        // Extract education (e.g., degree or qualification)
-        String education = "N/A";
-        if (data.has("education") && data.getJSONArray("education").length() > 0) {
-            education = data.getJSONArray("education").getJSONObject(0).optString("qualification", "N/A");
+        JSONObject data = cvData.optJSONObject("data");
+        if (data == null) {
+            System.out.println("No 'data' field in API response. Proceeding with empty data.");
+            data = new JSONObject(); // Proceed with empty data
         }
 
-        // Extract years of experience
+        // Extract education (try multiple possible fields)
+        String education = "N/A";
+        if (data.has("education") && data.getJSONArray("education").length() > 0) {
+            JSONObject educationObj = data.getJSONArray("education").getJSONObject(0);
+            // Try different possible fields for education
+            if (educationObj.has("qualification")) {
+                education = educationObj.optString("qualification", "N/A");
+            } else if (educationObj.has("accreditation")) {
+                JSONObject accreditation = educationObj.optJSONObject("accreditation");
+                if (accreditation != null) {
+                    education = accreditation.optString("education", "N/A");
+                }
+            }
+        }
+
+        // Extract years of experience (try multiple possible fields)
         int yearsOfExperience = 0;
         if (data.has("workExperience") && data.getJSONArray("workExperience").length() > 0) {
-            yearsOfExperience = data.getJSONArray("workExperience").getJSONObject(0).optInt("years", 0);
+            JSONObject workExp = data.getJSONArray("workExperience").getJSONObject(0);
+            if (workExp.has("years")) {
+                yearsOfExperience = workExp.optInt("years", 0);
+            } else if (workExp.has("dates")) {
+                JSONObject dates = workExp.optJSONObject("dates");
+                if (dates != null && dates.has("monthsInPosition")) {
+                    yearsOfExperience = dates.optInt("monthsInPosition", 0) / 12;
+                }
+            } else if (workExp.has("totalYearsExperience")) {
+                yearsOfExperience = data.optInt("totalYearsExperience", 0);
+            }
+        } else if (data.has("totalYearsExperience")) {
+            yearsOfExperience = data.optInt("totalYearsExperience", 0);
         }
 
         // Extract skills
         String skills = "N/A";
         if (data.has("skills") && data.getJSONArray("skills").length() > 0) {
-            skills = data.getJSONArray("skills").getJSONObject(0).optString("name", "N/A");
+            JSONObject skillObj = data.getJSONArray("skills").getJSONObject(0);
+            skills = skillObj.optString("name", "N/A");
         }
 
-        // Extract certifications
+        // Extract certifications (handle both object and string formats)
         String certifications = "N/A";
         if (data.has("certifications") && data.getJSONArray("certifications").length() > 0) {
-            certifications = data.getJSONArray("certifications").getJSONObject(0).optString("name", "N/A");
+            Object certObj = data.getJSONArray("certifications").get(0);
+            if (certObj instanceof JSONObject) {
+                certifications = ((JSONObject) certObj).optString("name", "N/A");
+            } else if (certObj instanceof String) {
+                certifications = (String) certObj;
+            }
         }
 
         // Calculate a simple score (out of 100)
@@ -153,12 +197,15 @@ public class EvaluationService {
         evaluation.setInstructorId(instructeur.getId());
         evaluation.setScore(score);
         evaluation.setNiveau(niveau);
-        evaluation.setStatus("COMPLETED");
+        evaluation.setStatus(1); // Set as string for internal use
         evaluation.setEducation(education);
         evaluation.setYearsOfExperience(yearsOfExperience);
         evaluation.setSkills(skills);
         evaluation.setCertifications(certifications);
         evaluation.setInstructeur(instructeur);
+
+        // Map the status string to an integer
+        int statusCode = "COMPLETED".equals(evaluation.getStatus()) ? 1 : 0;
 
         // Save the evaluation to the database
         String sql = "INSERT INTO evaluation (instructor_id, score, niveau, status, date_creation, education, years_of_experience, skills, certifications) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -166,7 +213,7 @@ public class EvaluationService {
         stmt.setInt(1, evaluation.getInstructorId());
         stmt.setDouble(2, evaluation.getScore());
         stmt.setString(3, evaluation.getNiveau());
-        stmt.setString(4, evaluation.getStatus());
+        stmt.setInt(4, statusCode); // Set as integer
         stmt.setDate(5, java.sql.Date.valueOf(evaluation.getDateCreation()));
         stmt.setString(6, evaluation.getEducation());
         stmt.setInt(7, evaluation.getYearsOfExperience());
