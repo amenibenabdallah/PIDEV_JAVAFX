@@ -48,6 +48,11 @@
             <artifactId>spring-security-crypto</artifactId>
             <version>5.7.6</version> <!-- Choisissez la version qui convient à votre projet -->
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20231013</version>
+        </dependency>
 
 
     </dependencies>
