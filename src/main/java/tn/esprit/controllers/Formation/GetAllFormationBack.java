@@ -128,6 +128,27 @@ public class GetAllFormationBack implements Initializable {
             showError("Erreur lors du chargement des formations.");
         }
     }
+    @FXML
+    private void handleAjouterFormation(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/addFormation.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter Formation");
+            stage.setScene(new Scene(root));
+
+            // Set up a listener to reload the formations when the AddFormation window is closed
+            stage.setOnHidden(e -> loadFormations()); // Reload the formations when the window is closed
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Erreur lors de l'ouverture du formulaire d'ajout.");
+        }
+    }
+
+
 
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

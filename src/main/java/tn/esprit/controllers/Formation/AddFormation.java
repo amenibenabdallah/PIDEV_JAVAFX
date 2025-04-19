@@ -126,6 +126,8 @@ public class AddFormation {
         Formation formation = new Formation(0, titre, description, duree, niveau, dateCreation, prix, imageName);
         formation.setCategorie(categorie);
         formationService.add(formation);
+        String emailBody = "Une nouvelle formation est disponible sur notre plateform Formini ! ";
+        tn.esprit.utils.EmailSender.sendEmail("gobjiwalid1@gmail.com", "Formation Ajouté svp consulter notre site !",emailBody);
         showAlert(Alert.AlertType.INFORMATION, "Succès", "Formation ajoutée avec succès.");
     }
         private void showAlert(Alert.AlertType alertType, String title, String content) {

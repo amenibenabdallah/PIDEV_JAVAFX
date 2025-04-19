@@ -3,17 +3,24 @@ package tn.esprit.controllers.category;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import tn.esprit.models.Categorie;
 import tn.esprit.services.CategorieService;
 import java.sql.SQLException;
 import java.util.List;
 
 public class GetAllCategoriesBack {
+    @FXML
+    private Button addCategoryButton;
+
 
     @FXML
     private VBox categoriesVBox;  // VBox to hold all category cards
@@ -148,6 +155,26 @@ public class GetAllCategoriesBack {
             }
         });
     }
+    @FXML
+    private void handleAddCategory() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Category/addCategory.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter une catégorie");
+            stage.setScene(new Scene(root));
+
+            // Refresh when the Add window is closed
+            stage.setOnHidden(event -> refreshCategories());
+
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     private void handleDeleteCategory(Categorie category) {

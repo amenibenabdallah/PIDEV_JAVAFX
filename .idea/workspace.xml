@@ -5,13 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit session">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_04_2025_13_12_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_04_2025_13_12__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/Formation/AddFormation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/Formation/AddFormation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/Formation/GetAllFormationBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/Formation/GetAllFormationBack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/Formation/GetAllFormationFront.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/Formation/GetAllFormationFront.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Category/addCategory.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Category/addCategory.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/category/GetAllCategoriesBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/category/GetAllCategoriesBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/lecon/GetAllLeconBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/lecon/GetAllLeconBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Category/getAllCategories.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Category/getAllCategories.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/Formation/addFormation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Formation/addFormation.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/Formation/getAllFormations.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Formation/getAllFormations.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Lecon/AddLecon.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Lecon/AddLecon.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Lecon/GetAllLeconBack.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Lecon/GetAllLeconBack.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +32,8 @@
         <option value="CSS File" />
         <option value="HTML File" />
         <option value="FxmlFile" />
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -85,7 +92,7 @@
     "git-widget-placeholder": "Walid-Gestion-Formation",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/walid/Desktop/Pi_integre/PIDEV_JAVAFX/src/main/java/tn/esprit/services",
+    "last_opened_file_path": "C:/Users/walid/Desktop/Pi_integre/PIDEV_JAVAFX/src/main/resources/Lecon",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -101,6 +108,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\walid\Desktop\Pi_integre\PIDEV_JAVAFX\src\main\resources\Lecon" />
       <recent name="C:\Users\walid\Desktop\Pi_integre\PIDEV_JAVAFX\src\main\java\tn\esprit\services" />
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX\src\main\resources\images" />
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX\target\classes\images" />
@@ -268,6 +276,8 @@
       <workItem from="1744924941937" duration="5181000" />
       <workItem from="1744930267612" duration="161000" />
       <workItem from="1744931051869" duration="3685000" />
+      <workItem from="1745032305343" duration="993000" />
+      <workItem from="1745078989269" duration="5791000" />
     </task>
     <task id="LOCAL-00001" summary="commit after  modifications">
       <option name="closed" value="true" />

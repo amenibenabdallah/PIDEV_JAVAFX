@@ -14,9 +14,9 @@
             fx:controller="tn.esprit.controllers.lecon.AddLecon">
 
     <children>
-        <Pane prefHeight="61.0" prefWidth="1126.0" style="-fx-background-color: #5462ff;">
+        <Pane prefHeight="61.0" prefWidth="1126.0" style="-fx-background-color: #b80909;">
             <children>
-                <Label layoutX="13.0" layoutY="12.0" text="Lesson Manager" textFill="WHITE">
+                <Label layoutX="13.0" layoutY="12.0" text="Gestion des Leçons" textFill="WHITE">
                     <font>
                         <Font name="Arial Rounded MT Bold" size="30.0"/>
                     </font>
@@ -25,7 +25,7 @@
         </Pane>
 
         <Label layoutX="119.0" layoutY="98.0" prefHeight="42.0" prefWidth="322.0"
-               text="Add a New Lesson" textFill="#6947ff">
+               text="Ajouter une nouvelle leçon" textFill="#b80909">
             <font>
                 <Font name="System Bold Italic" size="20.0"/>
             </font>
@@ -35,25 +35,25 @@
               style="-fx-background-color: #FFFFFF; -fx-background-radius: 10px;
                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);">
             <children>
-                <Label layoutX="40.0" layoutY="30.0" text="Title" textFill="#301bef"/>
+                <Label layoutX="40.0" layoutY="30.0" text="Titre" textFill="#b80909"/>
                 <TextField fx:id="titreTextField" layoutX="160.0" layoutY="28.0" prefWidth="250.0"/>
 
-                <Label layoutX="40.0" layoutY="70.0" text="Content" textFill="#301bef"/>
+                <Label layoutX="40.0" layoutY="70.0" text="Contenu" textFill="#b80909"/>
                 <TextArea fx:id="contenuTextArea" layoutX="160.0" layoutY="68.0" prefWidth="250.0" prefHeight="100.0"/>
 
-                <Label layoutX="40.0" layoutY="185.0" text="Creation Date" textFill="#301bef"/>
+                <Label layoutX="40.0" layoutY="185.0" text="Date de création" textFill="#b80909"/>
                 <DatePicker fx:id="dateCreationPicker" layoutX="160.0" layoutY="183.0" prefWidth="250.0"/>
 
-                <Label layoutX="40.0" layoutY="225.0" text="Formation" textFill="#301bef"/>
+                <Label layoutX="40.0" layoutY="225.0" text="Formation" textFill="#b80909"/>
                 <ComboBox fx:id="formationComboBox" layoutX="160.0" layoutY="223.0" prefWidth="250.0"/>
 
                 <Label fx:id="errorLabel" layoutX="60.0" layoutY="275.0" textFill="red"/>
 
                 <Button layoutX="130.0" layoutY="320.0" prefHeight="42.0" prefWidth="200.0"
                         onAction="#handleAddLecon"
-                        style="-fx-background-color: #301bef; -fx-text-fill: white; -fx-font-size: 10pt;
+                        style="-fx-background-color: #b80909; -fx-text-fill: white; -fx-font-size: 10pt;
                                -fx-padding: 10px 20px; -fx-background-radius: 20px;"
-                        text="Add Lesson"/>
+                        text="Ajouter la leçon"/>
             </children>
         </Pane>
 

@@ -18,6 +18,9 @@
 
         <Label layoutX="30" layoutY="70" text="Formation:"/>
         <ComboBox fx:id="formationComboBox" layoutX="100" layoutY="65" prefWidth="250"/>
+        <Button fx:id="ajouterLeconBtn" text="Ajouter Leçon"
+                layoutX="370" layoutY="65"
+                style="-fx-background-color: #28a745; -fx-text-fill: white;"/>
 
         <TableView fx:id="leconTableView" layoutX="30" layoutY="110" prefWidth="840" prefHeight="450">
             <columns>

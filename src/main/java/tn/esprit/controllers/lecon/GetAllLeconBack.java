@@ -28,6 +28,9 @@ public class GetAllLeconBack implements Initializable {
     @FXML
     private ComboBox<Formation> formationComboBox;
     @FXML
+    private Button ajouterLeconBtn;
+
+    @FXML
     private TableView<Lecon> leconTableView;
     @FXML
     private TableColumn<Lecon, Integer> idCol;
@@ -50,7 +53,30 @@ public class GetAllLeconBack implements Initializable {
         setupComboBox();
         setupTableColumns();
         addActionButtonsToTable();
+        ajouterLeconBtn.setOnAction(e -> handleAddLecon());
+
     }
+    private void handleAddLecon() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Lecon/AddLecon.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter une Leçon");
+            stage.setScene(new Scene(root));
+            stage.showAndWait(); // Waits for the AddLecon window to close
+
+            // After the add lesson window is closed, reload the lessons if a formation is selected
+            if (currentFormation != null) {
+                loadLeconsForFormation(currentFormation.getId());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     private void setupComboBox() {
         try {
