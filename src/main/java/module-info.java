@@ -3,6 +3,7 @@ module java_pi{
 requires java.sql;
 requires javafx.fxml;
     requires spring.security.crypto;
+    requires org.json;
     exports tn.esprit.controllers;
     exports tn.esprit.services;
     exports tn.esprit.models;
