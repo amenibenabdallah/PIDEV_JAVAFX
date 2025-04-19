@@ -2,7 +2,10 @@ package tn.esprit.controllers.Formation;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -132,4 +135,15 @@ public class AddFormation {
             alert.setContentText(content);
             alert.showAndWait();
         }
+
+    @FXML
+    private void handleRetour(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/getAllFormations.fxml")); // à adapter si ton fichier s'appelle différemment
+            Parent root = loader.load();
+            titleTextField.getScene().setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

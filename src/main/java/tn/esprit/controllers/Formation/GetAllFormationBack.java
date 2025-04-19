@@ -1,9 +1,11 @@
 package tn.esprit.controllers.Formation;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class GetAllFormationBack implements Initializable {
+
 
     @FXML
     private TableView<Formation> formationTableView;
@@ -148,6 +151,17 @@ public class GetAllFormationBack implements Initializable {
 
             loadFormations(); // refresh after editing
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handleRetour(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/getAllFormations.fxml"));
+            Parent root = loader.load();
+            Node titleTextField = null;
+            titleTextField.getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
         }

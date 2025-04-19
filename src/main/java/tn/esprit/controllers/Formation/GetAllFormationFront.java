@@ -1,19 +1,18 @@
 package tn.esprit.controllers.Formation;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.Scene;
-import javafx.fxml.FXMLLoader;
-import tn.esprit.services.FormationService;
 import tn.esprit.models.Formation;
+import tn.esprit.services.FormationService;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +25,9 @@ public class GetAllFormationFront implements Initializable {
 
     @FXML
     private FlowPane cardsContainer;
+
+    @FXML
+    private Button ajouterFormationBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -93,34 +95,36 @@ public class GetAllFormationFront implements Initializable {
         Label prixValue = new Label(formation.getPrix() + " TND");
         prixBox.getChildren().addAll(prixText, prixValue);
 
-        // Bouton
+        // Bouton Détail
         Button viewDetailsButton = new Button("Voir Détails");
         viewDetailsButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
         viewDetailsButton.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/FormationDetails.fxml"));
                 Parent root = loader.load();
-
                 FormationDetailsController controller = loader.getController();
                 controller.setFormation(formation);
-
                 Scene scene = viewDetailsButton.getScene();
                 scene.setRoot(root);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
 
-        // Ajout au card
         card.getChildren().addAll(imageView, titreBox, categorieBox, descBox, prixBox, viewDetailsButton);
 
         return card;
     }
 
-
-
-
-
-
+    @FXML
+    private void handleAjouterFormation() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/addFormation.fxml"));
+            Parent root = loader.load();
+            Scene scene = ajouterFormationBtn.getScene();
+            scene.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
