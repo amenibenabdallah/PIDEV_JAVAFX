@@ -29,10 +29,10 @@
                 <Label text="Date Expiration :" styleClass="form-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
                 <DatePicker fx:id="dateExpirationField" styleClass="form-field" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-                <Label text="ID Inscription :" styleClass="form-label" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <Label text="Inscription :" styleClass="form-label" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
                 <TextField fx:id="inscriptionIdField" promptText="Ex : 1001" styleClass="form-field" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
-                <Label text="ID Apprenant :" styleClass="form-label" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <Label text=" Apprenant :" styleClass="form-label" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
                 <TextField fx:id="apprenantIdField" promptText="Ex : 2002" styleClass="form-field" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
                 <HBox spacing="20" alignment="CENTER" GridPane.rowIndex="6" GridPane.columnSpan="2">

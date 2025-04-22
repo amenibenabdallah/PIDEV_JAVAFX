@@ -5,12 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.scene.layout.*;
 import tn.esprit.models.Promotion;
 import tn.esprit.services.ServicePromotion;
 
@@ -32,10 +28,17 @@ public class AfficherPromotionsViewController {
     @FXML
     private Pagination pagination;
 
+    private VBox contentArea; // Référence au contentArea du template admin
     private final ServicePromotion service = new ServicePromotion();
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private ObservableList<Promotion> promotionsList;
     private final int ITEMS_PER_PAGE = 6;
+
+    // Méthode pour injecter le contentArea depuis AdminTemplateController
+    public void setContentArea(VBox contentArea) {
+        this.contentArea = contentArea;
+        System.out.println("setContentArea called in AfficherPromotionsViewController: contentArea = " + contentArea);
+    }
 
     @FXML
     public void initialize() {
@@ -128,22 +131,28 @@ public class AfficherPromotionsViewController {
         return card;
     }
 
+    // Charge ModifierPromotionView.fxml dans contentArea
     private void handleEdit(Promotion promotion) {
+        if (contentArea == null) {
+            showAlert("Erreur", "Le conteneur de contenu n'est pas initialisé. Contactez l'administrateur.");
+            System.err.println("Erreur : contentArea est null dans handleEdit");
+            return;
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierPromotionView.fxml"));
             Parent root = loader.load();
 
             ModifierPromotionViewController controller = loader.getController();
             controller.initData(promotion);
+            controller.setContentArea(contentArea); // Injecte contentArea pour la navigation retour
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
-
-            loadAllAndPaginate();
+            contentArea.getChildren().clear(); // Vide le contentArea
+            contentArea.getChildren().add(root); // Ajoute la vue de modification
+            VBox.setVgrow(root, Priority.ALWAYS); // Assure que la vue occupe tout l'espace
 
         } catch (IOException e) {
-            showAlert("Erreur", "Échec de l'ouverture de l'éditeur");
+            showAlert("Erreur", "Échec de l'ouverture de l'éditeur : " + e.getMessage());
         }
     }
 
@@ -164,18 +173,22 @@ public class AfficherPromotionsViewController {
 
     @FXML
     private void handleAjoutPromotion() {
+        if (contentArea == null) {
+            showAlert("Erreur", "Le conteneur de contenu n'est pas initialisé. Contactez l'administrateur.");
+            System.err.println("Erreur : contentArea est null dans handleAjoutPromotion");
+            return;
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjoutPromotionView.fxml"));
             Parent root = loader.load();
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-
-            ((Stage) promoCardContainer.getScene().getWindow()).close();
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(root);
+            VBox.setVgrow(root, Priority.ALWAYS);
 
         } catch (IOException e) {
-            showAlert("Erreur", "Échec du chargement du formulaire");
+            showAlert("Erreur", "Échec du chargement du formulaire : " + e.getMessage());
         }
     }
 

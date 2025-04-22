@@ -1,13 +1,19 @@
 package tn.esprit.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import tn.esprit.models.Promotion;
 import tn.esprit.services.ServicePromotion;
+
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class ModifierPromotionViewController {
+
     @FXML private TextField codeField;
     @FXML private TextArea descriptionField;
     @FXML private TextField remiseField;
@@ -16,8 +22,10 @@ public class ModifierPromotionViewController {
     @FXML private TextField apprenantIdField;
 
     private Promotion promotion;
+    private VBox contentArea; // Référence au contentArea pour navigation dynamique
     private final ServicePromotion service = new ServicePromotion();
 
+    // Initialise les champs avec les données de la promotion
     public void initData(Promotion promotion) {
         this.promotion = promotion;
         codeField.setText(promotion.getCodePromo());
@@ -28,26 +36,29 @@ public class ModifierPromotionViewController {
         apprenantIdField.setText(String.valueOf(promotion.getApprenantId()));
     }
 
+    // Injecte le contentArea depuis AfficherPromotionsViewController
+    public void setContentArea(VBox contentArea) {
+        this.contentArea = contentArea;
+    }
+
     @FXML
     private void handleEnregistrer() {
         try {
             resetFieldStyles();
 
-            // ========== VALIDATION CODE PROMO ==========
+            // Validation des champs
             if (codeField.getText().isEmpty()) {
                 codeField.setStyle("-fx-border-color: red;");
                 showAlert("Erreur", "Le code promo est obligatoire");
                 return;
             }
 
-            // ========== VALIDATION DESCRIPTION ==========
             if (descriptionField.getText().isEmpty()) {
                 descriptionField.setStyle("-fx-border-color: red;");
                 showAlert("Erreur", "La description est obligatoire");
                 return;
             }
 
-            // ========== VALIDATION REMISE ==========
             double remise;
             try {
                 remise = Double.parseDouble(remiseField.getText());
@@ -62,20 +73,16 @@ public class ModifierPromotionViewController {
                 return;
             }
 
-            // ========== VALIDATION DATE ==========
-            if (dateExpirationField.getValue() == null ||
-                    dateExpirationField.getValue().isBefore(LocalDate.now())) {
+            if (dateExpirationField.getValue() == null || dateExpirationField.getValue().isBefore(LocalDate.now())) {
                 dateExpirationField.setStyle("-fx-border-color: red;");
                 showAlert("Erreur", "La date d'expiration doit être dans le futur");
                 return;
             }
 
-            // ========== VALIDATION IDs ==========
             int inscriptionId, apprenantId;
             try {
                 inscriptionId = Integer.parseInt(inscriptionIdField.getText());
                 apprenantId = Integer.parseInt(apprenantIdField.getText());
-
                 if (inscriptionId <= 0 || apprenantId <= 0) {
                     inscriptionIdField.setStyle("-fx-border-color: red;");
                     apprenantIdField.setStyle("-fx-border-color: red;");
@@ -98,7 +105,9 @@ public class ModifierPromotionViewController {
             promotion.setApprenantId(apprenantId);
 
             service.update(promotion);
-            closeWindow();
+
+            // Retour à la liste des promotions dans contentArea
+            retourAffichage();
 
         } catch (Exception e) {
             showAlert("Erreur critique", "Erreur inattendue : " + e.getMessage());
@@ -107,10 +116,28 @@ public class ModifierPromotionViewController {
 
     @FXML
     private void handleAnnuler() {
-        closeWindow();
+        // Retour à la liste des promotions sans enregistrer
+        retourAffichage();
     }
 
-    // ========== MÉTHODES UTILITAIRES ==========
+    // Recharge AfficherPromotionsView.fxml dans contentArea
+    private void retourAffichage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherPromotionsView.fxml"));
+            Parent root = loader.load();
+
+            AfficherPromotionsViewController controller = loader.getController();
+            controller.setContentArea(contentArea); // Injecte contentArea
+
+            contentArea.getChildren().clear(); // Vide le contentArea
+            contentArea.getChildren().add(root); // Ajoute la vue de la liste
+            VBox.setVgrow(root, Priority.ALWAYS); // Assure que la vue occupe tout l'espace
+
+        } catch (IOException e) {
+            showAlert("Navigation", "Erreur de retour à l'affichage des promotions");
+        }
+    }
+
     private void resetFieldStyles() {
         codeField.setStyle("");
         descriptionField.setStyle("");
@@ -118,11 +145,6 @@ public class ModifierPromotionViewController {
         dateExpirationField.setStyle("");
         inscriptionIdField.setStyle("");
         apprenantIdField.setStyle("");
-    }
-
-    private void closeWindow() {
-        Stage stage = (Stage) codeField.getScene().getWindow();
-        stage.close();
     }
 
     private void showAlert(String title, String content) {

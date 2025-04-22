@@ -9,42 +9,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceInscriptionCours implements IService<InscriptionCours> {
-    private Connection cnx;
+
+    private final Connection cnx;
 
     public ServiceInscriptionCours() {
         cnx = MyDataBase.getInstance().getCnx();
     }
 
+    // 🔹 CREATE
     @Override
     public void add(InscriptionCours inscription) {
-        String qry = "INSERT INTO inscription_cours (date_inscreption, type_paiement, nom_formation, cin, email, apprenant_id, formation_id, nom_apprenant, status, montant) " +
+        String sql = "INSERT INTO inscription_cours (date_inscreption, type_paiement, nom_formation, cin, email, apprenant_id, formation_id, nom_apprenant, status, montant) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement pstm = cnx.prepareStatement(qry);
-            pstm.setObject(1, inscription.getDateInscreption());
-            pstm.setString(2, inscription.getTypePaiement());
-            pstm.setString(3, inscription.getNomFormation());
-            pstm.setString(4, inscription.getCin());
-            pstm.setString(5, inscription.getEmail());
-            pstm.setInt(6, inscription.getApprenantId());
-            pstm.setInt(7, inscription.getFormationId());
-            pstm.setString(8, inscription.getNomApprenant());
-            pstm.setString(9, inscription.getStatus());
-            pstm.setDouble(10, inscription.getMontant());
-            pstm.executeUpdate();
-            System.out.println("✅ Inscription ajoutée avec valeurs par défaut !");
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setTimestamp(1, Timestamp.valueOf(inscription.getDateInscreption()));
+            ps.setString(2, inscription.getTypePaiement());
+            ps.setString(3, inscription.getNomFormation());
+            ps.setString(4, inscription.getCin());
+            ps.setString(5, inscription.getEmail());
+            ps.setInt(6, inscription.getApprenantId());
+            ps.setInt(7, inscription.getFormationId());
+            ps.setString(8, inscription.getNomApprenant());
+            ps.setString(9, inscription.getStatus());
+            ps.setDouble(10, inscription.getMontant());
+            ps.executeUpdate();
+            System.out.println("✅ Inscription ajoutée !");
         } catch (SQLException e) {
-            System.out.println("❌ Erreur lors de l'ajout : " + e.getMessage());
+            System.err.println("❌ Erreur lors de l'ajout : " + e.getMessage());
         }
     }
 
+    // 🔹 READ ALL
     @Override
     public List<InscriptionCours> getAll() {
         List<InscriptionCours> inscriptions = new ArrayList<>();
-        String qry = "SELECT * FROM inscription_cours";
-        try {
-            Statement stm = cnx.createStatement();
-            ResultSet rs = stm.executeQuery(qry);
+        String sql = "SELECT * FROM inscription_cours";
+        try (Statement st = cnx.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 InscriptionCours ins = new InscriptionCours();
                 ins.setId(rs.getInt("id"));
@@ -61,44 +62,45 @@ public class ServiceInscriptionCours implements IService<InscriptionCours> {
                 inscriptions.add(ins);
             }
         } catch (SQLException e) {
-            System.out.println("❌ Erreur lors de la récupération : " + e.getMessage());
+            System.err.println("❌ Erreur lors de la récupération : " + e.getMessage());
         }
         return inscriptions;
     }
 
+    // 🔹 UPDATE
     @Override
     public void update(InscriptionCours inscription) {
-        String qry = "UPDATE inscription_cours SET status=?, date_inscreption=?, montant=?, type_paiement=?, nom_formation=?, cin=?, email=?, apprenant_id=?, formation_id=?, nom_apprenant=? WHERE id=?";
-        try {
-            PreparedStatement pstm = cnx.prepareStatement(qry);
-            pstm.setString(1, inscription.getStatus());
-            pstm.setTimestamp(2, Timestamp.valueOf(inscription.getDateInscreption()));
-            pstm.setDouble(3, inscription.getMontant());
-            pstm.setString(4, inscription.getTypePaiement());
-            pstm.setString(5, inscription.getNomFormation());
-            pstm.setString(6, inscription.getCin());
-            pstm.setString(7, inscription.getEmail());
-            pstm.setInt(8, inscription.getApprenantId());
-            pstm.setInt(9, inscription.getFormationId());
-            pstm.setString(10, inscription.getNomApprenant());
-            pstm.setInt(11, inscription.getId());
-            pstm.executeUpdate();
+        String sql = "UPDATE inscription_cours SET status=?, date_inscreption=?, montant=?, type_paiement=?, " +
+                "nom_formation=?, cin=?, email=?, apprenant_id=?, formation_id=?, nom_apprenant=? WHERE id=?";
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setString(1, inscription.getStatus());
+            ps.setTimestamp(2, Timestamp.valueOf(inscription.getDateInscreption()));
+            ps.setDouble(3, inscription.getMontant());
+            ps.setString(4, inscription.getTypePaiement());
+            ps.setString(5, inscription.getNomFormation());
+            ps.setString(6, inscription.getCin());
+            ps.setString(7, inscription.getEmail());
+            ps.setInt(8, inscription.getApprenantId());
+            ps.setInt(9, inscription.getFormationId());
+            ps.setString(10, inscription.getNomApprenant());
+            ps.setInt(11, inscription.getId());
+            ps.executeUpdate();
             System.out.println("✅ Inscription mise à jour !");
         } catch (SQLException e) {
-            System.out.println("❌ Erreur lors de la mise à jour : " + e.getMessage());
+            System.err.println("❌ Erreur lors de la mise à jour : " + e.getMessage());
         }
     }
 
+    // 🔹 DELETE
     @Override
     public void delete(InscriptionCours inscription) {
-        String qry = "DELETE FROM inscription_cours WHERE id=?";
-        try {
-            PreparedStatement pstm = cnx.prepareStatement(qry);
-            pstm.setInt(1, inscription.getId());
-            pstm.executeUpdate();
-            System.out.println("✅ Inscription supprimée !");
+        String sql = "DELETE FROM inscription_cours WHERE id=?";
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, inscription.getId());
+            ps.executeUpdate();
+            System.out.println("🗑️ Inscription supprimée !");
         } catch (SQLException e) {
-            System.out.println("❌ Erreur lors de la suppression : " + e.getMessage());
+            System.err.println("❌ Erreur lors de la suppression : " + e.getMessage());
         }
     }
 }

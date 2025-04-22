@@ -133,13 +133,16 @@
 }
 
 .primary-btn {
-    -fx-background-color: -secondary-color;
+    -fx-background-color: linear-gradient(to right, #4facfe, #00f2fe);
     -fx-text-fill: white;
-    -fx-padding: 12 25;
-    -fx-background-radius: 8;
+    -fx-padding: 12 30;
+    -fx-background-radius: 25;
     -fx-font-weight: bold;
-    -fx-effect: dropshadow(three-pass-box, rgba(52,152,219,0.3), 0, 4, 6, 0);
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 4, 2);
     -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-transition: all 0.3s ease-in-out;
 }
 
 .text-btn {
