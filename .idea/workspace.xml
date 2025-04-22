@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit session">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_04_2025_13_12_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_04_2025_13_12__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherPromotionsViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherPromotionsViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ModifierPromotionViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ModifierPromotionViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/InscriptionCours.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/InscriptionCours.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Promotion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Promotion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceInscriptionCours.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceInscriptionCours.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServicePromotion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServicePromotion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainInscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainInscription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/AjoutPromotionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AjoutPromotionView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/afficher_inscription.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/afficher_inscription.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

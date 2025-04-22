@@ -4,10 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
-import javafx.stage.Stage;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import tn.esprit.models.InscriptionCours;
 import tn.esprit.services.ServiceInscriptionCours;
 
@@ -24,8 +24,14 @@ public class ModifierInscriptionCoursController {
     @FXML private TextField formationIdField;
 
     private InscriptionCours selected;
+    private VBox contentArea; // Référence au contentArea
     private final ServiceInscriptionCours service = new ServiceInscriptionCours();
     private Runnable refreshCallback;
+
+    // Injecter contentArea
+    public void setContentArea(VBox contentArea) {
+        this.contentArea = contentArea;
+    }
 
     public void setRefreshCallback(Runnable callback) {
         this.refreshCallback = callback;
@@ -33,7 +39,6 @@ public class ModifierInscriptionCoursController {
 
     @FXML
     public void initialize() {
-        // Initialisation des ComboBox
         typePaiementComboBox.setItems(FXCollections.observableArrayList(
                 "Carte bancaire", "Espèces", "Virement"
         ));
@@ -49,17 +54,18 @@ public class ModifierInscriptionCoursController {
             typePaiementComboBox.setValue(inscription.getTypePaiement());
             apprenantIdField.setText(String.valueOf(inscription.getApprenantId()));
             formationIdField.setText(String.valueOf(inscription.getFormationId()));
-
-            // Conserver la date d'inscription sans modification
             selected.setDateInscreption(inscription.getDateInscreption());
         }
     }
 
     @FXML
     private void modifierInscriptionCours(ActionEvent event) {
-        // Réinitialiser les styles avant toute validation
-        resetFieldStyles();
+        if (contentArea == null) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Le conteneur de contenu n'est pas initialisé.");
+            return;
+        }
 
+        resetFieldStyles();
         if (!validateFields()) return;
 
         try {
@@ -71,26 +77,16 @@ public class ModifierInscriptionCoursController {
             selected.setApprenantId(Integer.parseInt(apprenantIdField.getText()));
             selected.setFormationId(Integer.parseInt(formationIdField.getText()));
 
-            // Log des valeurs
-            System.out.println("🔁 Mise à jour de l'inscription avec ID : " + selected.getId());
-
-            // Mise à jour en BDD
             service.update(selected);
-
-            // Afficher un message de succès
             showAlert(Alert.AlertType.INFORMATION, "Succès", "L'inscription a été modifiée avec succès.");
 
-            // Appeler le callback pour rafraîchir la liste dans l'interface principale
             if (refreshCallback != null) {
                 refreshCallback.run();
             }
 
-            // Fermer la fenêtre de modification
-            Stage stage = (Stage) nomApprenantField.getScene().getWindow();
-            stage.close();
+            retourAffichage();
 
         } catch (Exception e) {
-            e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur s'est produite lors de la modification : " + e.getMessage());
         }
     }
@@ -155,8 +151,29 @@ public class ModifierInscriptionCoursController {
 
     @FXML
     private void handleAnnuler() {
-        Stage stage = (Stage) nomApprenantField.getScene().getWindow();
-        stage.close();
+        retourAffichage();
+    }
+
+    private void retourAffichage() {
+        if (contentArea == null) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Le conteneur de contenu n'est pas initialisé.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherInscriptionView.fxml"));
+            Parent root = loader.load();
+
+            AfficherInscriptionsViewController controller = loader.getController();
+            controller.setContentArea(contentArea);
+
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(root);
+            VBox.setVgrow(root, Priority.ALWAYS);
+
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Navigation", "Erreur de retour à l'affichage des inscriptions : " + e.getMessage());
+        }
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {

@@ -7,13 +7,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import tn.esprit.models.InscriptionCours;
 import tn.esprit.services.ServiceInscriptionCours;
@@ -30,9 +28,15 @@ public class AfficherInscriptionsViewController {
     @FXML private Label confirmedLabel;
     @FXML private Label pendingLabel;
 
+    private VBox contentArea; // Référence au contentArea du template admin
     private final ServiceInscriptionCours service = new ServiceInscriptionCours();
     private ObservableList<InscriptionCours> inscriptionsList;
     private static final int ITEMS_PER_PAGE = 6;
+
+    // Injecter contentArea depuis AdminTemplateController
+    public void setContentArea(VBox contentArea) {
+        this.contentArea = contentArea;
+    }
 
     @FXML
     public void initialize() {
@@ -158,20 +162,26 @@ public class AfficherInscriptionsViewController {
     }
 
     private void handleEdit(InscriptionCours inscription) {
+        if (contentArea == null) {
+            showAlert("Erreur", "Le conteneur de contenu n'est pas initialisé.");
+            return;
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/modifierInscriptionCoursView.fxml"));
             Parent root = loader.load();
 
             ModifierInscriptionCoursController controller = loader.getController();
             controller.initData(inscription);
+            controller.setContentArea(contentArea);
             controller.setRefreshCallback(this::refreshData);
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(root);
+            VBox.setVgrow(root, Priority.ALWAYS);
 
         } catch (IOException e) {
-            showAlert("Erreur", "Impossible d'ouvrir l'éditeur");
+            showAlert("Erreur", "Impossible d'ouvrir l'éditeur : " + e.getMessage());
         }
     }
 
@@ -191,18 +201,21 @@ public class AfficherInscriptionsViewController {
 
     @FXML
     private void handleRetour() {
+        if (contentArea == null) {
+            showAlert("Erreur", "Le conteneur de contenu n'est pas initialisé.");
+            return;
+        }
+
         try {
-            Stage currentStage = (Stage) btnRetour.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/inscriptionCoursView.fxml"));
             Parent root = loader.load();
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(root);
+            VBox.setVgrow(root, Priority.ALWAYS);
 
-            currentStage.close();
         } catch (IOException e) {
-            showAlert("Erreur", "Impossible d'ouvrir le formulaire");
+            showAlert("Erreur", "Impossible d'ouvrir le formulaire : " + e.getMessage());
         }
     }
 

@@ -168,7 +168,6 @@ public class AdminTemplateController implements Initializable {
 
     private void loadContent(String fxmlPath, String title) {
         try {
-            // Vérifier si le fichier FXML existe
             URL fxmlUrl = getClass().getResource(fxmlPath);
             if (fxmlUrl == null) {
                 contentArea.getChildren().clear();
@@ -185,18 +184,16 @@ public class AdminTemplateController implements Initializable {
             contentArea.getChildren().clear();
             contentArea.getChildren().add(content);
             pageTitle.setText(title);
-
-            // Mettre à jour le texte du champ de recherche
             searchField.setPromptText("Rechercher " + title.toLowerCase() + "...");
 
-            // Injecter contentArea dans AfficherPromotionsViewController
+            // Injecter contentArea dans les contrôleurs appropriés
             Object controller = loader.getController();
             if (controller instanceof AfficherPromotionsViewController) {
                 ((AfficherPromotionsViewController) controller).setContentArea(contentArea);
-                System.out.println("contentArea injecté dans AfficherPromotionsViewController");
+            } else if (controller instanceof AfficherInscriptionsViewController) {
+                ((AfficherInscriptionsViewController) controller).setContentArea(contentArea);
             }
 
-            // Définir le contrôleur comme userData pour la délégation de recherche
             content.setUserData(controller);
         } catch (IOException e) {
             e.printStackTrace();
