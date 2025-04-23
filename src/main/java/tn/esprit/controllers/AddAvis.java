@@ -110,6 +110,8 @@ public class AddAvis {
                 newAvis.setFormationId(formationId);
                 newAvis.setDateCreation(LocalDateTime.now());
                 serviceAvis.add(newAvis);
+                // Show success message after adding the avis
+                showAlert("Succès", "Avis ajouté avec succès");
             } else {
                 currentAvis.setNote(selectedRating);
                 currentAvis.setCommentaire(commentaire);

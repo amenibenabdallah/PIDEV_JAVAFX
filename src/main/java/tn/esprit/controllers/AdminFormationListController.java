@@ -206,7 +206,7 @@ public class AdminFormationListController implements Initializable, Searchable {
     }
 
     private VBox createAvisCard(Avis avis) {
-        VBox card = new VBox(5); // Reduced spacing for tighter layout
+        VBox card = new VBox(5);
         card.getStyleClass().add("avis-card");
         card.setPrefWidth(300);
         card.setPrefHeight(180);
@@ -251,23 +251,21 @@ public class AdminFormationListController implements Initializable, Searchable {
         commentLabel.getStyleClass().add("comment-text");
         commentLabel.setWrapText(true);
 
-        // Button box for delete button (placeholder for non-flagged cards)
+        // Button box for delete button (now added for all avis)
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
         buttonBox.setPadding(new Insets(0, 5, 5, 0));
         buttonBox.setMinHeight(30);
 
-        // Add Delete Button only if the Avis is flagged
-        if (hasBadWord) {
-            Button deleteButton = new Button();
-            Label trashIcon = new Label("\uD83D\uDDD1"); // Unicode for trash can emoji (🗑)
-            trashIcon.setStyle("-fx-text-fill: #ff4040; -fx-font-size: 30px; -fx-font-weight: bold;"); // Even bigger and bold
-            deleteButton.setGraphic(trashIcon);
-            deleteButton.setStyle("-fx-background-color: transparent; -fx-padding: 5;");
-            deleteButton.getStyleClass().add("delete-button");
-            deleteButton.setOnAction(event -> handleDeleteAvis(avis));
-            buttonBox.getChildren().add(deleteButton);
-        }
+        // Add Delete Button for all avis
+        Button deleteButton = new Button();
+        Label trashIcon = new Label("\uD83D\uDDD1"); // Unicode for trash can emoji (🗑)
+        trashIcon.setStyle("-fx-text-fill: #ff4040; -fx-font-size: 30px; -fx-font-weight: bold;");
+        deleteButton.setGraphic(trashIcon);
+        deleteButton.setStyle("-fx-background-color: transparent; -fx-padding: 5;");
+        deleteButton.getStyleClass().add("delete-button");
+        deleteButton.setOnAction(event -> handleDeleteAvis(avis));
+        buttonBox.getChildren().add(deleteButton);
 
         card.getChildren().addAll(starBox, dateLabel, commentLabel, buttonBox);
 
@@ -283,16 +281,25 @@ public class AdminFormationListController implements Initializable, Searchable {
     }
 
     private void handleDeleteAvis(Avis avis) {
-        // Show confirmation dialog
+        // Check if the avis is flagged
+        boolean isFlagged = containsBadWord(avis.getCommentaire());
+        if (!isFlagged) {
+            // Show error message if the avis is not flagged
+            showAlert("Erreur", "Vous ne pouvez pas supprimer cet avis, il respecte notre politique");
+            return;
+        }
+
+        // Show confirmation dialog for flagged avis
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Delete Avis");
-        confirmAlert.setHeaderText("Are you sure you want to delete this Avis?");
-        confirmAlert.setContentText("This action cannot be undone.");
+        confirmAlert.setTitle("Supprimer Avis");
+        confirmAlert.setHeaderText("Êtes-vous sûr de vouloir supprimer cet avis ?");
+        confirmAlert.setContentText("Cette action est irréversible.");
         confirmAlert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 // Delete the Avis using ServiceAvis
                 serviceAvis.delete(avis);
-                System.out.println("Avis deleted successfully for ID: " + avis.getId());
+                // Show success message
+                showAlert("Succès", "Avis signalé supprimé avec succès");
 
                 // Reload all formations to refresh the UI
                 loadFormations();
@@ -315,7 +322,7 @@ public class AdminFormationListController implements Initializable, Searchable {
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Rechercher Formation");
+        alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

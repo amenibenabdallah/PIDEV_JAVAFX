@@ -18,8 +18,8 @@ public class EvaluationTest {
         }
 
         try {
-            // Step 2: Retrieve the existing instructor (ID 8)
-            int instructorId = 1; // Ahlem Ben Abdallah
+            // Step 2: Retrieve the existing instructor (ID 1)
+            int instructorId = 1; // Ameni Ben Abdallah
             String selectInstructorSql = "SELECT * FROM instructeurs WHERE id = ?";
             instructeurs instructor = null;
 
@@ -27,19 +27,17 @@ public class EvaluationTest {
                 stmt.setInt(1, instructorId);
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
-                        // Construct the instructor object with minimal fields
-                        // Fields like roles, password, dateNaissance, etc., are not in the table, so set to null
                         instructor = new instructeurs(
-                                rs.getString("email_instructeur"), // email
-                                null,                             // roles (not in table)
-                                null,                             // password (not in table)
-                                rs.getString("nom_instructeur"),  // nom
-                                rs.getString("prenom_instructeur"), // prenom
-                                null,                             // dateNaissance (not in table)
-                                null,                             // resetToken (not in table)
-                                null,                             // userType (not in table)
-                                null,                             // image (not in table)
-                                rs.getString("cv")                // cv
+                                rs.getString("email_instructeur"),
+                                null,
+                                null,
+                                rs.getString("nom_instructeur"),
+                                rs.getString("prenom_instructeur"),
+                                null,
+                                null,
+                                null,
+                                null,
+                                rs.getString("cv")
                         );
                         instructor.setId(rs.getInt("id"));
                         System.out.println("Found instructor: " + instructor.getNom() + " " + instructor.getPrenom());
@@ -50,7 +48,7 @@ public class EvaluationTest {
                 }
             }
 
-            // Step 3: Evaluate the instructor using EvaluationService
+            // Step 3: Evaluate the instructor using EvaluationService (calls Flask API for score)
             EvaluationService service = new EvaluationService();
             Evaluation evaluation = service.evaluateInstructeur(instructor);
             if (evaluation == null) {
@@ -58,8 +56,8 @@ public class EvaluationTest {
                 return;
             }
 
-            // Step 4: Print the evaluation result
-            System.out.println("Evaluation completed:");
+            // Step 4: Print the evaluation result (focus on the score from Flask API)
+            System.out.println("Evaluation completed (Score from Flask API):");
             System.out.println("Score: " + evaluation.getScore());
             System.out.println("Level: " + evaluation.getNiveau());
             System.out.println("Education: " + evaluation.getEducation());
