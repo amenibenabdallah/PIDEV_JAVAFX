@@ -24,7 +24,7 @@
 
                 <!-- Nom Apprenant -->
                 <Label text="Nom Apprenant :*" styleClass="form-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <TextField fx:id="txtNomApprenant" promptText="Entrer le nom complet" styleClass="form-field" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtNomApprenant" promptText="Entrer le nom complet" styleClass="form-field" GridPane.rowIndex="1" GridPane.columnIndex="0" editable="false"/>
 
                 <!-- CIN -->
                 <Label text="CIN :*" styleClass="form-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
@@ -32,36 +32,36 @@
 
                 <!-- Email -->
                 <Label text="Email :*" styleClass="form-label" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                <TextField fx:id="txtEmail" promptText="exemple@mail.com" styleClass="form-field" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtEmail" promptText="exemple@mail.com" styleClass="form-field" GridPane.rowIndex="5" GridPane.columnIndex="0" editable="false"/>
 
-                <!-- Nom Formation -->
+                <!-- Nom Formation (ComboBox) -->
                 <Label text="Nom Formation :*" styleClass="form-label" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                <TextField fx:id="txtNomFormation" promptText="Nom de la formation" styleClass="form-field" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="nomFormationComboBox" promptText="Choisir une formation" styleClass="form-field" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
 
                 <!-- Type de paiement -->
                 <Label text="Type de paiement :*" styleClass="form-label" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
                 <ComboBox fx:id="typePaiementComboBox" promptText="Choisir une méthode" styleClass="form-field" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
 
-                <!-- ID Apprenant -->
-                <Label text="ID Apprenant :*" styleClass="form-label" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
-                <TextField fx:id="txtApprenantId" promptText="ID numérique" styleClass="form-field" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
+                <!-- ID Apprenant (masqué) -->
+                <Label text="ID Apprenant :*" styleClass="form-label" GridPane.rowIndex="10" GridPane.columnIndex="0" visible="false" managed="false"/>
+                <TextField fx:id="txtApprenantId" promptText="ID numérique" styleClass="form-field" GridPane.rowIndex="11" GridPane.columnIndex="0" visible="false" managed="false"/>
 
-                <!-- ID Formation -->
-                <Label text="ID Formation :*" styleClass="form-label" GridPane.rowIndex="12" GridPane.columnIndex="0"/>
-                <TextField fx:id="txtFormationId" promptText="ID numérique" styleClass="form-field" GridPane.rowIndex="13" GridPane.columnIndex="0"/>
+                <!-- ID Formation (masqué) -->
+                <Label text="ID Formation :*" styleClass="form-label" GridPane.rowIndex="12" GridPane.columnIndex="0" visible="false" managed="false"/>
+                <TextField fx:id="txtFormationId" promptText="ID numérique" styleClass="form-field" GridPane.rowIndex="13" GridPane.columnIndex="0" visible="false" managed="false"/>
 
                 <!-- Centered Buttons -->
                 <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="14" GridPane.columnIndex="0">
                     <Button text="Annuler" onAction="#handleAnnuler" styleClass="danger-btn"/>
-                    <Button fx:id="btnAjouter" text="Ajouter" styleClass="success-btn" onAction="#ajouterInscription"/>
+                    <Button fx:id="btnAjouter" text="S'inscrire" styleClass="success-btn" onAction="#ajouterInscription"/>
                 </HBox>
             </GridPane>
         </VBox>
 
         <!-- RIGHT SIDE: WELCOME MESSAGE -->
         <VBox styleClass="welcome-box" alignment="CENTER">
-            <Label text="Welcome to Formini" styleClass="welcome-title" />
-            <Label text="Enter your details to register for a course." styleClass="welcome-subtitle" />
+            <Label text="Bienvenue !" styleClass="welcome-title" />
+            <Label text="Remplissez le formulaire pour vous inscrire" styleClass="welcome-subtitle" />
         </VBox>
     </HBox>
 </StackPane>

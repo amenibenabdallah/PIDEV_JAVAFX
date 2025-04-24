@@ -8,47 +8,86 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import tn.esprit.models.InscriptionCours;
+import tn.esprit.models.users;
+import tn.esprit.models.Formation;
 import tn.esprit.services.ServiceInscriptionCours;
+import tn.esprit.services.ServiceFormation;
+import tn.esprit.utils.SessionManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class InscriptionCoursViewController {
 
     @FXML private TextField txtNomApprenant;
     @FXML private TextField txtCin;
     @FXML private TextField txtEmail;
-    @FXML private TextField txtNomFormation;
+    @FXML private ComboBox<String> nomFormationComboBox;
     @FXML private ComboBox<String> typePaiementComboBox;
     @FXML private TextField txtApprenantId;
     @FXML private TextField txtFormationId;
     @FXML private Button btnAjouter;
 
     private final ServiceInscriptionCours service = new ServiceInscriptionCours();
+    private final ServiceFormation formationService = new ServiceFormation();
+    private Map<String, Integer> formationMap; // Associe titre à id
 
     @FXML
     public void initialize() {
-        // Initialisation des ComboBox
         typePaiementComboBox.setItems(FXCollections.observableArrayList(
                 "Carte bancaire", "Espèces", "Virement"
         ));
+        loadFormations();
+        prefillFields();
+    }
+
+    private void loadFormations() {
+        formationMap = new HashMap<>();
+        List<Formation> formations = formationService.getIdAndTitre();
+        for (Formation formation : formations) {
+            formationMap.put(formation.getTitre(), formation.getId());
+        }
+        nomFormationComboBox.setItems(FXCollections.observableArrayList(formationMap.keySet()));
+    }
+
+    private void prefillFields() {
+        users user = SessionManager.getUtilisateurConnecte();
+        if (user != null) {
+            txtNomApprenant.setText(user.getNom() + " " + user.getPrenom());
+            txtEmail.setText(user.getEmail());
+            txtApprenantId.setText(String.valueOf(user.getId()));
+            txtNomApprenant.setDisable(true);
+            txtEmail.setDisable(true);
+            txtApprenantId.setDisable(true);
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Session", "Aucun utilisateur connecté.");
+        }
     }
 
     @FXML
     private void ajouterInscription() {
         try {
             resetFieldStyles();
+            users user = SessionManager.getUtilisateurConnecte();
 
-            // Validation des champs
+            // Validation
+            if (user == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Connectez-vous d'abord !");
+                return;
+            }
+
             if (txtNomApprenant.getText().isEmpty()) {
                 txtNomApprenant.getStyleClass().add("error-border");
                 showAlert(Alert.AlertType.ERROR, "Validation", "Le nom de l'apprenant est requis.");
                 return;
             }
 
-            if (!txtCin.getText().matches("\\d{8}")) {
+            if (txtCin.getText().isEmpty() || !txtCin.getText().matches("\\d{8}")) {
                 txtCin.getStyleClass().add("error-border");
-                showAlert(Alert.AlertType.ERROR, "Validation", "CIN doit contenir exactement 8 chiffres.");
+                showAlert(Alert.AlertType.ERROR, "Validation", "CIN invalide (8 chiffres requis).");
                 return;
             }
 
@@ -58,9 +97,9 @@ public class InscriptionCoursViewController {
                 return;
             }
 
-            if (txtNomFormation.getText().isEmpty()) {
-                txtNomFormation.getStyleClass().add("error-border");
-                showAlert(Alert.AlertType.ERROR, "Validation", "Le nom de la formation est requis.");
+            if (nomFormationComboBox.getValue() == null) {
+                nomFormationComboBox.getStyleClass().add("error-border");
+                showAlert(Alert.AlertType.ERROR, "Validation", "Veuillez sélectionner une formation.");
                 return;
             }
 
@@ -70,79 +109,85 @@ public class InscriptionCoursViewController {
                 return;
             }
 
-            int apprenantId, formationId;
+            int apprenantId;
             try {
                 apprenantId = Integer.parseInt(txtApprenantId.getText());
-                formationId = Integer.parseInt(txtFormationId.getText());
-
-                if (apprenantId <= 0 || formationId <= 0) {
+                if (apprenantId <= 0) {
                     txtApprenantId.getStyleClass().add("error-border");
-                    txtFormationId.getStyleClass().add("error-border");
-                    showAlert(Alert.AlertType.ERROR, "Validation", "Les IDs doivent être des entiers positifs.");
+                    showAlert(Alert.AlertType.ERROR, "Validation", "ID Apprenant invalide.");
                     return;
                 }
             } catch (NumberFormatException e) {
                 txtApprenantId.getStyleClass().add("error-border");
-                txtFormationId.getStyleClass().add("error-border");
-                showAlert(Alert.AlertType.ERROR, "Validation", "ID Apprenant ou ID Formation invalide.");
+                showAlert(Alert.AlertType.ERROR, "Validation", "ID Apprenant invalide.");
                 return;
             }
 
-            // Création de l'objet InscriptionCours
+            Integer formationId = formationMap.get(nomFormationComboBox.getValue());
+            if (formationId == null || formationId <= 0) {
+                nomFormationComboBox.getStyleClass().add("error-border");
+                showAlert(Alert.AlertType.ERROR, "Validation", "Formation sélectionnée invalide.");
+                return;
+            }
+
+            // Création de l'inscription
             InscriptionCours ins = new InscriptionCours();
-            ins.setNomApprenant(txtNomApprenant.getText());
+            ins.setNomApprenant(user.getNom() + " " + user.getPrenom());
             ins.setCin(txtCin.getText());
-            ins.setEmail(txtEmail.getText());
-            ins.setNomFormation(txtNomFormation.getText());
+            ins.setEmail(user.getEmail());
+            ins.setNomFormation(nomFormationComboBox.getValue());
             ins.setTypePaiement(typePaiementComboBox.getValue());
             ins.setApprenantId(apprenantId);
             ins.setFormationId(formationId);
             ins.setDateInscreption(LocalDateTime.now());
+            ins.setStatus("en attente");
+            ins.setMontant(0.0);
 
             // Ajout à la base de données
             service.add(ins);
-            showAlert(Alert.AlertType.INFORMATION, "Succès", "Inscription ajoutée avec succès !");
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Inscription enregistrée !");
 
-            // Fermer la fenêtre actuelle et ouvrir la vue d'affichage
-            Stage currentStage = (Stage) btnAjouter.getScene().getWindow();
-            currentStage.close();
-
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherInscriptionView.fxml"));
-                Parent root = loader.load();
-                Stage displayStage = new Stage();
-                displayStage.setTitle("Liste des Inscriptions");
-                displayStage.setScene(new Scene(root));
-                displayStage.show();
-            } catch (IOException e) {
-                showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la vue d'affichage : " + e.getMessage());
-            }
+            // Réinitialiser le formulaire
+            handleAnnuler();
 
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue : " + e.getMessage());
+            if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("unique_email_formation")) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Vous êtes déjà inscrit à cette formation !");
+            } else if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("UNIQ_AF83D8D1ABE530DA")) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Ce CIN est déjà utilisé pour une autre inscription.");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue : " + e.getMessage());
+            }
         }
     }
 
     @FXML
     private void handleAnnuler() {
-        txtNomApprenant.clear();
+        nomFormationComboBox.getSelectionModel().clearSelection();
         txtCin.clear();
-        txtEmail.clear();
-        txtNomFormation.clear();
         typePaiementComboBox.getSelectionModel().clearSelection();
-        txtApprenantId.clear();
-        txtFormationId.clear();
+        if (txtFormationId != null) {
+            txtFormationId.clear();
+        }
+        if (txtApprenantId != null) {
+            txtApprenantId.clear();
+        }
         resetFieldStyles();
+        prefillFields();
     }
 
     private void resetFieldStyles() {
         txtNomApprenant.getStyleClass().remove("error-border");
         txtCin.getStyleClass().remove("error-border");
         txtEmail.getStyleClass().remove("error-border");
-        txtNomFormation.getStyleClass().remove("error-border");
+        nomFormationComboBox.getStyleClass().remove("error-border");
         typePaiementComboBox.getStyleClass().remove("error-border");
-        txtApprenantId.getStyleClass().remove("error-border");
-        txtFormationId.getStyleClass().remove("error-border");
+        if (txtApprenantId != null) {
+            txtApprenantId.getStyleClass().remove("error-border");
+        }
+        if (txtFormationId != null) {
+            txtFormationId.getStyleClass().remove("error-border");
+        }
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {

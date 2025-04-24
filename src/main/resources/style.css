@@ -20,15 +20,15 @@
 /* Right Side (Welcome Message) */
 .welcome-box {
     -fx-background-color: transparent;
-    -fx-padding: 20px;
+    -fx-padding: 0px;
     -fx-max-width: 300px;
-    -fx-spacing: 10;
+    -fx-spacing: 0;
     -fx-alignment: center;
 }
 
 /* Welcome Title */
 .welcome-title {
-    -fx-font-size: 24px;
+    -fx-font-size: 30px;
     -fx-font-weight: bold;
     -fx-text-fill: #ffffff;
     -fx-font-family: 'Segoe UI';
@@ -39,7 +39,7 @@
     -fx-font-size: 14px;
     -fx-text-fill: #e3f2fd;
     -fx-font-family: 'Segoe UI';
-    -fx-padding: 10 0 0 0;
+    -fx-padding: 15 0 0 0;
 }
 
 /* Form Title */

@@ -51,7 +51,7 @@ public class LoginController {
                     String role = user.getRoles();
                     String fxmlFile;
                     if (role.contains("ROLE_APPRENANT")) {
-                        fxmlFile = "/ListAvis.fxml";
+                        fxmlFile = "/inscriptionCoursview.fxml";
                     } else if (role.contains("ROLE_ADMIN")) {
                         fxmlFile = "/AdminTemplate.fxml";
                     } else {
