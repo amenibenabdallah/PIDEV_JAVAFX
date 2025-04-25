@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="mainContainer" alignment="TOP_CENTER" style="-fx-background-color: transparent; -fx-padding: 20;" spacing="20" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.EvaluationController">
+    <!-- Title -->
+    <Label fx:id="titleLabel" text="Évaluations des Instructeurs " style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #333333; -fx-padding: 0 0 10 0;" />
+
+    <!-- Headers -->
+    <HBox alignment="CENTER" spacing="50" style="-fx-background-color: #F5F9FC; -fx-background-radius: 8; -fx-padding: 15; -fx-border-radius: 8; -fx-border-color: #E0E0E0; -fx-border-width: 1;">
+        <Label text="NOM" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #1a73e8;" prefWidth="150" />
+        <Label text="EMAIL" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #1a73e8;" prefWidth="200" />
+        <Label text="SCORE" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #1a73e8;" prefWidth="80" />
+        <Label text="NIVEAU" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #1a73e8;" prefWidth="100" />
+        <Label text="STATUT" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #1a73e8;" prefWidth="100" />
+        <Label text="DATE" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #1a73e8;" prefWidth="100" />
+        <Label text="ACTIONS" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #1a73e8;" prefWidth="150" />
+    </HBox>
+
+    <!-- Container for evaluation cards (to be populated dynamically) -->
+    <VBox fx:id="cardsContainer" spacing="15" alignment="TOP_CENTER" />
+</VBox>

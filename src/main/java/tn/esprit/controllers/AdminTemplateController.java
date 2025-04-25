@@ -12,9 +12,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import tn.esprit.models.Evaluation;
 import tn.esprit.utils.SessionManager;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -48,9 +48,8 @@ public class AdminTemplateController implements Initializable {
 
         // Handle dropdown actions
         adminDropdown.setOnAction(event -> handleDropdownAction(adminDropdown.getSelectionModel().getSelectedItem()));
-        // Handle promotions dropdown actions
 
-// Load a working image (add.png) from the classpath
+        // Load a working image (add.png) from the classpath
         try {
             URL imageUrl = getClass().getResource("/images/add.png");
             if (imageUrl == null) {
@@ -81,7 +80,6 @@ public class AdminTemplateController implements Initializable {
             }
         }
     }
-
 
     private void handleDropdownAction(String selectedOption) {
         switch (selectedOption) {
@@ -147,8 +145,8 @@ public class AdminTemplateController implements Initializable {
     }
 
     @FXML
-    private void navigateToEvaluation() {
-        loadContent("/Evaluation.fxml", "Evaluation");
+    void navigateToEvaluation() {
+        loadContent("/EvaluationView.fxml", "Evaluation");
     }
 
     @FXML
@@ -164,6 +162,31 @@ public class AdminTemplateController implements Initializable {
     @FXML
     private void navigateToAddPromotion() {
         loadContent("/AjoutPromotionView.fxml", "Ajouter Promotion");
+    }
+
+    public void navigateToEvaluationDetails(Evaluation evaluation) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EvaluationDetailsView.fxml"));
+            Parent content = loader.load();
+
+            // Pass the evaluation to the details controller
+            EvaluationDetailsController controller = loader.getController();
+            controller.setEvaluation(evaluation);
+            controller.setTemplateController(this); // Pass the template controller for navigation
+
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(content);
+            pageTitle.setText("Détails de l'Évaluation");
+
+            // Update search field prompt text
+            searchField.setPromptText("Rechercher détails...");
+
+            // Set the controller as user data for search delegation
+            content.setUserData(loader.getController());
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de charger les détails de l'évaluation : " + e.getMessage());
+        }
     }
 
     private void loadContent(String fxmlPath, String title) {
@@ -191,7 +214,13 @@ public class AdminTemplateController implements Initializable {
             searchField.setPromptText("Rechercher " + title.toLowerCase() + "...");
 
             // Set the controller as user data for search delegation
-            content.setUserData(loader.getController());
+            Object controller = loader.getController();
+            content.setUserData(controller);
+
+            // Inject this AdminTemplateController into EvaluationController if applicable
+            if (controller instanceof EvaluationController) {
+                ((EvaluationController) controller).setTemplateController(this);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Erreur", "Impossible de charger la page : " + e.getMessage());
@@ -206,7 +235,6 @@ public class AdminTemplateController implements Initializable {
         alert.showAndWait();
     }
 }
-
 
 interface Searchable {
     void handleSearch(String searchText);

@@ -4,21 +4,44 @@ import tn.esprit.models.instructeurs;
 import tn.esprit.models.Evaluation;
 import tn.esprit.utils.MyDataBase;
 import org.json.JSONObject;
+import javax.net.ssl.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Properties;
 
 public class EvaluationService {
     private static final String AFFINDA_API_URL = "https://api.affinda.com/v1/resumes"; // URL for Affinda API
-    private static final String FLASK_API_URL = "https://localhost:5000/predict_cv_score"; // URL for Flask API
+    private static final String FLASK_API_URL = "https://localhost:5000/predict_cv_score"; // Updated to HTTPS for Flask API
     private final Connection conn; // Database connection
 
     public EvaluationService() {
         // Get database connection from MyDataBase class
         this.conn = MyDataBase.getInstance().getCnx();
+    }
+
+    // Disable SSL verification for self-signed certificates (testing only)
+    private static void disableSslVerification() {
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        public X509Certificate[] getAcceptedIssuers() { return null; }
+                        public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+                        public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+                    }
+            };
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HostnameVerifier allHostsValid = (hostname, session) -> true;
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Read the API key from config.properties file (for Affinda and Flask)
@@ -99,6 +122,7 @@ public class EvaluationService {
     // Call Flask API to predict CV score
     private double callFlaskApi(double educationLevel, int yearsOfExperience, int skillsCount, int certificationsCount) throws IOException {
         String flaskApiKey = getApiKey("flask.api.key");
+        disableSslVerification();  // Bypass SSL verification for self-signed certificate
 
         URL url = new URL(FLASK_API_URL);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -107,14 +131,12 @@ public class EvaluationService {
         conn.setRequestProperty("X-API-Key", flaskApiKey);
         conn.setRequestProperty("Content-Type", "application/json");
 
-        // Create JSON payload
         JSONObject jsonInput = new JSONObject();
         jsonInput.put("education_level", educationLevel);
         jsonInput.put("years_of_experience", yearsOfExperience);
         jsonInput.put("skills_count", skillsCount);
         jsonInput.put("certifications_count", certificationsCount);
 
-        // Send JSON payload
         OutputStream os = conn.getOutputStream();
         os.write(jsonInput.toString().getBytes("UTF-8"));
         os.flush();
@@ -122,7 +144,7 @@ public class EvaluationService {
 
         int statusCode = conn.getResponseCode();
         if (statusCode != 200) {
-            System.out.println("Flask API error: " + statusCode);
+            String errorMessage = "Flask API error: " + statusCode;
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             StringBuilder errorResponse = new StringBuilder();
             String errorLine;
@@ -130,8 +152,8 @@ public class EvaluationService {
                 errorResponse.append(errorLine);
             }
             errorReader.close();
-            System.out.println("Error response: " + errorResponse.toString());
-            return 0; // Default score on error
+            errorMessage += " - Response: " + errorResponse.toString();
+            throw new IOException(errorMessage);
         }
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -143,7 +165,7 @@ public class EvaluationService {
         reader.close();
 
         JSONObject jsonResponse = new JSONObject(response.toString());
-        return jsonResponse.optDouble("score", 0); // Default to 0 if score not found
+        return jsonResponse.optDouble("score", 0);
     }
 
     // Evaluate the instructor based on their CV
@@ -258,7 +280,7 @@ public class EvaluationService {
         stmt.setDouble(2, evaluation.getScore());
         stmt.setString(3, evaluation.getNiveau());
         stmt.setInt(4, statusCode);
-        stmt.setDate(5, java.sql.Date.valueOf(evaluation.getDateCreation()));
+        stmt.setDate(5, java.sql.Date.valueOf("2025-04-23")); // Use current date or adjust as needed
         stmt.setString(6, evaluation.getEducation());
         stmt.setInt(7, evaluation.getYearsOfExperience());
         stmt.setString(8, evaluation.getSkills());

@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit session">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_04_2025_13_12_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_04_2025_13_12__Changes_.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/EvaluationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/EvaluationDetailsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/EvaluationDetailsView.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/EvaluationView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AddAvis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AddAvis.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminFormationListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminFormationListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/EvaluationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/EvaluationTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,9 +23,9 @@
       <list>
         <option value="Interface" />
         <option value="HTML File" />
+        <option value="CSS File" />
         <option value="FxmlFile" />
         <option value="Class" />
-        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -120,7 +120,7 @@
       <recent name="tn.esprit.services" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.EvaluationTest">
+  <component name="RunManager" selected="Application.MainFx">
     <configuration name="EvaluationTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="tn.esprit.test.EvaluationTest" />
       <module name="java_pi" />
@@ -198,8 +198,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.EvaluationTest" />
         <item itemvalue="Application.MainFx" />
+        <item itemvalue="Application.EvaluationTest" />
         <item itemvalue="Application.MahdiCrudTest" />
         <item itemvalue="Application.TestUserCrud" />
         <item itemvalue="Application.listtest" />
@@ -233,7 +233,8 @@
       <workItem from="1745101691770" duration="655000" />
       <workItem from="1745172342184" duration="3599000" />
       <workItem from="1745226855398" duration="12525000" />
-      <workItem from="1745397399399" duration="1746000" />
+      <workItem from="1745397399399" duration="4881000" />
+      <workItem from="1745565606483" duration="4497000" />
     </task>
     <task id="LOCAL-00001" summary="commit after  modifications">
       <option name="closed" value="true" />
@@ -396,15 +397,6 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java</url>
-          <line>168</line>
-          <properties class="tn.esprit.controllers.AdminTemplateController" method="loadContent">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
