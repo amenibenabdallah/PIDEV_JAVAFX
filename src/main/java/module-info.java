@@ -1,4 +1,4 @@
-module java_pi{
+module tn.esprit{
     requires javafx.controls;
 requires java.sql;
 requires javafx.fxml;

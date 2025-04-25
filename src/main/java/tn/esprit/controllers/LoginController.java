@@ -11,19 +11,20 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import tn.esprit.models.users;
+import tn.esprit.models.User;
 import tn.esprit.services.UserService;
 import tn.esprit.utils.SessionManager;
 
 import java.io.IOException;
 
 public class LoginController {
+
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
-    String hashedPassword;
+
     private final UserService userService = new UserService();
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private final  SessionManager sessionManager = new SessionManager() ;
+    private final SessionManager sessionManager = new SessionManager();
 
     @FXML
     public void seConnecter(ActionEvent event) {
@@ -36,74 +37,68 @@ public class LoginController {
         }
 
         try {
-            users user = userService.findUserByEmail(email);
-            System.out.println( password +"\n"+ user.getPassword());
+            User user = userService.findUserByEmail(email);
 
             if (user != null) {
                 if (passwordEncoder.matches(password, user.getPassword())) {
                     sessionManager.setUtilisateurConnecte(user);
 
-                    System.out.println(sessionManager.getUtilisateurConnecte().getId());
-                    System.out.println(sessionManager.getUtilisateurConnecte().getRoles());
-                    System.out.println(sessionManager.getUtilisateurConnecte().getUserType());
+                    System.out.println("✅ Connecté : ID = " + user.getId() + ", Rôle = " + user.getRole());
 
-                    // Replace the existing navigation logic with this:
-                    String role = user.getRoles();
+                    String role = user.getRole();  // Exemple : "APPRENANT", "ADMIN", "INSTRUCTEUR"
                     String fxmlFile;
-                    if (role.contains("ROLE_APPRENANT")) {
-                        fxmlFile = "/ListAvis.fxml";
-                    } else if (role.contains("ROLE_ADMIN")) {
-                        fxmlFile = "/AdminTemplate.fxml";
-                    } else {
-                        showAlert("Erreur", "Rôle non reconnu pour cet utilisateur");
-                        return;
+
+                    switch (role) {
+                        case "APPRENANT":
+                            fxmlFile = "/EditUserForm.fxml";
+                            break;
+                        case "ADMIN":
+                            fxmlFile = "/AdminTemplate.fxml";
+                            break;
+                        case "INSTRUCTEUR":
+                            fxmlFile = "/DashboardInstructeur.fxml";
+                            break;
+                        default:
+                            showAlert("Erreur", "Rôle non reconnu pour cet utilisateur");
+                            return;
                     }
 
-                    try {
-                        Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
-                        Scene scene = new Scene(root);
-                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        stage.setScene(scene);
-                        stage.show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        showAlert("Erreur", "Impossible de charger la page " + fxmlFile);
-                    }
+                    loadScene(event, fxmlFile);
 
                 } else {
-                    showAlert("Erreur", "Identifiants incorrects");
+                    showAlert("Erreur", "Mot de passe incorrect");
                 }
             } else {
-                showAlert("Erreur", "Identifiants incorrects");
+                showAlert("Erreur", "Utilisateur introuvable");
             }
         } catch (Exception e) {
             showAlert("Erreur", "Une erreur est survenue lors de la connexion");
-            System.err.println("Erreur de connexion: " + e.getMessage());
+            System.err.println("Erreur: " + e.getMessage());
+        }
+    }
+
+    private void loadScene(ActionEvent event, String fxmlFile) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de charger la page : " + fxmlFile);
         }
     }
 
     private void showAlert(String title, String message) {
-        showAlert(title, message, Alert.AlertType.ERROR);
-    }
-
-    private void showAlert(String title, String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     @FXML
     public void goToInscription(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Inscription.fxml"));
-            Scene scene = new Scene(root);
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Erreur", "Impossible de charger la page d'inscription");
-        }
+        loadScene(event, "/Inscription.fxml");
     }
 }

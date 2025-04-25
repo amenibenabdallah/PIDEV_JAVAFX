@@ -5,8 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="refonte UI login avec nouveau thème">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_04_2025_13_12_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_04_2025_13_12__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/EditUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/EditUserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/UserListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/UserListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainInscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainInscription.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/MyDataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/MyDataBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/SessionManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/inscription.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/inscription.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -83,7 +94,7 @@
     "git-widget-placeholder": "Yassmine-Gestion-Utilisateur",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/PIDEV_JAVAFX/src/main/resources",
+    "last_opened_file_path": "C:/version2",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -116,8 +127,9 @@
       <recent name="tn.esprit" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="tn.esprit.controllers" />
+      <recent name="tn.esprit.models" />
       <recent name="tn.esprit.services" />
+      <recent name="tn.esprit.controllers" />
     </key>
   </component>
   <component name="RunManager" selected="Application.MainFx">
@@ -129,8 +141,11 @@
       </method>
     </configuration>
     <configuration name="MainFx" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="corretto-17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="tn.esprit.test.MainFx" />
       <module name="java_pi" />
+      <option name="PROGRAM_PARAMETERS" value="--module-path &quot;C:\javafx-sdk-23.0.2&quot; --add-modules javafx.controls,javafx.fxml " />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -185,10 +200,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.MainFx" />
+        <item itemvalue="Application.MainInscription" />
         <item itemvalue="Application.TestAvis" />
         <item itemvalue="Application.TestUserCrud" />
         <item itemvalue="Application.listtest" />
-        <item itemvalue="Application.MainInscription" />
       </list>
     </recent_temporary>
   </component>
@@ -211,6 +226,7 @@
       <workItem from="1744370064117" duration="13545000" />
       <workItem from="1744406195942" duration="4207000" />
       <workItem from="1744533335326" duration="25704000" />
+      <workItem from="1745380367954" duration="4593000" />
     </task>
     <task id="LOCAL-00001" summary="commit after  modifications">
       <option name="closed" value="true" />

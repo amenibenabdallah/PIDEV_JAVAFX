@@ -11,7 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import tn.esprit.models.users;
+import tn.esprit.models.User;
 import tn.esprit.services.UserService;
 
 import java.io.IOException;
@@ -20,26 +20,26 @@ import java.util.List;
 public class UserListController {
 
     @FXML
-    private TableView<users> userTable;
+    private TableView<User> userTable;
 
     @FXML
-    private TableColumn<users, String> colNom;
+    private TableColumn<User, String> colNom;
 
     @FXML
-    private TableColumn<users, String> colEmail;
+    private TableColumn<User, String> colEmail;
 
     @FXML
-    private TableColumn<users, String> colRole;
+    private TableColumn<User, String> colRole;
 
     @FXML
-    private TableColumn<users, Void> colActions;
+    private TableColumn<User, Void> colActions;
 
     @FXML
     private Pagination pagination;
 
     private final UserService userService = new UserService();
     private final int rowsPerPage = 10;
-    private List<users> allUsers;
+    private List<User> allUsers;
 
     private int currentPageIndex = 0;
 
@@ -68,7 +68,7 @@ public class UserListController {
         pagination.setPageFactory(this::createPage);
     }
 
-    private TableView<users> createPage(int pageIndex) {
+    private TableView<User> createPage(int pageIndex) {
         this.currentPageIndex = pageIndex;
 
         if (allUsers == null || allUsers.isEmpty()) {
@@ -98,12 +98,12 @@ public class UserListController {
                 btnDelete.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
 
                 btnEdit.setOnAction(event -> {
-                    users user = getTableView().getItems().get(getIndex());
+                    User user = getTableView().getItems().get(getIndex());
                     openEditUserDialog(user);
                 });
 
                 btnDelete.setOnAction(event -> {
-                    users user = getTableView().getItems().get(getIndex());
+                    User user = getTableView().getItems().get(getIndex());
                     deleteUser(user);
                 });
             }
@@ -116,7 +116,7 @@ public class UserListController {
         });
     }
 
-    private void openEditUserDialog(users user) {
+    private void openEditUserDialog(User user) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditUserForm.fxml"));
             Parent root = loader.load();
@@ -137,7 +137,7 @@ public class UserListController {
         }
     }
 
-    private void deleteUser(users user) {
+    private void deleteUser(User user) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setHeaderText(null);

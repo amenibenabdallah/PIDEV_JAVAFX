@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -12,69 +11,77 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <javafx.version>17.0.11</javafx.version>
+        <spring.security.version>5.7.6</spring.security.version>
     </properties>
-    <dependencies>
 
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+    <dependencies>
+        <!-- MySQL Connector -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.33</version>
         </dependency>
 
-
-        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+        <!-- JavaFX Modules -->
+        <!-- JavaFX Controls -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>17.0.11</version>
-            <classifier>win</classifier>
+            <classifier>win</classifier>   <!-- Si tu es sous Windows -->
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+
+        <!-- JavaFX FXML -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>17.0.11</version>
             <classifier>win</classifier>
         </dependency>
+
+        <!-- JavaFX Graphics (optionnel si nécessaire) -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>17.0.11</version>
+            <classifier>win</classifier>
+        </dependency>
+        <!-- Commons Logging -->
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.2</version>
         </dependency>
 
+        <!-- Spring Security Crypto -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
-            <version>5.7.6</version> <!-- Choisissez la version qui convient à votre projet -->
+            <version>${spring.security.version}</version>
         </dependency>
-
-
     </dependencies>
+
     <build>
         <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-            <includes>
-                <include>**/*</include>
-            </includes>
-        </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
         </resources>
+
         <plugins>
+            <!-- Plugin JavaFX -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-
-
-
                     <mainClass>tn.esprit.test.MainFx</mainClass>
-
-
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>
