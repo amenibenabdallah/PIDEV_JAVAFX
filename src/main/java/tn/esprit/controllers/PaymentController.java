@@ -33,6 +33,7 @@ public class PaymentController {
     @FXML private TextField codePromoField;
     @FXML private Button verifierPromoButton;
     @FXML private Label remiseLabel;
+    private static final String REMISE_LABEL_DEFAULT = "Entrez un code promo pour bénéficier d'une remise";
 
     private double amount = 1.00; // Montant par défaut
     private InscriptionCours inscription;
@@ -94,20 +95,15 @@ public class PaymentController {
             Promotion promo = servicePromotion.getByCode(codePromoField.getText().trim());
             if (promo != null && !promo.getDateExpiration().isBefore(LocalDate.now())) {
                 montantRemise = amount - (amount * promo.getRemise() / 100.0);
-                remiseLabel.setText("Montant après remise : " + String.format("%.2f", montantRemise) + " Dt");
-                remiseLabel.setVisible(true);
-                remiseLabel.setManaged(true);
-                showAlert(Alert.AlertType.INFORMATION, "Remise appliquée", "Le code promo est valide ! Remise de " + promo.getRemise() + "% appliquée. Nouveau montant : " + String.format("%.2f", montantRemise) + " €");
+                remiseLabel.setText("Montant après remise : " + String.format("%.2f", montantRemise) + " €");
             } else {
                 montantRemise = null;
-                remiseLabel.setVisible(false);
-                remiseLabel.setManaged(false);
+                remiseLabel.setText(REMISE_LABEL_DEFAULT);
                 showAlert(Alert.AlertType.WARNING, "Code promo invalide", "Le code promo est invalide ou expiré.");
             }
         } else {
             montantRemise = null;
-            remiseLabel.setVisible(false);
-            remiseLabel.setManaged(false);
+            remiseLabel.setText(REMISE_LABEL_DEFAULT);
             showAlert(Alert.AlertType.WARNING, "Champ vide", "Veuillez saisir un code promo.");
         }
     }
