@@ -5,13 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit session">
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/EvaluationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/EvaluationDetailsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/EvaluationDetailsView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/EvaluationView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/FormationA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/FormationA.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/FormationServiceA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/FormationServiceA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/EvaluationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/EvaluationTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,6 +97,9 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX\src\main\resources\images" />
@@ -234,7 +236,7 @@
       <workItem from="1745172342184" duration="3599000" />
       <workItem from="1745226855398" duration="12525000" />
       <workItem from="1745397399399" duration="4881000" />
-      <workItem from="1745565606483" duration="4497000" />
+      <workItem from="1745565606483" duration="15814000" />
     </task>
     <task id="LOCAL-00001" summary="commit after  modifications">
       <option name="closed" value="true" />

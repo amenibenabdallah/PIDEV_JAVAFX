@@ -7,6 +7,8 @@ import tn.esprit.utils.MyDataBase;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EvaluationTest {
     public static void main(String[] args) {
@@ -18,66 +20,69 @@ public class EvaluationTest {
         }
 
         try {
-            // Step 2: Retrieve the existing instructor (ID 1)
-            int instructorId = 1; // Ameni Ben Abdallah
-            String selectInstructorSql = "SELECT * FROM instructeurs WHERE id = ?";
-            instructeurs instructor = null;
+            // Step 2: Retrieve all instructors from the database
+            String selectAllInstructorsSql = "SELECT * FROM instructeurs";
+            List<instructeurs> instructors = new ArrayList<>();
 
-            try (PreparedStatement stmt = conn.prepareStatement(selectInstructorSql)) {
-                stmt.setInt(1, instructorId);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        instructor = new instructeurs(
-                                rs.getString("email_instructeur"),
-                                null,
-                                null,
-                                rs.getString("nom_instructeur"),
-                                rs.getString("prenom_instructeur"),
-                                null,
-                                null,
-                                null,
-                                null,
-                                rs.getString("cv")
-                        );
-                        instructor.setId(rs.getInt("id"));
-                        System.out.println("Found instructor: " + instructor.getNom() + " " + instructor.getPrenom());
-                    } else {
-                        System.out.println("Instructor with ID " + instructorId + " not found.");
-                        return;
-                    }
+            try (PreparedStatement stmt = conn.prepareStatement(selectAllInstructorsSql);
+                 ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    instructeurs instructor = new instructeurs(
+                            rs.getString("email_instructeur"),
+                            null,
+                            null,
+                            rs.getString("nom_instructeur"),
+                            rs.getString("prenom_instructeur"),
+                            null,
+                            null,
+                            null,
+                            null,
+                            rs.getString("cv")
+                    );
+                    instructor.setId(rs.getInt("id"));
+                    instructors.add(instructor);
+                    System.out.println("Found instructor: " + instructor.getNom() + " " + instructor.getPrenom());
                 }
             }
 
-            // Step 3: Evaluate the instructor using EvaluationService (calls Flask API for score)
-            EvaluationService service = new EvaluationService();
-            Evaluation evaluation = service.evaluateInstructeur(instructor);
-            if (evaluation == null) {
-                System.out.println("Evaluation failed. Check CV path or API key.");
+            if (instructors.isEmpty()) {
+                System.out.println("No instructors found in the database.");
                 return;
             }
 
-            // Step 4: Print the evaluation result (focus on the score from Flask API)
-            System.out.println("Evaluation completed (Score from Flask API):");
-            System.out.println("Score: " + evaluation.getScore());
-            System.out.println("Level: " + evaluation.getNiveau());
-            System.out.println("Education: " + evaluation.getEducation());
-            System.out.println("Years of Experience: " + evaluation.getYearsOfExperience());
-            System.out.println("Skills: " + evaluation.getSkills());
-            System.out.println("Certifications: " + evaluation.getCertifications());
-            System.out.println("Date Created: " + evaluation.getDateCreation());
+            // Step 3: Evaluate each instructor using EvaluationService
+            EvaluationService service = new EvaluationService();
+            for (instructeurs instructor : instructors) {
+                System.out.println("\nEvaluating instructor: " + instructor.getNom() + " " + instructor.getPrenom());
+                Evaluation evaluation = service.evaluateInstructeur(instructor);
+                if (evaluation == null) {
+                    System.out.println("Evaluation failed for instructor ID " + instructor.getId() + ". Check CV path or API key.");
+                    continue;
+                }
 
-            // Step 5: Verify the evaluation in the database
-            String selectEvaluationSql = "SELECT * FROM evaluation WHERE instructor_id = ?";
-            try (PreparedStatement selectStmt = conn.prepareStatement(selectEvaluationSql)) {
-                selectStmt.setInt(1, instructor.getId());
-                try (ResultSet evalRs = selectStmt.executeQuery()) {
-                    if (evalRs.next()) {
-                        System.out.println("Evaluation saved in database:");
-                        System.out.println("Instructor ID: " + evalRs.getInt("instructor_id"));
-                        System.out.println("Score: " + evalRs.getDouble("score"));
-                        System.out.println("Level: " + evalRs.getString("niveau"));
-                    } else {
-                        System.out.println("Evaluation not found in database.");
+                // Step 4: Print the evaluation result (focus on the score from Flask API)
+                System.out.println("Evaluation completed (Score from Flask API):");
+                System.out.println("Score: " + evaluation.getScore());
+                System.out.println("Level: " + evaluation.getNiveau());
+                System.out.println("Education: " + evaluation.getEducation());
+                System.out.println("Years of Experience: " + evaluation.getYearsOfExperience());
+                System.out.println("Skills: " + evaluation.getSkills());
+                System.out.println("Certifications: " + evaluation.getCertifications());
+                System.out.println("Date Created: " + evaluation.getDateCreation());
+
+                // Step 5: Verify the evaluation in the database
+                String selectEvaluationSql = "SELECT * FROM evaluation WHERE instructor_id = ?";
+                try (PreparedStatement selectStmt = conn.prepareStatement(selectEvaluationSql)) {
+                    selectStmt.setInt(1, instructor.getId());
+                    try (ResultSet evalRs = selectStmt.executeQuery()) {
+                        if (evalRs.next()) {
+                            System.out.println("Evaluation saved in database:");
+                            System.out.println("Instructor ID: " + evalRs.getInt("instructor_id"));
+                            System.out.println("Score: " + evalRs.getDouble("score"));
+                            System.out.println("Level: " + evalRs.getString("niveau"));
+                        } else {
+                            System.out.println("Evaluation not found in database for instructor ID " + instructor.getId() + ".");
+                        }
                     }
                 }
             }

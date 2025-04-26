@@ -2,6 +2,7 @@ package tn.esprit.services;
 
 import tn.esprit.models.instructeurs;
 import tn.esprit.models.Evaluation;
+import tn.esprit.models.FormationA;
 import tn.esprit.utils.MyDataBase;
 import org.json.JSONObject;
 import javax.net.ssl.*;
@@ -12,6 +13,7 @@ import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.time.LocalDate;
 import java.util.Properties;
 
 public class EvaluationService {
@@ -258,6 +260,12 @@ public class EvaluationService {
         else if (score >= 40) niveau = "AVERAGE";
         else niveau = "POOR";
 
+        // Normalize the criteria to weights (0 to 1) for comparison
+        double educationWeight = educationLevel / 5.0; // Max education level is 5
+        double experienceWeight = Math.min(yearsOfExperience / 20.0, 1.0); // Cap at 20 years
+        double skillsWeight = Math.min(skillsCount / 10.0, 1.0); // Cap at 10 skills
+        double certificationsWeight = Math.min(certificationsCount / 5.0, 1.0); // Cap at 5 certifications
+
         // Create a new Evaluation object
         Evaluation evaluation = new Evaluation();
         evaluation.setInstructorId(instructeur.getId());
@@ -268,26 +276,157 @@ public class EvaluationService {
         evaluation.setYearsOfExperience(yearsOfExperience);
         evaluation.setSkills(skills);
         evaluation.setCertifications(certifications);
+        evaluation.setEducationWeight(educationWeight);
+        evaluation.setExperienceWeight(experienceWeight);
+        evaluation.setSkillsWeight(skillsWeight);
+        evaluation.setCertificationsWeight(certificationsWeight);
         evaluation.setInstructeur(instructeur);
+        evaluation.setDateCreation(LocalDate.now());
 
         // Map the status string to an integer
-        int statusCode = "COMPLETED".equals(evaluation.getStatus()) ? 1 : 0;
+        int statusCode = "COMPLETED".equals(String.valueOf(evaluation.getStatus())) ? 1 : 0;
 
         // Save the evaluation to the database
-        String sql = "INSERT INTO evaluation (instructor_id, score, niveau, status, date_creation, education, years_of_experience, skills, certifications) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO evaluation (instructor_id, score, niveau, status, date_creation, education, years_of_experience, skills, certifications, education_weight, experience_weight, skills_weight, certifications_weight) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, evaluation.getInstructorId());
         stmt.setDouble(2, evaluation.getScore());
         stmt.setString(3, evaluation.getNiveau());
         stmt.setInt(4, statusCode);
-        stmt.setDate(5, java.sql.Date.valueOf("2025-04-23")); // Use current date or adjust as needed
+        stmt.setDate(5, java.sql.Date.valueOf(evaluation.getDateCreation()));
         stmt.setString(6, evaluation.getEducation());
         stmt.setInt(7, evaluation.getYearsOfExperience());
         stmt.setString(8, evaluation.getSkills());
         stmt.setString(9, evaluation.getCertifications());
+        stmt.setDouble(10, evaluation.getEducationWeight());
+        stmt.setDouble(11, evaluation.getExperienceWeight());
+        stmt.setDouble(12, evaluation.getSkillsWeight());
+        stmt.setDouble(13, evaluation.getCertificationsWeight());
         stmt.executeUpdate();
         stmt.close();
 
         return evaluation;
+    }
+
+    // Updated createIdealCvProfile method to use category name
+    public Evaluation createIdealCvProfile(FormationA formation) {
+        Evaluation idealEvaluation = new Evaluation();
+
+        // Create a placeholder instructor for the ideal CV
+        instructeurs idealInstructor = new instructeurs(
+                "ideal@example.com", // Email
+                null, null,
+                "Ideal", // Nom
+                "Instructor", // Prenom
+                null, null, null, null,
+                "/public/uploads/cv/ideal_cv.pdf" // CV path
+        );
+        idealInstructor.setId(-1); // Special ID to indicate this is the ideal profile
+        idealEvaluation.setInstructeur(idealInstructor);
+        idealEvaluation.setInstructorId(-1);
+
+        // Set maximum weights (always 1.0 for ideal CV)
+        idealEvaluation.setEducationWeight(1.0);
+        idealEvaluation.setExperienceWeight(1.0);
+        idealEvaluation.setSkillsWeight(1.0);
+        idealEvaluation.setCertificationsWeight(1.0);
+
+        // Set a perfect score
+        double idealScore = 100.0; // Maximum score from Flask API
+        idealEvaluation.setScore(idealScore);
+        idealEvaluation.setNiveau("EXCELLENT");
+
+        // Define formation-specific ideal criteria
+        String formationTitre = formation.getName().toLowerCase();
+        String formationNiveau = formation.getNiveau() != null ? formation.getNiveau().toLowerCase() : "beginner";
+        String formationDescription = formation.getDescription() != null ? formation.getDescription().toLowerCase() : "";
+        String categoryName = formation.getCategoryName() != null ? formation.getCategoryName().toLowerCase() : "informatique"; // Default to "informatique" if null
+
+        String education;
+        int yearsOfExperience;
+        String skills;
+        String certifications;
+
+        // Adjust criteria based on formation level
+        if ("avanced".equals(formationNiveau) || "advanced".equals(formationNiveau)) {
+            education = "PhD or Master’s in Relevant Field";
+            yearsOfExperience = 15;
+        } else if ("intermediate".equals(formationNiveau)) {
+            education = "Master’s or Bachelor’s in Relevant Field";
+            yearsOfExperience = 10;
+        } else { // Beginner or unspecified
+            education = "Bachelor’s in Relevant Field";
+            yearsOfExperience = 5;
+        }
+
+        // Adjust education field based on category
+        if (categoryName.contains("informatique")) {
+            education = education.replace("Relevant Field", "Computer Science");
+        } else if (categoryName.contains("management")) {
+            education = education.replace("Relevant Field", "Business Administration");
+        } else {
+            education = education.replace("Relevant Field", categoryName);
+        }
+
+        // Adjust skills and certifications based on category and formation title
+        if (categoryName.contains("informatique")) {
+            if (formationTitre.contains("java")) {
+                skills = "Advanced Java, Spring Framework, Hibernate, Microservices";
+                certifications = "Oracle Certified Java Developer, AWS Certified Developer";
+            } else if (formationTitre.contains("symfony")) {
+                skills = "PHP, Symfony, Laravel, RESTful APIs";
+                certifications = "Symfony Certification, PHP Zend Certification";
+            } else if (formationTitre.contains("python")) {
+                skills = "Python, Django, Machine Learning, Data Analysis";
+                certifications = "Google Professional Data Engineer, Python Institute PCAP";
+            } else if (formationTitre.contains("web")) {
+                skills = "HTML, CSS, JavaScript, React, Node.js";
+                certifications = "Microsoft Certified: Azure Developer, Google UX Design";
+            } else {
+                skills = "General Programming, Software Development, Problem Solving";
+                certifications = "Certified Software Developer, ITIL Foundation";
+            }
+        } else if (categoryName.contains("management")) {
+            skills = "Project Management, Leadership, Agile Methodologies";
+            certifications = "PMP Certification, Certified ScrumMaster";
+        } else {
+            // Default for other categories
+            skills = "Advanced Teaching, Leadership, Domain-Specific Expertise";
+            certifications = "Certified Master Trainer, Industry Recognized Certifications";
+        }
+
+        // Fine-tune based on description (optional)
+        if (formationDescription.contains("test") || formationDescription.contains("beginner")) {
+            yearsOfExperience = Math.max(yearsOfExperience - 2, 5); // Reduce experience requirement slightly
+        }
+
+        // Set descriptive fields for the ideal CV
+        idealEvaluation.setEducation(education);
+        idealEvaluation.setYearsOfExperience(yearsOfExperience);
+        idealEvaluation.setSkills(skills);
+        idealEvaluation.setCertifications(certifications);
+        idealEvaluation.setDateCreation(LocalDate.now());
+        idealEvaluation.setStatus(1); // Accepted by default
+
+        return idealEvaluation;
+    }
+
+    // Calculate similarity between two evaluations
+    public double calculateSimilarity(Evaluation eval1, Evaluation eval2) {
+        double deltaEducation = eval1.getEducationWeight() - eval2.getEducationWeight();
+        double deltaExperience = eval1.getExperienceWeight() - eval2.getExperienceWeight();
+        double deltaSkills = eval1.getSkillsWeight() - eval2.getSkillsWeight();
+        double deltaCertifications = eval1.getCertificationsWeight() - eval2.getCertificationsWeight();
+
+        double distance = Math.sqrt(
+                deltaEducation * deltaEducation +
+                        deltaExperience * deltaExperience +
+                        deltaSkills * deltaSkills +
+                        deltaCertifications * deltaCertifications
+        );
+
+        double maxDistance = 2.0; // Maximum possible distance between two points (since weights are 0 to 1)
+        double similarity = 1.0 - (distance / maxDistance);
+        return Math.max(0, Math.min(1, similarity)) * 100; // Return as percentage
     }
 }

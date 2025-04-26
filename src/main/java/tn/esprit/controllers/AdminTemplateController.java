@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tn.esprit.models.Evaluation;
+import tn.esprit.models.FormationA;
 import tn.esprit.utils.SessionManager;
 
 import java.io.IOException;
@@ -115,8 +116,17 @@ public class AdminTemplateController implements Initializable {
     }
 
     @FXML
-    private void navigateToFormations() {
-        loadContent("/formation.fxml", "Liste des Formations");
+    public void navigateToFormations() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FormationView.fxml"));
+            Parent root = loader.load();
+            FormationController controller = loader.getController();
+            controller.setTemplateController(this);
+            contentArea.getChildren().setAll(root);
+        } catch (IOException e) {
+            System.out.println("Error navigating to Formations: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -188,6 +198,20 @@ public class AdminTemplateController implements Initializable {
             showAlert("Erreur", "Impossible de charger les détails de l'évaluation : " + e.getMessage());
         }
     }
+    public void navigateToIdealCvComparison(FormationA formation) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/IdealCvComparisonView.fxml"));
+            Parent root = loader.load();
+            IdealCvComparisonController controller = loader.getController();
+            controller.setTemplateController(this);
+            controller.setFormation(formation);
+            contentArea.getChildren().setAll(root);
+        } catch (IOException e) {
+            System.out.println("Error navigating to Ideal CV Comparison: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 
     private void loadContent(String fxmlPath, String title) {
         try {
