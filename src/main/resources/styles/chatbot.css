@@ -1,0 +1,52 @@
+/* Style général du chatbot */
+.root, .stack-pane {
+    -fx-background-color: #f5f6fa;
+}
+
+.vbox {
+    -fx-background-color: white;
+    -fx-background-radius: 18px;
+    -fx-effect: dropshadow(three-pass-box, rgba(50,50,93,0.10), 18, 0, 0, 0);
+    -fx-padding: 32;
+    -fx-spacing: 18px;
+    -fx-alignment: center;
+    -fx-max-width: 480px;
+}
+
+.label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 10 0;
+}
+
+.text-area {
+    -fx-background-color: #f6f9fc;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-font-size: 15px;
+    -fx-padding: 12;
+}
+
+.text-field {
+    -fx-background-color: #f6f9fc;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-font-size: 15px;
+    -fx-padding: 10;
+}
+
+.button {
+    -fx-background-color: linear-gradient(to bottom, #635bff, #2b47fc);
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 8 22;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #7a6ff0, #3c5dfc);
+} 
