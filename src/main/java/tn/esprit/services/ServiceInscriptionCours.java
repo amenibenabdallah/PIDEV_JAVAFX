@@ -108,4 +108,32 @@ public class ServiceInscriptionCours implements IService<InscriptionCours> {
             System.err.println("❌ Erreur lors de la suppression : " + e.getMessage());
         }
     }
+
+    public List<String> getApprenantsAvecDoublons() {
+        List<String> result = new ArrayList<>();
+        String sql = "SELECT nom_apprenant, COUNT(*) as nb FROM inscription_cours GROUP BY nom_apprenant HAVING nb > 1";
+        try (Statement st = cnx.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                result.add(rs.getString("nom_apprenant"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public String getEmailByNom(String nomApprenant) {
+        String sql = "SELECT email FROM inscription_cours WHERE nom_apprenant = ? LIMIT 1";
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setString(1, nomApprenant);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("email");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération de l'email : " + e.getMessage());
+        }
+        return null;
+    }
 }

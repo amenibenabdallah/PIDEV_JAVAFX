@@ -183,6 +183,12 @@ public class AfficherPromotionsViewController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjoutPromotionView.fxml"));
             Parent root = loader.load();
 
+            // Injection du contentArea dans le contrôleur d'ajout
+            Object controller = loader.getController();
+            if (controller instanceof AjoutPromotionViewController) {
+                ((AjoutPromotionViewController) controller).setContentArea(contentArea);
+            }
+
             contentArea.getChildren().clear();
             contentArea.getChildren().add(root);
             VBox.setVgrow(root, Priority.ALWAYS);

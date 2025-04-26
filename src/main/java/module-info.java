@@ -7,6 +7,7 @@ requires javafx.fxml;
     requires stripe.java;
     requires okhttp3;
     requires com.google.gson;
+    requires jakarta.mail;
     exports tn.esprit.controllers;
     exports tn.esprit.services;
     exports tn.esprit.models;

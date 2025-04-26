@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: #f5f6fa;" alignment="CENTER">
+<?import java.net.URL?>
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="tn.esprit.controllers.ChatBotController"
+           alignment="CENTER">
     <stylesheets>
         <URL value="@styles/chatbot.css"/>
     </stylesheets>
-    <VBox spacing="18" alignment="CENTER" maxWidth="480" style="-fx-background-color: white; -fx-background-radius: 18px; -fx-effect: dropshadow(three-pass-box, rgba(50,50,93,0.10), 18, 0, 0, 0); -fx-padding: 32;">
-        <Label text="Assistant IA - ChatBot" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-padding: 0 0 10 0;"/>
-        <TextArea fx:id="chatArea" editable="false" wrapText="true" prefHeight="340" prefWidth="420"
-                  style="-fx-background-color: #f6f9fc; -fx-border-color: #d1d5db; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-font-size: 15px; -fx-padding: 12;"/>
+    <VBox spacing="18" alignment="CENTER" maxWidth="480" styleClass="vbox">
+        <Label text="Assistant IA - ChatBot" styleClass="label"/>
+        <TextArea fx:id="chatArea" editable="false" wrapText="true" prefHeight="340" prefWidth="420" styleClass="text-area"/>
         <HBox spacing="8" alignment="CENTER">
-            <TextField fx:id="userInput" promptText="Posez votre question..." HBox.hgrow="ALWAYS"
-                       style="-fx-background-color: #f6f9fc; -fx-border-color: #d1d5db; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-font-size: 15px; -fx-padding: 10;"/>
-            <Button text="Envoyer" onAction="#handleSend"
-                    style="-fx-background-color: linear-gradient(to bottom, #635bff, #2b47fc); -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-padding: 8 22;"/>
+            <TextField fx:id="userInput" promptText="Posez votre question..." HBox.hgrow="ALWAYS" styleClass="text-field"/>
+            <Button text="Envoyer" onAction="#handleSend" styleClass="button"/>
         </HBox>
     </VBox>
-</StackPane> 
+</StackPane>

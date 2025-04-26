@@ -8,7 +8,10 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import tn.esprit.models.Promotion;
 import tn.esprit.services.ServicePromotion;
+import tn.esprit.services.ServiceInscriptionCours;
 import java.time.LocalDate;
+import javafx.scene.layout.VBox;
+import tn.esprit.services.EmailService;
 
 public class AjoutPromotionViewController {
     @FXML private TextField codeField;
@@ -16,13 +19,22 @@ public class AjoutPromotionViewController {
     @FXML private TextField remiseField;
     @FXML private DatePicker dateExpirationField;
     @FXML private TextField inscriptionIdField;
-    @FXML private TextField apprenantIdField;
+    @FXML private ComboBox<String> apprenantComboBox;
+    @FXML private ListView<String> doublonsListView;
+    private VBox contentArea; // Référence au contentArea du template admin
 
     private final ServicePromotion service = new ServicePromotion();
 
     @FXML
     public void initialize() {
         // Initialisation si nécessaire
+        ServiceInscriptionCours serviceInscription = new ServiceInscriptionCours();
+        if (doublonsListView != null) {
+            doublonsListView.getItems().setAll(serviceInscription.getApprenantsAvecDoublons());
+        }
+        if (apprenantComboBox != null) {
+            apprenantComboBox.getItems().setAll(serviceInscription.getApprenantsAvecDoublons());
+        }
     }
 
     @FXML
@@ -85,21 +97,19 @@ public class AjoutPromotionViewController {
             }
 
             // Validation 5: IDs numériques
-            int inscriptionId, apprenantId;
+            int inscriptionId;
+            String apprenantNom;
             try {
-                inscriptionId = Integer.parseInt(inscriptionIdField.getText());
-                apprenantId = Integer.parseInt(apprenantIdField.getText());
-
-                if (inscriptionId <= 0 || apprenantId <= 0) {
-                    inscriptionIdField.setStyle("-fx-border-color: red;");
-                    apprenantIdField.setStyle("-fx-border-color: red;");
-                    showAlert("Valeur incorrecte", "Les IDs doivent être positifs");
+                inscriptionId = 0; // Champ caché, valeur par défaut
+                apprenantNom = apprenantComboBox.getValue();
+                if (apprenantNom == null || apprenantNom.isEmpty()) {
+                    apprenantComboBox.setStyle("-fx-border-color: red;");
+                    showAlert("Sélection requise", "Veuillez sélectionner un apprenant.");
                     return;
                 }
-            } catch (NumberFormatException e) {
-                inscriptionIdField.setStyle("-fx-border-color: red;");
-                apprenantIdField.setStyle("-fx-border-color: red;");
-                showAlert("Format invalide", "Les IDs doivent être des nombres");
+            } catch (Exception e) {
+                apprenantComboBox.setStyle("-fx-border-color: red;");
+                showAlert("Sélection requise", "Veuillez sélectionner un apprenant.");
                 return;
             }
 
@@ -110,10 +120,28 @@ public class AjoutPromotionViewController {
                     remise,
                     dateExpirationField.getValue(),
                     inscriptionId,
-                    apprenantId
+                    0 // apprenantId remplacé par 0, car on utilise le nom
             );
+            // Ajoute le nom de l'apprenant dans la description pour traçabilité
+            promotion.setDescription(promotion.getDescription() + " (Apprenant: " + apprenantNom + ")");
 
             service.add(promotion);
+
+            // Envoi du code promo par email à l'apprenant
+            ServiceInscriptionCours serviceInscription = new ServiceInscriptionCours();
+            String emailApprenant = serviceInscription.getEmailByNom(apprenantNom);
+            if (emailApprenant != null && !emailApprenant.isEmpty()) {
+                EmailService.sendPromoToApprenant(
+                    emailApprenant,
+                    codeField.getText().toUpperCase(),
+                    descriptionField.getText(),
+                    remise,
+                    dateExpirationField.getValue()
+                );
+            } else {
+                System.err.println("Impossible d'envoyer l'email : email de l'apprenant introuvable.");
+            }
+
             redirectToDisplay();
 
         } catch (Exception e) {
@@ -122,18 +150,42 @@ public class AjoutPromotionViewController {
     }
 
     private void redirectToDisplay() throws Exception {
-        Stage stage = (Stage) codeField.getScene().getWindow();
-        stage.close();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherPromotionsView.fxml"));
-        Parent root = loader.load();
-        Stage newStage = new Stage();
-        newStage.setScene(new Scene(root));
-        newStage.show();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Succès");
-        alert.setHeaderText(null);
-        alert.setContentText("Promotion ajoutée avec succès !");
-        alert.showAndWait();
+        if (contentArea != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherPromotionsView.fxml"));
+            Parent root = loader.load();
+            
+            // Injecter contentArea dans le contrôleur d'affichage
+            Object controller = loader.getController();
+            if (controller instanceof AfficherPromotionsViewController) {
+                ((AfficherPromotionsViewController) controller).setContentArea(contentArea);
+            }
+            
+            // Remplacer le contenu actuel par la vue d'affichage des promotions
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(root);
+            VBox.setVgrow(root, javafx.scene.layout.Priority.ALWAYS);
+            
+            // Afficher une alerte de succès
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succès");
+            alert.setHeaderText(null);
+            alert.setContentText("Promotion ajoutée avec succès !");
+            alert.showAndWait();
+        } else {
+            // Fallback : ancienne méthode (nouvelle fenêtre)
+            Stage stage = (Stage) codeField.getScene().getWindow();
+            stage.close();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherPromotionsView.fxml"));
+            Parent root = loader.load();
+            Stage newStage = new Stage();
+            newStage.setScene(new Scene(root));
+            newStage.show();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succès");
+            alert.setHeaderText(null);
+            alert.setContentText("Promotion ajoutée avec succès !");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -143,7 +195,7 @@ public class AjoutPromotionViewController {
         remiseField.clear();
         dateExpirationField.setValue(null);
         inscriptionIdField.clear();
-        apprenantIdField.clear();
+        apprenantComboBox.getSelectionModel().clearSelection();
         resetFieldStyles();
     }
 
@@ -153,7 +205,7 @@ public class AjoutPromotionViewController {
         remiseField.setStyle("");
         dateExpirationField.setStyle("");
         inscriptionIdField.setStyle("");
-        apprenantIdField.setStyle("");
+        apprenantComboBox.setStyle("");
     }
 
     private void showAlert(String title, String content) {
@@ -162,5 +214,9 @@ public class AjoutPromotionViewController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    public void setContentArea(VBox contentArea) {
+        this.contentArea = contentArea;
     }
 }

@@ -192,6 +192,8 @@ public class AdminTemplateController implements Initializable {
                 ((AfficherPromotionsViewController) controller).setContentArea(contentArea);
             } else if (controller instanceof AfficherInscriptionsViewController) {
                 ((AfficherInscriptionsViewController) controller).setContentArea(contentArea);
+            } else if (controller instanceof AjoutPromotionViewController) {
+                ((AjoutPromotionViewController) controller).setContentArea(contentArea);
             }
 
             content.setUserData(controller);
