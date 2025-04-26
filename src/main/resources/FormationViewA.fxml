@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.effect.DropShadow?>
 
-<VBox alignment="CENTER" spacing="20" style="-fx-background-color: transparent; -fx-padding: 20;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.FormationController">
+<VBox alignment="CENTER" spacing="20" style="-fx-background-color: transparent; -fx-padding: 20;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.FormationAController">
     <Label text="Liste des Formations 📚" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #333333;" />
     <VBox fx:id="formationsContainer" alignment="CENTER" spacing="10" style="-fx-padding: 10;" />
 </VBox>

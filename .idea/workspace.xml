@@ -7,10 +7,11 @@
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit session">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/FormationA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/FormationA.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/FormationServiceA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/FormationServiceA.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/EvaluationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/EvaluationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/FormationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/FormationAController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/IdealCvComparisonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/IdealCvComparisonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/AdminTemplate.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AdminTemplate.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FormationView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FormationViewA.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/IdealCvComparisonView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/IdealCvComparisonView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,9 +23,9 @@
       <list>
         <option value="Interface" />
         <option value="HTML File" />
-        <option value="CSS File" />
         <option value="FxmlFile" />
         <option value="Class" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -236,7 +237,7 @@
       <workItem from="1745172342184" duration="3599000" />
       <workItem from="1745226855398" duration="12525000" />
       <workItem from="1745397399399" duration="4881000" />
-      <workItem from="1745565606483" duration="15814000" />
+      <workItem from="1745565606483" duration="32969000" />
     </task>
     <task id="LOCAL-00001" summary="commit after  modifications">
       <option name="closed" value="true" />

@@ -117,10 +117,14 @@ public class AdminTemplateController implements Initializable {
 
     @FXML
     public void navigateToFormations() {
+        loadContent("/formation.fxml", "Formations");
+    }
+    @FXML
+    public void navigateToReaderChart() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FormationView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FormationViewA.fxml"));
             Parent root = loader.load();
-            FormationController controller = loader.getController();
+            FormationAController controller = loader.getController();
             controller.setTemplateController(this);
             contentArea.getChildren().setAll(root);
         } catch (IOException e) {
@@ -211,6 +215,7 @@ public class AdminTemplateController implements Initializable {
             e.printStackTrace();
         }
     }
+
 
 
     private void loadContent(String fxmlPath, String title) {

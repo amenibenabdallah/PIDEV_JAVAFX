@@ -54,6 +54,10 @@
                     <Label styleClass="sidebar-label" text="Evaluation" onMouseClicked="#navigateToEvaluation" />
                 </HBox>
                 <HBox styleClass="sidebar-item">
+                    <Label styleClass="sidebar-icon" text="📈" /> <!-- CV Spider Chart -->
+                    <Label styleClass="sidebar-label" text="CV Spider Chart" onMouseClicked="#navigateToReaderChart" />
+                </HBox>
+                <HBox styleClass="sidebar-item">
                     <Label styleClass="sidebar-icon" text="📋" /> <!-- Liste d'inscription -->
                     <Label styleClass="sidebar-label" text="Liste d'inscription" onMouseClicked="#navigateToListeInscription" />
                 </HBox>
