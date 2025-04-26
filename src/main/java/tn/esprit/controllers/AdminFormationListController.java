@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import org.json.JSONObject; // Added for JSON parsing
+import java.util.Properties;
 
 public class AdminFormationListController implements Initializable, Searchable {
 
@@ -61,11 +62,82 @@ public class AdminFormationListController implements Initializable, Searchable {
     private FormationA currentFormation;
 
     // SightEngine API Key (store securely in production)
-    private static final String SIGHT_ENGINE_API_KEY = "1126907624"; // Replace with your SightEngine API key
-    private static final String SIGHT_ENGINE_API_SECRET = "CL3tBwEJEJuRU9vZTaAre4KeVkVx5e6A"; // Replace with your SightEngine API secret
+    private static final String SIGHT_ENGINE_API_KEY;
+    private static final String SIGHT_ENGINE_API_SECRET;
     private static final String SIGHT_ENGINE_API_URL = "https://api.sightengine.com/1.0/text/check.json";
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
+    // Load credentials from config.properties with multiple attempts
+    static {
+        Properties props = new Properties();
+        java.io.InputStream inputStream = null;
+
+        try {
+            // Debug: Log the classpath
+            System.out.println("Classpath: " + System.getProperty("java.class.path"));
+
+            // Attempt 1: Use ClassLoader to load from classpath (src/main/resources/)
+            System.out.println("Attempting to load config.properties from classpath...");
+            inputStream = AdminFormationListController.class.getClassLoader().getResourceAsStream("config.properties");
+            if (inputStream == null) {
+                System.out.println("config.properties not found via ClassLoader.getResourceAsStream('config.properties')");
+            }
+
+            // Attempt 2: Use Class.getResourceAsStream (relative to the class package)
+            if (inputStream == null) {
+                System.out.println("Attempting to load config.properties using Class.getResourceAsStream('/config.properties')...");
+                inputStream = AdminFormationListController.class.getResourceAsStream("/config.properties");
+                if (inputStream == null) {
+                    System.out.println("config.properties not found via Class.getResourceAsStream('/config.properties')");
+                }
+            }
+
+            // Attempt 3: Direct file access (for debugging, assumes running from project root)
+            if (inputStream == null) {
+                System.out.println("Attempting to load config.properties directly from src/main/resources/config.properties...");
+                try {
+                    inputStream = new java.io.FileInputStream("src/main/resources/config.properties");
+                } catch (java.io.FileNotFoundException e) {
+                    System.out.println("Direct file access failed: " + e.getMessage());
+                }
+            }
+
+            // If all attempts fail, fall back to hardcoded credentials
+            if (inputStream == null) {
+                System.err.println("All attempts to load config.properties failed. Falling back to hardcoded credentials.");
+                SIGHT_ENGINE_API_KEY = "1126907624";
+                SIGHT_ENGINE_API_SECRET = "CL3tBwEJEJuRU9vZTaAre4KeVkVx5e6A";
+            } else {
+                // Load properties from the input stream
+                props.load(inputStream);
+                SIGHT_ENGINE_API_KEY = props.getProperty("sightengine.api.key");
+                SIGHT_ENGINE_API_SECRET = props.getProperty("sightengine.api.secret");
+
+                // Basic validation
+                if (SIGHT_ENGINE_API_KEY == null || SIGHT_ENGINE_API_SECRET == null) {
+                    throw new IllegalStateException("SightEngine API credentials not found in config.properties");
+                }
+
+                // Debug logging
+                System.out.println("Successfully loaded config.properties");
+                System.out.println("Loaded SightEngine API Key: " + SIGHT_ENGINE_API_KEY);
+                System.out.println("Loaded SightEngine API Secret: " + SIGHT_ENGINE_API_SECRET);
+
+                // Close the input stream
+                inputStream.close();
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to load SightEngine API credentials: " + e.getMessage(), e);
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (java.io.IOException e) {
+                    System.err.println("Error closing input stream: " + e.getMessage());
+                }
+            }
+        }
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Load formations
