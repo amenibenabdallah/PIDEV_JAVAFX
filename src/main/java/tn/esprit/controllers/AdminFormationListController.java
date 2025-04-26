@@ -124,7 +124,7 @@ public class AdminFormationListController implements Initializable, Searchable {
         scoreBox.setAlignment(Pos.CENTER);
 
         // Number of Reviews
-        Label avisCountLabel = new Label(formation.getAvisCount() + "");
+        Label avisCountLabel = new Label(formation.getAvisCount() + " Avis");
         avisCountLabel.getStyleClass().add("avis-count");
 
         // Action Button
@@ -228,22 +228,37 @@ public class AdminFormationListController implements Initializable, Searchable {
         card.setMaxHeight(220);
 
         if (hasBadWord) {
-            card.setStyle("-fx-border-color: #ff4040; -fx-border-width: 2; -fx-border-radius: 10; " +
-                    "-fx-effect: dropshadow(gaussian, #ff4040, 10, 0.3, 0, 0);");
+            // Apply a red theme to the entire card
+            card.setStyle("-fx-background-color: #fff5f5; " +
+                    "-fx-border-color: #ff4040; " +
+                    "-fx-border-width: 2; " +
+                    "-fx-border-radius: 10; " +
+                    "-fx-background-radius: 10; " +
+                    "-fx-effect: dropshadow(gaussian, #ff4040, 15, 0.5, 0, 0);");
 
             HBox flaggedBox = new HBox(5);
             flaggedBox.setAlignment(Pos.CENTER_LEFT);
             Label flagIcon = new Label("\uD83D\uDEA9"); // Flag emoji (🚩)
-            flagIcon.setStyle("-fx-text-fill: #ff4040; -fx-font-size: 18px; -fx-font-family: 'Montserrat';");
+            flagIcon.setStyle("-fx-text-fill: white; -fx-font-size: 18px; -fx-font-family: 'Montserrat';");
             Label flaggedLabel = new Label(" Flagged: Inappropriate Content");
-            flaggedLabel.setStyle("-fx-text-fill: #ff4040; -fx-font-weight: bold; -fx-font-family: 'Montserrat';");
+            flaggedLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-family: 'Montserrat';");
             flaggedBox.getChildren().addAll(flagIcon, flaggedLabel);
-            flaggedBox.setStyle("-fx-background-color: #ffe6e6; -fx-background-radius: 5; -fx-padding: 8;");
+            flaggedBox.setStyle("-fx-background-color: #ff4040; -fx-background-radius: 5; -fx-padding: 8;");
             card.getChildren().add(flaggedBox);
+        } else {
+            card.setStyle("-fx-border-color: #d0d0d0; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10;");
         }
 
         HBox starBox = new HBox(5);
-        starBox.getChildren().addAll(createStarBox(avis.getNote()));
+        List<Label> stars = createStarBox(avis.getNote());
+        if (hasBadWord) {
+            // Change star color to a darker red for flagged cards
+            for (Label star : stars) {
+                star.setStyle(star.getStyleClass().contains("star-selected") ?
+                        "-fx-text-fill: #cc0000;" : "-fx-text-fill: #ff9999;");
+            }
+        }
+        starBox.getChildren().addAll(stars);
         if (!hasBadWord) {
             starBox.setPadding(new Insets(40, 0, 0, 0));
         }
@@ -251,10 +266,16 @@ public class AdminFormationListController implements Initializable, Searchable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Label dateLabel = new Label(avis.getDateCreation().format(formatter));
         dateLabel.getStyleClass().add("date-label");
+        if (hasBadWord) {
+            dateLabel.setStyle("-fx-text-fill: #cc0000; -fx-font-family: 'Montserrat';");
+        }
 
         Label commentLabel = new Label(avis.getCommentaire());
         commentLabel.getStyleClass().add("comment-text");
         commentLabel.setWrapText(true);
+        if (hasBadWord) {
+            commentLabel.setStyle("-fx-text-fill: #cc0000; -fx-font-family: 'Montserrat';");
+        }
 
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
@@ -263,20 +284,46 @@ public class AdminFormationListController implements Initializable, Searchable {
 
         Button deleteButton = new Button();
         Label trashIcon = new Label("\uD83D\uDDD1"); // Trash can emoji (🗑)
-        trashIcon.setStyle("-fx-text-fill: #ff4040; -fx-font-size: 35px; -fx-font-weight: bold;");
+        if (hasBadWord) {
+            trashIcon.setStyle("-fx-text-fill: white; -fx-font-size: 35px; -fx-font-weight: bold;");
+            deleteButton.setStyle("-fx-background-color: #ff4040; -fx-background-radius: 5; -fx-padding: 5;");
+        } else {
+            trashIcon.setStyle("-fx-text-fill: #ff4040; -fx-font-size: 35px; -fx-font-weight: bold;");
+            deleteButton.setStyle("-fx-background-color: transparent; -fx-padding: 5;");
+        }
         deleteButton.setGraphic(trashIcon);
-        deleteButton.setStyle("-fx-background-color: transparent; -fx-padding: 5;");
         deleteButton.getStyleClass().add("delete-button");
         deleteButton.setOnAction(event -> handleDeleteAvis(avis));
         buttonBox.getChildren().add(deleteButton);
 
         card.getChildren().addAll(starBox, dateLabel, commentLabel, buttonBox);
 
-        // Hover effect (gradient border)
-        card.setOnMouseEntered(e -> card.setStyle("-fx-border-color: linear-gradient(to right, #2b6cb0, #6b46c1); -fx-border-width: 2;"));
+        card.setOnMouseEntered(e -> {
+            if (hasBadWord) {
+                card.setStyle("-fx-background-color: #fff5f5; " +
+                        "-fx-border-color: #ff4040; " +
+                        "-fx-border-width: 2; " +
+                        "-fx-border-radius: 10; " +
+                        "-fx-background-radius: 10; " +
+                        "-fx-effect: dropshadow(gaussian, #ff4040, 20, 0.7, 0, 0);");
+            } else {
+                card.setStyle("-fx-border-color: linear-gradient(to right, #2b6cb0, #6b46c1); " +
+                        "-fx-border-width: 2; " +
+                        "-fx-border-radius: 10; " +
+                        "-fx-background-radius: 10;");
+            }
+        });
+
         card.setOnMouseExited(e -> {
-            if (!hasBadWord) {
-                card.setStyle("-fx-border-color: #d0d0d0; -fx-border-width: 1;");
+            if (hasBadWord) {
+                card.setStyle("-fx-background-color: #fff5f5; " +
+                        "-fx-border-color: #ff4040; " +
+                        "-fx-border-width: 2; " +
+                        "-fx-border-radius: 10; " +
+                        "-fx-background-radius: 10; " +
+                        "-fx-effect: dropshadow(gaussian, #ff4040, 15, 0.5, 0, 0);");
+            } else {
+                card.setStyle("-fx-border-color: #d0d0d0; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10;");
             }
         });
 
