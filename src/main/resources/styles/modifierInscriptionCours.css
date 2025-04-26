@@ -1,0 +1,130 @@
+/* Style général de l'interface */
+.root {
+    -fx-background-color: #f5f6fa;
+    -fx-alignment: center;
+}
+
+/* Style du conteneur principal */
+.vbox {
+    -fx-alignment: center;
+    -fx-spacing: 40px;
+    -fx-padding: 50px;
+    -fx-max-width: 800px;
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 0);
+}
+
+/* Style des labels */
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 0;
+    -fx-alignment: center-right;
+}
+
+/* Style des champs de texte */
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #dcdde1;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-pref-width: 300px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 0);
+    -fx-alignment: center-left;
+}
+
+.text-field:focused {
+    -fx-border-color: #3498db;
+    -fx-effect: dropshadow(three-pass-box, rgba(52, 152, 219, 0.2), 10, 0, 0, 0);
+}
+
+/* Style des ComboBox */
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #dcdde1;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px;
+    -fx-pref-width: 300px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 0);
+    -fx-alignment: center-left;
+}
+
+.combo-box:focused {
+    -fx-border-color: #3498db;
+    -fx-effect: dropshadow(three-pass-box, rgba(52, 152, 219, 0.2), 10, 0, 0, 0);
+}
+
+/* Style des boutons */
+.button {
+    -fx-background-radius: 6px;
+    -fx-padding: 12px 25px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);
+    -fx-transition: all 0.3s;
+}
+
+.button:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 0);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+/* Style spécifique pour le bouton Enregistrer */
+.button:default {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+}
+
+.button:default:hover {
+    -fx-background-color: #2ecc71;
+}
+
+/* Style spécifique pour le bouton Annuler */
+.button:cancel {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+}
+
+.button:cancel:hover {
+    -fx-background-color: #c0392b;
+}
+
+/* Style du titre */
+.title-label {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 30px 0;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);
+}
+
+/* Style de la grille */
+.grid-pane {
+    -fx-padding: 40px;
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-alignment: center;
+    -fx-hgap: 20px;
+    -fx-vgap: 20px;
+}
+
+/* Style du conteneur des boutons */
+.hbox {
+    -fx-alignment: center;
+    -fx-spacing: 30px;
+    -fx-padding: 30px 0 0 0;
+}
+
+/* Style des cellules de la grille */
+.grid-pane > * {
+    -fx-alignment: center-left;
+}
