@@ -129,6 +129,7 @@ public class PaymentController {
             inscription.setMontant(montantFinal);
             inscriptionService.update(inscription);
         }
+        closeWindow();
         // Ouvrir l'interface de vérification du paiement
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/VerificationPaiementView.fxml"));
@@ -141,7 +142,6 @@ public class PaymentController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        closeWindow();
     }
 
     private boolean validateFields() {
