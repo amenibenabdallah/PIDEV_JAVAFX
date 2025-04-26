@@ -1,252 +1,135 @@
-/* Root */
-.root {
-    -fx-background-color: #f0f4f8; /* Light blue-gray background */
-}
-
-/* Sidebar */
-.sidebar {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #e0e0e0;
-    -fx-border-width: 0 1 0 0;
-    -fx-padding: 20;
-}
-
-.sidebar-title {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1a73e8; /* Blue color */
-    -fx-padding: 0 0 20 0;
-}
-
-.sidebar-menu {
-    -fx-padding: 10 0 0 0;
-}
-
-.sidebar-item {
-    -fx-padding: 12 10 12 10;
-    -fx-background-radius: 8;
-    -fx-alignment: center-left;
-    -fx-spacing: 10;
-}
-
-.sidebar-item:hover {
-    -fx-background-color: #f0f4f8;
-    -fx-cursor: hand;
-}
-
-.sidebar-item-selected {
-    -fx-background-color: #e8f0fe;
-    -fx-text-fill: #1a73e8;
-}
-
-.sidebar-icon {
-    -fx-font-size: 18px;
-    -fx-text-fill: #666;
-    -fx-padding: 0 10 0 0;
-}
-
-.sidebar-label {
-    -fx-font-size: 14px;
-    -fx-text-fill: #333;
-}
-
 /* Main Content */
 .main-content {
+    -fx-background-color: #ffffff;
     -fx-padding: 20;
 }
 
-/* Header */
-.header {
-    -fx-padding: 0 0 20 0;
+/* Tile Container */
+.tile-container {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
 }
 
-.title-label {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1a73e8; /* Blue color */
-}
-
-/* TableView */
-.table-view {
-    -fx-background-color: #ffffff;
+/* Formation Tile */
+.formation-tile {
+    -fx-background-color: linear-gradient(to bottom right, #2b6cb0, #6b46c1);
     -fx-background-radius: 10;
-    -fx-border-radius: 10;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
-    -fx-border-color: transparent;
-    -fx-table-cell-border-color: transparent; /* Remove grid lines */
-    -fx-table-header-border-color: transparent;
-    -fx-fixed-cell-size: 60; /* Increase row height */
-}
-
-.table-view .column-header-background {
-    -fx-background-color: #f8f9fa;
-    -fx-background-radius: 10 10 0 0;
     -fx-border-color: #e0e0e0;
-    -fx-border-width: 0 0 1 0;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-transition: all 0.3s ease;
 }
 
-.table-view .column-header {
-    -fx-background-color: transparent;
-    -fx-padding: 0; /* Remove default padding */
+.formation-tile:hover {
+    -fx-effect: dropshadow(gaussian, #00aaff, 20, 0.7, 0, 0);
+    -fx-rotate: 3;
 }
 
-.table-view .column-header .label {
-    -fx-font-size: 16px; /* Match data font size */
+.formation-name {
+    -fx-font-size: 16px; /* Increased for larger tile */
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
-    -fx-alignment: center-left; /* Left-align headers */
-    -fx-padding: 10 10 10 10; /* Consistent padding with data cells */
-}
-
-/* Increase row height */
-.table-row-cell {
-    -fx-background-color: #ffffff;
-    -fx-border-color: transparent;
-    -fx-fixed-cell-size: 60; /* Reinforce row height */
-}
-
-.table-row-cell:filled:hover {
-    -fx-background-color: #f0f4f8;
-}
-
-.table-row-cell:filled:selected {
-    -fx-background-color: #e8f0fe;
-}
-
-.table-view .table-cell {
-    -fx-font-size: 16px; /* Increase font size for better clarity */
-    -fx-text-fill: #333;
-    -fx-alignment: center-left; /* Left-align data */
-    -fx-padding: 10 10 10 10; /* Consistent padding */
-}
-
-/* Modernize the Avis button */
-.action-button {
-    -fx-background-color: #1a73e8;
     -fx-text-fill: #ffffff;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 20; /* Rounded corners */
-    -fx-padding: 8 20 8 20; /* Consistent button padding */
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2); /* Subtle shadow */
-    -fx-border-color: transparent;
+    -fx-font-family: 'Montserrat';
+    -fx-text-alignment: center;
 }
 
-.action-button:hover {
-    -fx-background-color: #1557b0;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 3); /* Stronger shadow on hover */
-}
-
-/* Avis Container */
-.avis-container {
-    -fx-padding: 20;
-    -fx-background-color: #f0f4f8;
-}
-
-.avis-header {
-    -fx-padding: 0 0 10 0;
-}
-
-.avis-title {
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1a73e8;
-}
-
-.scroll-pane {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-}
-
-.flow-pane {
-    -fx-padding: 10;
-}
-
-
-
+/* Stars */
 .star {
-    -fx-font-size: 16px;
-    -fx-text-fill: #ccc;
+    -fx-font-size: 14px; /* Increased for larger tile */
+    -fx-text-fill: #b0b0b0;
 }
 
 .star-selected {
-    -fx-font-size: 16px;
-    -fx-text-fill: #f4b400; /* Gold color for stars */
+    -fx-font-size: 14px; /* Increased for larger tile */
+    -fx-text-fill: #ffbe0b;
 }
 
+/* Score and Avis Count */
+.score-label {
+    -fx-font-size: 12px; /* Increased for larger tile */
+    -fx-text-fill: #e0e0e0;
+    -fx-font-family: 'Montserrat';
+    -fx-padding: 0 0 0 5;
+}
+
+.avis-count {
+    -fx-font-size: 12px; /* Increased for larger tile */
+    -fx-text-fill: #e0e0e0;
+    -fx-font-family: 'Montserrat';
+}
+
+/* Avis Card */
+.avis-card {
+    -fx-background-color: linear-gradient(to bottom right, #f5f5f5, #e0e0e0);
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #d0d0d0;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 2, 2);
+    -fx-padding: 15; /* Reverted for smaller card */
+}
+
+.avis-card:hover {
+    -fx-effect: dropshadow(gaussian, #00aaff, 15, 0.5, 0, 0);
+}
+
+/* Date and Comment */
 .date-label {
-    -fx-font-size: 12px;
-    -fx-text-fill: #999;
+    -fx-font-size: 14px; /* Reverted for smaller card */
+    -fx-text-fill: #666666;
+    -fx-font-family: 'Montserrat';
 }
 
 .comment-text {
-    -fx-font-size: 14px;
-    -fx-text-fill: #333;
-    -fx-wrap-text: true;
+    -fx-font-size: 16px; /* Reverted for smaller card */
+    -fx-text-fill: #333333;
+    -fx-font-family: 'Montserrat';
 }
 
-.button, .hide-button {
-    -fx-background-color: #1a73e8;
+/* Buttons */
+.action-button {
+    -fx-background-color: #ff006e;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 12px; /* Increased for larger tile */
+    -fx-font-family: 'Montserrat';
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.action-button:hover {
+    -fx-background-color: #d0005c;
+}
+
+.hide-button {
+    -fx-background-color: #ff006e;
     -fx-text-fill: #ffffff;
     -fx-font-size: 14px;
-    -fx-background-radius: 5;
-    -fx-padding: 8 15 8 15;
+    -fx-font-family: 'Montserrat';
+    -fx-background-radius: 8;
     -fx-cursor: hand;
 }
 
 .hide-button:hover {
-    -fx-background-color: #1557b0;
-}
-/* Search Bar */
-.search-field {
-    -fx-pref-width: 200px;
-    -fx-padding: 8px;
-    -fx-background-color: #ffffff;
-    -fx-border-color: #d1d1d1;
-    -fx-border-radius: 5px;
-    -fx-font-size: 14px;
-    -fx-prompt-text-fill: #888888;
+    -fx-background-color: #d0005c;
 }
 
-.search-field:focused {
-    -fx-border-color: #3498db;
-    -fx-border-width: 2px;
+.delete-button:hover {
+    -fx-background-color: #ffcccc;
 }
 
-/* Admin Image */
-#adminImage {
-    -fx-background-radius: 50%;
-    -fx-border-radius: 50%;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
-}
-
-/* Dropdown Menu */
-.admin-dropdown {
-    -fx-pref-width: 150px;
-    -fx-background-color: #ffffff;
-    -fx-border-color: #d1d1d1;
-    -fx-border-radius: 5px;
-    -fx-font-size: 14px;
-}
-
-.admin-dropdown .list-cell {
-    -fx-padding: 8px;
-}
-
-.admin-dropdown .list-cell:hover {
-    -fx-background-color: #3498db;
-    -fx-text-fill: #ffffff;
-}
-.avis-card {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 10;
+/* Avis Header */
+.avis-header {
+    -fx-background-color: linear-gradient(to bottom right, #f5f5f5, #e0e0e0);
     -fx-padding: 10;
+    -fx-background-radius: 10;
     -fx-border-radius: 10;
+    -fx-border-color: #d0d0d0;
+    -fx-border-width: 1;
 }
-/* Ensure FlowPane respects card sizes and adds spacing */
-#avisFlowPane {
-    -fx-hgap: 10;
-    -fx-vgap: 10;
-    -fx-alignment: top-left;
+
+.avis-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-font-family: 'Montserrat';
 }
