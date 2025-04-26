@@ -7,22 +7,23 @@
 <AnchorPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="tn.esprit.controllers.ModifierPromotionViewController"
-            prefWidth="500" prefHeight="500"
-            style="-fx-background-color: #f0f0f0;">
+            prefWidth="900" prefHeight="800"
+            stylesheets="@styles/modifierPromotion.css">
 
-    <VBox spacing="15" alignment="TOP_CENTER"
-          AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
-          AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
+    <VBox alignment="CENTER" styleClass="vbox"
+          AnchorPane.topAnchor="0"
+          AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0">
 
         <!-- Titre -->
-        <Label text="Modifier Promotion"
-               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <Label text="Modifier Promotion" styleClass="title-label"/>
 
         <!-- Formulaire -->
-        <GridPane hgap="10" vgap="15">
+        <GridPane styleClass="grid-pane">
             <columnConstraints>
-                <ColumnConstraints prefWidth="150" halignment="RIGHT"/>
-                <ColumnConstraints prefWidth="250"/>
+                <ColumnConstraints prefWidth="180" halignment="RIGHT"/>
+                <ColumnConstraints prefWidth="300"/>
             </columnConstraints>
 
             <!-- Ligne 1 : Code Promo -->
@@ -44,24 +45,15 @@
             <Label text="Date Expiration:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
             <DatePicker fx:id="dateExpirationField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-            <!-- Ligne 5 : ID Inscription -->
-            <Label text="ID Inscription:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-            <TextField fx:id="inscriptionIdField" GridPane.rowIndex="4" GridPane.columnIndex="1"
-                       promptText="ID inscription cours"/>
-
-            <!-- Ligne 6 : ID Apprenant -->
-            <Label text="ID Apprenant:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-            <TextField fx:id="apprenantIdField" GridPane.rowIndex="5" GridPane.columnIndex="1"
-                       promptText="ID apprenant"/>
+            <!-- Champs cachés pour les IDs -->
+            <TextField fx:id="inscriptionIdField" visible="false" managed="false"/>
+            <TextField fx:id="apprenantIdField" visible="false" managed="false"/>
         </GridPane>
 
         <!-- Boutons -->
-        <HBox spacing="20" alignment="CENTER">
-            <Button text="Enregistrer" onAction="#handleEnregistrer"
-                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
-            <Button text="Annuler" onAction="#handleAnnuler"
-                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <HBox styleClass="hbox">
+            <Button text="Enregistrer" onAction="#handleEnregistrer" defaultButton="true"/>
+            <Button text="Annuler" onAction="#handleAnnuler" cancelButton="true"/>
         </HBox>
-
     </VBox>
 </AnchorPane>
