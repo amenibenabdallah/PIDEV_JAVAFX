@@ -21,7 +21,7 @@ public class ServiceInscriptionCours implements IService<InscriptionCours> {
     public void add(InscriptionCours inscription) {
         String sql = "INSERT INTO inscription_cours (date_inscreption, type_paiement, nom_formation, cin, email, apprenant_id, formation_id, nom_apprenant, status, montant) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+        try (PreparedStatement ps = cnx.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setTimestamp(1, Timestamp.valueOf(inscription.getDateInscreption()));
             ps.setString(2, inscription.getTypePaiement());
             ps.setString(3, inscription.getNomFormation());
@@ -33,6 +33,11 @@ public class ServiceInscriptionCours implements IService<InscriptionCours> {
             ps.setString(9, inscription.getStatus());
             ps.setDouble(10, inscription.getMontant());
             ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                inscription.setId(id);
+            }
             System.out.println("✅ Inscription ajoutée !");
         } catch (SQLException e) {
             System.err.println("❌ Erreur lors de l'ajout : " + e.getMessage());

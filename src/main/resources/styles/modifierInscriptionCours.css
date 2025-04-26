@@ -128,3 +128,34 @@
 .grid-pane > * {
     -fx-alignment: center-left;
 }
+
+/* Styles spécifiques pour le paiement */
+.amount-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2ecc71;
+    -fx-padding: 10px;
+}
+
+.payment-field {
+    -fx-max-width: 300px;
+}
+
+/* Style des boutons de paiement */
+.button:default {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+}
+
+.button:default:hover {
+    -fx-background-color: #27ae60;
+}
+
+.button:cancel {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+}
+
+.button:cancel:hover {
+    -fx-background-color: #c0392b;
+}

@@ -10,12 +10,15 @@ import javafx.stage.Stage;
 import tn.esprit.models.InscriptionCours;
 import tn.esprit.models.users;
 import tn.esprit.models.Formation;
+import tn.esprit.models.Promotion;
 import tn.esprit.services.ServiceInscriptionCours;
 import tn.esprit.services.ServiceFormation;
+import tn.esprit.services.ServicePromotion;
 import tn.esprit.utils.SessionManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +33,11 @@ public class InscriptionCoursViewController {
     @FXML private TextField txtApprenantId;
     @FXML private TextField txtFormationId;
     @FXML private Button btnAjouter;
+    @FXML private TextField txtCodePromo;
 
     private final ServiceInscriptionCours service = new ServiceInscriptionCours();
     private final ServiceFormation formationService = new ServiceFormation();
+    private final ServicePromotion servicePromotion = new ServicePromotion();
     private Map<String, Integer> formationMap; // Associe titre à id
 
     @FXML
@@ -146,6 +151,27 @@ public class InscriptionCoursViewController {
             // Ajout à la base de données
             service.add(ins);
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Inscription enregistrée !");
+
+            // Fermer la fenêtre d'inscription
+            Stage currentStage = (Stage) btnAjouter.getScene().getWindow();
+            currentStage.close();
+
+            // Ouvrir l'interface de paiement avec le montant de la formation
+            double montant = formationService.getPrixById(formationId);
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaymentView.fxml"));
+                Parent root = loader.load();
+                PaymentController paymentController = loader.getController();
+                paymentController.setAmount(montant);
+                paymentController.setInscription(ins);
+                Stage stage = new Stage();
+                stage.setTitle("Paiement");
+                stage.setScene(new Scene(root));
+                stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             // Réinitialiser le formulaire
             handleAnnuler();

@@ -49,7 +49,11 @@
             <version>5.7.6</version> <!-- Choisissez la version qui convient à votre projet -->
         </dependency>
 
-
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>29.0.0</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>

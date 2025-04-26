@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<VBox alignment="CENTER" spacing="15" styleClass="vbox"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.controllers.PaymentController">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <stylesheets>
+        <URL value="@styles/payment.css"/>
+    </stylesheets>
+
+    <Label text="Paiement sécurisé" styleClass="title-label"/>
+
+    <Label fx:id="amountLabel" styleClass="amount-label"/>
+
+    <GridPane styleClass="grid-pane" hgap="5" vgap="10">
+
+
+        <!-- Numéro de carte -->
+        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <Label text="💳" styleClass="icon-label"/>
+            <TextField fx:id="cardNumberField" promptText="Card number" styleClass="text-field" prefWidth="300"/>
+        </HBox>
+
+        <!-- Date d'expiration et CVV -->
+        <HBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="2">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="📅" styleClass="icon-label"/>
+                <TextField fx:id="expiryDateField" promptText="MM / YY" styleClass="text-field" prefWidth="145"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT">
+                <Label text="🔒" styleClass="icon-label"/>
+                <TextField fx:id="cvvField" promptText="CVC" styleClass="text-field" prefWidth="145"/>
+            </HBox>
+        </HBox>
+    </GridPane>
+
+    <!-- Ligne code promo -->
+    <HBox spacing="10" alignment="CENTER">
+        <Label text="Code promo :" styleClass="form-label"/>
+        <TextField fx:id="codePromoField" promptText="Entrez votre code promo" styleClass="form-field"/>
+        <Button fx:id="verifierPromoButton" text="Vérifier" onAction="#handleVerifierPromo" />
+    </HBox>
+    <Label fx:id="remiseLabel" styleClass="remise-label" visible="false" managed="false" />
+
+    <CheckBox fx:id="rememberMeCheckBox" text="Remember me" styleClass="checkbox"/>
+
+    <HBox spacing="10" alignment="CENTER" styleClass="hbox">
+        <Button fx:id="payButton" text="Pay $1.00" onAction="#handlePayment" defaultButton="true"/>
+        <Button fx:id="cancelButton" text="Annuler" onAction="#handleCancel" cancelButton="true"/>
+    </HBox>
+</VBox>

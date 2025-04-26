@@ -30,4 +30,21 @@ public class ServiceFormation {
         }
         return formations;
     }
+
+    public double getPrixById(int id) {
+        double prix = 0.0;
+        String query = "SELECT prix FROM formation WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    prix = rs.getDouble("prix");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return prix;
+    }
 }
