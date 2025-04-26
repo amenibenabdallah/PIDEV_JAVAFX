@@ -1,6 +1,8 @@
 package tn.esprit.controllers;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -73,7 +75,6 @@ public class AdminFormationListController implements Initializable, Searchable {
             updateFormationTiles(formationList);
         } catch (SQLException e) {
             e.printStackTrace();
-            // "Erreur" is correct in French; ignore typo warning
             showAlert("Erreur", "Impossible de charger les formations : " + e.getMessage());
         }
     }
@@ -87,21 +88,21 @@ public class AdminFormationListController implements Initializable, Searchable {
     }
 
     private VBox createFormationTile(FormationA formation) {
-        VBox tile = new VBox(10); // Increased spacing for larger tile
+        VBox tile = new VBox(10);
         tile.getStyleClass().add("formation-tile");
-        tile.setPrefWidth(200); // Increased from 150
-        tile.setPrefHeight(200); // Increased from 150
+        tile.setPrefWidth(200);
+        tile.setPrefHeight(200);
         tile.setAlignment(Pos.CENTER);
-        tile.setPadding(new Insets(15)); // Increased for larger tile
+        tile.setPadding(new Insets(15));
 
         // Formation Name
         Label nameLabel = new Label(formation.getName());
         nameLabel.getStyleClass().add("formation-name");
         nameLabel.setWrapText(true);
-        nameLabel.setMaxWidth(180); // Increased from 130
+        nameLabel.setMaxWidth(180);
 
         // Average Score with Animated Stars
-        HBox scoreBox = new HBox(4); // Slightly increased spacing
+        HBox scoreBox = new HBox(4);
         scoreBox.getChildren().addAll(createStarBox(formation.getAverageScore()));
         Label scoreLabel = new Label(decimalFormat.format(formation.getAverageScore()) + "/5");
         scoreLabel.getStyleClass().add("score-label");
@@ -115,7 +116,7 @@ public class AdminFormationListController implements Initializable, Searchable {
         // Action Button
         Button avisButton = new Button("Avis");
         avisButton.getStyleClass().add("action-button");
-        avisButton.setPadding(new Insets(6, 12, 6, 12)); // Adjusted for larger tile
+        avisButton.setPadding(new Insets(6, 12, 6, 12));
         avisButton.setOnAction(event -> handleShowAvis(formation));
 
         tile.getChildren().addAll(nameLabel, scoreBox, avisCountLabel, avisButton);
@@ -179,7 +180,17 @@ public class AdminFormationListController implements Initializable, Searchable {
         avisFlowPane.getChildren().clear();
 
         for (Avis avis : selectedFormation.getAvisList()) {
-            avisFlowPane.getChildren().add(createAvisCard(avis));
+            VBox card = createAvisCard(avis);
+            // Entrance animation for cards
+            FadeTransition fade = new FadeTransition(Duration.millis(500), card);
+            fade.setFromValue(0);
+            fade.setToValue(1);
+            TranslateTransition translate = new TranslateTransition(Duration.millis(500), card);
+            translate.setFromX(20);
+            translate.setToX(0);
+            fade.play();
+            translate.play();
+            avisFlowPane.getChildren().add(card);
         }
 
         avisContainer.setVisible(true);
@@ -196,10 +207,10 @@ public class AdminFormationListController implements Initializable, Searchable {
     private VBox createAvisCard(Avis avis) {
         VBox card = new VBox(5);
         card.getStyleClass().add("avis-card");
-        card.setPrefWidth(350); // Reverted from 400
-        card.setPrefHeight(220); // Reverted from 260
-        card.setMinHeight(220); // Reverted from 260
-        card.setMaxHeight(220); // Reverted from 260
+        card.setPrefWidth(350);
+        card.setPrefHeight(220);
+        card.setMinHeight(220);
+        card.setMaxHeight(220);
 
         // Check for bad words
         boolean hasBadWord = containsBadWord(avis.getCommentaire());
@@ -221,7 +232,7 @@ public class AdminFormationListController implements Initializable, Searchable {
         HBox starBox = new HBox(5);
         starBox.getChildren().addAll(createStarBox(avis.getNote()));
         if (!hasBadWord) {
-            starBox.setPadding(new Insets(40, 0, 0, 0)); // Reverted for smaller card
+            starBox.setPadding(new Insets(40, 0, 0, 0));
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -234,8 +245,8 @@ public class AdminFormationListController implements Initializable, Searchable {
 
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
-        buttonBox.setPadding(new Insets(0, 10, 10, 0)); // Reverted for smaller card
-        buttonBox.setMinHeight(40); // Reverted for smaller card
+        buttonBox.setPadding(new Insets(0, 10, 10, 0));
+        buttonBox.setMinHeight(40);
 
         Button deleteButton = new Button();
         Label trashIcon = new Label("\uD83D\uDDD1"); // Trash can emoji (🗑)
@@ -247,6 +258,14 @@ public class AdminFormationListController implements Initializable, Searchable {
         buttonBox.getChildren().add(deleteButton);
 
         card.getChildren().addAll(starBox, dateLabel, commentLabel, buttonBox);
+
+        // Hover effect (gradient border)
+        card.setOnMouseEntered(e -> card.setStyle("-fx-border-color: linear-gradient(to right, #2b6cb0, #6b46c1); -fx-border-width: 2;"));
+        card.setOnMouseExited(e -> {
+            if (!hasBadWord) {
+                card.setStyle("-fx-border-color: #d0d0d0; -fx-border-width: 1;");
+            }
+        });
 
         return card;
     }

@@ -1,6 +1,6 @@
 /* Main Content */
 .main-content {
-    -fx-background-color: #ffffff;
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #ffffff, #f5f5f5);
     -fx-padding: 20;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .formation-name {
-    -fx-font-size: 16px; /* Increased for larger tile */
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
     -fx-text-fill: #ffffff;
     -fx-font-family: 'Montserrat';
@@ -35,53 +35,57 @@
 
 /* Stars */
 .star {
-    -fx-font-size: 14px; /* Increased for larger tile */
+    -fx-font-size: 14px;
     -fx-text-fill: #b0b0b0;
 }
 
 .star-selected {
-    -fx-font-size: 14px; /* Increased for larger tile */
+    -fx-font-size: 14px;
     -fx-text-fill: #ffbe0b;
 }
 
 /* Score and Avis Count */
 .score-label {
-    -fx-font-size: 12px; /* Increased for larger tile */
+    -fx-font-size: 12px;
     -fx-text-fill: #e0e0e0;
     -fx-font-family: 'Montserrat';
     -fx-padding: 0 0 0 5;
 }
 
 .avis-count {
-    -fx-font-size: 12px; /* Increased for larger tile */
+    -fx-font-size: 12px;
     -fx-text-fill: #e0e0e0;
     -fx-font-family: 'Montserrat';
 }
 
 /* Avis Card */
 .avis-card {
-    -fx-background-color: linear-gradient(to bottom right, #f5f5f5, #e0e0e0);
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
+    -fx-background-color: rgba(245, 245, 245, 0.8);
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
     -fx-border-color: #d0d0d0;
     -fx-border-width: 1;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 2, 2);
-    -fx-padding: 15; /* Reverted for smaller card */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    -fx-backdrop-filter: blur(5px); /* Simulate glassmorphism */
+    -fx-padding: 15;
 }
 
 .avis-card:hover {
-    -fx-effect: dropshadow(gaussian, #00aaff, 15, 0.5, 0, 0);
+    -fx-border-color: linear-gradient(to right, #2b6cb0, #6b46c1);
+    -fx-border-width: 2;
 }
 
 /* Date and Comment */
 .date-label {
-    -fx-font-size: 14px; /* Reverted for smaller card */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold; /* Bolder for hierarchy */
     -fx-text-fill: #666666;
     -fx-font-family: 'Montserrat';
 }
 
 .comment-text {
-    -fx-font-size: 16px; /* Reverted for smaller card */
+    -fx-font-size: 16px;
+    -fx-font-weight: normal; /* Lighter for contrast */
     -fx-text-fill: #333333;
     -fx-font-family: 'Montserrat';
 }
@@ -90,7 +94,7 @@
 .action-button {
     -fx-background-color: #ff006e;
     -fx-text-fill: #ffffff;
-    -fx-font-size: 12px; /* Increased for larger tile */
+    -fx-font-size: 12px;
     -fx-font-family: 'Montserrat';
     -fx-background-radius: 8;
     -fx-cursor: hand;
@@ -119,10 +123,10 @@
 
 /* Avis Header */
 .avis-header {
-    -fx-background-color: linear-gradient(to bottom right, #f5f5f5, #e0e0e0);
+    -fx-background-color: rgba(245, 245, 245, 0.8);
     -fx-padding: 10;
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
     -fx-border-color: #d0d0d0;
     -fx-border-width: 1;
 }
