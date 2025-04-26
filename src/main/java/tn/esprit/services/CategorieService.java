@@ -45,6 +45,38 @@ public class CategorieService implements IService<Categorie> {
             throw new SQLException("Error while updating category: " + e.getMessage());
         }
     }
+    public List<Categorie> getUsedCategoriesWithFormationCount() {
+        List<Categorie> list = new ArrayList<>();
+        String query = "SELECT c.id, c.nom, c.description, COUNT(f.id) as formation_count " +
+                "FROM categorie c " +
+                "LEFT JOIN formation f ON c.id = f.categorie_id " +
+                "GROUP BY c.id " +
+                "HAVING formation_count > 0";
+
+        try {
+            PreparedStatement ps = cnx.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Categorie c = new Categorie();
+                c.setId(rs.getInt("id"));
+                c.setNom(rs.getString("nom"));
+                c.setDescription(rs.getString("description"));
+
+                // Optional: you can create dummy formations if you want
+                for (int i = 0; i < rs.getInt("formation_count"); i++) {
+                    c.addFormation(new tn.esprit.models.Formation());
+                }
+
+                list.add(c);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 
     @Override
     public void delete(int id) throws SQLException {

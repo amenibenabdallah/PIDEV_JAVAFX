@@ -96,8 +96,9 @@ public class InstructeurTemplateController implements Initializable {
     // === Navigation Methods ===
     @FXML
     private void navigateToDashboard() {
-        loadContent("Dashboard.fxml", "Dashboard");
+        loadContent("/DashboardInstructeur.fxml", "Dashboard"); // Correct the path here
     }
+
     @FXML
     private void navigateToCategories() {
         loadContent("/Category/getAllCategories.fxml", "Categories");
@@ -134,6 +135,7 @@ public class InstructeurTemplateController implements Initializable {
 
             pageTitle.setText(title);
             searchField.setPromptText("Rechercher " + title.toLowerCase() + "...");
+
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Erreur", "Erreur lors du chargement de la page : " + e.getMessage());

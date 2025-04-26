@@ -10,7 +10,7 @@ public class Categorie {
     public String toString() {
         return
 
-                " Categorie:=" + nom
+                  nom
 
                 ;
     }
