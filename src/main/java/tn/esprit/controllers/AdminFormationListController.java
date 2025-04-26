@@ -21,12 +21,20 @@ import tn.esprit.services.ServiceAvis;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import org.json.JSONObject; // Added for JSON parsing
 
 public class AdminFormationListController implements Initializable, Searchable {
 
@@ -50,8 +58,13 @@ public class AdminFormationListController implements Initializable, Searchable {
     private final FormationServiceA formationService = new FormationServiceA();
     private final ServiceAvis serviceAvis = new ServiceAvis();
     private final DecimalFormat decimalFormat = new DecimalFormat("#.#");
-    private final List<String> badWords = Arrays.asList("bad", "stupid", "idiot", "terrible", "awful");
     private FormationA currentFormation;
+
+    // SightEngine API Key (store securely in production)
+    private static final String SIGHT_ENGINE_API_KEY = "1126907624"; // Replace with your SightEngine API key
+    private static final String SIGHT_ENGINE_API_SECRET = "CL3tBwEJEJuRU9vZTaAre4KeVkVx5e6A"; // Replace with your SightEngine API secret
+    private static final String SIGHT_ENGINE_API_URL = "https://api.sightengine.com/1.0/text/check.json";
+    private final HttpClient httpClient = HttpClient.newHttpClient();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -65,9 +78,11 @@ public class AdminFormationListController implements Initializable, Searchable {
         hideAvisButton.setPadding(new Insets(8, 20, 8, 20));
 
         // Bind FlowPane size to parent for responsive layout
+        @SuppressWarnings("unused")
         Parent parent = formationFlowPane.getParent();
 
     }
+
 
     private void loadFormations() {
         try {
@@ -75,10 +90,9 @@ public class AdminFormationListController implements Initializable, Searchable {
             updateFormationTiles(formationList);
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert("Erreur", "Impossible de charger les formations : " + e.getMessage());
+            showAlert("Error", "Unable to load formations: " + e.getMessage());
         }
     }
-
     private void updateFormationTiles(ObservableList<FormationA> formations) {
         formationFlowPane.getChildren().clear();
         for (FormationA formation : formations) {
@@ -110,7 +124,7 @@ public class AdminFormationListController implements Initializable, Searchable {
         scoreBox.setAlignment(Pos.CENTER);
 
         // Number of Reviews
-        Label avisCountLabel = new Label(formation.getAvisCount() + " Avis");
+        Label avisCountLabel = new Label(formation.getAvisCount() + "");
         avisCountLabel.getStyleClass().add("avis-count");
 
         // Action Button
@@ -180,7 +194,8 @@ public class AdminFormationListController implements Initializable, Searchable {
         avisFlowPane.getChildren().clear();
 
         for (Avis avis : selectedFormation.getAvisList()) {
-            VBox card = createAvisCard(avis);
+            boolean hasBadWord = containsBadWord(avis.getCommentaire());
+            VBox card = createAvisCard(avis, hasBadWord);
             // Entrance animation for cards
             FadeTransition fade = new FadeTransition(Duration.millis(500), card);
             fade.setFromValue(0);
@@ -204,7 +219,7 @@ public class AdminFormationListController implements Initializable, Searchable {
         currentFormation = null;
     }
 
-    private VBox createAvisCard(Avis avis) {
+    private VBox createAvisCard(Avis avis, boolean hasBadWord) {
         VBox card = new VBox(5);
         card.getStyleClass().add("avis-card");
         card.setPrefWidth(350);
@@ -212,8 +227,6 @@ public class AdminFormationListController implements Initializable, Searchable {
         card.setMinHeight(220);
         card.setMaxHeight(220);
 
-        // Check for bad words
-        boolean hasBadWord = containsBadWord(avis.getCommentaire());
         if (hasBadWord) {
             card.setStyle("-fx-border-color: #ff4040; -fx-border-width: 2; -fx-border-radius: 10; " +
                     "-fx-effect: dropshadow(gaussian, #ff4040, 10, 0.3, 0, 0);");
@@ -222,7 +235,7 @@ public class AdminFormationListController implements Initializable, Searchable {
             flaggedBox.setAlignment(Pos.CENTER_LEFT);
             Label flagIcon = new Label("\uD83D\uDEA9"); // Flag emoji (🚩)
             flagIcon.setStyle("-fx-text-fill: #ff4040; -fx-font-size: 18px; -fx-font-family: 'Montserrat';");
-            Label flaggedLabel = new Label(" Inappropriate Content");
+            Label flaggedLabel = new Label(" Flagged: Inappropriate Content");
             flaggedLabel.setStyle("-fx-text-fill: #ff4040; -fx-font-weight: bold; -fx-font-family: 'Montserrat';");
             flaggedBox.getChildren().addAll(flagIcon, flaggedLabel);
             flaggedBox.setStyle("-fx-background-color: #ffe6e6; -fx-background-radius: 5; -fx-padding: 8;");
@@ -271,28 +284,67 @@ public class AdminFormationListController implements Initializable, Searchable {
     }
 
     private boolean containsBadWord(String comment) {
-        if (comment == null) {
+        if (comment == null || comment.trim().isEmpty()) {
             return false;
         }
-        String lowerCaseComment = comment.toLowerCase();
-        return badWords.stream().anyMatch(badWord -> lowerCaseComment.contains(badWord.toLowerCase()));
+
+        try {
+            // Build SightEngine API request
+            String params = String.format("text=%s&lang=fr&mode=rules,ml&api_user=%s&api_secret=%s",
+                    URLEncoder.encode(comment, StandardCharsets.UTF_8), SIGHT_ENGINE_API_KEY, SIGHT_ENGINE_API_SECRET);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(SIGHT_ENGINE_API_URL + "?" + params))
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            // Send request and get response
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+
+            // Log the API response for debugging
+            System.out.println("SightEngine API Response for comment \"" + comment + "\": " + responseBody);
+
+            // Parse the JSON response
+            JSONObject jsonResponse = new JSONObject(responseBody);
+
+            // Check if the response indicates success
+            if (!jsonResponse.getString("status").equals("success")) {
+                System.out.println("SightEngine API call failed: " + responseBody);
+                throw new Exception("API call failed: " + jsonResponse.getString("error"));
+            }
+
+            // Check for profanity matches
+            JSONObject profanity = jsonResponse.getJSONObject("profanity");
+            boolean hasProfanity = profanity.getJSONArray("matches").length() > 0;
+
+            System.out.println("Profanity detected in comment \"" + comment + "\": " + (hasProfanity ? "Yes" : "No"));
+            return hasProfanity;
+        } catch (Exception e) {
+            System.out.println("Error checking bad word for comment \"" + comment + "\": " + e.getMessage());
+            e.printStackTrace();
+            // Fallback to local check in case of API failure
+            List<String> badWords = Arrays.asList("bad", "stupid", "idiot", "terrible", "awful");
+            boolean hasBadWord = badWords.stream().anyMatch(word -> comment.toLowerCase().contains(word));
+            System.out.println("Fallback to local list for comment \"" + comment + "\": " + (hasBadWord ? "Flagged" : "Not flagged"));
+            return hasBadWord;
+        }
     }
 
     private void handleDeleteAvis(Avis avis) {
         boolean isFlagged = containsBadWord(avis.getCommentaire());
         if (!isFlagged) {
-            showAlert("Erreur", "Vous ne pouvez pas supprimer cet avis, il respecte notre politique");
+            showAlert("Error", "You cannot delete this review, it complies with our policy");
             return;
         }
 
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Supprimer Avis");
-        confirmAlert.setHeaderText("Êtes-vous sûr de vouloir supprimer cet avis ?");
-        confirmAlert.setContentText("Cette action est irréversible.");
+        confirmAlert.setTitle("Delete Review");
+        confirmAlert.setHeaderText("Are you sure you want to delete this review?");
+        confirmAlert.setContentText("Reason for flagging: Inappropriate Content\nThis action is irreversible.");
         confirmAlert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 serviceAvis.delete(avis);
-                showAlert("Succès", "Avis signalé supprimé avec succès");
+                showAlert("Success", "Flagged review deleted successfully");
                 loadFormations();
                 if (currentFormation != null) {
                     currentFormation = formationList.stream()
