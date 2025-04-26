@@ -5,6 +5,8 @@ requires javafx.fxml;
     requires spring.security.crypto;
     requires java.desktop;
     requires stripe.java;
+    requires okhttp3;
+    requires com.google.gson;
     exports tn.esprit.controllers;
     exports tn.esprit.services;
     exports tn.esprit.models;
