@@ -1,15 +1,19 @@
 package tn.esprit.controllers;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import tn.esprit.models.Avis;
+import tn.esprit.models.FormationA;
 import tn.esprit.services.ServiceAvis;
+import tn.esprit.services.FormationServiceA;
+import tn.esprit.utils.SessionManager;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class AddAvis {
 
@@ -35,7 +39,7 @@ public class AddAvis {
     private TextArea commentaireField;
 
     @FXML
-    private ComboBox<String> formationComboBox;
+    private ComboBox<FormationA> formationComboBox;
 
     @FXML
     private VBox addAvisForm;
@@ -44,19 +48,47 @@ public class AddAvis {
     private Button addButton;
 
     @FXML
-    private Label titleLabel; // New reference for dynamic title
+    private Label titleLabel;
 
     private ServiceAvis serviceAvis;
+    private FormationServiceA formationService;
     private ListAvisController listAvisController;
-    private static final int FORMATION_ID = 1;
     private float selectedRating = 0;
     private Avis currentAvis;
+    private final SessionManager sessionManager = new SessionManager();
 
     @FXML
     public void initialize() {
         serviceAvis = new ServiceAvis();
-        formationComboBox.setItems(FXCollections.observableArrayList("1"));
-        formationComboBox.setValue("1");
+        formationService = new FormationServiceA();
+        initializeFormationComboBox();
+    }
+
+    private void initializeFormationComboBox() {
+        try {
+            List<FormationA> formations = formationService.getAllFormations();
+            formationComboBox.getItems().addAll(formations);
+            formationComboBox.setCellFactory(param -> new ListCell<FormationA>() {
+                @Override
+                protected void updateItem(FormationA formation, boolean empty) {
+                    super.updateItem(formation, empty);
+                    setText(empty || formation == null ? null : formation.getName());
+                }
+            });
+            formationComboBox.setButtonCell(new ListCell<FormationA>() {
+                @Override
+                protected void updateItem(FormationA formation, boolean empty) {
+                    super.updateItem(formation, empty);
+                    setText(empty || formation == null ? null : formation.getName());
+                }
+            });
+            if (!formations.isEmpty()) {
+                formationComboBox.getSelectionModel().selectFirst();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de charger les formations.");
+        }
     }
 
     public void setListAvisController(ListAvisController controller) {
@@ -100,24 +132,36 @@ public class AddAvis {
                 return;
             }
 
-            String formationIdStr = formationComboBox.getValue();
-            int formationId = Integer.parseInt(formationIdStr);
+            FormationA selectedFormation = formationComboBox.getValue();
+            if (selectedFormation == null) {
+                showAlert("Erreur", "Veuillez sélectionner une formation.");
+                return;
+            }
+            int formationId = selectedFormation.getId();
+
+            if (sessionManager.getUtilisateurConnecte() == null) {
+                showAlert("Erreur", "Aucun utilisateur connecté. Veuillez vous connecter.");
+                return;
+            }
+            int apprenantId = sessionManager.getUtilisateurConnecte().getId();
 
             if (currentAvis == null) {
                 Avis newAvis = new Avis();
                 newAvis.setNote(selectedRating);
                 newAvis.setCommentaire(commentaire);
                 newAvis.setFormationId(formationId);
+                newAvis.setApprenantId(apprenantId);
                 newAvis.setDateCreation(LocalDateTime.now());
                 serviceAvis.add(newAvis);
-                // Show success message after adding the avis
                 showAlert("Succès", "Avis ajouté avec succès");
             } else {
                 currentAvis.setNote(selectedRating);
                 currentAvis.setCommentaire(commentaire);
                 currentAvis.setFormationId(formationId);
+                currentAvis.setApprenantId(apprenantId);
                 currentAvis.setDateCreation(LocalDateTime.now());
                 serviceAvis.update(currentAvis);
+                showAlert("Succès", "Avis mis à jour avec succès");
             }
 
             if (listAvisController != null) {
@@ -144,20 +188,33 @@ public class AddAvis {
         currentAvis = avis;
         selectedRating = avis.getNote();
         commentaireField.setText(avis.getCommentaire());
-        formationComboBox.setValue(String.valueOf(avis.getFormationId()));
+        try {
+            FormationA formation = formationService.getById(avis.getFormationId());
+            if (formation != null) {
+                formationComboBox.setValue(formation);
+            } else {
+                formationComboBox.getSelectionModel().clearSelection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de charger la formation pour cet avis.");
+        }
         updateStarStyles();
-        addButton.setText("Update Avis");
-        titleLabel.setText("Edit Avis"); // Update title
+        addButton.setText("Mettre à jour");
+        titleLabel.setText("Modifier l'Avis");
     }
 
-     void clearForm() {
+    public void clearForm() {
         selectedRating = 0;
         updateStarStyles();
         commentaireField.clear();
-        formationComboBox.setValue("1");
+        formationComboBox.getSelectionModel().clearSelection();
+        if (!formationComboBox.getItems().isEmpty()) {
+            formationComboBox.getSelectionModel().selectFirst();
+        }
         currentAvis = null;
-        addButton.setText("Add Avis");
-        titleLabel.setText("Add New Avis"); // Reset title
+        addButton.setText("Ajouter");
+        titleLabel.setText("Laisser un Avis");
     }
 
     private void showAlert(String title, String message) {

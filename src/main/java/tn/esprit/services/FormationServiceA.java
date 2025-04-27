@@ -186,6 +186,41 @@ public class FormationServiceA {
         }
         return instructors;
     }
+    public FormationA getById(int formationId) throws SQLException {
+        String queryFormation = "SELECT f.id, f.titre, f.niveau, f.description, f.duree, f.categorie_id, c.nom AS category_name " +
+                "FROM formation f " +
+                "LEFT JOIN categorie c ON f.categorie_id = c.id " +
+                "WHERE f.id = ?";
+
+        try (PreparedStatement stmt = cnx.prepareStatement(queryFormation)) {
+            stmt.setInt(1, formationId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int id = rs.getInt("id");
+                    String name = rs.getString("titre");
+                    String niveau = rs.getString("niveau");
+                    String description = rs.getString("description");
+                    String duree = rs.getString("duree");
+                    int categorieId = rs.getInt("categorie_id");
+                    String categoryName = rs.getString("category_name");
+
+                    // Fetch FormationScore for this formation
+                    FormationScore formationScore = getFormationScore(id);
+                    double averageScore = (formationScore != null) ? formationScore.getNoteMoyenne() : 0.0;
+                    int avisCount = (formationScore != null) ? formationScore.getNombreAvis() : 0;
+
+                    // Fetch avis for this formation
+                    List<Avis> avisList = getAvisForFormation(id);
+
+                    // Fetch instructors for this formation
+                    List<instructeurs> instructors = getInstructorsForFormation(id);
+
+                    return new FormationA(id, name, averageScore, avisCount, avisList, instructors, niveau, description, duree, categorieId, categoryName);
+                }
+            }
+        }
+        return null; // Formation not found
+    }
 
     public int getTotalAvisCount() throws SQLException {
         String query = "SELECT SUM(nombre_avis) FROM formation_score";

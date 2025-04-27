@@ -10,10 +10,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import tn.esprit.models.Avis;
+import tn.esprit.models.FormationA;
 import tn.esprit.services.ServiceAvis;
+import tn.esprit.services.FormationServiceA;
 import tn.esprit.utils.SessionManager;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -35,23 +38,65 @@ public class ListAvisController {
     @FXML
     private VBox addAvisContainer;
 
+    @FXML
+    private ComboBox<FormationA> formationComboBox;
+
     private ServiceAvis serviceAvis;
-    private static final int FORMATION_ID = 1;
+    private FormationServiceA serviceFormation;
     private AddAvis addAvisController;
-    private final SessionManager sessionManager = new SessionManager(); // Added SessionManager
+    private final SessionManager sessionManager = new SessionManager();
 
     @FXML
     public void initialize() {
+        System.out.println("Initializing ListAvisController...");
         serviceAvis = new ServiceAvis();
-        loadAvisData();
-
+        serviceFormation = new FormationServiceA();
+        initializeFormationComboBox();
+        loadAvisData(null);
     }
 
-    private void loadAvisData() {
+    private void initializeFormationComboBox() {
+        if (formationComboBox == null) {
+            System.err.println("formationComboBox is null. Check fx:id in ListAvis.fxml");
+            return;
+        }
+        try {
+            List<FormationA> formations = serviceFormation.getAllFormations();
+            formationComboBox.getItems().addAll(formations);
+            formationComboBox.setCellFactory(param -> new ListCell<FormationA>() {
+                @Override
+                protected void updateItem(FormationA formation, boolean empty) {
+                    super.updateItem(formation, empty);
+                    setText(empty || formation == null ? null : formation.getName());
+                }
+            });
+            formationComboBox.setButtonCell(new ListCell<FormationA>() {
+                @Override
+                protected void updateItem(FormationA formation, boolean empty) {
+                    super.updateItem(formation, empty);
+                    setText(empty || formation == null ? null : formation.getName());
+                }
+            });
+            formationComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                loadAvisData(newSelection != null ? newSelection.getId() : null);
+            });
+            if (!formations.isEmpty()) {
+                formationComboBox.getSelectionModel().selectFirst();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load formations.");
+        }
+    }
+
+    private void loadAvisData(Integer formationId) {
         avisFlowPane.getChildren().clear();
-        List<Avis> avisList = serviceAvis.getAll().stream()
-                .filter(avis -> avis.getFormationId() == FORMATION_ID)
-                .toList();
+        List<Avis> avisList = serviceAvis.getAll();
+        if (formationId != null) {
+            avisList = avisList.stream()
+                    .filter(avis -> avis.getFormationId() == formationId)
+                    .toList();
+        }
 
         double averageRating = avisList.isEmpty() ? 0.0 : avisList.stream()
                 .mapToDouble(Avis::getNote)
@@ -72,6 +117,9 @@ public class ListAvisController {
         VBox card = new VBox(15);
         card.getStyleClass().add("card");
 
+
+
+
         HBox ratingBox = new HBox(8);
         for (int i = 1; i <= 5; i++) {
             Label star = new Label("★");
@@ -91,28 +139,31 @@ public class ListAvisController {
         commentLabel.getStyleClass().add("comment-text");
         commentLabel.setWrapText(true);
 
-        // Conditionally show Edit/Delete buttons if the avis belongs to the connected user
-        int connectedUserId = sessionManager.getUtilisateurConnecte().getId();
-        System.out.println("Avis ID: " + avis.getId() + ", Avis apprenant_id: " + avis.getApprenantId() +
-                ", Connected user_id: " + connectedUserId);
-
         HBox buttonBox = new HBox(15);
-        if (avis.getApprenantId() == connectedUserId) {
-            System.out.println("Showing Edit/Delete buttons for Avis ID: " + avis.getId());
-            Button editButton = new Button("Edit");
-            editButton.getStyleClass().addAll("button", "edit-button");
-            editButton.setOnAction(e -> handleEdit(avis));
+        if (sessionManager.getUtilisateurConnecte() != null) {
+            int connectedUserId = sessionManager.getUtilisateurConnecte().getId();
+            System.out.println("Avis ID: " + avis.getId() + ", Avis apprenant_id: " + avis.getApprenantId() +
+                    ", Connected user_id: " + connectedUserId);
 
-            Button deleteButton = new Button("🗑️"); // Unicode trash can icon
-            deleteButton.getStyleClass().addAll("button", "delete-button");
-            deleteButton.setOnAction(e -> handleDelete(avis));
+            if (avis.getApprenantId() == connectedUserId) {
+                System.out.println("Showing Edit/Delete buttons for Avis ID: " + avis.getId());
+                Button editButton = new Button("Edit");
+                editButton.getStyleClass().addAll("button", "edit-button");
+                editButton.setOnAction(e -> handleEdit(avis));
 
-            buttonBox.getChildren().addAll(editButton, deleteButton);
+                Button deleteButton = new Button("🗑️");
+                deleteButton.getStyleClass().addAll("button", "delete-button");
+                deleteButton.setOnAction(e -> handleDelete(avis));
+
+                buttonBox.getChildren().addAll(editButton, deleteButton);
+            } else {
+                System.out.println("Hiding Edit/Delete buttons for Avis ID: " + avis.getId() + " (apprenant_id mismatch)");
+            }
         } else {
-            System.out.println("Hiding Edit/Delete buttons for Avis ID: " + avis.getId() + " (apprenant_id mismatch)");
+            System.out.println("No user logged in. Hiding Edit/Delete buttons for Avis ID: " + avis.getId());
         }
 
-        card.getChildren().addAll(ratingBox, dateLabel, commentLabel, buttonBox);
+        card.getChildren().addAll( ratingBox, dateLabel, commentLabel, buttonBox);
 
         FadeTransition fade = new FadeTransition(Duration.millis(600), card);
         fade.setFromValue(0.0);
@@ -196,7 +247,7 @@ public class ListAvisController {
     }
 
     public void refreshAvisList() {
-        loadAvisData();
+        loadAvisData(formationComboBox != null && formationComboBox.getValue() != null ? formationComboBox.getValue().getId() : null);
         addAvisContainer.setVisible(false);
         addAvisContainer.setManaged(false);
         toggleAddFormButton.setText("Ajouter un avis");
