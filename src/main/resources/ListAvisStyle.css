@@ -344,3 +344,14 @@
 .formation-combo-box .list-cell:selected {
     -fx-background-color:#ffffff ;
 }
+.translate-link {
+    -fx-text-fill: #1e90ff;
+    -fx-font-size: 12px;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+.translate-link:hover {
+    -fx-text-fill: #4682b4;
+    -fx-underline: true;
+}

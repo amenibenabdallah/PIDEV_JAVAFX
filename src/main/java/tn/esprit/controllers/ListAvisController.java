@@ -13,9 +13,8 @@ import tn.esprit.models.Avis;
 import tn.esprit.models.FormationA;
 import tn.esprit.services.ServiceAvis;
 import tn.esprit.services.FormationServiceA;
-import tn.esprit.utils.SessionManager;
 import tn.esprit.services.TranslationService;
-
+import tn.esprit.utils.SessionManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -45,9 +44,9 @@ public class ListAvisController {
 
     private ServiceAvis serviceAvis;
     private FormationServiceA serviceFormation;
+    private TranslationService translationService;
     private AddAvis addAvisController;
     private final SessionManager sessionManager = new SessionManager();
-    private TranslationService translationService;
 
     @FXML
     public void initialize() {
@@ -121,9 +120,6 @@ public class ListAvisController {
         VBox card = new VBox(15);
         card.getStyleClass().add("card");
 
-
-
-
         HBox ratingBox = new HBox(8);
         for (int i = 1; i <= 5; i++) {
             Label star = new Label("★");
@@ -137,19 +133,53 @@ public class ListAvisController {
         String time = avis.getDateCreation().format(timeFormatter);
 
         Label dateLabel = new Label(date + "  " + time);
-
         dateLabel.getStyleClass().add("date-label");
 
         Label commentLabel = new Label(avis.getCommentaire());
-
         commentLabel.getStyleClass().add("comment-text");
         commentLabel.setWrapText(true);
-        // Add Translate Button
-        Button translateButton = new Button("Translate to English");
-        translateButton.getStyleClass().addAll("button", "translate-button");
-        translateButton.setOnAction(e -> {
-            String translatedText = translationService.translateText(avis.getCommentaire(), "auto", "en");
-            commentLabel.setText(translatedText);
+
+        // Translation Toggle Link
+        Hyperlink translateLink = new Hyperlink("Translate to English");
+        translateLink.getStyleClass().add("translate-link");
+
+        // Store original and translated text
+        final String originalText = avis.getCommentaire();
+        final String[] translatedText = {originalText};
+        final boolean[] isTranslated = {false};
+        final String[] targetLang = {"en"}; // Start with English as target
+
+        translateLink.setOnAction(e -> {
+            if (!isTranslated[0]) {
+                // Translate to target language
+                translatedText[0] = translationService.translateText(originalText, "auto", targetLang[0]);
+                if (translatedText[0].equals("Erreur de traduction.")) {
+                    showAlert("Translation Error", "Failed to translate the comment.");
+                    return;
+                }
+                commentLabel.setText(translatedText[0]);
+                isTranslated[0] = true;
+                translateLink.setText("Translate to " + (targetLang[0].equals("en") ? "French" : "English"));
+                targetLang[0] = targetLang[0].equals("en") ? "fr" : "en"; // Toggle target language
+            } else {
+                // Revert to original or translate to the other language
+                if (targetLang[0].equals("en") || targetLang[0].equals("fr")) {
+                    translatedText[0] = translationService.translateText(originalText, "auto", targetLang[0]);
+                    if (translatedText[0].equals("Erreur de traduction.")) {
+                        showAlert("Translation Error", "Failed to translate the comment.");
+                        return;
+                    }
+                    commentLabel.setText(translatedText[0]);
+                    translateLink.setText("Translate to " + (targetLang[0].equals("en") ? "French" : "English"));
+                    targetLang[0] = targetLang[0].equals("en") ? "fr" : "en";
+                } else {
+                    // Revert to original
+                    commentLabel.setText(originalText);
+                    isTranslated[0] = false;
+                    translateLink.setText("Translate to English");
+                    targetLang[0] = "en";
+                }
+            }
         });
 
         HBox buttonBox = new HBox(15);
@@ -176,8 +206,8 @@ public class ListAvisController {
             System.out.println("No user logged in. Hiding Edit/Delete buttons for Avis ID: " + avis.getId());
         }
 
-        buttonBox.getChildren().add(translateButton);
-        card.getChildren().addAll( ratingBox, dateLabel, commentLabel, buttonBox);
+        // Add components to card in order: rating, date, comment, translate link, buttonBox
+        card.getChildren().addAll(ratingBox, dateLabel, commentLabel, translateLink, buttonBox);
 
         FadeTransition fade = new FadeTransition(Duration.millis(600), card);
         fade.setFromValue(0.0);
