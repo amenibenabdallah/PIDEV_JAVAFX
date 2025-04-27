@@ -33,7 +33,7 @@ public class InscriptionController {
     @FXML private Label imageLabel;
     @FXML private ImageView imagePreview;
     @FXML private Label cvLabel;
-    @FXML private Label cvLabelText;   // Ce label est utilisé pour afficher le nom du CV
+    @FXML private Label cvLabelText;
     @FXML private Button btnChoisirCV;
     @FXML private Label lblNiveauEtude;
 
@@ -43,8 +43,8 @@ public class InscriptionController {
     private final UserService userService = new UserService();
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    private static final long MAX_IMAGE_SIZE = 2 * 1024 * 1024;  // 2 Mo
-    private static final long MAX_CV_SIZE = 5 * 1024 * 1024;     // 5 Mo
+    private static final long MAX_IMAGE_SIZE = 2 * 1024 * 1024;
+    private static final long MAX_CV_SIZE = 5 * 1024 * 1024;
 
     @FXML
     public void initialize() {
@@ -57,6 +57,14 @@ public class InscriptionController {
         rolesCombo.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             toggleInstructeurFields("INSTRUCTEUR".equals(newVal));
             toggleApprenantFields("APPRENANT".equals(newVal));
+
+            if (!"APPRENANT".equals(newVal)) {
+                niveauCombo.setValue(null);
+            }
+            if (!"INSTRUCTEUR".equals(newVal)) {
+                selectedCVFile = null;
+                cvLabelText.setText("Aucun CV sélectionné");
+            }
         });
 
         setupInputValidation();
@@ -66,11 +74,6 @@ public class InscriptionController {
         btnChoisirCV.setVisible(visible);
         cvLabel.setVisible(visible);
         cvLabelText.setVisible(visible);
-
-        if (!visible) {
-            selectedCVFile = null;
-            cvLabelText.setText("Aucun CV sélectionné");
-        }
     }
 
     private void toggleApprenantFields(boolean visible) {
@@ -165,7 +168,7 @@ public class InscriptionController {
         }
 
         if ("APPRENANT".equals(role) && (niveau == null || niveau.isEmpty())) {
-            showAlert("Erreur", "Sélectionnez un niveau !");
+            showAlert("Erreur", "Sélectionnez un niveau d'étude !");
             return;
         }
 
@@ -184,8 +187,9 @@ public class InscriptionController {
         User user = new User(email, role, hashedPassword, nom, prenom, dateNaissance);
         user.setCv(selectedCVFile != null ? selectedCVFile.getAbsolutePath() : null);
         user.setImage(selectedImageFile != null ? selectedImageFile.getAbsolutePath() : null);
+        user.setNiveauEtude("APPRENANT".equals(role) ? niveau : null);
 
-        boolean success = userService.addUser(user, niveau);
+        boolean success = userService.addUser(user);
 
         if (success) {
             showAlert("Succès", "Utilisateur enregistré avec succès !");
