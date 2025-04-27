@@ -14,6 +14,8 @@ import tn.esprit.models.FormationA;
 import tn.esprit.services.ServiceAvis;
 import tn.esprit.services.FormationServiceA;
 import tn.esprit.utils.SessionManager;
+import tn.esprit.services.TranslationService;
+
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -45,12 +47,14 @@ public class ListAvisController {
     private FormationServiceA serviceFormation;
     private AddAvis addAvisController;
     private final SessionManager sessionManager = new SessionManager();
+    private TranslationService translationService;
 
     @FXML
     public void initialize() {
         System.out.println("Initializing ListAvisController...");
         serviceAvis = new ServiceAvis();
         serviceFormation = new FormationServiceA();
+        translationService = new TranslationService();
         initializeFormationComboBox();
         loadAvisData(null);
     }
@@ -133,11 +137,20 @@ public class ListAvisController {
         String time = avis.getDateCreation().format(timeFormatter);
 
         Label dateLabel = new Label(date + "  " + time);
+
         dateLabel.getStyleClass().add("date-label");
 
         Label commentLabel = new Label(avis.getCommentaire());
+
         commentLabel.getStyleClass().add("comment-text");
         commentLabel.setWrapText(true);
+        // Add Translate Button
+        Button translateButton = new Button("Translate to English");
+        translateButton.getStyleClass().addAll("button", "translate-button");
+        translateButton.setOnAction(e -> {
+            String translatedText = translationService.translateText(avis.getCommentaire(), "auto", "en");
+            commentLabel.setText(translatedText);
+        });
 
         HBox buttonBox = new HBox(15);
         if (sessionManager.getUtilisateurConnecte() != null) {
@@ -163,6 +176,7 @@ public class ListAvisController {
             System.out.println("No user logged in. Hiding Edit/Delete buttons for Avis ID: " + avis.getId());
         }
 
+        buttonBox.getChildren().add(translateButton);
         card.getChildren().addAll( ratingBox, dateLabel, commentLabel, buttonBox);
 
         FadeTransition fade = new FadeTransition(Duration.millis(600), card);
