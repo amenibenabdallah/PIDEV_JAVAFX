@@ -355,3 +355,14 @@
     -fx-text-fill: #4682b4;
     -fx-underline: true;
 }
+.show-more-link {
+    -fx-text-fill: #1e90ff;
+    -fx-font-size: 12px;
+    -fx-underline: true;
+    -fx-cursor: hand;
+    -fx-padding: 5 0 5 0;
+}
+
+.show-more-link:hover {
+    -fx-text-fill: #4682b4;
+}

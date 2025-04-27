@@ -1,14 +1,18 @@
 package tn.esprit.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 import tn.esprit.models.Avis;
 import tn.esprit.models.FormationA;
 import tn.esprit.services.ServiceAvis;
 import tn.esprit.services.FormationServiceA;
+import tn.esprit.services.TextCorrectionService;
 import tn.esprit.utils.SessionManager;
 
 import java.sql.SQLException;
@@ -52,16 +56,21 @@ public class AddAvis {
 
     private ServiceAvis serviceAvis;
     private FormationServiceA formationService;
+    private TextCorrectionService correctionService;
     private ListAvisController listAvisController;
     private float selectedRating = 0;
     private Avis currentAvis;
     private final SessionManager sessionManager = new SessionManager();
+    private PauseTransition debounceTimer;
 
     @FXML
     public void initialize() {
         serviceAvis = new ServiceAvis();
         formationService = new FormationServiceA();
+        correctionService = new TextCorrectionService();
+        debounceTimer = new PauseTransition(Duration.millis(500));
         initializeFormationComboBox();
+        setupRealTimeAutocorrect();
     }
 
     private void initializeFormationComboBox() {
@@ -88,6 +97,66 @@ public class AddAvis {
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert("Erreur", "Impossible de charger les formations.");
+        }
+    }
+
+    private void setupRealTimeAutocorrect() {
+        commentaireField.textProperty().addListener((obs, oldText, newText) -> {
+            if (newText == null || newText.trim().isEmpty()) {
+                return;
+            }
+            debounceTimer.setOnFinished(event -> {
+                String currentText = commentaireField.getText();
+                if (currentText == null || currentText.trim().isEmpty()) {
+                    return;
+                }
+                System.out.println("Checking text: " + currentText); // Debug
+                List<TextCorrectionService.Correction> corrections = correctionService.checkText(currentText, "fr-FR");
+                System.out.println("Corrections found: " + corrections.size()); // Debug
+                if (!corrections.isEmpty()) {
+                    Platform.runLater(() -> applyAutoCorrections(currentText, corrections));
+                }
+            });
+            debounceTimer.playFromStart();
+        });
+    }
+
+    private void applyAutoCorrections(String text, List<TextCorrectionService.Correction> corrections) {
+        String currentText = commentaireField.getText();
+        if (!currentText.equals(text)) {
+            System.out.println("Text changed, retrying corrections"); // Debug
+            // Retry with current text
+            List<TextCorrectionService.Correction> newCorrections = correctionService.checkText(currentText, "fr-FR");
+            if (!newCorrections.isEmpty()) {
+                applyAutoCorrections(currentText, newCorrections);
+            }
+            return;
+        }
+
+        int caretPosition = commentaireField.getCaretPosition();
+        StringBuilder correctedText = new StringBuilder(text);
+        int offsetAdjustment = 0;
+
+        for (TextCorrectionService.Correction correction : corrections) {
+            if (!correction.getSuggestions().isEmpty()) {
+                int start = correction.getOffset();
+                int end = start + correction.getLength();
+                if (start >= 0 && end <= text.length() && start <= end) {
+                    String suggestion = correction.getSuggestions().get(0);
+                    System.out.println("Correcting: " + correction.getWord() + " to " + suggestion); // Debug
+                    correctedText.replace(start + offsetAdjustment, end + offsetAdjustment, suggestion);
+                    offsetAdjustment += suggestion.length() - correction.getLength();
+                } else {
+                    System.out.println("Invalid offset: start=" + start + ", end=" + end + ", text length=" + text.length()); // Debug
+                }
+            }
+        }
+
+        if (!correctedText.toString().equals(text)) {
+            commentaireField.setText(correctedText.toString());
+            int newCaretPosition = Math.min(caretPosition + offsetAdjustment, correctedText.length());
+            commentaireField.positionCaret(newCaretPosition);
+            System.out.println("Applied corrected text: " + correctedText); // Debug
         }
     }
 

@@ -136,11 +136,12 @@ public class ListAvisController {
         dateLabel.getStyleClass().add("date-label");
 
         Label commentLabel = new Label(avis.getCommentaire());
+        
         commentLabel.getStyleClass().add("comment-text");
         commentLabel.setWrapText(true);
 
         // Translation Toggle Link
-        Hyperlink translateLink = new Hyperlink("Translate to English");
+        Hyperlink translateLink = new Hyperlink("Voir la traduction");
         translateLink.getStyleClass().add("translate-link");
 
         // Store original and translated text
@@ -159,7 +160,7 @@ public class ListAvisController {
                 }
                 commentLabel.setText(translatedText[0]);
                 isTranslated[0] = true;
-                translateLink.setText("Translate to " + (targetLang[0].equals("en") ? "French" : "English"));
+                translateLink.setText( (targetLang[0].equals("en") ? "Voir original" : "Voir la traduction"));
                 targetLang[0] = targetLang[0].equals("en") ? "fr" : "en"; // Toggle target language
             } else {
                 // Revert to original or translate to the other language
@@ -170,13 +171,13 @@ public class ListAvisController {
                         return;
                     }
                     commentLabel.setText(translatedText[0]);
-                    translateLink.setText("Translate to " + (targetLang[0].equals("en") ? "French" : "English"));
+                    translateLink.setText( (targetLang[0].equals("en") ? "Voir original" : "Voir la traduction"));
                     targetLang[0] = targetLang[0].equals("en") ? "fr" : "en";
                 } else {
                     // Revert to original
                     commentLabel.setText(originalText);
                     isTranslated[0] = false;
-                    translateLink.setText("Translate to English");
+                    translateLink.setText("Voir la traduction");
                     targetLang[0] = "en";
                 }
             }

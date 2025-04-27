@@ -409,7 +409,7 @@ public class AdminFormationListController implements Initializable, Searchable {
 
         try {
             // Build SightEngine API request
-            String params = String.format("text=%s&lang=fr&mode=rules,ml&api_user=%s&api_secret=%s",
+            String params = String.format("text=%s&lang=en,fr&mode=rules,ml&api_user=%s&api_secret=%s",
                     URLEncoder.encode(comment, StandardCharsets.UTF_8), SIGHT_ENGINE_API_KEY, SIGHT_ENGINE_API_SECRET);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(SIGHT_ENGINE_API_URL + "?" + params))

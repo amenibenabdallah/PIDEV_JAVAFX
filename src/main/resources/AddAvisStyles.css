@@ -132,3 +132,30 @@
     -fx-background-radius: 5px;
     -fx-font-size: 14px;
 }
+.error-text {
+    -fx-text-fill: black;
+    -fx-underline: true;
+    -fx-underline-color: red;
+}
+
+.tooltip {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-padding: 5;
+}
+
+.tooltip .hyperlink {
+    -fx-text-fill: #1e90ff;
+    -fx-font-size: 12px;
+    -fx-padding: 2 5 2 5;
+}
+
+.tooltip .hyperlink:hover {
+    -fx-text-fill: #4682b4;
+}
+
+.tooltip-message {
+    -fx-font-size: 11px;
+    -fx-fill: #666666;
+}
