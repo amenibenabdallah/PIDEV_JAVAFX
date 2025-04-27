@@ -5,6 +5,7 @@ requires javafx.fxml;
     requires spring.security.crypto;
     requires org.json;
     requires java.net.http;
+    requires java.mail;
     exports tn.esprit.controllers;
     exports tn.esprit.services;
     exports tn.esprit.models;

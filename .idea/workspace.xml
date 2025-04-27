@@ -6,11 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit session">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AddAvis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AddAvis.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminFormationListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminFormationListController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ListAvisController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ListAvisController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/AddAvisStyles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AddAvisStyles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ListAvisStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ListAvisStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/LoginController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/apprenants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/apprenants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/instructeurs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/instructeurs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/EvaluationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/EvaluationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/SessionManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +129,7 @@
       <recent name="tn.esprit.services" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MainFx">
+  <component name="RunManager" selected="Application.EvaluationTest">
     <configuration name="EvaluationTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="tn.esprit.test.EvaluationTest" />
       <module name="java_pi" />
@@ -200,8 +207,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MainFx" />
         <item itemvalue="Application.EvaluationTest" />
+        <item itemvalue="Application.MainFx" />
         <item itemvalue="Application.MahdiCrudTest" />
         <item itemvalue="Application.TestUserCrud" />
         <item itemvalue="Application.listtest" />
@@ -237,7 +244,7 @@
       <workItem from="1745226855398" duration="12525000" />
       <workItem from="1745397399399" duration="4881000" />
       <workItem from="1745565606483" duration="43481000" />
-      <workItem from="1745765698410" duration="12567000" />
+      <workItem from="1745765698410" duration="25351000" />
     </task>
     <task id="LOCAL-00001" summary="commit after  modifications">
       <option name="closed" value="true" />

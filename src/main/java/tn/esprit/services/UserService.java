@@ -169,7 +169,7 @@ public class UserService {
     public boolean emailExists(String email) {
         String query = "SELECT COUNT(*) FROM users WHERE email = ?";
         try (
-             PreparedStatement ps = conn.prepareStatement(query)) {
+                PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
@@ -185,7 +185,7 @@ public class UserService {
         String query = "SELECT * FROM users WHERE email = ?";
 
         try (
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+                PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, email);
 

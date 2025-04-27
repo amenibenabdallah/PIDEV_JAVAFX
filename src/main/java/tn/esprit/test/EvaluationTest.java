@@ -41,29 +41,44 @@ public class EvaluationTest {
                     );
                     instructor.setId(rs.getInt("id"));
                     instructors.add(instructor);
-                    System.out.println("Found instructor: " + instructor.getNom() + " " + instructor.getPrenom());
+                    System.out.println("Found instructor: " + instructor.getNom() + " " + instructor.getPrenom() + " (ID: " + instructor.getId() + ")");
                 }
             }
 
-            if (instructors.isEmpty()) {
-                System.out.println("No instructors found in the database.");
-                return;
-            }
 
-            // Step 3: Evaluate each instructor using EvaluationService
+
+            // Step 3: Evaluate only instructors without existing evaluations
             EvaluationService service = new EvaluationService();
             for (instructeurs instructor : instructors) {
-                System.out.println("\nEvaluating instructor: " + instructor.getNom() + " " + instructor.getPrenom());
+                System.out.println("\nChecking instructor: " + instructor.getNom() + " " + instructor.getPrenom() + " (ID: " + instructor.getId() + ")");
+
+                // Check if the instructor already has an evaluation
+                String checkEvaluationSql = "SELECT COUNT(*) FROM evaluation WHERE instructor_id = ?";
+                try (PreparedStatement checkStmt = conn.prepareStatement(checkEvaluationSql)) {
+                    checkStmt.setInt(1, instructor.getId());
+                    try (ResultSet rs = checkStmt.executeQuery()) {
+                        rs.next();
+                        int evaluationCount = rs.getInt(1);
+                        if (evaluationCount > 0) {
+                            System.out.println("Instructor already has an evaluation. Skipping evaluation.");
+                            continue;
+                        }
+                    }
+                }
+
+                // Evaluate the instructor
+                System.out.println("No existing evaluation found. Creating new evaluation...");
                 Evaluation evaluation = service.evaluateInstructeur(instructor);
                 if (evaluation == null) {
                     System.out.println("Evaluation failed for instructor ID " + instructor.getId() + ". Check CV path or API key.");
                     continue;
                 }
 
-                // Step 4: Print the evaluation result (focus on the score from Flask API)
+                // Step 4: Print the evaluation result
                 System.out.println("Evaluation completed (Score from Flask API):");
                 System.out.println("Score: " + evaluation.getScore());
                 System.out.println("Level: " + evaluation.getNiveau());
+                System.out.println("Status: " + evaluation.getStatus() + " (" + (evaluation.getStatus() == 1 ? "ACCEPTED" : "NOT ACCEPTED") + ")");
                 System.out.println("Education: " + evaluation.getEducation());
                 System.out.println("Years of Experience: " + evaluation.getYearsOfExperience());
                 System.out.println("Skills: " + evaluation.getSkills());
@@ -80,6 +95,7 @@ public class EvaluationTest {
                             System.out.println("Instructor ID: " + evalRs.getInt("instructor_id"));
                             System.out.println("Score: " + evalRs.getDouble("score"));
                             System.out.println("Level: " + evalRs.getString("niveau"));
+                            System.out.println("Status: " + evalRs.getInt("status") + " (" + (evalRs.getInt("status") == 1 ? "ACCEPTED" : "NOT ACCEPTED") + ")");
                         } else {
                             System.out.println("Evaluation not found in database for instructor ID " + instructor.getId() + ".");
                         }
@@ -89,6 +105,7 @@ public class EvaluationTest {
 
         } catch (Exception e) {
             System.out.println("Error during test: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

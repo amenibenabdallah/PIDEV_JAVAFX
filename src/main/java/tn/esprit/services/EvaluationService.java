@@ -20,10 +20,12 @@ public class EvaluationService {
     private static final String AFFINDA_API_URL = "https://api.affinda.com/v1/resumes"; // URL for Affinda API
     private static final String FLASK_API_URL = "https://localhost:5000/predict_cv_score"; // Updated to HTTPS for Flask API
     private final Connection conn; // Database connection
+    private final EmailService emailService; // Added EmailService
 
     public EvaluationService() {
         // Get database connection from MyDataBase class
         this.conn = MyDataBase.getInstance().getCnx();
+        this.emailService = new EmailService(); // Initialize EmailService
     }
 
     // Disable SSL verification for self-signed certificates (testing only)
@@ -265,13 +267,23 @@ public class EvaluationService {
         double experienceWeight = Math.min(yearsOfExperience / 20.0, 1.0); // Cap at 20 years
         double skillsWeight = Math.min(skillsCount / 10.0, 1.0); // Cap at 10 skills
         double certificationsWeight = Math.min(certificationsCount / 5.0, 1.0); // Cap at 5 certifications
+        int status = score > 60 ? 1 : 0; // 1 = ACCEPTED, 0 = NOT ACCEPTED
+        System.out.println("Status set to: " + status + " (Score: " + score + ")"); // Debug
+
+        // Send email if instructor is accepted
+        if (status == 1) {
+            emailService.sendAcceptanceEmail(instructeur.getEmail(), instructeur.getNom());
+        }
+        if (status == 0) {
+            emailService.sendRejectionEmail(instructeur.getEmail(), instructeur.getNom());
+        }
 
         // Create a new Evaluation object
         Evaluation evaluation = new Evaluation();
         evaluation.setInstructorId(instructeur.getId());
         evaluation.setScore(score);
         evaluation.setNiveau(niveau);
-        evaluation.setStatus(1);
+        evaluation.setStatus(status);
         evaluation.setEducation(education);
         evaluation.setYearsOfExperience(yearsOfExperience);
         evaluation.setSkills(skills);
@@ -283,16 +295,13 @@ public class EvaluationService {
         evaluation.setInstructeur(instructeur);
         evaluation.setDateCreation(LocalDate.now());
 
-        // Map the status string to an integer
-        int statusCode = "COMPLETED".equals(String.valueOf(evaluation.getStatus())) ? 1 : 0;
-
         // Save the evaluation to the database
         String sql = "INSERT INTO evaluation (instructor_id, score, niveau, status, date_creation, education, years_of_experience, skills, certifications, education_weight, experience_weight, skills_weight, certifications_weight) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, evaluation.getInstructorId());
         stmt.setDouble(2, evaluation.getScore());
         stmt.setString(3, evaluation.getNiveau());
-        stmt.setInt(4, statusCode);
+        stmt.setInt(4, evaluation.getStatus());
         stmt.setDate(5, java.sql.Date.valueOf(evaluation.getDateCreation()));
         stmt.setString(6, evaluation.getEducation());
         stmt.setInt(7, evaluation.getYearsOfExperience());
