@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="refonte UI login avec nouveau thème">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/GoogleAuth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/GoogleAuth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/EmailUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/EmailUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -384,7 +384,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/tn/esprit/test/TestAvis.java</url>
           <line>7</line>
-          <properties class="tn.esprit.test.TestAvis" method="main">
+          <properties class="tn.esprit.test.TestAvis">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
