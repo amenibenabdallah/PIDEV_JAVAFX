@@ -13,10 +13,14 @@ import java.awt.*;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
-public class  GoogleAuth {
-    private static final String CLIENT_ID = "572574796043-4hqfmsq9f5b7brvd3l3j5cmfiajllh0n.apps.googleusercontent.com";
-    private static final String CLIENT_SECRET = "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";  // Laisse vide si non fourni
+public class GoogleAuth {
+
+    private static final String CLIENT_ID;
+    private static final String CLIENT_SECRET;
 
     private static final List<String> SCOPES = Arrays.asList(
             "https://www.googleapis.com/auth/userinfo.email",
@@ -25,6 +29,22 @@ public class  GoogleAuth {
 
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+
+    static {
+        Properties props = new Properties();
+        try (FileInputStream fis = new FileInputStream(".env")) {
+            props.load(fis);
+        } catch (IOException e) {
+            throw new IllegalStateException("❌ Failed to load .env file: " + e.getMessage());
+        }
+
+        CLIENT_ID = props.getProperty("GOOGLE_CLIENT_ID");
+        CLIENT_SECRET = props.getProperty("GOOGLE_CLIENT_SECRET");
+
+        if (CLIENT_ID == null || CLIENT_SECRET == null) {
+            throw new IllegalStateException("❌ Google OAuth credentials are missing in .env file");
+        }
+    }
 
     public static GoogleIdToken authenticate() throws Exception {
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
