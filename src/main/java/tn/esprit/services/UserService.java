@@ -82,13 +82,16 @@ public class UserService {
 
     // ➤ Mettre à jour un utilisateur (avec niveauEtude)
     public void updateUser(User user) {
-        String sql = "UPDATE user SET nom = ?, email = ?, role = ?, niveau_etude = ? WHERE id = ?";
+        String sql = "UPDATE user SET nom = ?, email = ?, role = ?, niveau_etude = ? ,prenom =? ,image=? WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user.getNom());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getRole());
             ps.setString(4, user.getNiveauEtude());
             ps.setInt(5, user.getId());
+            ps.setString(6, user.getPrenom());
+            ps.setString(7, user.getImage());
+
             ps.executeUpdate();
             System.out.println("✅ Utilisateur mis à jour !");
         } catch (SQLException e) {
