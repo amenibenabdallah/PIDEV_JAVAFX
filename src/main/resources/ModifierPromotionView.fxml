@@ -45,6 +45,11 @@
             <Label text="Date Expiration:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
             <DatePicker fx:id="dateExpirationField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
+            <!-- Ligne 5 : Apprenant -->
+            <Label text="Apprenant:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <Label fx:id="apprenantLabel" GridPane.rowIndex="4" GridPane.columnIndex="1"
+                   styleClass="read-only-label"/>
+
             <!-- Champs cachés pour les IDs -->
             <TextField fx:id="inscriptionIdField" visible="false" managed="false"/>
             <TextField fx:id="apprenantIdField" visible="false" managed="false"/>

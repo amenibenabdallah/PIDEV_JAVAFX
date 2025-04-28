@@ -23,17 +23,15 @@ public class AfficherInscriptionsViewController {
 
     @FXML private FlowPane flowPane;
     @FXML private Pagination pagination;
-    @FXML private Button btnRetour;
     @FXML private Label totalLabel;
     @FXML private Label confirmedLabel;
     @FXML private Label pendingLabel;
 
-    private VBox contentArea; // Référence au contentArea du template admin
+    private VBox contentArea;
     private final ServiceInscriptionCours service = new ServiceInscriptionCours();
     private ObservableList<InscriptionCours> inscriptionsList;
     private static final int ITEMS_PER_PAGE = 6;
 
-    // Injecter contentArea depuis AdminTemplateController
     public void setContentArea(VBox contentArea) {
         this.contentArea = contentArea;
     }
@@ -42,7 +40,6 @@ public class AfficherInscriptionsViewController {
     public void initialize() {
         loadAllAndPaginate();
         setupPaginationListener();
-        setupButtonActions();
     }
 
     private void loadAllAndPaginate() {
@@ -120,7 +117,7 @@ public class AfficherInscriptionsViewController {
 
     private String getStatusStyle(String status) {
         return switch (status.toLowerCase()) {
-            case "payé" -> "status-success";
+            case "payé" -> "status-paid";
             case "en attente" -> "status-warning";
             default -> "status-error";
         };
@@ -155,10 +152,6 @@ public class AfficherInscriptionsViewController {
             scaleOut.setToY(1.0);
             scaleOut.play();
         });
-    }
-
-    private void setupButtonActions() {
-        btnRetour.setOnAction(e -> handleRetour());
     }
 
     private void handleEdit(InscriptionCours inscription) {
@@ -197,26 +190,6 @@ public class AfficherInscriptionsViewController {
                 refreshData();
             }
         });
-    }
-
-    @FXML
-    private void handleRetour() {
-        if (contentArea == null) {
-            showAlert("Erreur", "Le conteneur de contenu n'est pas initialisé.");
-            return;
-        }
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/inscriptionCoursView.fxml"));
-            Parent root = loader.load();
-
-            contentArea.getChildren().clear();
-            contentArea.getChildren().add(root);
-            VBox.setVgrow(root, Priority.ALWAYS);
-
-        } catch (IOException e) {
-            showAlert("Erreur", "Impossible d'ouvrir le formulaire : " + e.getMessage());
-        }
     }
 
     public void refreshData() {

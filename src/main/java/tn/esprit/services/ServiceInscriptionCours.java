@@ -111,13 +111,18 @@ public class ServiceInscriptionCours implements IService<InscriptionCours> {
 
     public List<String> getApprenantsAvecDoublons() {
         List<String> result = new ArrayList<>();
-        String sql = "SELECT nom_apprenant, COUNT(*) as nb FROM inscription_cours GROUP BY nom_apprenant HAVING nb > 1";
+        String sql = "SELECT nom_apprenant, COUNT(DISTINCT formation_id) as nb_formations " +
+                    "FROM inscription_cours " +
+                    "GROUP BY nom_apprenant " +
+                    "HAVING nb_formations > 1";
+        
         try (Statement st = cnx.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 result.add(rs.getString("nom_apprenant"));
             }
         } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des apprenants avec doublons : " + e.getMessage());
             e.printStackTrace();
         }
         return result;
@@ -136,4 +141,38 @@ public class ServiceInscriptionCours implements IService<InscriptionCours> {
         }
         return null;
     }
+    public String getNomApprenantById(int idApprenant) {
+        String nom = null;
+        try {
+            String req = "SELECT nom_apprenant FROM inscription_cours WHERE apprenant_id = ?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, idApprenant);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                nom = rs.getString("nom_apprenant");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nom;
+    }
+
+    public int getApprenantIdByNom(String nom) {
+        int id = 0;
+        String sql = "SELECT apprenant_id FROM inscription_cours WHERE nom_apprenant = ?";
+
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setString(1, nom);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getInt("apprenant_id");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération de l'ID de l'apprenant : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return id;
+    }
+
 }

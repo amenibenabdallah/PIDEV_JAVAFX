@@ -105,9 +105,12 @@
 
 .status-label {
     -fx-font-size: 12px;
-    -fx-padding: 2 8;
-    -fx-background-radius: 10;
+    -fx-font-weight: bold;
+    -fx-padding: 4 10;
+    -fx-background-radius: 12;
     -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 1, 1);
 }
 
 .status-success {
@@ -120,6 +123,16 @@
 
 .status-error {
     -fx-background-color: -danger-color;
+}
+
+.status-paid {
+    -fx-background-color: #4CAF50; /* Vert distinct pour "Payé" */
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 4 10;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 1, 1);
 }
 
 /* Boutons */

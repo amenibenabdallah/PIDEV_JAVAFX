@@ -110,8 +110,19 @@ public class AfficherPromotionsViewController {
 
         // Content
         Label remiseLabel = new Label("Remise: " + promotion.getRemise() + "%");
-        Label descLabel = new Label(promotion.getDescription());
-        descLabel.setWrapText(true);
+
+        // Extraire le nom de l'apprenant de la description
+        String description = promotion.getDescription();
+        String apprenantNom = "Non spécifié";
+        if (description.contains("(Apprenant: ")) {
+            apprenantNom = description.substring(
+                    description.indexOf("(Apprenant: ") + 12, // Position après "(Apprenant: "
+                    description.lastIndexOf(")") // Position avant le dernier ")"
+            );
+        }
+        Label apprenantLabel = new Label("Apprenant: " + apprenantNom);
+        apprenantLabel.setWrapText(true);
+
         Label expLabel = new Label("Expire le: " + promotion.getDateExpiration().format(dateFormatter));
 
         // Actions
@@ -126,7 +137,7 @@ public class AfficherPromotionsViewController {
         deleteBtn.setOnAction(e -> handleDelete(promotion));
 
         buttons.getChildren().addAll(editBtn, deleteBtn);
-        card.getChildren().addAll(header, remiseLabel, descLabel, expLabel, buttons);
+        card.getChildren().addAll(header, remiseLabel, apprenantLabel, expLabel, buttons);
 
         return card;
     }

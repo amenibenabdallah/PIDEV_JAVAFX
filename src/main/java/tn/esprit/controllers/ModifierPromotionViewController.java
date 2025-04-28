@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import tn.esprit.models.Promotion;
+import tn.esprit.services.ServiceInscriptionCours;
 import tn.esprit.services.ServicePromotion;
 
 import java.io.IOException;
@@ -18,27 +19,38 @@ public class ModifierPromotionViewController {
     @FXML private TextArea descriptionField;
     @FXML private TextField remiseField;
     @FXML private DatePicker dateExpirationField;
+    @FXML private Label apprenantLabel;
     @FXML private TextField inscriptionIdField;
     @FXML private TextField apprenantIdField;
 
     private Promotion promotion;
-    private VBox contentArea; // Référence au contentArea pour navigation dynamique
+    private VBox contentArea;
     private final ServicePromotion service = new ServicePromotion();
 
-    // Initialise les champs avec les données de la promotion
+    public void setContentArea(VBox contentArea) {
+        this.contentArea = contentArea;
+    }
+
     public void initData(Promotion promotion) {
         this.promotion = promotion;
         codeField.setText(promotion.getCodePromo());
-        descriptionField.setText(promotion.getDescription());
+
+        // Extraire la description sans le nom de l'apprenant
+        String description = promotion.getDescription();
+        if (description.contains("(Apprenant: ")) {
+            description = description.substring(0, description.indexOf("(Apprenant: ")).trim();
+        }
+        descriptionField.setText(description);
+
         remiseField.setText(String.valueOf(promotion.getRemise()));
         dateExpirationField.setValue(promotion.getDateExpiration());
         inscriptionIdField.setText(String.valueOf(promotion.getInscriptionCoursId()));
         apprenantIdField.setText(String.valueOf(promotion.getApprenantId()));
-    }
 
-    // Injecte le contentArea depuis AfficherPromotionsViewController
-    public void setContentArea(VBox contentArea) {
-        this.contentArea = contentArea;
+        // Afficher le nom de l'apprenant (non modifiable)
+        ServiceInscriptionCours serviceInscription = new ServiceInscriptionCours();
+        String nomApprenant = serviceInscription.getNomApprenantById(promotion.getApprenantId());
+        apprenantLabel.setText(nomApprenant != null ? nomApprenant : "Non spécifié (ID: " + promotion.getApprenantId() + ")");
     }
 
     @FXML
@@ -79,34 +91,13 @@ public class ModifierPromotionViewController {
                 return;
             }
 
-            int inscriptionId, apprenantId;
-            try {
-                inscriptionId = Integer.parseInt(inscriptionIdField.getText());
-                apprenantId = Integer.parseInt(apprenantIdField.getText());
-                if (inscriptionId <= 0 || apprenantId <= 0) {
-                    inscriptionIdField.setStyle("-fx-border-color: red;");
-                    apprenantIdField.setStyle("-fx-border-color: red;");
-                    showAlert("Erreur", "Les IDs doivent être positifs");
-                    return;
-                }
-            } catch (NumberFormatException e) {
-                inscriptionIdField.setStyle("-fx-border-color: red;");
-                apprenantIdField.setStyle("-fx-border-color: red;");
-                showAlert("Erreur", "Format numérique invalide pour les IDs");
-                return;
-            }
-
-            // Mise à jour de la promotion
+            // Mise à jour de la promotion (sans modifier apprenantId)
             promotion.setCodePromo(codeField.getText());
             promotion.setDescription(descriptionField.getText());
             promotion.setRemise(remise);
             promotion.setDateExpiration(dateExpirationField.getValue());
-            promotion.setInscriptionCoursId(inscriptionId);
-            promotion.setApprenantId(apprenantId);
 
             service.update(promotion);
-
-            // Retour à la liste des promotions dans contentArea
             retourAffichage();
 
         } catch (Exception e) {
@@ -116,25 +107,33 @@ public class ModifierPromotionViewController {
 
     @FXML
     private void handleAnnuler() {
-        // Retour à la liste des promotions sans enregistrer
         retourAffichage();
     }
 
-    // Recharge AfficherPromotionsView.fxml dans contentArea
     private void retourAffichage() {
         try {
+            if (contentArea == null) {
+                showAlert("Erreur", "Le conteneur de contenu n'est pas initialisé");
+                return;
+            }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherPromotionsView.fxml"));
             Parent root = loader.load();
 
             AfficherPromotionsViewController controller = loader.getController();
-            controller.setContentArea(contentArea); // Injecte contentArea
+            if (controller != null) {
+                controller.setContentArea(contentArea);
+            } else {
+                showAlert("Erreur", "Impossible de charger le contrôleur de la vue");
+                return;
+            }
 
-            contentArea.getChildren().clear(); // Vide le contentArea
-            contentArea.getChildren().add(root); // Ajoute la vue de la liste
-            VBox.setVgrow(root, Priority.ALWAYS); // Assure que la vue occupe tout l'espace
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(root);
+            VBox.setVgrow(root, Priority.ALWAYS);
 
         } catch (IOException e) {
-            showAlert("Navigation", "Erreur de retour à l'affichage des promotions");
+            showAlert("Erreur", "Impossible de charger l'interface d'affichage des promotions: " + e.getMessage());
         }
     }
 

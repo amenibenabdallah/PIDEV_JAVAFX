@@ -19,7 +19,6 @@
             <!-- En-tête principal -->
             <HBox spacing="20" alignment="CENTER" styleClass="header">
                 <Label text="📋 Liste des Inscriptions" styleClass="title"/>
-                <Button fx:id="btnRetour" text="➕ Ajouter une inscription" styleClass="primary-btn" onAction="#handleRetour"/>
             </HBox>
 
             <!-- Statistiques -->
@@ -39,7 +38,6 @@
                 <VBox spacing="15" alignment="CENTER_LEFT">
                     <Label text="📭" styleClass="empty-icon"/>
                     <Label text="Aucune inscription trouvée" styleClass="empty-list-label"/>
-                    <Button text="➕ Créer une inscription" styleClass="text-btn" onAction="#handleRetour"/>
                 </VBox>
             </FlowPane>
         </ScrollPane>
