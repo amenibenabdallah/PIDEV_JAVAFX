@@ -1,11 +1,7 @@
 package tn.esprit.services;
 
-import javafx.scene.chart.XYChart;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import tn.esprit.models.User;
-import tn.esprit.utils.EmailUtil;
 import tn.esprit.utils.MyDataBase;
-import tn.esprit.utils.TwilioSMSUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,9 +15,9 @@ public class UserService {
     }
 
     // ➤ Ajouter un utilisateur
-    public boolean addUser(User u) {
-        String sql = "INSERT INTO user (email, password, nom, prenom, date_naissance, role, cv, image, reset_token, niveau_etude) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public boolean addUser(User u, String niveauEtude) {
+        String sql = "INSERT INTO user (email, password, nom, prenom, date_naissance, role, cv, image, reset_token) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, u.getEmail());
@@ -33,7 +29,6 @@ public class UserService {
             ps.setString(7, u.getCv());
             ps.setString(8, u.getImage());
             ps.setString(9, u.getResetToken());
-            ps.setString(10, u.getNiveauEtude());   // Nouveau champ
 
             ps.executeUpdate();
             System.out.println("✅ Utilisateur ajouté avec succès !");
@@ -45,10 +40,10 @@ public class UserService {
         }
     }
 
-    // ➤ Récupérer tous les utilisateurs
+    // ➤ Récupérer tous les utilisateurs (hors ADMIN si besoin)
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT id, nom, email, role, niveau_etude FROM user WHERE role IN ('APPRENANT', 'INSTRUCTEUR')";
+        String sql = "SELECT id, nom, email, role FROM user WHERE role IN ('APPRENANT', 'INSTRUCTEUR')";
 
         try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
@@ -59,7 +54,6 @@ public class UserService {
                 u.setNom(rs.getString("nom"));
                 u.setEmail(rs.getString("email"));
                 u.setRole(rs.getString("role"));
-                u.setNiveauEtude(rs.getString("niveau_etude"));  // Ajout niveauEtude
                 list.add(u);
             }
         } catch (SQLException e) {
@@ -80,18 +74,26 @@ public class UserService {
         }
     }
 
-    // ➤ Mettre à jour un utilisateur (avec niveauEtude)
+    // ➤ Mettre à jour un utilisateur
     public void updateUser(User user) {
+<<<<<<< HEAD
         String sql = "UPDATE user SET nom = ?, email = ?, role = ?, niveau_etude = ? ,prenom =? ,image=? WHERE id = ?";
+=======
+        String sql = "UPDATE user SET nom = ?, email = ?, role = ? WHERE id = ?";
+>>>>>>> parent of 0e5dd20 (ajout des interfaces de profil pour apprenant, instructeur et administrateur)
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user.getNom());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getRole());
+<<<<<<< HEAD
             ps.setString(4, user.getNiveauEtude());
             ps.setInt(5, user.getId());
             ps.setString(6, user.getPrenom());
             ps.setString(7, user.getImage());
 
+=======
+            ps.setInt(4, user.getId());
+>>>>>>> parent of 0e5dd20 (ajout des interfaces de profil pour apprenant, instructeur et administrateur)
             ps.executeUpdate();
             System.out.println("✅ Utilisateur mis à jour !");
         } catch (SQLException e) {
@@ -102,18 +104,21 @@ public class UserService {
     // ➤ Rechercher des utilisateurs
     public List<User> searchUsers(String keyword) {
         List<User> results = new ArrayList<>();
-        String sql = "SELECT * FROM user WHERE nom LIKE ? OR email LIKE ? OR role LIKE ? OR niveau_etude LIKE ?";
+        String sql = "SELECT * FROM user WHERE nom LIKE ? OR email LIKE ? OR role LIKE ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             String searchPattern = "%" + keyword + "%";
             ps.setString(1, searchPattern);
             ps.setString(2, searchPattern);
             ps.setString(3, searchPattern);
-            ps.setString(4, searchPattern);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                User u = mapResultSetToUser(rs);
+                User u = new User();
+                u.setId(rs.getInt("id"));
+                u.setNom(rs.getString("nom"));
+                u.setEmail(rs.getString("email"));
+                u.setRole(rs.getString("role"));
                 results.add(u);
             }
         } catch (SQLException e) {
@@ -137,6 +142,7 @@ public class UserService {
         return false;
     }
 
+    // ➤ Trouver un utilisateur par email
     public User findUserByEmail(String email) {
         String sql = "SELECT * FROM user WHERE email = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -151,6 +157,7 @@ public class UserService {
         return null;
     }
 
+    // ➤ Trouver un utilisateur par ID
     public User findUserById(int id) {
         String sql = "SELECT * FROM user WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -165,7 +172,7 @@ public class UserService {
         return null;
     }
 
-    // ➤ Mapper le ResultSet vers User
+    // ➤ Méthode utilitaire pour mapper le ResultSet vers User
     private User mapResultSetToUser(ResultSet rs) throws SQLException {
         User u = new User();
         u.setId(rs.getInt("id"));
@@ -177,168 +184,10 @@ public class UserService {
         u.setCv(rs.getString("cv"));
         u.setImage(rs.getString("image"));
         u.setResetToken(rs.getString("reset_token"));
-        u.setNiveauEtude(rs.getString("niveau_etude"));  // Ajout niveauEtude
         Date dateNaissance = rs.getDate("date_naissance");
         if (dateNaissance != null) {
             u.setDateNaissance(dateNaissance.toLocalDate());
         }
         return u;
     }
-    public boolean resetPasswordWithToken(String token, String newPassword) {
-        String sql = "SELECT * FROM user WHERE reset_token = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, token);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                String hashedPassword = new BCryptPasswordEncoder().encode(newPassword);
-                PreparedStatement update = conn.prepareStatement("UPDATE user SET password = ?, reset_token = NULL WHERE id = ?");
-                update.setString(1, hashedPassword);
-                update.setInt(2, rs.getInt("id"));
-                update.executeUpdate();
-                return true;
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur reset password: " + e.getMessage());
-        }
-        return false;
-    }
-    public boolean isValidToken(String token) {
-        String sql = "SELECT COUNT(*) FROM user WHERE reset_token = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, token);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next() && rs.getInt(1) > 0) {
-                return true;
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur token: " + e.getMessage());
-        }
-        return false;
-    }
-
-
-    public int countByRole(String role) {
-        String sql = "SELECT COUNT(*) FROM user WHERE role = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, role);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            System.err.println("❌ Erreur lors du comptage des utilisateurs : " + e.getMessage());
-        }
-        return 0;
-    }
-    public int countApprenantsByNiveau(String niveau) {
-        String sql = "SELECT COUNT(*) FROM user WHERE role = 'APPRENANT' AND niveau_etude = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, niveau);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur comptage par niveau : " + e.getMessage());
-        }
-        return 0;
-    }
-    public double getAverageAge() {
-        String sql = "SELECT AVG(TIMESTAMPDIFF(YEAR, date_naissance, CURDATE())) AS avg_age FROM user WHERE date_naissance IS NOT NULL";
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-            if (rs.next()) {
-                return rs.getDouble("avg_age");
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur calcul âge moyen : " + e.getMessage());
-        }
-        return 0;
-    }
-    public double getProfileCompletionRate() {
-        String sql = "SELECT COUNT(*) AS total, " +
-                "SUM(CASE WHEN role = 'INSTRUCTEUR' AND cv IS NOT NULL AND image IS NOT NULL THEN 1 " +
-                "          WHEN role = 'APPRENANT' AND image IS NOT NULL THEN 1 ELSE 0 END) AS completed " +
-                "FROM user WHERE role IN ('APPRENANT', 'INSTRUCTEUR')";
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-            if (rs.next()) {
-                int total = rs.getInt("total");
-                int completed = rs.getInt("completed");
-                if (total == 0) return 0;
-                return (completed * 100.0) / total;  // Retourne un pourcentage
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur taux complétion : " + e.getMessage());
-        }
-        return 0;
-    }
-
-
-    public XYChart.Series<String, Number> getMonthlyInscriptionData() {
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Inscriptions 2025");
-
-        String sql = "SELECT DATE_FORMAT(created_at, '%b') AS month, COUNT(*) AS total " +
-                "FROM user " +
-                "WHERE YEAR(created_at) = YEAR(CURDATE()) " +
-                "GROUP BY MONTH(created_at) " +
-                "ORDER BY MONTH(created_at)";
-
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-
-            while (rs.next()) {
-                String month = rs.getString("month");  // Ex: Jan, Feb, Mar
-                int total = rs.getInt("total");
-                series.getData().add(new XYChart.Data<>(month, total));
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Erreur récupération des inscriptions mensuelles : " + e.getMessage());
-        }
-
-        return series;
-    }
-
-    public boolean generateResetTokenEmailOnly(String email) {
-        int x = (int)(Math.random() * 900000) + 100000;
-        String token = String.valueOf(x);
-        String sql = "UPDATE user SET reset_token = ? WHERE email = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, token);
-            ps.setString(2, email);
-            int updated = ps.executeUpdate();
-            if (updated > 0) {
-                String body = "Voici votre Token de Réinitialisation : " + token;
-                EmailUtil.sendEmail(email, "Réinitialisation de mot de passe", body);
-                return true;
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur génération token (Email) : " + e.getMessage());
-        }
-        return false;
-    }
-
-    public boolean generateResetTokenSMS(String email, String phoneNumber) {
-        int x = (int)(Math.random() * 900000) + 100000;
-        String token = String.valueOf(x);
-        String sql = "UPDATE user SET reset_token = ? WHERE email = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, token);
-            ps.setString(2, email);
-            int updated = ps.executeUpdate();
-            if (updated > 0) {
-                String body = "Votre Token de Réinitialisation : " + token;
-                TwilioSMSUtil.sendSMS(phoneNumber, body);
-                return true;
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur génération token (SMS) : " + e.getMessage());
-        }
-        return false;
-    }
-
-
-
 }

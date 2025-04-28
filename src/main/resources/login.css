@@ -73,17 +73,3 @@
 .logo-image {
     -fx-alignment: center;
 }
-.menu-button {
-    -fx-background-color: transparent;
-    -fx-border-color: white;
-    -fx-border-radius: 10;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-padding: 10 20;
-    -fx-background-radius: 10;
-    -fx-cursor: hand;
-}
-
-.menu-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.2);
-}

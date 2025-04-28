@@ -1,90 +1,140 @@
 package tn.esprit.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import tn.esprit.models.User;
 import tn.esprit.services.UserService;
+
 import java.io.IOException;
 import java.util.List;
 
 public class UserListController {
 
     @FXML
-    private VBox userCardList;
+    private TableView<User> userTable;
+
+    @FXML
+    private TableColumn<User, String> colNom;
+
+    @FXML
+    private TableColumn<User, String> colEmail;
+
+    @FXML
+    private TableColumn<User, String> colRole;
+
+    @FXML
+    private TableColumn<User, Void> colActions;
 
     @FXML
     private Pagination pagination;
 
     private final UserService userService = new UserService();
-    private final int rowsPerPage = 4;
+    private final int rowsPerPage = 10;
     private List<User> allUsers;
+
+    private int currentPageIndex = 0;
 
     @FXML
     public void initialize() {
+        colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colRole.setCellValueFactory(new PropertyValueFactory<>("roles"));
+
+        addActionButtonsToTable();
+
         allUsers = userService.getAllUsers();
         setupPagination();
     }
 
     private void setupPagination() {
         int pageCount = (int) Math.ceil((double) allUsers.size() / rowsPerPage);
-        pagination.setPageCount(Math.max(pageCount, 1));
+        pagination.setPageCount(pageCount == 0 ? 1 : pageCount);
+
+        // Préserve la page actuelle (sauf si elle dépasse la limite)
+        if (currentPageIndex >= pagination.getPageCount()) {
+            currentPageIndex = pagination.getPageCount() - 1;
+        }
+
+        pagination.setCurrentPageIndex(currentPageIndex);
         pagination.setPageFactory(this::createPage);
     }
 
-    private VBox createPage(int pageIndex) {
-        userCardList.getChildren().clear();
+    private TableView<User> createPage(int pageIndex) {
+        this.currentPageIndex = pageIndex;
+
+        if (allUsers == null || allUsers.isEmpty()) {
+            userTable.setItems(FXCollections.observableArrayList());
+            return userTable;
+        }
 
         int fromIndex = pageIndex * rowsPerPage;
         int toIndex = Math.min(fromIndex + rowsPerPage, allUsers.size());
 
-        List<User> usersOnPage = allUsers.subList(fromIndex, toIndex);
-
-        for (User user : usersOnPage) {
-            userCardList.getChildren().add(createUserCard(user));
+        if (fromIndex > toIndex) {
+            fromIndex = Math.max(0, toIndex - rowsPerPage);
         }
 
-        return new VBox();
+        userTable.setItems(FXCollections.observableArrayList(allUsers.subList(fromIndex, toIndex)));
+        return userTable;
     }
 
-    private HBox createUserCard(User user) {
-        HBox card = new HBox(20);
-        card.setStyle("-fx-background-color: white; "
-                + "-fx-background-radius: 16; "
-                + "-fx-padding: 15; "
-                + "-fx-alignment: center-left; "
-                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0.3, 0, 4);");
+    private void addActionButtonsToTable() {
+        colActions.setCellFactory(param -> new TableCell<>() {
+            private final Button btnEdit = new Button("Modifier");
+            private final Button btnDelete = new Button("Supprimer");
+            private final HBox buttonsBox = new HBox(10, btnEdit, btnDelete);
 
-        VBox info = new VBox(5);
-        Label nomLabel = new Label("Nom: " + user.getNom());
-        Label emailLabel = new Label("Email: " + user.getEmail());
-        Label roleLabel = new Label("Rôle: " + user.getRole());
+            {
+                btnEdit.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
+                btnDelete.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
 
-        nomLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-        emailLabel.setStyle("-fx-text-fill: #4a5568;");
-        roleLabel.setStyle("-fx-text-fill: #718096;");
+                btnEdit.setOnAction(event -> {
+                    User user = getTableView().getItems().get(getIndex());
+                    openEditUserDialog(user);
+                });
 
-        info.getChildren().addAll(nomLabel, emailLabel, roleLabel);
+                btnDelete.setOnAction(event -> {
+                    User user = getTableView().getItems().get(getIndex());
+                    deleteUser(user);
+                });
+            }
 
-        // ➤ Bouton Supprimer seulement
-        Button btnDelete = new Button("Supprimer");
-        btnDelete.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
-        btnDelete.setOnAction(event -> deleteUser(user));
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : buttonsBox);
+            }
+        });
+    }
 
-        HBox actions = new HBox(10, btnDelete);
-        actions.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+    private void openEditUserDialog(User user) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditUserForm.fxml"));
+            Parent root = loader.load();
 
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
+            EditUserController controller = loader.getController();
+            controller.setUser(user);
+            controller.setUserListController(this);
 
-        card.getChildren().addAll(info, spacer, actions);
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Modifier l'utilisateur");
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setScene(new Scene(root));
+            dialogStage.showAndWait();
 
-        return card;
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible d'ouvrir la fenêtre de modification");
+        }
     }
 
     private void deleteUser(User user) {
@@ -97,13 +147,18 @@ public class UserListController {
             userService.deleteUser(user.getId());
             allUsers.remove(user);
             refreshTable();
-            showAlert("Succès", "Utilisateur supprimé avec succès.");
+            showAlert("Succès", "Utilisateur supprimé avec succès");
         }
     }
 
     public void refreshTable() {
         allUsers = userService.getAllUsers();
         setupPagination();
+    }
+
+    @FXML
+    public void handleRefresh(ActionEvent actionEvent) {
+        refreshTable();
     }
 
     private void showAlert(String title, String message) {

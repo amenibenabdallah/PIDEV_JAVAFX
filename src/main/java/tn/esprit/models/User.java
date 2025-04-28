@@ -11,9 +11,12 @@ public class User {
     protected String prenom;
     protected LocalDate dateNaissance;
     protected String resetToken;
-    protected String cv;
-    protected String image;
-    protected String niveauEtude;
+    protected String cv;           // Spécifique pour instructeur
+    protected String image;        // Photo de profil ou instructeur
+
+    public User() {}
+
+    // 🔹 Constructeur principal sans champs optionnels
     public User(String email, String role, String password, String nom, String prenom, LocalDate dateNaissance) {
         this.email = email;
         this.role = role;
@@ -23,17 +26,13 @@ public class User {
         this.dateNaissance = dateNaissance;
     }
 
+    // 🔹 Constructeur avec CV et image (pour Instructeur)
     public User(String email, String role, String password, String nom, String prenom,
-                LocalDate dateNaissance, String resetToken, String cv, String image, String niveauEtude) {
+                LocalDate dateNaissance, String resetToken, String cv, String image) {
         this(email, role, password, nom, prenom, dateNaissance);
         this.resetToken = resetToken;
         this.cv = cv;
         this.image = image;
-        this.niveauEtude = niveauEtude;
-    }
-
-    public User() {
-
     }
 
     // ===== Getters & Setters =====
@@ -77,6 +76,4 @@ public class User {
                 ", prenom='" + prenom + '\'' +
                 '}';
     }
-    public String getNiveauEtude() { return niveauEtude; }
-    public void setNiveauEtude(String niveauEtude) { this.niveauEtude = niveauEtude; }
 }

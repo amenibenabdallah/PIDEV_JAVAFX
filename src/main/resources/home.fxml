@@ -1,50 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="tn.esprit.controllers.HomePageController">
-
-    <!-- Arrière-plan (ImageView qui occupe toute la fenêtre) -->
-    <ImageView fx:id="backgroundImage"
-               preserveRatio="false"
-               pickOnBounds="true"
-               AnchorPane.topAnchor="0.0"
-               AnchorPane.bottomAnchor="0.0"
-               AnchorPane.leftAnchor="0.0"
-               AnchorPane.rightAnchor="0.0">
-        <image>
-            <Image url="@images/home.jpg" />
-        </image>
-    </ImageView>
-
-    <!-- Contenu devant -->
-    <VBox alignment="CENTER" spacing="20"
-          AnchorPane.topAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-
-        <Label text="Bienvenue sur notre Application Formini" textFill="WHITE"
-               style="-fx-font-size: 28px; -fx-font-weight: bold;" />
-
-        <HBox alignment="CENTER" spacing="20">
-            <Button text="Connexion" onAction="#cnx"
-                    style="-fx-background-color: #bf002c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 12; -fx-padding: 10 20;" />
-            <Button text="Inscription" onAction="#insc"
-                    style="-fx-background-color: #bf002c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 12; -fx-padding: 10 20;" />
-        </HBox>
-    </VBox>
-
-    <!-- Footer en bas -->
-    <HBox alignment="CENTER" spacing="50"
-          style="-fx-background-color: #4a4a4a; -fx-padding: 10;"
-          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-
-        <Label text="Contact : contact@formini.com" textFill="white" />
-        <Label text="À propos" textFill="white" />
-        <Label text="© 2025 Formini" textFill="white" />
-    </HBox>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.controllers.Home"
+            prefHeight="400.0" prefWidth="600.0">
+    <Label text="Hello, this is our desktop application Formini" style="-fx-font-size: 20; -fx-font-weight: bold; "/>
 
 </AnchorPane>

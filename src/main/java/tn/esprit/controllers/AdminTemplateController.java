@@ -39,12 +39,12 @@ public class AdminTemplateController implements Initializable {
     @FXML
     private ComboBox<String> promotionDropdown;
 
-    private final SessionManager sessionManager = SessionManager.getInstance();
+    private final SessionManager sessionManager = new SessionManager();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Initialize the ComboBox items
-        adminDropdown.setItems(javafx.collections.FXCollections.observableArrayList("Profil", "Déconnexion"));
+        adminDropdown.setItems(javafx.collections.FXCollections.observableArrayList("Reconnecter", "Profil", "Déconnexion"));
 
         // Handle dropdown actions
         adminDropdown.setOnAction(event -> handleDropdownAction(adminDropdown.getSelectionModel().getSelectedItem()));
@@ -87,21 +87,16 @@ public class AdminTemplateController implements Initializable {
         switch (selectedOption) {
             case "Reconnecter":
             case "Déconnexion":
-                sessionManager.logout();
+                sessionManager.clearSession();
                 navigateToLogin();
                 break;
             case "Profil":
-                navigateToProfilAdmin();
+                showAlert("Info", "Fonctionnalité de profil à implémenter.");
                 break;
             default:
                 break;
         }
     }
-
-    private void navigateToProfilAdmin() {
-        loadContent("/ProfilAdmin.fxml", "Profil Admin");
-    }
-
 
     private void navigateToLogin() {
         try {
@@ -118,7 +113,7 @@ public class AdminTemplateController implements Initializable {
 
     @FXML
     private void navigateToDashboard() {
-        loadContent("/AdminDashboard.fxml", "Dashboard");
+        loadContent("/Dashboard.fxml", "Dashboard");
     }
 
     @FXML

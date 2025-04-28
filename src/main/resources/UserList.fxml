@@ -9,10 +9,10 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="tn.esprit.controllers.UserListController">
 
-    <VBox spacing="25" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20">
+    <VBox spacing="25" AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="30">
 
-        <!-- En-tête -->
-        <HBox alignment="CENTER_LEFT" spacing="10">
+        <!-- EN-TÊTE -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
             <ImageView fitHeight="36" fitWidth="36">
                 <image>
                     <Image url="@images/name.png" />
@@ -24,15 +24,39 @@
                           -fx-font-weight: bold;" />
         </HBox>
 
-        <!-- Liste des utilisateurs affichée sous forme de cartes -->
-        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
-            <VBox fx:id="userCardList" spacing="15" style="-fx-padding: 10;" />
-        </ScrollPane>
+        <!-- TOOLBAR MODERNE -->
+        <HBox spacing="12" style="-fx-background-color: white;
+                                  -fx-padding: 14;
+                                  -fx-background-radius: 16;
+                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0.3, 0, 3);">
+            <Button onAction="#handleRefresh"
+                    style="-fx-background-color: linear-gradient(to right, #4f46e5, #6366f1);
+                           -fx-text-fill: white;
+                           -fx-font-size: 15px;
+                           -fx-font-weight: bold;
+                           -fx-background-radius: 50;
+                           -fx-padding: 12 30;
+                           -fx-cursor: hand;">
+                Rafraîchir
+            </Button>
+        </HBox>
 
-        <!-- Pagination -->
+        <!-- TABLEVIEW -->
+        <TableView fx:id="userTable"
+                   style="-fx-background-color: white;
+                          -fx-background-radius: 12;
+                          -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 12, 0.4, 0, 4);">
+            <columns>
+                <TableColumn fx:id="colNom" prefWidth="180" text="Nom" />
+                <TableColumn fx:id="colEmail" prefWidth="250" text="Email" />
+                <TableColumn fx:id="colRole" prefWidth="180" text="Rôle" />
+                <TableColumn fx:id="colActions" prefWidth="200" text="Actions" />
+            </columns>
+        </TableView>
+
+        <!-- PAGINATION -->
         <Pagination fx:id="pagination"
-                    style="-fx-padding: 10 0 0 0;
-                           -fx-page-information-visible: true;" />
+                    style="-fx-padding: 15 0 0 0;
+                           -fx-page-information-visible: false;" />
     </VBox>
-
 </AnchorPane>
