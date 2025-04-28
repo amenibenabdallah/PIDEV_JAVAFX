@@ -6,20 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit session">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherInscriptionsViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherInscriptionsViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherPromotionsViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherPromotionsViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ChatBotController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ChatBotController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ModifierPromotionViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ModifierPromotionViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceInscriptionCours.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceInscriptionCours.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServicePromotion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServicePromotion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/XaiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ChatBotService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ChatBotView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ChatBotView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ModifierPromotionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ModifierPromotionView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/afficherInscriptionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/afficherInscriptionView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/afficher_inscription.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/afficher_inscription.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/chatbot.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/chatbot.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +114,7 @@
       <recent name="tn.esprit.services" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MainInscription">
+  <component name="RunManager" selected="Application.MainFx">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="tn.esprit.test.Main" />
       <module name="java_pi" />
@@ -234,8 +220,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MainInscription" />
         <item itemvalue="Application.MainFx" />
+        <item itemvalue="Application.MainInscription" />
         <item itemvalue="Application.TestAvis" />
         <item itemvalue="Application.TestUserCrud" />
         <item itemvalue="Application.listtest" />
