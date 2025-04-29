@@ -2,36 +2,51 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
 
+<?import java.net.URL?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="tn.esprit.controllers.AfficherInscriptionsViewController"
-            prefHeight="500.0" prefWidth="900.0">
+            prefHeight="500.0" prefWidth="900.0"
+            style="-fx-background-color: #f4f6f9;">
+    <stylesheets>
+        <URL value="@../styles.css" />
+    </stylesheets>
 
-    <VBox spacing="15" style="-fx-padding: 25;">
-        <!-- Titre et Barre de Recherche -->
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Liste des Inscriptions" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-            <TextField fx:id="searchField" promptText="Rechercher..." style="-fx-pref-width: 300px;"/>
-        </HBox>
+    <VBox spacing="20" alignment="TOP_CENTER"
+          AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+          style="-fx-padding: 25; -fx-background-color: white; -fx-background-radius: 12;
+                 -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 4);">
+
+        <!-- Titre -->
+        <Label text="📋 Liste des Inscriptions"
+               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
 
         <!-- TableView -->
-        <TableView fx:id="tableInscriptions" prefHeight="300">
+        <TableView fx:id="tableInscriptions" prefHeight="350"
+                   style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dcdde1;">
             <columns>
-                <TableColumn fx:id="colNom" text="Nom" prefWidth="120"/>
-                <TableColumn fx:id="colEmail" text="Email" prefWidth="180"/>
-                <TableColumn fx:id="colFormation" text="Formation" prefWidth="120"/>
-                <TableColumn fx:id="colMontant" text="Montant" prefWidth="80"/>
-                <TableColumn fx:id="colStatut" text="Statut" prefWidth="80"/>
-                <TableColumn fx:id="colAction" text="Actions" prefWidth="150"/>
+                <TableColumn fx:id="colNom" text="Nom" prefWidth="150"/>
+                <TableColumn fx:id="colEmail" text="Email" prefWidth="250"/>
+                <TableColumn fx:id="colFormation" text="Formation" prefWidth="150"/>
+                <TableColumn fx:id="colMontant" text="Montant (€)" prefWidth="100"/>
+                <TableColumn fx:id="colStatut" text="Statut" prefWidth="120"/>
+                <TableColumn fx:id="colAction" text="Actions" prefWidth="200"/>
             </columns>
         </TableView>
 
-        <!-- Pagination et Boutons -->
+        <!-- Pagination + bouton retour -->
         <HBox spacing="20" alignment="CENTER">
             <Pagination fx:id="pagination" currentPageIndex="0"/>
-            <Button fx:id="btnRetour" text="Retour à l'ajout"
-                    style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+            <Button fx:id="btnRetour" text="➕ Ajouter une inscription"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;
+                           -fx-background-radius: 8; -fx-padding: 6 16 6 16; -fx-cursor: hand;">
+                <tooltip>
+                    <Tooltip text="Retourner au formulaire d'ajout" />
+                </tooltip>
+            </Button>
         </HBox>
     </VBox>
 </AnchorPane>
