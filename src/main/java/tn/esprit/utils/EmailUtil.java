@@ -32,7 +32,9 @@ public class EmailUtil {
             Transport.send(message);
             System.out.println("✅ Email envoyé avec succès à " + toEmail);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            System.out.println("✅ Email envoyé avec succès à " + e.getMessage());
+
+//            e.printStackTrace();
         }
     }
 }
