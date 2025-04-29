@@ -1,6 +1,6 @@
 /* Centrage et design du conteneur */
 .form-container {
-    -fx-background-color: #2a2a2a;
+    -fx-background-color: #3e3e3e; /* Noir plus clair */
     -fx-padding: 40;
     -fx-background-radius: 18;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 0);
@@ -16,21 +16,32 @@
 
 /* Champs label */
 .label-field {
-    -fx-text-fill: #dcdcdc;
+    -fx-text-fill: #eeeeee; /* Blanc plus lumineux */
     -fx-font-family: 'Segoe UI', sans-serif;
     -fx-font-weight: bold;
 }
 
 /* Champ texte */
 .text-field, .password-field {
-    -fx-background-color: #3a3a3a;
-    -fx-text-fill: white;
+    -fx-background-color: #505050; /* Gris anthracite */
+    -fx-text-fill: #ffffff;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
-    -fx-border-color: #555;
+    -fx-border-color: #888888; /* Bordure claire */
     -fx-padding: 10;
-    -fx-prompt-text-fill: #888;
+    -fx-prompt-text-fill: #bbbbbb;
     -fx-transition: all 0.3s ease;
+}
+
+/* Focus style */
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #e63946;
+    -fx-background-color: #595959;
+}
+
+/* Hover effect sur les champs */
+.text-field:hover, .password-field:hover {
+    -fx-background-color: #595959;
 }
 
 /* Bouton login */

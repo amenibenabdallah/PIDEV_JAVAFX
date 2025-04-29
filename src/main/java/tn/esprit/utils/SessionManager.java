@@ -1,15 +1,15 @@
 package tn.esprit.utils;
 
-import tn.esprit.models.users;
+import tn.esprit.models.User;
 
 public class SessionManager {
-    private static users utilisateurConnecte;
+    private static User utilisateurConnecte;
 
-    public static void setUtilisateurConnecte(users utilisateur) {
+    public static void setUtilisateurConnecte(User utilisateur) {
         utilisateurConnecte = utilisateur;
     }
 
-    public static users getUtilisateurConnecte() {
+    public static User getUtilisateurConnecte() {
         return utilisateurConnecte;
     }
 
