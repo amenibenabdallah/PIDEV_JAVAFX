@@ -1,0 +1,21 @@
+<StackPane fx:id="sidebarPane" prefWidth="240" style="-fx-background-color: linear-gradient(to bottom right, #e74c3c, #f1948a);"
+           AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0">
+
+    <VBox fx:id="menuVBox" alignment="TOP_CENTER" spacing="20" padding="20">
+        <Label fx:id="off" onMouseClicked="#handleOff" style="-fx-cursor: hand; -fx-font-size: 24px;" text="☰" textFill="WHITE"/>
+
+        <!-- Section TITRE -->
+        <Label fx:id="menuTitle" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="Bienvenue"/>
+
+        <!-- Boutons de menu -->
+        <Button fx:id="btnProfile" onAction="#handleModifier" text="Profile" styleClass="login-button"/>
+        <Button fx:id="btnFormations" text="Formations" styleClass="login-button"/>
+        <Button fx:id="btnEvenements" text="Evenements" styleClass="login-button"/>
+        <Button fx:id="btnMessages" text="Messages" styleClass="login-button"/>
+        <Button fx:id="btnNotifications" text="Notifications" styleClass="login-button"/>
+        <Button fx:id="btnLogout" onAction="#handleLogout" text="Déconnexion" styleClass="login-button"/>
+
+        <Label fx:id="on" onMouseClicked="#handleOn" style="-fx-cursor: hand; -fx-font-size: 24px;" text="☰" textFill="WHITE" visible="false"/>
+    </VBox>
+
+</StackPane>

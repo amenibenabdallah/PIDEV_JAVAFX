@@ -5,20 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit session; refonte UI login avec nouveau thème">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherInscriptionsViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherInscriptionsViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainFx.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainInscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainInscription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/MyDataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/MyDataBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/AfficherPromotionsView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AfficherPromotionsView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/afficherInscriptionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/afficherInscriptionView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/AdminFormationList.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AdminFormationList.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/login.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ListAvis.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ListAvis.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminFormationListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminFormationListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/UserListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/UserListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/EmailUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/EmailUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/SessionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/AdminTemplate.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AdminTemplate.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/UserList.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/UserList.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/home.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/login.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +30,8 @@
         <option value="Interface" />
         <option value="CSS File" />
         <option value="HTML File" />
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -45,23 +44,23 @@
     <option name="PREVIEW_PUSH_PROTECTED_ONLY" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-    "lastFilter": {
-      "state": "OPEN",
-      "assignee": "Yassminette5"
-    }
-  }</component>
-  <component name="GithubPullRequestsUISettings">{
-    "selectedUrlAndAccountId": {
-      "url": "https://github.com/amenibenabdallah/PIDEV_JAVAFX.git",
-      "accountId": "a449f9f8-cadc-4d0c-9afd-7b71d4c0813a"
-    }
-  }</component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Yassminette5"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/amenibenabdallah/PIDEV_JAVAFX.git",
+    "accountId": "a449f9f8-cadc-4d0c-9afd-7b71d4c0813a"
+  }
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-    "associatedIndex": 6
+    &quot;associatedIndex&quot;: 6
   }</component>
   <component name="ProjectId" id="2vTu56h9e5HqQYkKW6k21FMYCCr" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -71,46 +70,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-    "keyToString": {
-      "Application.Main.executor": "Run",
-      "Application.MainFx.executor": "Run",
-      "Application.MainInscription.executor": "Run",
-      "Application.TestApprenantCrud.executor": "Run",
-      "Application.TestAvis.executor": "Run",
-      "Application.TestPromotion.executor": "Run",
-      "Application.TestUserCrud.executor": "Run",
-      "Application.listtest.executor": "Run",
-      "DefaultHtmlFileTemplate": "HTML File",
-      "Maven.java_pi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
-      "RunOnceActivity.OpenProjectViewOnStart": "true",
-      "RunOnceActivity.ShowReadmeOnStart": "true",
-      "RunOnceActivity.git.unshallow": "true",
-      "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-      "WebServerToolWindowFactoryState": "false",
-      "git-widget-placeholder": "Yassmine-Gestion-Utilisateur",
-      "ignore.virus.scanning.warn.message": "true",
-      "kotlin-language-version-configured": "true",
-      "last_opened_file_path": "C:/Users/LENOVO/Desktop/PIDEV_JAVAFX/src/main/resources/images",
-      "list.type.of.created.stylesheet": "CSS",
-      "node.js.detected.package.eslint": "true",
-      "node.js.detected.package.tslint": "true",
-      "node.js.selected.package.eslint": "(autodetect)",
-      "node.js.selected.package.tslint": "(autodetect)",
-      "nodejs_package_manager_path": "npm",
-      "project.structure.last.edited": "Modules",
-      "project.structure.proportion": "0.0",
-      "project.structure.side.proportion": "0.0",
-      "settings.editor.selected.configurable": "build.tools",
-      "vue.rearranger.settings.migration": "true"
-    }
-  }</component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.MainFx.executor": "Run",
+    "Application.MainInscription.executor": "Run",
+    "Application.TestApprenantCrud.executor": "Run",
+    "Application.TestAvis.executor": "Run",
+    "Application.TestPromotion.executor": "Run",
+    "Application.TestUserCrud.executor": "Run",
+    "Application.listtest.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Maven.java_pi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Rebasing Yassmine-Gestion-Utilisateur",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/PIDEV_JAVAFX",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "build.tools",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\PIDEV_JAVAFX\src\main\resources" />
+      <recent name="C:\PIDEV_JAVAFX\src\main\resources\images" />
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX\src\main\resources\images" />
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX\target\classes\images" />
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX\src\main\resources\fonts" />
-      <recent name="C:\PIDEV_JAVAFX\src\main\resources" />
       <recent name="C:\PIDEV_JAVAFX\src\main\java\tn\esprit\models" />
       <recent name="C:\Users\Home\Desktop\PIDEV_JAVAFX\src\main\resources\images" />
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX" />
@@ -142,6 +142,8 @@
       </method>
     </configuration>
     <configuration name="MainFx" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="corretto-17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="tn.esprit.test.MainFx" />
       <module name="java_pi" />
       <extension name="coverage">
@@ -424,15 +426,6 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java</url>
-          <line>168</line>
-          <properties class="tn.esprit.controllers.AdminTemplateController" method="loadContent">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

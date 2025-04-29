@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane style="-fx-background-color: #fff5f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ProfilInstructeurController">
+
+    <!-- Contenu principal -->
+    <StackPane prefHeight="700.0" prefWidth="1000.0" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="30.0">
+        <VBox alignment="CENTER" spacing="20" maxWidth="500" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 40; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+
+            <!-- Photo Profil + Contour -->
+            <StackPane alignment="CENTER" prefWidth="120" prefHeight="120">
+                <Circle radius="60" style="-fx-fill: transparent; -fx-stroke: white; -fx-stroke-width: 4;" />
+                <ImageView fx:id="profileImage" fitHeight="100" fitWidth="100" style="-fx-background-radius: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 0);" />
+            </StackPane>
+
+            <!-- Titre -->
+            <Label text="Mon Profil Instructeur" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2d3436;" />
+
+            <!-- Champs Texte -->
+            <TextField fx:id="nomField" promptText="Nom" style="-fx-background-color: #f9f9f9; -fx-border-color: #ddd; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 10; -fx-font-size: 14px;" />
+            <TextField fx:id="prenomField" promptText="Prénom" style="-fx-background-color: #f9f9f9; -fx-border-color: #ddd; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 10; -fx-font-size: 14px;" />
+            <TextField fx:id="emailField" promptText="Email" editable="false" style="-fx-background-color: #f1f1f1; -fx-border-color: #ddd; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 10; -fx-font-size: 14px;" />
+            <DatePicker fx:id="datePicker" prefWidth="420" style="-fx-background-color: #f9f9f9; -fx-border-color: #ddd; -fx-border-radius: 10; -fx-background-radius: 10;" />
+
+            <!-- Gestion CV -->
+            <Button onAction="#handleChangeCV" text="Changer CV" style="-fx-background-color: transparent; -fx-border-color: #e74c3c; -fx-text-fill: #e74c3c; -fx-border-radius: 20; -fx-background-radius: 20; -fx-padding: 8 16; -fx-font-weight: bold;" />
+            <Label fx:id="cvLabel" text="Aucun CV sélectionné" style="-fx-text-fill: #636e72; -fx-font-size: 13px;" />
+
+            <!-- Gestion Photo -->
+            <Button onAction="#handleChangePhoto" text="Changer Photo" style="-fx-background-color: transparent; -fx-border-color: #e74c3c; -fx-text-fill: #e74c3c; -fx-border-radius: 20; -fx-background-radius: 20; -fx-padding: 8 16; -fx-font-weight: bold;" />
+
+            <!-- Enregistrer -->
+            <Button onAction="#handleSave" text="Enregistrer" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-font-weight: bold; -fx-padding: 10 20;" />
+
+        </VBox>
+    </StackPane>
+
+    <!-- Footer -->
+    <Label text="© 2025 Formini. Tous droits réservés." style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" alignment="CENTER" />
+
+</AnchorPane>
