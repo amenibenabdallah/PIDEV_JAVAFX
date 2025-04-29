@@ -89,7 +89,8 @@ public class ServiceAvis implements IService<Avis>{
             pstm.setTimestamp(3, Timestamp.valueOf(avis.getDateCreation()));
             pstm.setInt(4, avis.getFormationId());
             pstm.setInt(5, avis.getApprenantId());
-            pstm.setInt(5, avis.getId());
+            pstm.setInt(5, avis.getApprenantId());
+            pstm.setInt(6, avis.getId()); // Fix: Set parameter 6 correctly
 
             int rowsAffected = pstm.executeUpdate();
             if (rowsAffected > 0) {

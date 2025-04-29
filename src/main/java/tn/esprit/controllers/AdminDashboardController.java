@@ -37,8 +37,8 @@ public class AdminDashboardController implements Initializable {
         loadRoleDistribution();
         loadNiveauApprenants();
         loadInscriptionEvolution();
-//        loadAvgAge();
-//        loadCompletionRate();
+        loadAvgAge();
+        loadCompletionRate();
     }
 
     private void loadRoleDistribution() {
@@ -64,16 +64,16 @@ public class AdminDashboardController implements Initializable {
         XYChart.Series<String, Number> series = userService.getMonthlyInscriptionData();
         inscriptionEvolutionChart.getData().add(series);
     }
-//
-//    private void loadAvgAge() {
-//        double avgAge = userService.getAverageAge();
-//        avgAgeLabel.setText("\uD83D\uDC65 Âge Moyen : " + String.format("%.1f", avgAge) + " ans");
-//    }
-//
-//    private void loadCompletionRate() {
-//        double rate = userService.getProfileCompletionRate();
-//        completionRateLabel.setText("\u2705 Taux de Complétion : " + String.format("%.1f", rate) + "%");
-//    }
+
+    private void loadAvgAge() {
+        double avgAge = userService.getAverageAge();
+        avgAgeLabel.setText("\uD83D\uDC65 Âge Moyen : " + String.format("%.1f", avgAge) + " ans");
+    }
+
+    private void loadCompletionRate() {
+        double rate = userService.getProfileCompletionRate();
+        completionRateLabel.setText("\u2705 Taux de Complétion : " + String.format("%.1f", rate) + "%");
+    }
 
     @FXML
     private void handleLogout(ActionEvent event) {

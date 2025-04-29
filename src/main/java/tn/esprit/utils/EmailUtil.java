@@ -1,8 +1,10 @@
 package tn.esprit.utils;
 
-import java.util.Properties;
 import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
+
 
 public class EmailUtil {
     public static void sendEmail(String toEmail, String subject, String body) {

@@ -12,37 +12,37 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="607.0" prefWidth="717.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AdminDashboardController">
-   <ScrollPane style="-fx-background-color: white;">
-      <content>
-      
-          <VBox alignment="CENTER" spacing="20" style="-fx-background-color: white;">
-      
-<!--              <HBox alignment="CENTER" spacing="30">-->
-<!--                  <Label fx:id="avgAgeLabel" style="-fx-font-size: 16px;" />-->
-<!--                  <Label fx:id="completionRateLabel" style="-fx-font-size: 16px;" />-->
-<!--              </HBox>-->
-<!--      -->
-              <HBox spacing="20">
-                  <PieChart fx:id="roleDistributionChart" prefHeight="300" prefWidth="300" />
-                  <BarChart fx:id="niveauApprenantsChart" prefHeight="272.0" prefWidth="400">
-                      <xAxis>
-                          <CategoryAxis label="Niveau" />
-                      </xAxis>
-                      <yAxis>
-                          <NumberAxis label="Nombre" />
-                      </yAxis>
-                  </BarChart>
-              </HBox>
-      
-              <LineChart fx:id="inscriptionEvolutionChart" prefHeight="259.0" prefWidth="720.0">
-                  <xAxis>
-                      <CategoryAxis label="Mois" />
-                  </xAxis>
-                  <yAxis>
-                      <NumberAxis label="Inscriptions" />
-                  </yAxis>
-              </LineChart>
-          </VBox>
-      </content>
-   </ScrollPane>
+    <ScrollPane style="-fx-background-color: white;">
+        <content>
+
+            <VBox alignment="CENTER" spacing="20" style="-fx-background-color: white;">
+
+                <HBox alignment="CENTER" spacing="30">
+                    <Label fx:id="avgAgeLabel" style="-fx-font-size: 16px;" />
+                    <Label fx:id="completionRateLabel" style="-fx-font-size: 16px;" />
+                </HBox>
+
+                <HBox spacing="20">
+                    <PieChart fx:id="roleDistributionChart" prefHeight="300" prefWidth="300" />
+                    <BarChart fx:id="niveauApprenantsChart" prefHeight="272.0" prefWidth="400">
+                        <xAxis>
+                            <CategoryAxis label="Niveau" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Nombre" />
+                        </yAxis>
+                    </BarChart>
+                </HBox>
+
+                <LineChart fx:id="inscriptionEvolutionChart" prefHeight="259.0" prefWidth="720.0">
+                    <xAxis>
+                        <CategoryAxis label="Mois" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="Inscriptions" />
+                    </yAxis>
+                </LineChart>
+            </VBox>
+        </content>
+    </ScrollPane>
 </AnchorPane>

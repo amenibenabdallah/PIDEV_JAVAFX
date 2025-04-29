@@ -1,5 +1,6 @@
 package tn.esprit.controllers;
 
+import javafx.animation.ScaleTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,12 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import tn.esprit.models.InscriptionCours;
 import tn.esprit.services.ServiceInscriptionCours;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AfficherInscriptionsViewController {
 
@@ -26,7 +27,6 @@ public class AfficherInscriptionsViewController {
     @FXML private TableColumn<InscriptionCours, Double> colMontant;
     @FXML private TableColumn<InscriptionCours, String> colStatut;
     @FXML private TableColumn<InscriptionCours, Void> colAction;
-    @FXML private TextField searchField;
     @FXML private Pagination pagination;
     @FXML private Button btnRetour;
 
@@ -38,9 +38,8 @@ public class AfficherInscriptionsViewController {
     public void initialize() {
         configureColumns();
         configureActionColumn();
-        loadInscriptions();
+        loadAllAndPaginate();
 
-        searchField.textProperty().addListener((obs, oldText, newText) -> filterAndPaginate());
         pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex) -> changePage(newIndex.intValue()));
         btnRetour.setOnAction(event -> handleRetour());
     }
@@ -51,17 +50,108 @@ public class AfficherInscriptionsViewController {
         colFormation.setCellValueFactory(new PropertyValueFactory<>("nomFormation"));
         colMontant.setCellValueFactory(new PropertyValueFactory<>("montant"));
         colStatut.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        // Infobulles et rendu personnalisé
+        colNom.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? null : item);
+                setTooltip(new Tooltip("Nom de l'apprenant"));
+            }
+        });
+        colEmail.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? null : item);
+                setTooltip(new Tooltip("Adresse email de l'apprenant"));
+            }
+        });
+        colFormation.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? null : item);
+                setTooltip(new Tooltip("Nom de la formation"));
+            }
+        });
+        colMontant.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? null : String.format("%.2f DT", item));
+                setTooltip(new Tooltip("Montant de l'inscription"));
+            }
+        });
+        colStatut.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    setTooltip(new Tooltip("Statut de l'inscription"));
+                    if (item.equalsIgnoreCase("Payé")) {
+                        setStyle("-fx-text-fill: #2ecc71; -fx-font-weight: bold;");
+                    } else if (item.equalsIgnoreCase("En attente")) {
+                        setStyle("-fx-text-fill: #f39c12; -fx-font-weight: bold;");
+                    } else {
+                        setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
+                    }
+                }
+            }
+        });
     }
 
     private void configureActionColumn() {
         colAction.setCellFactory(param -> new TableCell<>() {
             private final Button btnEdit = new Button("Modifier");
             private final Button btnDelete = new Button("Supprimer");
-            private final HBox buttons = new HBox(5, btnEdit, btnDelete);
+            private final HBox buttons = new HBox(10, btnEdit, btnDelete);
 
             {
-                btnEdit.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
-                btnDelete.setStyle("-fx-background-color: #ff4444; -fx-text-fill: white;");
+                buttons.setStyle("-fx-alignment: center;");
+                btnEdit.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 5 10 5 10; -fx-min-width: 80;");
+                btnDelete.setStyle("-fx-background-color: #ff4444; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 5 10 5 10; -fx-min-width: 80;");
+
+                // Tooltips
+                btnEdit.setTooltip(new Tooltip("Modifier les détails de l'inscription"));
+                btnDelete.setTooltip(new Tooltip("Supprimer cette inscription"));
+
+                // Animations
+                btnEdit.setOnMouseEntered(e -> {
+                    btnEdit.setStyle("-fx-background-color: #45a049; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 5 10 5 10; -fx-min-width: 80;");
+                    ScaleTransition st = new ScaleTransition(Duration.millis(200), btnEdit);
+                    st.setToX(1.1);
+                    st.setToY(1.1);
+                    st.play();
+                });
+                btnEdit.setOnMouseExited(e -> {
+                    btnEdit.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 5 10 5 10; -fx-min-width: 80;");
+                    ScaleTransition st = new ScaleTransition(Duration.millis(200), btnEdit);
+                    st.setToX(1.0);
+                    st.setToY(1.0);
+                    st.play();
+                });
+
+                btnDelete.setOnMouseEntered(e -> {
+                    btnDelete.setStyle("-fx-background-color: #ff0000; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 5 10 5 10; -fx-min-width: 80;");
+                    ScaleTransition st = new ScaleTransition(Duration.millis(200), btnDelete);
+                    st.setToX(1.1);
+                    st.setToY(1.1);
+                    st.play();
+                });
+                btnDelete.setOnMouseExited(e -> {
+                    btnDelete.setStyle("-fx-background-color: #ff4444; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 5 10 5 10; -fx-min-width: 80;");
+                    ScaleTransition st = new ScaleTransition(Duration.millis(200), btnDelete);
+                    st.setToX(1.0);
+                    st.setToY(1.0);
+                    st.play();
+                });
+
                 btnEdit.setOnAction(event -> handleEdit(getCurrentItem()));
                 btnDelete.setOnAction(event -> handleDelete(getCurrentItem()));
             }
@@ -78,7 +168,7 @@ public class AfficherInscriptionsViewController {
         });
     }
 
-    private void loadInscriptions() {
+    private void loadAllAndPaginate() {
         List<InscriptionCours> all = service.getAll();
         inscriptionsList = FXCollections.observableArrayList(all);
         setupPagination();
@@ -94,17 +184,6 @@ public class AfficherInscriptionsViewController {
         int fromIndex = pageIndex * ROWS_PER_PAGE;
         int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, inscriptionsList.size());
         tableInscriptions.setItems(FXCollections.observableArrayList(inscriptionsList.subList(fromIndex, toIndex)));
-    }
-
-    private void filterAndPaginate() {
-        String filter = searchField.getText().toLowerCase();
-        List<InscriptionCours> filtered = service.getAll().stream()
-                .filter(i -> i.getNomApprenant().toLowerCase().contains(filter)
-                        || i.getEmail().toLowerCase().contains(filter)
-                        || i.getNomFormation().toLowerCase().contains(filter))
-                .collect(Collectors.toList());
-        inscriptionsList = FXCollections.observableArrayList(filtered);
-        setupPagination();
     }
 
     private void handleEdit(InscriptionCours inscription) {
@@ -130,11 +209,11 @@ public class AfficherInscriptionsViewController {
     }
 
     private void handleDelete(InscriptionCours inscription) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Supprimer ?", ButtonType.YES, ButtonType.NO);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Supprimer cette inscription ?", ButtonType.YES, ButtonType.NO);
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.YES) {
                 service.delete(inscription);
-                loadInscriptions();
+                loadAllAndPaginate();
             }
         });
     }

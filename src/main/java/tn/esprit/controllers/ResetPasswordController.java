@@ -62,6 +62,6 @@ public class ResetPasswordController {
             e.printStackTrace();
             showAlert("Erreur", "Impossible de revenir à la page de connexion.");
 
-    }
+        }
     }
 }
