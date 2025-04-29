@@ -1,59 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="tn.esprit.controllers.LoginController"
-            style="-fx-background-color: #fff5f5;">
+            style="-fx-background-color: linear-gradient(to bottom right, #bf002c, #ff5c7c);">
 
-    <HBox prefWidth="900.0" prefHeight="500.0"
-          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-          AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
+    <HBox prefHeight="600" prefWidth="900" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-        <!-- FORMULAIRE DE CONNEXION -->
-        <StackPane prefWidth="450.0" style="-fx-background-color: white;">
-            <VBox alignment="CENTER" spacing="20.0">
-                <Label text="Connexion"
-                       style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2d3436;" />
-
-                <TextField fx:id="emailField" promptText="Adresse email"
-                           style="-fx-background-radius: 12; -fx-background-color: #f8f8f8; -fx-padding: 10;" />
-
-                <PasswordField fx:id="passwordField" promptText="Mot de passe"
-                               style="-fx-background-radius: 12; -fx-background-color: #f8f8f8; -fx-padding: 10;" />
-
-                <Hyperlink text="Mot de passe oublié ?" style="-fx-text-fill: #aaa;" />
-
-                <Button text="Connexion" onAction="#seConnecter"
-                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 12; -fx-padding: 10 25;" />
-
-                <HBox alignment="CENTER" spacing="5.0">
-                    <Label text="Pas encore de compte ?" />
-                    <Hyperlink text="Créer un compte" onAction="#goToInscription" style="-fx-text-fill: #e74c3c;" />
-                </HBox>
-            </VBox>
-        </StackPane>
-
-        <!-- CÔTÉ BIENVENUE -->
-        <StackPane prefWidth="450.0"
-                   style="-fx-background-color: linear-gradient(to bottom right, #e74c3c, #f1948a);">
-            <VBox alignment="CENTER" spacing="20.0">
-                <ImageView fitWidth="100.0" fitHeight="100.0" preserveRatio="true"
-                           style="-fx-effect: dropshadow(gaussian, white, 10, 0.3, 0, 0);">
+        <!-- Partie graphique gauche (logo Formini) -->
+        <StackPane prefWidth="450" style="-fx-background-color: white;">
+            <VBox alignment="CENTER" spacing="20">
+                <ImageView fitHeight="250" fitWidth="250" preserveRatio="true">
                     <image>
                         <Image url="@images/formini.jpeg" />
                     </image>
                 </ImageView>
-
-                <Label text="Welcome to Formini"
-                       style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;" />
-
-                <Label text="Connectez-vous pour continuer"
-                       wrapText="true"
-                       style="-fx-text-fill: white; -fx-font-size: 16px; -fx-alignment: center;" />
             </VBox>
         </StackPane>
+
+        <!-- Partie connexion droite -->
+        <StackPane prefWidth="450" style="-fx-background-color: transparent;">
+            <VBox alignment="CENTER" spacing="20" style="-fx-padding: 30;">
+
+                <!-- Image décorative -->
+                <ImageView fitHeight="120" fitWidth="120" preserveRatio="true">
+                    <image>
+                        <Image url="@images/logiin.png" />
+                    </image>
+                </ImageView>
+
+                <!-- Titre -->
+                <Label text="Connexion Utilisateur" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;" />
+
+                <!-- Email -->
+                <TextField fx:id="emailField" promptText="Adresse e-mail"
+                           style="-fx-background-radius: 12; -fx-background-color: #f8f8f8;
+                                  -fx-padding: 10; -fx-border-color: #ddd; -fx-border-radius: 12;" />
+
+                <!-- Mot de passe + œil -->
+                <HBox alignment="CENTER_LEFT" spacing="5"
+                      style="-fx-background-color: #f8f8f8;
+                             -fx-background-radius: 12;
+                             -fx-padding: 5;
+                             -fx-border-color: #ddd;
+                             -fx-border-radius: 12;">
+
+                    <StackPane HBox.hgrow="ALWAYS">
+                        <PasswordField fx:id="passwordField" promptText="Mot de passe"
+                                       style="-fx-background-color: transparent; -fx-padding: 10; -fx-font-size: 14px;" />
+                        <TextField fx:id="passwordVisibleField" promptText="Mot de passe"
+                                   visible="false" managed="false"
+                                   style="-fx-background-color: transparent; -fx-padding: 10; -fx-font-size: 14px;" />
+                    </StackPane>
+
+                    <ImageView fx:id="togglePasswordVisibility" fitHeight="24" fitWidth="24"
+                               pickOnBounds="true" preserveRatio="true"
+                               onMouseClicked="#togglePassword" style="-fx-cursor: hand;">
+                        <image>
+                            <Image url="@images/oeilon.png" />
+                        </image>
+                    </ImageView>
+
+                </HBox>
+
+                <!-- Bouton Connexion -->
+                <Button text="Se connecter" onAction="#seConnecter"
+                        style="-fx-background-color: white; -fx-text-fill: #bf002c;
+                               -fx-font-weight: bold; -fx-background-radius: 12;
+                               -fx-padding: 10 50;" />
+
+                <!-- Lien mot de passe oublié -->
+                <Hyperlink text="Mot de passe oublié ?" onAction="#goToForgotPassword"
+                           style="-fx-text-fill: white; -fx-underline: false;" />
+
+                <!-- Lien créer un compte -->
+                <Hyperlink text="Créer un compte →" onAction="#goToInscription"
+                           style="-fx-text-fill: white; -fx-font-weight: bold; -fx-underline: true;" />
+
+                <!-- Bouton Google -->
+                <Button text="Se connecter avec Google" onAction="#handleGoogleLogin"
+                        style="-fx-background-color: white; -fx-text-fill: #db4437;
+                               -fx-font-weight: bold; -fx-background-radius: 12;
+                               -fx-padding: 10 30;" />
+            </VBox>
+        </StackPane>
+
     </HBox>
 </AnchorPane>

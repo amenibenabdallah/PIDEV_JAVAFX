@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane fx:id="mainContainer" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.MainLayoutController">
+
+    <!-- Sidebar -->
+    <StackPane fx:id="sidebarPane" prefWidth="240" style="-fx-background-color: linear-gradient(to bottom right, #e74c3c, #f1948a);"
+               AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0">
+
+        <VBox alignment="CENTER" spacing="20.0">
+            <Label fx:id="off" onMouseClicked="#handleOff" style="-fx-cursor: hand; -fx-font-size: 20px;" text="☰" textFill="WHITE">
+                <VBox.margin><Insets left="190.0" /></VBox.margin>
+            </Label>
+
+            <Label style="-fx-text-fill: white; -fx-font-size: 26px; -fx-font-weight: bold;" text="Bienvenue" />
+            <Label style="-fx-text-fill: white;" text="Gérez vos informations personnelles." />
+
+            <Button onAction="#handleModifier" prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="👤 Profile" />
+            <Button prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="🎓 Formations" />
+            <Button prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="📅 Evenements" />
+            <Button prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="💬 Messages" />
+            <Button prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="🔔 Notifications" />
+            <Button onAction="#handleLogout" prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="🚪 Déconnexion">
+                <VBox.margin><Insets /></VBox.margin>
+            </Button>
+        </VBox>
+
+        <!-- Label pour afficher -->
+        <Label fx:id="on" onMouseClicked="#handleOn" style="-fx-cursor: hand; -fx-font-size: 20px;" text="☰" textFill="WHITE" visible="false">
+            <StackPane.margin><Insets bottom="460.0" left="190.0" top="10.0" /></StackPane.margin>
+        </Label>
+
+    </StackPane>
+
+    <!-- Zone dynamique (contentArea) -->
+    <StackPane fx:id="contentArea"
+               AnchorPane.topAnchor="0.0"
+               AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="240.0"
+               AnchorPane.rightAnchor="0.0"/>
+</AnchorPane>

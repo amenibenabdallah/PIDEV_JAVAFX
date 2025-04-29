@@ -29,7 +29,39 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>17.0.11</version>
-            <classifier>win</classifier>
+            <classifier>win</classifier>   <!-- Si tu es sous Windows -->
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>1.32.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.twilio.sdk/twilio -->
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>10.7.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.http-client</groupId>
+            <artifactId>google-http-client-jackson2</artifactId>
+            <version>1.40.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.oauth-client</groupId>
+            <artifactId>google-oauth-client-jetty</artifactId>
+            <version>1.34.1</version>
         </dependency>
 
         <!-- JavaFX FXML -->
@@ -40,14 +72,13 @@
             <classifier>win</classifier>
         </dependency>
 
-        <!-- JavaFX Graphics -->
+        <!-- JavaFX Graphics (optionnel si nécessaire) -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
             <version>17.0.11</version>
             <classifier>win</classifier>
         </dependency>
-
         <!-- Commons Logging -->
         <dependency>
             <groupId>commons-logging</groupId>
@@ -61,48 +92,28 @@
             <artifactId>spring-security-crypto</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
-
-        <!-- Annotation API -->
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
         </dependency>
-
-        <!-- Google API Client -->
         <dependency>
             <groupId>com.google.api-client</groupId>
             <artifactId>google-api-client</artifactId>
             <version>1.32.1</version>
         </dependency>
 
-        <!-- Twilio SDK -->
-        <dependency>
-            <groupId>com.twilio.sdk</groupId>
-            <artifactId>twilio</artifactId>
-            <version>10.7.2</version>
-        </dependency>
-
-        <!-- Dotenv for Environment Variables -->
-        <dependency>
-            <groupId>io.github.cdimascio</groupId>
-            <artifactId>dotenv-java</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-
-        <!-- Google HTTP Client Jackson2 -->
         <dependency>
             <groupId>com.google.http-client</groupId>
             <artifactId>google-http-client-jackson2</artifactId>
             <version>1.40.1</version>
         </dependency>
-
-        <!-- Google OAuth Client Jetty -->
         <dependency>
             <groupId>com.google.oauth-client</groupId>
             <artifactId>google-oauth-client-jetty</artifactId>
             <version>1.34.1</version>
         </dependency>
+
     </dependencies>
 
     <build>
