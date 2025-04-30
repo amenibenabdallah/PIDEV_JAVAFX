@@ -39,12 +39,12 @@ public class AdminTemplateController implements Initializable {
     @FXML
     private ComboBox<String> promotionDropdown;
 
-    private final SessionManager sessionManager = new SessionManager();
+    private final SessionManager sessionManager = SessionManager.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Initialize the ComboBox items
-        adminDropdown.setItems(javafx.collections.FXCollections.observableArrayList("Reconnecter", "Profil", "Déconnexion"));
+        adminDropdown.setItems(javafx.collections.FXCollections.observableArrayList("Profil", "Déconnexion"));
 
         // Handle dropdown actions
         adminDropdown.setOnAction(event -> handleDropdownAction(adminDropdown.getSelectionModel().getSelectedItem()));
@@ -52,7 +52,7 @@ public class AdminTemplateController implements Initializable {
 
 // Load a working image (add.png) from the classpath
         try {
-            URL imageUrl = getClass().getResource("/images/add.png");
+            URL imageUrl = getClass().getResource("/images/admin.jpg");
             if (imageUrl == null) {
                 showAlert("Erreur", "Image add.png not found in /images/");
                 return;
@@ -87,16 +87,21 @@ public class AdminTemplateController implements Initializable {
         switch (selectedOption) {
             case "Reconnecter":
             case "Déconnexion":
-                sessionManager.clearSession();
+                sessionManager.logout();
                 navigateToLogin();
                 break;
             case "Profil":
-                showAlert("Info", "Fonctionnalité de profil à implémenter.");
+                navigateToProfilAdmin();
                 break;
             default:
                 break;
         }
     }
+
+    private void navigateToProfilAdmin() {
+        loadContent("/ProfilAdmin.fxml", "Profil Admin");
+    }
+
 
     private void navigateToLogin() {
         try {
@@ -113,7 +118,7 @@ public class AdminTemplateController implements Initializable {
 
     @FXML
     private void navigateToDashboard() {
-        loadContent("/Dashboard.fxml", "Dashboard");
+        loadContent("/AdminDashboard.fxml", "Dashboard");
     }
 
     @FXML

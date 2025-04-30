@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.TokenVerificationController"
+            style="-fx-background-color: linear-gradient(to bottom right, #e74c3c, #f1948a);">
+
+    <VBox alignment="CENTER" spacing="20.0" prefWidth="400" prefHeight="300">
+        <Label text="Vérification du Token"
+               style="-fx-font-size: 24px; -fx-text-fill: white;"/>
+
+        <TextField fx:id="tokenField" promptText="Collez votre token"
+                   style="-fx-background-radius: 10; -fx-padding: 10;"/>
+
+        <Button text="Vérifier"
+                onAction="#verifyToken"
+                style="-fx-background-color: white; -fx-text-fill: #e74c3c; -fx-font-weight: bold; -fx-background-radius: 10;"/>
+
+        <Hyperlink text="Retour à la connexion" onAction="#goToLogin"
+                   style="-fx-text-fill: white;"/>
+    </VBox>
+</AnchorPane>
