@@ -44,10 +44,12 @@ public class LoginController {
         }
 
         try {
+
             User user = userService.findUserByEmail(email);
             if (user != null && passwordEncoder.matches(password, user.getPassword())) {
                 sessionManager.setUtilisateurConnecte(user);
                 redirectToDashboard(event, user);
+
             } else {
                 showAlert("Erreur", "Email ou mot de passe incorrect !");
             }

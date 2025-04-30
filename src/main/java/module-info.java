@@ -1,22 +1,27 @@
-module tn.esprit{
-       requires javafx.controls;
-    requires java.sql;
+module tn.esprit {
+    requires javafx.controls;
     requires javafx.fxml;
-    requires spring.security.crypto;
+    requires javafx.base;
+    requires javafx.graphics;
+    requires java.sql;
     requires mysql.connector.j;
+    requires spring.security.crypto;
+    requires java.desktop;
+    requires stripe.java;
+    requires okhttp3;
+    requires com.google.gson;
+    requires jakarta.mail;
+    requires java.net.http;
+    requires com.fasterxml.jackson.databind;
     requires com.google.protobuf;
     requires twilio;
     requires com.google.api.client;
-    requires google.api.client;
-    requires java.desktop;
     requires com.google.api.client.json.jackson2;
-    requires java.mail;
+    requires google.api.client;
+
     exports tn.esprit.controllers;
     exports tn.esprit.services;
     exports tn.esprit.models;
     exports tn.esprit.test;
     opens tn.esprit.controllers to javafx.fxml;
-
-
-
 }

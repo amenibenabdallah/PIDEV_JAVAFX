@@ -1,31 +1,56 @@
 package tn.esprit.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import tn.esprit.models.Promotion;
+import tn.esprit.services.ServiceInscriptionCours;
 import tn.esprit.services.ServicePromotion;
+
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class ModifierPromotionViewController {
+
     @FXML private TextField codeField;
     @FXML private TextArea descriptionField;
     @FXML private TextField remiseField;
     @FXML private DatePicker dateExpirationField;
+    @FXML private Label apprenantLabel;
     @FXML private TextField inscriptionIdField;
     @FXML private TextField apprenantIdField;
 
     private Promotion promotion;
+    private VBox contentArea;
     private final ServicePromotion service = new ServicePromotion();
+
+    public void setContentArea(VBox contentArea) {
+        this.contentArea = contentArea;
+    }
 
     public void initData(Promotion promotion) {
         this.promotion = promotion;
         codeField.setText(promotion.getCodePromo());
-        descriptionField.setText(promotion.getDescription());
+
+        // Extraire la description sans le nom de l'apprenant
+        String description = promotion.getDescription();
+        if (description.contains("(Apprenant: ")) {
+            description = description.substring(0, description.indexOf("(Apprenant: ")).trim();
+        }
+        descriptionField.setText(description);
+
         remiseField.setText(String.valueOf(promotion.getRemise()));
         dateExpirationField.setValue(promotion.getDateExpiration());
         inscriptionIdField.setText(String.valueOf(promotion.getInscriptionCoursId()));
         apprenantIdField.setText(String.valueOf(promotion.getApprenantId()));
+
+        // Afficher le nom de l'apprenant (non modifiable)
+        ServiceInscriptionCours serviceInscription = new ServiceInscriptionCours();
+        String nomApprenant = serviceInscription.getNomApprenantById(promotion.getApprenantId());
+        apprenantLabel.setText(nomApprenant != null ? nomApprenant : "Non spécifié (ID: " + promotion.getApprenantId() + ")");
     }
 
     @FXML
@@ -33,21 +58,19 @@ public class ModifierPromotionViewController {
         try {
             resetFieldStyles();
 
-            // ========== VALIDATION CODE PROMO ==========
+            // Validation des champs
             if (codeField.getText().isEmpty()) {
                 codeField.setStyle("-fx-border-color: red;");
                 showAlert("Erreur", "Le code promo est obligatoire");
                 return;
             }
 
-            // ========== VALIDATION DESCRIPTION ==========
             if (descriptionField.getText().isEmpty()) {
                 descriptionField.setStyle("-fx-border-color: red;");
                 showAlert("Erreur", "La description est obligatoire");
                 return;
             }
 
-            // ========== VALIDATION REMISE ==========
             double remise;
             try {
                 remise = Double.parseDouble(remiseField.getText());
@@ -62,43 +85,20 @@ public class ModifierPromotionViewController {
                 return;
             }
 
-            // ========== VALIDATION DATE ==========
-            if (dateExpirationField.getValue() == null ||
-                    dateExpirationField.getValue().isBefore(LocalDate.now())) {
+            if (dateExpirationField.getValue() == null || dateExpirationField.getValue().isBefore(LocalDate.now())) {
                 dateExpirationField.setStyle("-fx-border-color: red;");
                 showAlert("Erreur", "La date d'expiration doit être dans le futur");
                 return;
             }
 
-            // ========== VALIDATION IDs ==========
-            int inscriptionId, apprenantId;
-            try {
-                inscriptionId = Integer.parseInt(inscriptionIdField.getText());
-                apprenantId = Integer.parseInt(apprenantIdField.getText());
-
-                if (inscriptionId <= 0 || apprenantId <= 0) {
-                    inscriptionIdField.setStyle("-fx-border-color: red;");
-                    apprenantIdField.setStyle("-fx-border-color: red;");
-                    showAlert("Erreur", "Les IDs doivent être positifs");
-                    return;
-                }
-            } catch (NumberFormatException e) {
-                inscriptionIdField.setStyle("-fx-border-color: red;");
-                apprenantIdField.setStyle("-fx-border-color: red;");
-                showAlert("Erreur", "Format numérique invalide pour les IDs");
-                return;
-            }
-
-            // Mise à jour de la promotion
+            // Mise à jour de la promotion (sans modifier apprenantId)
             promotion.setCodePromo(codeField.getText());
             promotion.setDescription(descriptionField.getText());
             promotion.setRemise(remise);
             promotion.setDateExpiration(dateExpirationField.getValue());
-            promotion.setInscriptionCoursId(inscriptionId);
-            promotion.setApprenantId(apprenantId);
 
             service.update(promotion);
-            closeWindow();
+            retourAffichage();
 
         } catch (Exception e) {
             showAlert("Erreur critique", "Erreur inattendue : " + e.getMessage());
@@ -107,10 +107,36 @@ public class ModifierPromotionViewController {
 
     @FXML
     private void handleAnnuler() {
-        closeWindow();
+        retourAffichage();
     }
 
-    // ========== MÉTHODES UTILITAIRES ==========
+    private void retourAffichage() {
+        try {
+            if (contentArea == null) {
+                showAlert("Erreur", "Le conteneur de contenu n'est pas initialisé");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherPromotionsView.fxml"));
+            Parent root = loader.load();
+
+            AfficherPromotionsViewController controller = loader.getController();
+            if (controller != null) {
+                controller.setContentArea(contentArea);
+            } else {
+                showAlert("Erreur", "Impossible de charger le contrôleur de la vue");
+                return;
+            }
+
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(root);
+            VBox.setVgrow(root, Priority.ALWAYS);
+
+        } catch (IOException e) {
+            showAlert("Erreur", "Impossible de charger l'interface d'affichage des promotions: " + e.getMessage());
+        }
+    }
+
     private void resetFieldStyles() {
         codeField.setStyle("");
         descriptionField.setStyle("");
@@ -118,11 +144,6 @@ public class ModifierPromotionViewController {
         dateExpirationField.setStyle("");
         inscriptionIdField.setStyle("");
         apprenantIdField.setStyle("");
-    }
-
-    private void closeWindow() {
-        Stage stage = (Stage) codeField.getScene().getWindow();
-        stage.close();
     }
 
     private void showAlert(String title, String content) {

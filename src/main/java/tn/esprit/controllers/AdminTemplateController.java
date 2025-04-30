@@ -173,12 +173,10 @@ public class AdminTemplateController implements Initializable {
 
     private void loadContent(String fxmlPath, String title) {
         try {
-            // Check if the FXML file exists
             URL fxmlUrl = getClass().getResource(fxmlPath);
             if (fxmlUrl == null) {
-                // Display a message in the contentArea instead of an alert
                 contentArea.getChildren().clear();
-                Label notImplementedLabel = new Label("This page is not implemented. The responsible of this page didn't do his work.");
+                Label notImplementedLabel = new Label("Cette page n'est pas implémentée.");
                 notImplementedLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #E53E3E; -fx-padding: 20;");
                 contentArea.getChildren().add(notImplementedLabel);
                 pageTitle.setText(title);
@@ -191,12 +189,19 @@ public class AdminTemplateController implements Initializable {
             contentArea.getChildren().clear();
             contentArea.getChildren().add(content);
             pageTitle.setText(title);
-
-            // Update search field prompt text based on the page
             searchField.setPromptText("Rechercher " + title.toLowerCase() + "...");
 
-            // Set the controller as user data for search delegation
-            content.setUserData(loader.getController());
+            // Injecter contentArea dans les contrôleurs appropriés
+            Object controller = loader.getController();
+            if (controller instanceof AfficherPromotionsViewController) {
+                ((AfficherPromotionsViewController) controller).setContentArea(contentArea);
+            } else if (controller instanceof AfficherInscriptionsViewController) {
+                ((AfficherInscriptionsViewController) controller).setContentArea(contentArea);
+            } else if (controller instanceof AjoutPromotionViewController) {
+                ((AjoutPromotionViewController) controller).setContentArea(contentArea);
+            }
+
+            content.setUserData(controller);
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Erreur", "Impossible de charger la page : " + e.getMessage());
