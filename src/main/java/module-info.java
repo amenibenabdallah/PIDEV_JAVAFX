@@ -10,7 +10,7 @@ module tn.esprit {
     requires stripe.java;
     requires okhttp3;
     requires com.google.gson;
-    requires jakarta.mail;
+   // requires jakarta.mail;
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
     requires com.google.protobuf;
@@ -18,6 +18,7 @@ module tn.esprit {
     requires com.google.api.client;
     requires com.google.api.client.json.jackson2;
     requires google.api.client;
+    requires java.mail;
 
     exports tn.esprit.controllers;
     exports tn.esprit.services;

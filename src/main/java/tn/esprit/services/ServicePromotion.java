@@ -21,14 +21,13 @@ public class ServicePromotion {
             throw new IllegalArgumentException("❌ La date d'expiration de la promotion est passée.");
         }
 
-        String sql = "INSERT INTO promotion (code_promo, description, remise, date_expiration, inscription_cours_id, apprenant_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO promotion (code_promo, description, remise, date_expiration, inscription_cours_id) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = cnx.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, promotion.getCodePromo());
             ps.setString(2, promotion.getDescription());
             ps.setDouble(3, promotion.getRemise());
             ps.setDate(4, Date.valueOf(promotion.getDateExpiration()));
             ps.setInt(5, promotion.getInscriptionCoursId());
-            ps.setInt(6, promotion.getApprenantId());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -54,7 +53,6 @@ public class ServicePromotion {
                 p.setRemise(rs.getDouble("remise"));
                 p.setDateExpiration(rs.getDate("date_expiration").toLocalDate());
                 p.setInscriptionCoursId(rs.getInt("inscription_cours_id"));
-                p.setApprenantId(rs.getInt("apprenant_id"));
                 promotions.add(p);
             }
         } catch (SQLException e) {
@@ -120,16 +118,14 @@ public class ServicePromotion {
     }
 
     public void update(Promotion promotion) {
-        String sql = "UPDATE promotion SET code_promo=?, description=?, remise=?, date_expiration=?, " +
-                    "inscription_cours_id=?, apprenant_id=? WHERE id=?";
+        String sql = "UPDATE promotion SET code_promo=?, description=?, remise=?, date_expiration=?, inscription_cours_id=? WHERE id=?";
         try (PreparedStatement ps = cnx.prepareStatement(sql)) {
             ps.setString(1, promotion.getCodePromo());
             ps.setString(2, promotion.getDescription());
             ps.setDouble(3, promotion.getRemise());
             ps.setDate(4, Date.valueOf(promotion.getDateExpiration()));
             ps.setInt(5, promotion.getInscriptionCoursId());
-            ps.setInt(6, promotion.getApprenantId());
-            ps.setInt(7, promotion.getId());
+            ps.setInt(6, promotion.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             System.err.println("❌ Erreur lors de la mise à jour de la promotion : " + e.getMessage());
@@ -174,8 +170,7 @@ public class ServicePromotion {
                 rs.getString("description"),
                 rs.getDouble("remise"),
                 rs.getDate("date_expiration").toLocalDate(),
-                rs.getInt("inscription_cours_id"),
-                rs.getInt("apprenant_id")
+                rs.getInt("inscription_cours_id")
         );
     }
 }

@@ -7,10 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import tn.esprit.models.InscriptionCours;
-import tn.esprit.models.users;
-import tn.esprit.models.Formation;
-import tn.esprit.models.Promotion;
+import tn.esprit.models.*;
 import tn.esprit.services.ServiceInscriptionCours;
 import tn.esprit.services.ServiceFormation;
 import tn.esprit.services.ServicePromotion;
@@ -39,7 +36,11 @@ public class InscriptionCoursViewController {
     private final ServiceFormation formationService = new ServiceFormation();
     private final ServicePromotion servicePromotion = new ServicePromotion();
     private Map<String, Integer> formationMap; // Associe titre à id
+    private MainLayoutController mainLayoutController;
 
+    public void setMainLayoutController(MainLayoutController mainLayoutController) {
+        this.mainLayoutController = mainLayoutController;
+    }
     @FXML
     public void initialize() {
         typePaiementComboBox.setItems(FXCollections.observableArrayList(
@@ -59,7 +60,7 @@ public class InscriptionCoursViewController {
     }
 
     private void prefillFields() {
-        users user = SessionManager.getUtilisateurConnecte();
+        User user = SessionManager.getUtilisateurConnecte();
         if (user != null) {
             txtNomApprenant.setText(user.getNom() + " " + user.getPrenom());
             txtEmail.setText(user.getEmail());
@@ -76,7 +77,7 @@ public class InscriptionCoursViewController {
     private void ajouterInscription() {
         try {
             resetFieldStyles();
-            users user = SessionManager.getUtilisateurConnecte();
+            User user = SessionManager.getUtilisateurConnecte();
 
             // Validation
             if (user == null) {
@@ -152,41 +153,25 @@ public class InscriptionCoursViewController {
             service.add(ins);
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Inscription enregistrée !");
 
-            // Fermer la fenêtre d'inscription
-            Stage currentStage = (Stage) btnAjouter.getScene().getWindow();
-            currentStage.close();
-
-            // Ouvrir l'interface de paiement avec le montant de la formation
+            // Charger l'interface de paiement dans le contentArea
             double montant = formationService.getPrixById(formationId);
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaymentView.fxml"));
-                Parent root = loader.load();
-                PaymentController paymentController = loader.getController();
-                paymentController.setAmount(montant);
-                paymentController.setInscription(ins);
-                Stage stage = new Stage();
-                stage.setTitle("Paiement");
-                stage.setScene(new Scene(root));
-                stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-                stage.showAndWait();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            mainLayoutController.loadPaymentView(montant, ins);
 
             // Réinitialiser le formulaire
             handleAnnuler();
 
         } catch (Exception e) {
-            if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("unique_email_formation")) {
-                showAlert(Alert.AlertType.ERROR, "Erreur", "Vous êtes déjà inscrit à cette formation !");
-            } else if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("UNIQ_AF83D8D1ABE530DA")) {
-                showAlert(Alert.AlertType.ERROR, "Erreur", "Ce CIN est déjà utilisé pour une autre inscription.");
+            if (e.getMessage().contains("Duplicate entry")) {
+                if (e.getMessage().contains("unique_email_formation")) {
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "Vous êtes déjà inscrit à cette formation !");
+                } else if (e.getMessage().contains("UNIQ_AF83D8D1ABE530DA")) {
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "Ce CIN est déjà utilisé pour une autre inscription.");
+                }
             } else {
                 showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue : " + e.getMessage());
             }
         }
     }
-
     @FXML
     private void handleAnnuler() {
         nomFormationComboBox.getSelectionModel().clearSelection();

@@ -21,7 +21,6 @@ public class ModifierPromotionViewController {
     @FXML private DatePicker dateExpirationField;
     @FXML private Label apprenantLabel;
     @FXML private TextField inscriptionIdField;
-    @FXML private TextField apprenantIdField;
 
     private Promotion promotion;
     private VBox contentArea;
@@ -35,22 +34,24 @@ public class ModifierPromotionViewController {
         this.promotion = promotion;
         codeField.setText(promotion.getCodePromo());
 
-        // Extraire la description sans le nom de l'apprenant
+        // Extraire la description et le nom de l'apprenant
         String description = promotion.getDescription();
+        String nomApprenant = "Non spécifié";
         if (description.contains("(Apprenant: ")) {
-            description = description.substring(0, description.indexOf("(Apprenant: ")).trim();
+            int startIndex = description.indexOf("(Apprenant: ") + "(Apprenant: ".length();
+            int endIndex = description.lastIndexOf(")");
+            if (endIndex > startIndex) {
+                nomApprenant = description.substring(startIndex, endIndex).trim();
+                description = description.substring(0, description.indexOf("(Apprenant: ")).trim();
+            }
         }
         descriptionField.setText(description);
+        apprenantLabel.setText(nomApprenant);
 
         remiseField.setText(String.valueOf(promotion.getRemise()));
         dateExpirationField.setValue(promotion.getDateExpiration());
         inscriptionIdField.setText(String.valueOf(promotion.getInscriptionCoursId()));
-        apprenantIdField.setText(String.valueOf(promotion.getApprenantId()));
-
-        // Afficher le nom de l'apprenant (non modifiable)
-        ServiceInscriptionCours serviceInscription = new ServiceInscriptionCours();
-        String nomApprenant = serviceInscription.getNomApprenantById(promotion.getApprenantId());
-        apprenantLabel.setText(nomApprenant != null ? nomApprenant : "Non spécifié (ID: " + promotion.getApprenantId() + ")");
+        inscriptionIdField.setEditable(false); // Rendre non modifiable
     }
 
     @FXML
@@ -91,14 +92,23 @@ public class ModifierPromotionViewController {
                 return;
             }
 
-            // Mise à jour de la promotion (sans modifier apprenantId)
+            // Mise à jour de la promotion
             promotion.setCodePromo(codeField.getText());
-            promotion.setDescription(descriptionField.getText());
+            // Ajouter le nom de l'apprenant à la description
+            String updatedDescription = descriptionField.getText() + " (Apprenant: " + apprenantLabel.getText() + ")";
+            promotion.setDescription(updatedDescription);
             promotion.setRemise(remise);
             promotion.setDateExpiration(dateExpirationField.getValue());
 
             service.update(promotion);
             retourAffichage();
+
+            // Afficher une alerte de succès
+            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+            successAlert.setTitle("Succès");
+            successAlert.setHeaderText(null);
+            successAlert.setContentText("Promotion modifiée avec succès !");
+            successAlert.showAndWait();
 
         } catch (Exception e) {
             showAlert("Erreur critique", "Erreur inattendue : " + e.getMessage());
@@ -143,7 +153,6 @@ public class ModifierPromotionViewController {
         remiseField.setStyle("");
         dateExpirationField.setStyle("");
         inscriptionIdField.setStyle("");
-        apprenantIdField.setStyle("");
     }
 
     private void showAlert(String title, String content) {

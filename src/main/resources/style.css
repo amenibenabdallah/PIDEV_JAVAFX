@@ -1,6 +1,6 @@
 /* Split Background Container */
 .split-background {
-    -fx-background-color: linear-gradient(to right, #ffffff 50%, #2196f3 50%);
+    -fx-background-color: #ffffff;
     -fx-background-radius: 15px;
     -fx-border-radius: 15px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);
@@ -8,38 +8,13 @@
     -fx-min-height: 450px;
 }
 
-/* Left Side (Form) */
+/* Form Box */
 .form-box {
     -fx-background-color: transparent;
     -fx-padding: 20px;
-    -fx-max-width: 300px;
+    -fx-max-width: 400px;
     -fx-spacing: 15;
     -fx-alignment: center;
-}
-
-/* Right Side (Welcome Message) */
-.welcome-box {
-    -fx-background-color: transparent;
-    -fx-padding: 0px;
-    -fx-max-width: 300px;
-    -fx-spacing: 0;
-    -fx-alignment: center;
-}
-
-/* Welcome Title */
-.welcome-title {
-    -fx-font-size: 30px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #ffffff;
-    -fx-font-family: 'Segoe UI';
-}
-
-/* Welcome Subtitle */
-.welcome-subtitle {
-    -fx-font-size: 14px;
-    -fx-text-fill: #e3f2fd;
-    -fx-font-family: 'Segoe UI';
-    -fx-padding: 15 0 0 0;
 }
 
 /* Form Title */
@@ -53,19 +28,19 @@
 
 /* Labels */
 .form-label {
-    -fx-font-size: 15px; /* Slightly larger for better readability */
-    -fx-text-fill: #333333; /* Darker color for better contrast (matches Log In form) */
-    -fx-font-weight: 700; /* Bolder to match the Log In form’s labels */
+    -fx-font-size: 15px;
+    -fx-text-fill: #333333;
+    -fx-font-weight: 700;
     -fx-font-family: 'Segoe UI';
-    -fx-padding: 5 0 2 0; /* Adjusted padding for better spacing */
-    -fx-alignment: center-left; /* Ensure text aligns to the left */
+    -fx-padding: 5 0 2 0;
+    -fx-alignment: center-left;
 }
 
 /* Input Fields (TextField, ComboBox, ChoiceBox) */
 .form-field {
     -fx-font-size: 14px;
     -fx-pref-height: 40px;
-    -fx-pref-width: 250px;
+    -fx-pref-width: 300px;
     -fx-background-radius: 10px;
     -fx-border-radius: 10px;
     -fx-border-color: #e0e0e0;

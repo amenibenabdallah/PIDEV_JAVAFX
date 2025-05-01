@@ -26,6 +26,7 @@
             <Button prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="📅 Evenements" />
             <Button prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="💬 Messages" />
             <Button prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="🔔 Notifications" />
+            <Button onAction="#handleInscriptionCours" prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="InscriptionCours" />
             <Button onAction="#handleLogout" prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="🚪 Déconnexion">
                 <VBox.margin><Insets /></VBox.margin>
             </Button>
