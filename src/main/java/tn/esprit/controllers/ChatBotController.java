@@ -5,7 +5,9 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import okhttp3.*;
@@ -25,16 +27,40 @@ public class ChatBotController {
     private final OkHttpClient client = new OkHttpClient();
     private final ObjectMapper mapper = new ObjectMapper();
 
-    // Intégration de ta clé API ici :
     private final String apiKey = "AIzaSyDNqiooMiPIMUzkxhwhW1jfpyZjA7D98CQ";
-
-    // Configuration de retry
     private static final int MAX_RETRIES = 3;
     private static final long BASE_RETRY_DELAY_MS = 5000;
 
     @FXML
     public void initialize() {
         chatListView.setItems(messages);
+        setupCellFactory();
+        messages.add(" Bonjour ! Je suis votre assistant éducatif. Comment puis-je vous aider aujourd'hui ?");
+    }
+
+    private void setupCellFactory() {
+        chatListView.setCellFactory(lv -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                    getStyleClass().removeAll("user-message", "bot-message");
+                } else {
+                    setText(item);
+                    getStyleClass().removeAll("user-message", "bot-message");
+
+                    if (item.startsWith("Vous: ")) {
+                        getStyleClass().add("user-message");
+                        setAlignment(Pos.CENTER_RIGHT);
+                    } else if (item.startsWith("Bot: ")) {
+                        getStyleClass().add("bot-message");
+                        setAlignment(Pos.CENTER_LEFT);
+                    }
+                }
+            }
+        });
     }
 
     @FXML
@@ -49,13 +75,11 @@ public class ChatBotController {
         new Thread(() -> {
             try {
                 String response = getChatbotResponse(userMessage);
-                System.out.println("Réponse du bot: " + response);
                 Platform.runLater(() -> {
                     messages.add("Bot: " + response);
                     chatListView.scrollTo(messages.size() - 1);
                 });
             } catch (IOException e) {
-                System.out.println("Erreur: " + e.getMessage());
                 Platform.runLater(() -> {
                     messages.add("Bot: Erreur : " + e.getMessage());
                     chatListView.scrollTo(messages.size() - 1);
@@ -67,31 +91,21 @@ public class ChatBotController {
     }
 
     private String getChatbotResponse(String userMessage) throws IOException {
-        if (apiKey == null || apiKey.isEmpty()) {
-            throw new IOException("La clé API n'est pas configurée. Merci de vérifier votre clé.");
-        }
+        String instruction = "Tu es un chatbot éducatif francophone. Réponds exclusivement aux questions sur:\n"
+                + "- Pédagogie\n- Programmes scolaires\n- Méthodes d'apprentissage\n- Orientation professionnelle\n"
+                + "Pour les questions hors-sujet, répondre: 'Désolé, je ne traite que les sujets éducatifs.'";
 
-        String instructionSysteme = "Tu es un chatbot éducatif qui parle français. "
-                + "Tu dois répondre uniquement aux questions liées à l'éducation en français. "
-                + "Si la question n'est pas liée à l'éducation, réponds poliment : "
-                + "'Désolé, je ne peux répondre qu'aux questions concernant l'éducation.'";
-
-        String promptComplet = instructionSysteme + "\n\nQuestion de l'utilisateur : " + userMessage;
-
-        String jsonBody = """
+        String jsonBody = String.format("""
         {
-            "contents": [
-                {
-                    "parts": [
-                        {"text": "%s"}
-                    ]
-                }
-            ],
+            "contents": [{
+                "parts": [{"text": "%s\\n\\nQuestion: %s"}]
+            }],
             "generationConfig": {
-                "maxOutputTokens": 300
+                "maxOutputTokens": 400,
+                "temperature": 0.7
             }
         }
-        """.formatted(promptComplet.replace("\"", "\\\""));
+        """, instruction.replace("\"", "\\\""), userMessage.replace("\"", "\\\""));
 
         RequestBody body = RequestBody.create(jsonBody, MediaType.get("application/json"));
         Request request = new Request.Builder()
@@ -99,34 +113,32 @@ public class ChatBotController {
                 .post(body)
                 .build();
 
-        int attempt = 0;
-        while (attempt < MAX_RETRIES) {
+        for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
             try (Response response = client.newCall(request).execute()) {
                 if (response.isSuccessful()) {
-                    String responseBody = response.body().string();
-                    return mapper.readTree(responseBody)
-                            .get("candidates").get(0)
-                            .get("content").get("parts").get(0)
-                            .get("text").asText().trim();
+                    return mapper.readTree(response.body().string())
+                            .path("candidates").get(0)
+                            .path("content").path("parts").get(0)
+                            .path("text").asText().trim();
                 } else if (response.code() == 429) {
-                    attempt++;
-                    String errorBody = response.body() != null ? response.body().string() : "Pas de corps de réponse";
-                    String retryAfter = response.header("Retry-After");
-                    long delayMs = retryAfter != null ? Long.parseLong(retryAfter) * 1000 : BASE_RETRY_DELAY_MS * attempt;
-                    System.out.println("Trop de requêtes : " + errorBody + ". Nouvel essai après " + delayMs + "ms (Essai " + attempt + "/" + MAX_RETRIES + ")");
-                    if (attempt >= MAX_RETRIES) {
-                        throw new IOException("Limite atteinte après " + MAX_RETRIES + " essais : " + errorBody);
-                    }
-                    Thread.sleep(delayMs);
+                    handleRateLimit(attempt, response);
                 } else {
-                    String errorBody = response.body() != null ? response.body().string() : "Pas de corps de réponse";
-                    throw new IOException("Code inattendu " + response.code() + " : " + errorBody);
+                    throw new IOException("Erreur API: " + response.code() + " - " + response.body().string());
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                throw new IOException("Interruption pendant l'attente entre les essais : " + e.getMessage());
+                throw new IOException("Requête interrompue");
             }
         }
         throw new IOException("Échec après " + MAX_RETRIES + " tentatives");
+    }
+
+    private void handleRateLimit(int attempt, Response response) throws InterruptedException, IOException {
+        long delay = BASE_RETRY_DELAY_MS * (long) Math.pow(2, attempt);
+        System.out.println("Tentative " + attempt + "/" + MAX_RETRIES + " - Nouvel essai dans " + delay + "ms");
+        Thread.sleep(delay);
+        if (attempt == MAX_RETRIES) {
+            throw new IOException("Limite de requêtes dépassée");
+        }
     }
 }
