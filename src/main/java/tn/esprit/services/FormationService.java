@@ -63,8 +63,18 @@ public class FormationService implements IService<Formation> {
 
     @Override
     public void delete(int id) throws SQLException {
-        String query = "DELETE FROM formation WHERE id = ?";
-        try (PreparedStatement pst = cnx.prepareStatement(query)) {
+        // First delete all related lessons
+        String deleteLessonsQuery = "DELETE FROM lecon WHERE formation_id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(deleteLessonsQuery)) {
+            pst.setInt(1, id);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error while deleting related lessons: " + e.getMessage());
+        }
+
+        // Then delete the formation
+        String deleteFormationQuery = "DELETE FROM formation WHERE id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(deleteFormationQuery)) {
             pst.setInt(1, id);
             pst.executeUpdate();
         } catch (SQLException e) {

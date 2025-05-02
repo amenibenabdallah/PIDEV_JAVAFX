@@ -1,15 +1,15 @@
 package tn.esprit.controllers.lecon;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tn.esprit.models.Formation;
 import tn.esprit.models.Lecon;
@@ -29,19 +29,8 @@ public class GetAllLeconBack implements Initializable {
     private ComboBox<Formation> formationComboBox;
     @FXML
     private Button ajouterLeconBtn;
-
     @FXML
-    private TableView<Lecon> leconTableView;
-    @FXML
-    private TableColumn<Lecon, Integer> idCol;
-    @FXML
-    private TableColumn<Lecon, String> titreCol;
-    @FXML
-    private TableColumn<Lecon, String> contenuCol;
-    @FXML
-    private TableColumn<Lecon, LocalDate> dateCreationCol;
-    @FXML
-    private TableColumn<Lecon, Void> actionCol;
+    private FlowPane leconContainer;
 
     private final LeconService leconService = new LeconService();
     private final FormationService formationService = new FormationService();
@@ -51,32 +40,8 @@ public class GetAllLeconBack implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupComboBox();
-        setupTableColumns();
-        addActionButtonsToTable();
         ajouterLeconBtn.setOnAction(e -> handleAddLecon());
-
     }
-    private void handleAddLecon() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Lecon/AddLecon.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle("Ajouter une Leçon");
-            stage.setScene(new Scene(root));
-            stage.showAndWait(); // Waits for the AddLecon window to close
-
-            // After the add lesson window is closed, reload the lessons if a formation is selected
-            if (currentFormation != null) {
-                loadLeconsForFormation(currentFormation.getId());
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     private void setupComboBox() {
         try {
@@ -96,67 +61,74 @@ public class GetAllLeconBack implements Initializable {
     private void loadLeconsForFormation(int formationId) {
         try {
             List<Lecon> lecons = leconService.getByFormation(formationId);
-            ObservableList<Lecon> leconList = FXCollections.observableArrayList(lecons);
-            leconTableView.setItems(leconList);
+
+            leconContainer.getChildren().clear(); // Clear previous cards
+
+            for (Lecon lecon : lecons) {
+                VBox leconCard = createLeconCard(lecon);
+                leconContainer.getChildren().add(leconCard);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private void setupTableColumns() {
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        titreCol.setCellValueFactory(new PropertyValueFactory<>("titre"));
-        contenuCol.setCellValueFactory(new PropertyValueFactory<>("contenu"));
-        dateCreationCol.setCellValueFactory(new PropertyValueFactory<>("dateCreation"));
-    }
+    private VBox createLeconCard(Lecon lecon) {
+        VBox card = new VBox(10);
+        card.setPadding(new Insets(15));
+        card.setPrefWidth(250);
+        card.setStyle("-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);");
 
-    private void addActionButtonsToTable() {
-        actionCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btnModifier = new Button("Modifier");
-            private final Button btnSupprimer = new Button("Supprimer");
-            private final HBox actionBox = new HBox(10, btnModifier, btnSupprimer);
+        Label titreLabel = new Label(lecon.getTitre());
+        titreLabel.setFont(new Font("Arial Bold", 16));
+        titreLabel.setWrapText(true);
 
-            {
-                btnModifier.setStyle("-fx-background-color: #00bfff; -fx-text-fill: white;");
-                btnSupprimer.setStyle("-fx-background-color: #ff4c4c; -fx-text-fill: white;");
+        Label contenuLabel = new Label(lecon.getContenu());
+        contenuLabel.setWrapText(true);
+        contenuLabel.setMaxHeight(80); // Limit content height
 
-                btnModifier.setOnAction(event -> {
-                    Lecon lecon = getTableView().getItems().get(getIndex());
-                    handleEditLecon(lecon);
-                });
+        Label dateLabel = new Label("Créé le: " + lecon.getDateCreation().toString());
+        dateLabel.setStyle("-fx-font-size: 12; -fx-text-fill: gray;");
 
-                btnSupprimer.setOnAction(event -> {
-                    Lecon lecon = getTableView().getItems().get(getIndex());
+        Button editButton = new Button("Modifier");
+        Button deleteButton = new Button("Supprimer");
+        editButton.setStyle("-fx-background-color: #00bfff; -fx-text-fill: white;");
+        deleteButton.setStyle("-fx-background-color: #ff4c4c; -fx-text-fill: white;");
 
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Confirmation de suppression");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Voulez-vous vraiment supprimer la leçon : " + lecon.getTitre() + " ?");
+        HBox buttonBox = new HBox(10, editButton, deleteButton);
 
-                    alert.showAndWait().ifPresent(response -> {
-                        if (response == ButtonType.OK) {
-                            try {
-                                leconService.delete(lecon.getId());
-                                getTableView().getItems().remove(lecon); // refresh table
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                                errorAlert.setTitle("Erreur");
-                                errorAlert.setHeaderText(null);
-                                errorAlert.setContentText("Erreur lors de la suppression.");
-                                errorAlert.showAndWait();
-                            }
-                        }
-                    });
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : actionBox);
+        editButton.setOnAction(e -> handleEditLecon(lecon));
+        deleteButton.setOnAction(e -> {
+            try {
+                leconService.delete(lecon.getId());
+                loadLeconsForFormation(currentFormation.getId()); // reload after deletion
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         });
+
+        card.getChildren().addAll(titreLabel, contenuLabel, dateLabel, buttonBox);
+
+        return card;
+    }
+
+    private void handleAddLecon() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Lecon/AddLecon.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter une Leçon");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            if (currentFormation != null) {
+                loadLeconsForFormation(currentFormation.getId());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleEditLecon(Lecon lecon) {

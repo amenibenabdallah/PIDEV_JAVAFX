@@ -27,3 +27,16 @@
 .button:hover {
     -fx-background-color: #F0F8FF; /* Mauve clair */
 }
+.formation-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);
+}
+
+.formation-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 0);
+    -fx-border-color: #2196F3;
+}

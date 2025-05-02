@@ -8,21 +8,28 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import org.json.JSONArray;
 import tn.esprit.models.Formation;
 import tn.esprit.services.FormationService;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class GetAllFormationFront implements Initializable {
+    @FXML
+    private TextField searchField;
 
+    @FXML
+    private Button searchBtn;
     @FXML
     private FlowPane cardsContainer;
 
@@ -33,6 +40,67 @@ public class GetAllFormationFront implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadFormationCards();
     }
+    private List<Formation> recommendFormations(String userInput) {
+        List<Formation> recommended = new ArrayList<>();
+
+        try {
+            URL url = new URL("http://127.0.0.1:5000/recommend");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setDoOutput(true);
+
+            String jsonInput = "{\"query\": \"" + userInput + "\"}";
+
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonInput.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+
+                StringBuilder response = new StringBuilder();
+                String responseLine;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+
+                // Parse JSON response (uses org.json or GSON, choose your lib)
+                JSONArray jsonArray = new JSONArray(response.toString());
+
+                FormationService fs = new FormationService();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    int id = jsonArray.getJSONObject(i).getInt("id");
+                    Formation formation = fs.getById(id);  // make sure this method exists
+                    if (formation != null) {
+                        recommended.add(formation);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return recommended;
+    }
+    @FXML
+    private void handleRecommendation() {
+        String input = searchField.getText();
+        if (input == null || input.trim().isEmpty()) {
+            return;
+        }
+
+        List<Formation> recommended = recommendFormations(input);
+
+        cardsContainer.getChildren().clear();
+        for (Formation f : recommended) {
+            VBox card = createFormationCard(f);
+            cardsContainer.getChildren().add(card);
+        }
+    }
+
 
     private void loadFormationCards() {
         FormationService fs = new FormationService();

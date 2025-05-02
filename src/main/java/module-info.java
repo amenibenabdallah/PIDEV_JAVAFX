@@ -7,6 +7,7 @@ requires javafx.fxml;
     requires kernel;
     requires layout;
     requires io;
+    requires org.json;
     exports tn.esprit.controllers;
     exports tn.esprit.services;
     exports tn.esprit.models;

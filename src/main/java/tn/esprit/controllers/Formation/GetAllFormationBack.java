@@ -5,14 +5,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import tn.esprit.services.FormationService;
 import tn.esprit.models.Formation;
@@ -26,94 +29,11 @@ import java.util.ResourceBundle;
 
 public class GetAllFormationBack implements Initializable {
 
-
     @FXML
-    private TableView<Formation> formationTableView;
-
-    @FXML
-    private TableColumn<Formation, String> imageColumn;
-
-    @FXML
-    private TableColumn<Formation, String> titreColumn;
-
-    @FXML
-    private TableColumn<Formation, String> descriptionColumn;
-
-    @FXML
-    private TableColumn<Formation, String> dureeColumn;
-
-    @FXML
-    private TableColumn<Formation, String> niveauColumn;
-
-    @FXML
-    private TableColumn<Formation, Float> prixColumn;
-
-    @FXML
-    private TableColumn<Formation, Void> actionColumn;
+    private GridPane cardsGrid;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Set column factories
-        titreColumn.setCellValueFactory(new PropertyValueFactory<>("titre"));
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        dureeColumn.setCellValueFactory(new PropertyValueFactory<>("duree"));
-        niveauColumn.setCellValueFactory(new PropertyValueFactory<>("niveau"));
-        prixColumn.setCellValueFactory(new PropertyValueFactory<>("prix"));
-        imageColumn.setCellValueFactory(new PropertyValueFactory<>("imageName"));
-
-        // Image column custom cell
-        imageColumn.setCellFactory(param -> new TableCell<>() {
-            private final ImageView imageView = new ImageView();
-
-            @Override
-            protected void updateItem(String imageName, boolean empty) {
-                super.updateItem(imageName, empty);
-                if (empty || imageName == null || imageName.isEmpty()) {
-                    setGraphic(null);
-                } else {
-                    File imageFile = new File("images/formations/" + imageName);
-                    if (imageFile.exists()) {
-                        imageView.setImage(new Image(imageFile.toURI().toString()));
-                        imageView.setFitWidth(80);
-                        imageView.setFitHeight(60);
-                        imageView.setPreserveRatio(true);
-                        setGraphic(imageView);
-                    } else {
-                        setGraphic(null);
-                        System.err.println("⚠️ Image not found: " + imageFile.getAbsolutePath());
-                    }
-                }
-            }
-        });
-
-        // Action column custom cell
-        actionColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button editButton = new Button("Modifier");
-            private final Button deleteButton = new Button("Supprimer");
-            private final HBox hbox = new HBox(10, editButton, deleteButton);
-
-            {
-                editButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
-                deleteButton.setStyle("-fx-background-color: #F44336; -fx-text-fill: white;");
-
-                editButton.setOnAction(event -> {
-                    Formation formation = getTableView().getItems().get(getIndex());
-                    handleEditFormation(formation);
-                });
-
-                deleteButton.setOnAction(event -> {
-                    Formation formation = getTableView().getItems().get(getIndex());
-                    handleDeleteFormation(formation);
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : hbox);
-            }
-        });
-
         // Load data
         loadFormations();
     }
@@ -122,12 +42,105 @@ public class GetAllFormationBack implements Initializable {
         FormationService fs = new FormationService();
         try {
             List<Formation> formations = fs.getAll();
-            formationTableView.setItems(FXCollections.observableArrayList(formations));
+            displayFormationCards(formations);
         } catch (SQLException e) {
             e.printStackTrace();
             showError("Erreur lors du chargement des formations.");
         }
     }
+
+    private void displayFormationCards(List<Formation> formations) {
+        // Clear existing cards
+        cardsGrid.getChildren().clear();
+
+        // Calculate number of columns (3 columns for example)
+        int columns = 3;
+        int row = 0;
+        int column = 0;
+
+        for (Formation formation : formations) {
+            // Create card for each formation
+            VBox card = createFormationCard(formation);
+
+            // Add card to grid
+            cardsGrid.add(card, column, row);
+
+            // Update column and row for next card
+            column++;
+            if (column >= columns) {
+                column = 0;
+                row++;
+            }
+        }
+    }
+
+    private VBox createFormationCard(Formation formation) {
+        // Create card container
+        VBox card = new VBox();
+        card.getStyleClass().add("formation-card");
+        card.setSpacing(10);
+        card.setPadding(new Insets(15));
+        card.setMaxWidth(220);
+
+        // Add image
+        ImageView imageView = new ImageView();
+        if (formation.getImageName() != null && !formation.getImageName().isEmpty()) {
+            File imageFile = new File("images/formations/" + formation.getImageName());
+            if (imageFile.exists()) {
+                imageView.setImage(new Image(imageFile.toURI().toString()));
+                imageView.setFitWidth(200);
+                imageView.setFitHeight(120);
+                imageView.setPreserveRatio(true);
+
+                // Clip image to rounded rectangle
+                Rectangle clip = new Rectangle(200, 120);
+                clip.setArcWidth(15);
+                clip.setArcHeight(15);
+                imageView.setClip(clip);
+            }
+        }
+
+        // Add title
+        Label titleLabel = new Label(formation.getTitre());
+        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14pt;");
+        titleLabel.setWrapText(true);
+
+        // Add description (shortened)
+        Label descLabel = new Label(formation.getDescription());
+        descLabel.setWrapText(true);
+        descLabel.setMaxWidth(200);
+        descLabel.setMaxHeight(40);
+
+        // Add duration and level
+        HBox detailsRow1 = new HBox(10);
+        detailsRow1.getChildren().addAll(
+                new Label("Durée: " + formation.getDuree()),
+                new Label("Niveau: " + formation.getNiveau())
+        );
+
+        // Add price
+        Label priceLabel = new Label("Prix: " + formation.getPrix() + " DT");
+        priceLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #2196F3;");
+
+        // Add action buttons
+        HBox actionButtons = new HBox(10);
+        Button editButton = new Button("Modifier");
+        editButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+        Button deleteButton = new Button("Supprimer");
+        deleteButton.setStyle("-fx-background-color: #F44336; -fx-text-fill: white;");
+
+        // Set button actions
+        editButton.setOnAction(event -> handleEditFormation(formation));
+        deleteButton.setOnAction(event -> handleDeleteFormation(formation));
+
+        actionButtons.getChildren().addAll(editButton, deleteButton);
+
+        // Add all elements to card
+        card.getChildren().addAll(imageView, titleLabel, descLabel, detailsRow1, priceLabel, actionButtons);
+
+        return card;
+    }
+
     @FXML
     private void handleAjouterFormation(ActionEvent event) {
         try {
@@ -139,7 +152,7 @@ public class GetAllFormationBack implements Initializable {
             stage.setScene(new Scene(root));
 
             // Set up a listener to reload the formations when the AddFormation window is closed
-            stage.setOnHidden(e -> loadFormations()); // Reload the formations when the window is closed
+            stage.setOnHidden(e -> loadFormations());
 
             stage.show();
         } catch (IOException e) {
@@ -148,8 +161,6 @@ public class GetAllFormationBack implements Initializable {
         }
     }
 
-
-
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur");
@@ -157,6 +168,7 @@ public class GetAllFormationBack implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     private void handleEditFormation(Formation formation) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/EditFormation.fxml"));
@@ -171,24 +183,21 @@ public class GetAllFormationBack implements Initializable {
             stage.showAndWait();
 
             loadFormations(); // refresh after editing
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void handleRetour(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/getAllFormations.fxml"));
             Parent root = loader.load();
-            Node titleTextField = null;
-            titleTextField.getScene().setRoot(root);
+            ((Node) event.getSource()).getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 
     private void handleDeleteFormation(Formation formation) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -201,7 +210,7 @@ public class GetAllFormationBack implements Initializable {
                 try {
                     FormationService fs = new FormationService();
                     fs.delete(formation.getId());
-                    loadFormations(); // refresh table
+                    loadFormations(); // refresh cards
                 } catch (SQLException e) {
                     e.printStackTrace();
                     showError("Erreur lors de la suppression.");

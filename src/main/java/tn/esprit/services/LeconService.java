@@ -122,7 +122,7 @@ public class LeconService implements IService<Lecon> {
 
                 Formation formation = new Formation();
                 formation.setId(rs.getInt("formation_id"));
-                lecon.setFormation(formation);
+                lecon.setFormation(formation);  
             }
         }
         return lecon;

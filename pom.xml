@@ -42,6 +42,12 @@
             <artifactId>commons-logging</artifactId>
             <version>1.2</version>
         </dependency>
+        <!-- Exemple Maven pour org.json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20230618</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.security</groupId>

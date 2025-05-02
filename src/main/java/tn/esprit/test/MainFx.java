@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class MainFx extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Instructeur_Template.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/GetAllFormationFront.fxml"));
 
         Parent root = loader.load();
         primaryStage.setTitle("Formini application");
@@ -19,7 +19,7 @@ public class MainFx extends Application {
 //    @Override
 //    public void start(Stage primaryStage) throws Exception {
 //        Parent root = FXMLLoader.load(getClass().getResource("/Formation/addFormation.fxml"));
-//        primaryStage.setTitle("Formini application");
+//        primaryStage.setTitle("Formini application");courses
 //        primaryStage.setScene(new Scene(root, 600, 400));
 //        primaryStage.show();
 //    }
