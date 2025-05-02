@@ -3,7 +3,6 @@ package tn.esprit.services;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.FileInputStream;
 import java.util.Properties;
 
 public class EmailService {
@@ -13,20 +12,15 @@ public class EmailService {
 
     public EmailService() {
         props = new Properties();
-        try {
-            Properties config = new Properties();
-            FileInputStream fis = new FileInputStream("C:/Users/LENOVO/Desktop/PIDEV_JAVAFX/config.properties");
-            config.load(fis);
-            fis.close();
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", config.getProperty("smtp.host"));
-            props.put("mail.smtp.port", config.getProperty("smtp.port"));
-            username = config.getProperty("smtp.username");
-            password = config.getProperty("smtp.password");
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load SMTP config", e);
-        }
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.ssl.enable", "true"); // Use SSL for port 465
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.connectiontimeout", "10000");
+        props.put("mail.smtp.timeout", "10000");
+
+        username = "benabdallah2ameni@gmail.com";
+        password = "xclt iknh zctm cgnh";
     }
 
     public void sendAcceptanceEmail(String instructorEmail, String instructorName) {
@@ -36,6 +30,7 @@ public class EmailService {
                 return new PasswordAuthentication(username, password);
             }
         });
+        session.setDebug(true); // Enable debug logging
 
         try {
             Message message = new MimeMessage(session);
@@ -49,13 +44,13 @@ public class EmailService {
                             "Cordialement,\nL'équipe Formini"
             );
 
-
             Transport.send(message);
             System.out.println("Email sent to " + instructorEmail);
         } catch (MessagingException e) {
             throw new RuntimeException("Failed to send email", e);
         }
     }
+
     public void sendRejectionEmail(String instructorEmail, String instructorName) {
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
@@ -63,6 +58,7 @@ public class EmailService {
                 return new PasswordAuthentication(username, password);
             }
         });
+        session.setDebug(true); // Enable debug logging
 
         try {
             Message message = new MimeMessage(session);
@@ -79,10 +75,8 @@ public class EmailService {
 
             Transport.send(message);
             System.out.println("Rejection email sent successfully!");
-
         } catch (MessagingException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to send rejection email", e);
         }
     }
-
 }
