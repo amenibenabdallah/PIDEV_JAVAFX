@@ -20,12 +20,12 @@ public class EvaluationService {
     private static final String AFFINDA_API_URL = "https://api.affinda.com/v1/resumes"; // URL for Affinda API
     private static final String FLASK_API_URL = "https://localhost:5000/predict_cv_score"; // Updated to HTTPS for Flask API
     private final Connection conn; // Database connection
-    private final EmailService emailService; // Added EmailService
+    private final EmailServiceA emailService; // Added EmailService
 
     public EvaluationService() {
         // Get database connection from MyDataBase class
         this.conn = MyDataBase.getInstance().getCnx();
-        this.emailService = new EmailService(); // Initialize EmailService
+        this.emailService = new EmailServiceA(); // Initialize EmailService
     }
 
     // Disable SSL verification for self-signed certificates (testing only)

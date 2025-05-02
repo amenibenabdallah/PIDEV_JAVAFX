@@ -3,24 +3,50 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="tn.esprit.controllers.AjoutPromotionViewController"
-            prefWidth="400" prefHeight="500">
+<StackPane xmlns="http://javafx.com/javafx/17"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="tn.esprit.controllers.AjoutPromotionViewController"
+           stylesheets="@style.css"
+           styleClass="background-blue"
+           prefWidth="800" prefHeight="600">
 
-    <VBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
-        <Label text="Ajouter une Promotion" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <VBox alignment="CENTER" spacing="20">
+        <VBox styleClass="form-container" alignment="CENTER" spacing="15" maxWidth="550">
+            <Label text="Ajouter une Promotion" styleClass="form-title"/>
 
-        <TextField fx:id="codeField" promptText="Code Promo"/>
-        <TextArea fx:id="descriptionField" promptText="Description" wrapText="true"/>
-        <TextField fx:id="remiseField" promptText="Remise (%)"/>
-        <DatePicker fx:id="dateExpirationField" promptText="Date d'expiration"/>
-        <TextField fx:id="inscriptionIdField" promptText="ID Inscription"/>
-        <TextField fx:id="apprenantIdField" promptText="ID Apprenant"/>
+            <GridPane hgap="15" vgap="12" alignment="CENTER">
+                <padding><Insets top="10" right="25" bottom="15" left="25"/></padding>
 
-        <HBox spacing="10">
-            <Button text="Ajouter" onAction="#handleAjouter" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-            <Button text="Annuler" onAction="#handleAnnuler" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
-        </HBox>
+                <Label text="Code Promo :" styleClass="form-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="codeField" promptText="Ex : Réduction de printemps" styleClass="form-field" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Description :" styleClass="form-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextArea fx:id="descriptionField" promptText="Ex : Réduction de printemps" styleClass="form-textarea" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Remise (%) :" styleClass="form-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="remiseField" promptText="Ex : 10.5" styleClass="form-field" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Date Expiration :" styleClass="form-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <DatePicker fx:id="dateExpirationField" styleClass="form-field" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Label text="Inscription :" styleClass="form-label" GridPane.rowIndex="4" GridPane.columnIndex="0" visible="false" managed="false"/>
+                <TextField fx:id="inscriptionIdField" promptText="Ex : 1001" styleClass="form-field" GridPane.rowIndex="4" GridPane.columnIndex="1" visible="false" managed="false"/>
+
+                <Label text="Apprenant :" styleClass="form-label" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="apprenantComboBox" promptText="Sélectionner un apprenant" styleClass="form-field" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+
+
+                <HBox spacing="20" alignment="CENTER" GridPane.rowIndex="6" GridPane.columnSpan="2">
+                    <Button text="Annuler" onAction="#handleAnnuler" styleClass="danger-btn" />
+                    <Button text="Ajouter" onAction="#handleAjouter" styleClass="success-btn" />
+                </HBox>
+
+                <columnConstraints>
+                    <ColumnConstraints halignment="LEFT" minWidth="100" />
+                    <ColumnConstraints hgrow="ALWAYS" />
+                </columnConstraints>
+            </GridPane>
+        </VBox>
     </VBox>
-</AnchorPane>
+</StackPane>

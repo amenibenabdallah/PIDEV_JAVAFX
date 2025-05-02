@@ -1,158 +1,93 @@
 package tn.esprit.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import tn.esprit.models.users;
+import tn.esprit.models.User;
 import tn.esprit.services.UserService;
-
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserListController {
-    @FXML
-    private TextField searchField;
 
     @FXML
-    private TableView<users> userTable;
-
-    @FXML
-    private TableColumn<users, String> colNom;
-
-    @FXML
-    private TableColumn<users, String> colEmail;
-
-    @FXML
-    private TableColumn<users, String> colRole;
-
-    @FXML
-    private TableColumn<users, Void> colActions;
+    private VBox userCardList;
 
     @FXML
     private Pagination pagination;
 
     private final UserService userService = new UserService();
-    private final int rowsPerPage = 10;
-    private List<users> allUsers;
+    private final int rowsPerPage = 4;
+    private List<User> allUsers;
 
     @FXML
     public void initialize() {
-        // Initialize columns
-        colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        colRole.setCellValueFactory(new PropertyValueFactory<>("roles"));
-
-        // Add action buttons
-        addActionButtonsToTable();
-
-        // Load data
         allUsers = userService.getAllUsers();
-
-        // Setup pagination
-        int pageCount = (int) Math.ceil((double) allUsers.size() / rowsPerPage);
-        pagination.setPageCount(pageCount);
-        pagination.setPageFactory(this::createPage);
-
-        // Setup search
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
-            filterAndPaginate(newVal);
-        });
+        setupPagination();
     }
 
-    private TableView<users> createPage(int pageIndex) {
+    private void setupPagination() {
+        int pageCount = (int) Math.ceil((double) allUsers.size() / rowsPerPage);
+        pagination.setPageCount(Math.max(pageCount, 1));
+        pagination.setPageFactory(this::createPage);
+    }
+
+    private VBox createPage(int pageIndex) {
+        userCardList.getChildren().clear();
+
         int fromIndex = pageIndex * rowsPerPage;
         int toIndex = Math.min(fromIndex + rowsPerPage, allUsers.size());
-        userTable.setItems(FXCollections.observableArrayList(allUsers.subList(fromIndex, toIndex)));
-        return userTable;
-    }
 
-    private void filterAndPaginate(String keyword) {
-        if (keyword == null || keyword.isEmpty()) {
-            int pageCount = (int) Math.ceil((double) allUsers.size() / rowsPerPage);
-            pagination.setPageCount(pageCount);
-            pagination.setPageFactory(this::createPage);
-            return;
+        List<User> usersOnPage = allUsers.subList(fromIndex, toIndex);
+
+        for (User user : usersOnPage) {
+            userCardList.getChildren().add(createUserCard(user));
         }
 
-        List<users> filtered = allUsers.stream()
-                .filter(user -> user.getNom().toLowerCase().contains(keyword.toLowerCase()) ||
-                        user.getRoles().toLowerCase().contains(keyword.toLowerCase()))
-                .collect(Collectors.toList());
-
-        int pageCount = (int) Math.ceil((double) filtered.size() / rowsPerPage);
-        pagination.setPageCount(pageCount == 0 ? 1 : pageCount);
-        pagination.setPageFactory(pageIndex -> {
-            int fromIndex = pageIndex * rowsPerPage;
-            int toIndex = Math.min(fromIndex + rowsPerPage, filtered.size());
-            userTable.setItems(FXCollections.observableArrayList(filtered.subList(fromIndex, toIndex)));
-            return userTable;
-        });
-    }
-    private void addActionButtonsToTable() {
-        colActions.setCellFactory(param -> new TableCell<>() {
-            private final Button btnEdit = new Button("Modifier");
-            private final Button btnDelete = new Button("Supprimer");
-            private final HBox buttonsBox = new HBox(10, btnEdit, btnDelete);
-
-            {
-                // Style des boutons
-                btnEdit.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-                btnDelete.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
-
-                btnEdit.setOnAction(event -> {
-                    users user = getTableView().getItems().get(getIndex());
-                    openEditUserDialog(user);
-                });
-
-                btnDelete.setOnAction(event -> {
-                    users user = getTableView().getItems().get(getIndex());
-                    deleteUser(user);
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : buttonsBox);
-            }
-        });
+        return new VBox();
     }
 
-    private void openEditUserDialog(users user) {
-        try {
-            // Charger le fichier FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditUserForm.fxml"));
-            Parent root = loader.load();
+    private HBox createUserCard(User user) {
+        HBox card = new HBox(20);
+        card.setStyle("-fx-background-color: white; "
+                + "-fx-background-radius: 16; "
+                + "-fx-padding: 15; "
+                + "-fx-alignment: center-left; "
+                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0.3, 0, 4);");
 
-            // Configurer le contrôleur
-            EditUserController controller = loader.getController();
-            controller.setUser(user);
-            controller.setUserListController(this);
+        VBox info = new VBox(5);
+        Label nomLabel = new Label("Nom: " + user.getNom());
+        Label emailLabel = new Label("Email: " + user.getEmail());
+        Label roleLabel = new Label("Rôle: " + user.getRole());
 
-            // Créer la scène et la fenêtre
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Modifier l'utilisateur");
-            dialogStage.initModality(Modality.APPLICATION_MODAL);
-            dialogStage.setScene(new Scene(root));
-            dialogStage.showAndWait();
+        nomLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        emailLabel.setStyle("-fx-text-fill: #4a5568;");
+        roleLabel.setStyle("-fx-text-fill: #718096;");
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Erreur", "Impossible d'ouvrir la fenêtre de modification");
-        }
+        info.getChildren().addAll(nomLabel, emailLabel, roleLabel);
+
+        // ➤ Bouton Supprimer seulement
+        Button btnDelete = new Button("Supprimer");
+        btnDelete.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+        btnDelete.setOnAction(event -> deleteUser(user));
+
+        HBox actions = new HBox(10, btnDelete);
+        actions.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        card.getChildren().addAll(info, spacer, actions);
+
+        return card;
     }
 
-    private void deleteUser(users user) {
+    private void deleteUser(User user) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setHeaderText(null);
@@ -162,13 +97,13 @@ public class UserListController {
             userService.deleteUser(user.getId());
             allUsers.remove(user);
             refreshTable();
-            showAlert("Succès", "Utilisateur supprimé avec succès");
+            showAlert("Succès", "Utilisateur supprimé avec succès.");
         }
     }
 
     public void refreshTable() {
         allUsers = userService.getAllUsers();
-        filterAndPaginate(searchField.getText());
+        setupPagination();
     }
 
     private void showAlert(String title, String message) {
@@ -177,10 +112,5 @@ public class UserListController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    public void handleRefresh(ActionEvent actionEvent) {
-        allUsers = userService.getAllUsers();
-        filterAndPaginate(searchField.getText());
     }
 }

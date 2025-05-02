@@ -40,19 +40,19 @@ public class AdminTemplateController implements Initializable {
     @FXML
     private ComboBox<String> promotionDropdown;
 
-    private final SessionManager sessionManager = new SessionManager();
+    private final SessionManager sessionManager = SessionManager.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Initialize the ComboBox items
-        adminDropdown.setItems(javafx.collections.FXCollections.observableArrayList("Reconnecter", "Profil", "Déconnexion"));
+        adminDropdown.setItems(javafx.collections.FXCollections.observableArrayList("Profil", "Déconnexion"));
 
         // Handle dropdown actions
         adminDropdown.setOnAction(event -> handleDropdownAction(adminDropdown.getSelectionModel().getSelectedItem()));
 
         // Load a working image (add.png) from the classpath
         try {
-            URL imageUrl = getClass().getResource("/images/add.png");
+            URL imageUrl = getClass().getResource("/images/admin.jpg");
             if (imageUrl == null) {
                 showAlert("Erreur", "Image add.png not found in /images/");
                 return;
@@ -86,15 +86,19 @@ public class AdminTemplateController implements Initializable {
         switch (selectedOption) {
             case "Reconnecter":
             case "Déconnexion":
-                sessionManager.clearSession();
+                sessionManager.logout();
                 navigateToLogin();
                 break;
             case "Profil":
-                showAlert("Info", "Fonctionnalité de profil à implémenter.");
+                navigateToProfilAdmin();
                 break;
             default:
                 break;
         }
+    }
+
+    private void navigateToProfilAdmin() {
+        loadContent("/ProfilAdmin.fxml", "Profil Admin");
     }
 
     private void navigateToLogin() {
@@ -112,13 +116,14 @@ public class AdminTemplateController implements Initializable {
 
     @FXML
     private void navigateToDashboard() {
-        loadContent("/Dashboard.fxml", "Dashboard");
+        loadContent("/AdminDashboard.fxml", "Dashboard");
     }
 
     @FXML
     public void navigateToFormations() {
         loadContent("/formation.fxml", "Formations");
     }
+
     @FXML
     public void navigateToReaderChart() {
         try {
@@ -202,6 +207,7 @@ public class AdminTemplateController implements Initializable {
             showAlert("Erreur", "Impossible de charger les détails de l'évaluation : " + e.getMessage());
         }
     }
+
     public void navigateToIdealCvComparison(FormationA formation) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/IdealCvComparisonView.fxml"));
@@ -216,16 +222,12 @@ public class AdminTemplateController implements Initializable {
         }
     }
 
-
-
     private void loadContent(String fxmlPath, String title) {
         try {
-            // Check if the FXML file exists
             URL fxmlUrl = getClass().getResource(fxmlPath);
             if (fxmlUrl == null) {
-                // Display a message in the contentArea instead of an alert
                 contentArea.getChildren().clear();
-                Label notImplementedLabel = new Label("This page is not implemented. The responsible of this page didn't do his work.");
+                Label notImplementedLabel = new Label("Cette page n'est pas implémentée.");
                 notImplementedLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #E53E3E; -fx-padding: 20;");
                 contentArea.getChildren().add(notImplementedLabel);
                 pageTitle.setText(title);
@@ -238,8 +240,6 @@ public class AdminTemplateController implements Initializable {
             contentArea.getChildren().clear();
             contentArea.getChildren().add(content);
             pageTitle.setText(title);
-
-            // Update search field prompt text based on the page
             searchField.setPromptText("Rechercher " + title.toLowerCase() + "...");
 
             // Set the controller as user data for search delegation
@@ -249,6 +249,15 @@ public class AdminTemplateController implements Initializable {
             // Inject this AdminTemplateController into EvaluationController if applicable
             if (controller instanceof EvaluationController) {
                 ((EvaluationController) controller).setTemplateController(this);
+            }
+
+            // Inject contentArea into appropriate controllers
+            if (controller instanceof AfficherPromotionsViewController) {
+                ((AfficherPromotionsViewController) controller).setContentArea(contentArea);
+            } else if (controller instanceof AfficherInscriptionsViewController) {
+                ((AfficherInscriptionsViewController) controller).setContentArea(contentArea);
+            } else if (controller instanceof AjoutPromotionViewController) {
+                ((AjoutPromotionViewController) controller).setContentArea(contentArea);
             }
         } catch (IOException e) {
             e.printStackTrace();
