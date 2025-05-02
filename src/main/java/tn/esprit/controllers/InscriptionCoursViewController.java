@@ -7,10 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import tn.esprit.models.InscriptionCours;
-import tn.esprit.models.users;
-import tn.esprit.models.Formation;
-import tn.esprit.models.Promotion;
+import tn.esprit.models.*;
 import tn.esprit.services.ServiceInscriptionCours;
 import tn.esprit.services.ServiceFormation;
 import tn.esprit.services.ServicePromotion;
@@ -59,7 +56,7 @@ public class InscriptionCoursViewController {
     }
 
     private void prefillFields() {
-        users user = SessionManager.getUtilisateurConnecte();
+        User user = SessionManager.getUtilisateurConnecte();
         if (user != null) {
             txtNomApprenant.setText(user.getNom() + " " + user.getPrenom());
             txtEmail.setText(user.getEmail());
@@ -76,7 +73,7 @@ public class InscriptionCoursViewController {
     private void ajouterInscription() {
         try {
             resetFieldStyles();
-            users user = SessionManager.getUtilisateurConnecte();
+            User user = SessionManager.getUtilisateurConnecte();
 
             // Validation
             if (user == null) {
