@@ -10,10 +10,9 @@
            fx:controller="tn.esprit.controllers.InscriptionCoursViewController"
            alignment="CENTER">
 
-    <!-- SPLIT BACKGROUND CONTAINER -->
+    <!-- FORM CONTAINER -->
     <HBox styleClass="split-background" alignment="CENTER">
-
-        <!-- LEFT SIDE: FORM -->
+        <!-- FORM -->
         <VBox spacing="15" alignment="CENTER" styleClass="form-box">
             <!-- Form Title -->
             <Label text="Formulaire d'inscription à une formation" styleClass="form-title" />
@@ -56,12 +55,6 @@
                     <Button fx:id="btnAjouter" text="S'inscrire" styleClass="success-btn" onAction="#ajouterInscription"/>
                 </HBox>
             </GridPane>
-        </VBox>
-
-        <!-- RIGHT SIDE: WELCOME MESSAGE -->
-        <VBox styleClass="welcome-box" alignment="CENTER">
-            <Label text="Bienvenue !" styleClass="welcome-title" />
-            <Label text="Remplissez le formulaire pour vous inscrire" styleClass="welcome-subtitle" />
         </VBox>
     </HBox>
 </StackPane>

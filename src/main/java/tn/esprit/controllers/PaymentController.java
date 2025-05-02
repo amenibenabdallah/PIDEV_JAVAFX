@@ -2,22 +2,14 @@ package tn.esprit.controllers;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
-import com.stripe.model.PaymentMethod;
 import com.stripe.param.PaymentIntentCreateParams;
-import com.stripe.param.PaymentMethodCreateParams;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
-import tn.esprit.controllers.StripeConfig;
 import tn.esprit.models.InscriptionCours;
 import tn.esprit.models.Promotion;
 import tn.esprit.services.ServiceInscriptionCours;
 import tn.esprit.services.ServicePromotion;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
@@ -40,6 +32,11 @@ public class PaymentController {
     private final ServiceInscriptionCours inscriptionService = new ServiceInscriptionCours();
     private final ServicePromotion servicePromotion = new ServicePromotion();
     private Double montantRemise = null;
+    private MainLayoutController mainLayoutController;
+
+    public void setMainLayoutController(MainLayoutController mainLayoutController) {
+        this.mainLayoutController = mainLayoutController;
+    }
 
     public void initialize() {
         try {
@@ -118,24 +115,50 @@ public class PaymentController {
         // Application du code promo si vérifié
         double montantFinal = (montantRemise != null) ? montantRemise : amount;
 
-        // Simulation d'un paiement réussi (pour la démo locale)
-        showAlert(Alert.AlertType.INFORMATION, "Succès", "Paiement effectué avec succès !");
-        if (inscription != null) {
-            inscription.setStatus("payé");
-            inscription.setMontant(montantFinal);
-            inscriptionService.update(inscription);
-        }
-        closeWindow();
-        // Ouvrir l'interface de vérification du paiement
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/VerificationPaiementView.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Vérification du paiement");
-            stage.setScene(new Scene(root));
-            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-            stage.showAndWait();
-        } catch (IOException e) {
+            // Utiliser un PaymentMethod de test prédéfini (pm_card_visa simule une carte Visa valide)
+            String paymentMethodId = "pm_card_visa";
+
+            // Créer un PaymentIntent avec le PaymentMethod de test et les paramètres requis
+            long amountInCents = (long) (montantFinal * 100); // Convertir en centimes
+            PaymentIntentCreateParams intentParams = PaymentIntentCreateParams.builder()
+                    .setAmount(amountInCents)
+                    .setCurrency("eur") // Changé en "eur" pour correspondre à votre Dashboard
+                    .setPaymentMethod(paymentMethodId)
+                    .setConfirm(true) // Confirmer immédiatement
+                    .setCaptureMethod(PaymentIntentCreateParams.CaptureMethod.AUTOMATIC)
+                    .setReturnUrl("https://example.com/return") // URL de retour pour gérer les redirections
+                    .setAutomaticPaymentMethods(
+                            PaymentIntentCreateParams.AutomaticPaymentMethods.builder()
+                                    .setEnabled(true)
+                                    .setAllowRedirects(PaymentIntentCreateParams.AutomaticPaymentMethods.AllowRedirects.NEVER)
+                                    .build()
+                    )
+                    .build();
+
+            PaymentIntent paymentIntent = PaymentIntent.create(intentParams);
+
+            // Vérifier le statut du paiement
+            if ("succeeded".equals(paymentIntent.getStatus())) {
+                showAlert(Alert.AlertType.INFORMATION, "Succès", "Paiement effectué avec succès !");
+                if (inscription != null) {
+                    inscription.setStatus("payé");
+                    inscription.setMontant(montantFinal);
+                    inscriptionService.update(inscription);
+                }
+
+                // Charger l'interface de vérification dans contentArea
+                if (mainLayoutController != null) {
+                    mainLayoutController.loadVerificationPaiement();
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger l'interface de vérification.");
+                }
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Échec du paiement", "Le paiement a échoué. Statut : " + paymentIntent.getStatus());
+            }
+
+        } catch (StripeException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur Stripe", "Échec du paiement : " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -194,11 +217,10 @@ public class PaymentController {
 
     @FXML
     private void handleCancel() {
-        closeWindow();
-    }
-
-    private void closeWindow() {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
+        if (mainLayoutController != null) {
+            mainLayoutController.loadWelcomePage();
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de revenir à la page d'accueil.");
+        }
     }
 }

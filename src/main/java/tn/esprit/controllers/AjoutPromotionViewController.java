@@ -119,10 +119,8 @@ public class AjoutPromotionViewController {
                     descriptionField.getText(),
                     remise,
                     dateExpirationField.getValue(),
-                    inscriptionId,
-                    0 // apprenantId remplacé par 0, car on utilise le nom
+                    inscriptionId
             );
-            // Ajoute le nom de l'apprenant dans la description pour traçabilité
             promotion.setDescription(promotion.getDescription() + " (Apprenant: " + apprenantNom + ")");
 
             service.add(promotion);

@@ -1,14 +1,18 @@
 package tn.esprit.controllers;
 
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import tn.esprit.models.InscriptionCours;
 import tn.esprit.utils.SessionManager;
 
 import java.io.IOException;
@@ -86,7 +90,7 @@ public class MainLayoutController {
         }
     }
 
-    private void loadWelcomePage() {
+    public void loadWelcomePage() {
         loadFXML("/Welcome.fxml"); // <-- Une nouvelle vue de Bienvenue
     }
 
@@ -97,6 +101,50 @@ public class MainLayoutController {
             contentArea.getChildren().setAll(view);
         } catch (IOException e) {
             showAlert("Erreur", "Impossible de charger la vue : " + fxmlFile);
+        }
+    }
+
+    // Méthode pour charger l'interface d'inscription
+
+    @FXML
+    private void handleInscriptionCours(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/InscriptionCoursview.fxml"));
+            Parent view = loader.load();
+            InscriptionCoursViewController controller = loader.getController();
+            controller.setMainLayoutController(this); // Passer la référence
+            contentArea.getChildren().setAll(view);
+        } catch (IOException e) {
+            showAlert("Erreur", "Impossible de charger l'interface d'inscription.");
+        }
+    }
+    // Méthode pour charger l'interface de paiement
+    public void loadPaymentView(double montant, InscriptionCours inscription) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaymentView.fxml"));
+            Parent root = loader.load();
+            PaymentController paymentController = loader.getController();
+            paymentController.setAmount(montant);
+            paymentController.setInscription(inscription);
+            paymentController.setMainLayoutController(this); // Passer la référence
+            contentArea.getChildren().setAll(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de charger l'interface de paiement.");
+        }
+    }
+
+    // Méthode pour charger l'interface de vérification
+    public void loadVerificationPaiement() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/VerificationPaiementView.fxml"));
+            Parent root = loader.load();
+            VerificationPaiementController verificationController = loader.getController();
+            verificationController.setMainLayoutController(this); // Passer la référence
+            contentArea.getChildren().setAll(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de charger l'interface de vérification.");
         }
     }
 
