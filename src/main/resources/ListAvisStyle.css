@@ -322,3 +322,47 @@
     -fx-shape: ""; /* Remove arrows */
     -fx-padding: 0;
 }
+.formation-combo-box {
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+}
+
+.formation-combo-box .list-cell {
+    -fx-padding: 5;
+    -fx-font-size: 14px;
+}
+
+/* Hover state for dropdown items */
+.formation-combo-box .combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+/* Selected state for dropdown items */
+.formation-combo-box .list-cell:selected {
+    -fx-background-color:#ffffff ;
+}
+.translate-link {
+    -fx-text-fill: #1e90ff;
+    -fx-font-size: 12px;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+.translate-link:hover {
+    -fx-text-fill: #4682b4;
+    -fx-underline: true;
+}
+.show-more-link {
+    -fx-text-fill: #1e90ff;
+    -fx-font-size: 12px;
+    -fx-underline: true;
+    -fx-cursor: hand;
+    -fx-padding: 5 0 5 0;
+}
+
+.show-more-link:hover {
+    -fx-text-fill: #4682b4;
+}

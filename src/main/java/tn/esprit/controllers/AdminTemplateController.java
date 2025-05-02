@@ -12,9 +12,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import tn.esprit.models.Evaluation;
+import tn.esprit.models.FormationA;
 import tn.esprit.utils.SessionManager;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -48,9 +49,8 @@ public class AdminTemplateController implements Initializable {
 
         // Handle dropdown actions
         adminDropdown.setOnAction(event -> handleDropdownAction(adminDropdown.getSelectionModel().getSelectedItem()));
-        // Handle promotions dropdown actions
 
-// Load a working image (add.png) from the classpath
+        // Load a working image (add.png) from the classpath
         try {
             URL imageUrl = getClass().getResource("/images/admin.jpg");
             if (imageUrl == null) {
@@ -82,7 +82,6 @@ public class AdminTemplateController implements Initializable {
         }
     }
 
-
     private void handleDropdownAction(String selectedOption) {
         switch (selectedOption) {
             case "Reconnecter":
@@ -101,7 +100,6 @@ public class AdminTemplateController implements Initializable {
     private void navigateToProfilAdmin() {
         loadContent("/ProfilAdmin.fxml", "Profil Admin");
     }
-
 
     private void navigateToLogin() {
         try {
@@ -122,8 +120,22 @@ public class AdminTemplateController implements Initializable {
     }
 
     @FXML
-    private void navigateToFormations() {
-        loadContent("/formation.fxml", "Liste des Formations");
+    public void navigateToFormations() {
+        loadContent("/formation.fxml", "Formations");
+    }
+
+    @FXML
+    public void navigateToReaderChart() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FormationViewA.fxml"));
+            Parent root = loader.load();
+            FormationAController controller = loader.getController();
+            controller.setTemplateController(this);
+            contentArea.getChildren().setAll(root);
+        } catch (IOException e) {
+            System.out.println("Error navigating to Formations: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -152,8 +164,8 @@ public class AdminTemplateController implements Initializable {
     }
 
     @FXML
-    private void navigateToEvaluation() {
-        loadContent("/Evaluation.fxml", "Evaluation");
+    void navigateToEvaluation() {
+        loadContent("/EvaluationView.fxml", "Evaluation");
     }
 
     @FXML
@@ -169,6 +181,45 @@ public class AdminTemplateController implements Initializable {
     @FXML
     private void navigateToAddPromotion() {
         loadContent("/AjoutPromotionView.fxml", "Ajouter Promotion");
+    }
+
+    public void navigateToEvaluationDetails(Evaluation evaluation) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EvaluationDetailsView.fxml"));
+            Parent content = loader.load();
+
+            // Pass the evaluation to the details controller
+            EvaluationDetailsController controller = loader.getController();
+            controller.setEvaluation(evaluation);
+            controller.setTemplateController(this); // Pass the template controller for navigation
+
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(content);
+            pageTitle.setText("Détails de l'Évaluation");
+
+            // Update search field prompt text
+            searchField.setPromptText("Rechercher détails...");
+
+            // Set the controller as user data for search delegation
+            content.setUserData(loader.getController());
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de charger les détails de l'évaluation : " + e.getMessage());
+        }
+    }
+
+    public void navigateToIdealCvComparison(FormationA formation) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/IdealCvComparisonView.fxml"));
+            Parent root = loader.load();
+            IdealCvComparisonController controller = loader.getController();
+            controller.setTemplateController(this);
+            controller.setFormation(formation);
+            contentArea.getChildren().setAll(root);
+        } catch (IOException e) {
+            System.out.println("Error navigating to Ideal CV Comparison: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void loadContent(String fxmlPath, String title) {
@@ -191,8 +242,16 @@ public class AdminTemplateController implements Initializable {
             pageTitle.setText(title);
             searchField.setPromptText("Rechercher " + title.toLowerCase() + "...");
 
-            // Injecter contentArea dans les contrôleurs appropriés
+            // Set the controller as user data for search delegation
             Object controller = loader.getController();
+            content.setUserData(controller);
+
+            // Inject this AdminTemplateController into EvaluationController if applicable
+            if (controller instanceof EvaluationController) {
+                ((EvaluationController) controller).setTemplateController(this);
+            }
+
+            // Inject contentArea into appropriate controllers
             if (controller instanceof AfficherPromotionsViewController) {
                 ((AfficherPromotionsViewController) controller).setContentArea(contentArea);
             } else if (controller instanceof AfficherInscriptionsViewController) {
@@ -200,8 +259,6 @@ public class AdminTemplateController implements Initializable {
             } else if (controller instanceof AjoutPromotionViewController) {
                 ((AjoutPromotionViewController) controller).setContentArea(contentArea);
             }
-
-            content.setUserData(controller);
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Erreur", "Impossible de charger la page : " + e.getMessage());
@@ -216,7 +273,6 @@ public class AdminTemplateController implements Initializable {
         alert.showAndWait();
     }
 }
-
 
 interface Searchable {
     void handleSearch(String searchText);
