@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+           alignment="CENTER"
+           fx:controller="tn.esprit.controllers.PaymentController"
+           style="-fx-background-color: #f5f5f5;">
+    <VBox alignment="CENTER" spacing="20" styleClass="vbox"
+          maxWidth="400" maxHeight="600"
+          style="-fx-background-color: white; -fx-background-radius: 16px; -fx-effect: dropshadow(three-pass-box, rgba(50,50,93,0.12), 16, 0, 0, 0); -fx-padding: 36;">
+        <stylesheets>
+            <URL value="@styles/payment.css"/>
+        </stylesheets>
+
+        <Label text="Paiement sécurisé" styleClass="title-label"/>
+        <Label fx:id="amountLabel" styleClass="amount-label"/>
+
+        <GridPane styleClass="grid-pane" hgap="10" vgap="10">
+            <Label text="Numéro de carte :" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="cardNumberField" promptText="1234 5678 9012 3456" 
+                      GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+            <Label text="Date d'expiration :" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="expiryDateField" promptText="1225" 
+                      GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+            <Label text="CVV :" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="cvvField" promptText="123" 
+                      GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        </GridPane>
+        <Label fx:id="remiseLabel" styleClass="remise-label" text="Entrez un code promo " visible="true" managed="true" />
+
+        <HBox spacing="10" alignment="CENTER">
+            <TextField fx:id="codePromoField" promptText="Entrez votre code promo" styleClass="form-field"/>
+            <Button fx:id="verifierPromoButton" text="Vérifier" onAction="#handleVerifierPromo" />
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Button fx:id="payButton" text="Payer" onAction="#handlePayment" defaultButton="true"/>
+            <Button fx:id="cancelButton" text="Annuler" onAction="#handleCancel" cancelButton="true"/>
+        </HBox>
+    </VBox>
+</StackPane>

@@ -1,0 +1,72 @@
+/* styles/chatbot.css */
+
+.root {
+    -primary-color: #2c3e50;
+    -user-message-color: #3498db;
+    -bot-message-color: #ecf0f1;
+    -text-primary: #2c3e50;
+    -input-border: #bdc3c7;
+}
+
+.chat-container {
+    -fx-padding: 20;
+    -fx-spacing: 15;
+    -fx-background-color: #ffffff;
+}
+
+.title-label {
+    -fx-text-fill: -primary-color;
+    -fx-padding: 0 0 15 0;
+    -fx-font-size: 24px;
+}
+
+.user-message {
+    -fx-background-color: -user-message-color;
+    -fx-text-fill: white;
+    -fx-background-radius: 8 8 8 18;
+    -fx-padding: 10 15;
+    -fx-font-size: 15px;
+    -fx-max-width: 85%;
+}
+
+.bot-message {
+    -fx-background-color: -bot-message-color;
+    -fx-text-fill: -text-primary;
+    -fx-background-radius: 8 8 18 8;
+    -fx-padding: 10 15;
+    -fx-font-size: 15px;
+    -fx-max-width: 85%;
+}
+.send-button {
+    -fx-background-color: -user-message-color;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-border-width: 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);
+    -fx-transition: all 0.3s ease;
+}
+
+.send-button:hover {
+    -fx-background-color: derive(-user-message-color, -10%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);
+}
+
+.send-button:pressed {
+    -fx-background-color: derive(-user-message-color, -20%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);
+}
+.chat-input {
+    -fx-padding: 10;
+    -fx-font-size: 15px;
+    -fx-pref-height: 45;
+}
+
+.send-button {
+    -fx-padding: 10 20;
+    -fx-font-size: 15px;
+    -fx-min-width: 90;
+    -fx-pref-height: 45;
+}
+
+/* Le reste du CSS reste inchangé */

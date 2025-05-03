@@ -1,0 +1,110 @@
+/* Styles généraux */
+.stat-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+}
+
+/* Styles des cartes de promotion */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-padding: 15;
+    -fx-spacing: 10;
+    -fx-pref-width: 300;
+}
+
+.card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.badge {
+    -fx-padding: 5 10;
+    -fx-background-radius: 15;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.badge-actif {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+}
+
+.badge-expire {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+}
+
+.code-promo {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3498db;
+    -fx-padding: 5;
+    -fx-background-color: #ecf0f1;
+    -fx-background-radius: 5;
+}
+
+/* Styles de la pagination */
+.pagination {
+    -fx-page-information-visible: true;
+}
+
+.pagination .pagination-control {
+    -fx-background-color: transparent;
+}
+
+.pagination .button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+.pagination .button:hover {
+    -fx-background-color: #2980b9;
+}
+
+#pageInput {
+    -fx-alignment: center;
+    -fx-max-width: 50px;
+}
+
+/* Styles des filtres */
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Styles des boutons d'action */
+.button-modifier {
+    -fx-background-color: #f39c12;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px 15px;
+}
+
+.button-supprimer {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px 15px;
+}
+
+.button-modifier:hover {
+    -fx-background-color: #d35400;
+}
+
+.button-supprimer:hover {
+    -fx-background-color: #c0392b;
+} 

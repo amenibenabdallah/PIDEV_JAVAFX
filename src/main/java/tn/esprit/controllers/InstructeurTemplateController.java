@@ -71,7 +71,7 @@ public class InstructeurTemplateController implements Initializable {
         switch (selectedOption) {
             case "Reconnecter":
             case "Déconnexion":
-                sessionManager.clearSession();
+                //sessionManager.clearSession();
                 navigateToLogin();
                 break;
             case "Profil":

@@ -2,70 +2,71 @@
 
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<?import javafx.scene.control.ScrollPane?>
 <BorderPane fx:id="rootPane" styleClass="root" stylesheets="@AdminTemplateStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AdminTemplateController">
 
     <!-- Left: Sidebar -->
     <left>
         <VBox prefHeight="834.0" prefWidth="262.0" styleClass="sidebar">
-            <Label styleClass="sidebar-title" text="FORMINI" />
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER" pannable="true" styleClass="sidebar-scroll">
-            <VBox spacing="10" styleClass="sidebar-menu">
-                <HBox styleClass="sidebar-item">
-                    <Label styleClass="sidebar-icon" text="📊" /> <!-- Dashboard -->
-                    <Label styleClass="sidebar-label" text="Dashboard" onMouseClicked="#navigateToDashboard" />
-                </HBox>
-                <HBox styleClass="sidebar-item">
-                    <Label styleClass="sidebar-icon" text="📚" /> <!-- Formations -->
-                    <Label styleClass="sidebar-label" text="Formations" onMouseClicked="#navigateToFormations" />
-                </HBox>
-                <HBox styleClass="sidebar-item">
-                    <Label styleClass="sidebar-icon" text="💬" /> <!-- Feedback -->
-                    <Label styleClass="sidebar-label" text="Feedback" onMouseClicked="#navigateToFeedback" />
-                </HBox>
-                <HBox styleClass="sidebar-item">
-                    <Label styleClass="sidebar-icon" text="👥" /> <!-- Utilisateurs -->
-                    <Label styleClass="sidebar-label" text="Utilisateurs" onMouseClicked="#navigateToUtilisateurs" />
-                </HBox>
-                <HBox styleClass="sidebar-item">
-                    <Label styleClass="sidebar-icon" text="📅" /> <!-- Evenements -->
-                    <Label styleClass="sidebar-label" text="Evenements" onMouseClicked="#navigateToEvenements" />
-                </HBox>
-                <HBox styleClass="sidebar-item">
-                    <Label styleClass="sidebar-icon" text="🔔" /> <!-- Notifications -->
-                    <Label styleClass="sidebar-label" text="Notifications" onMouseClicked="#navigateToNotifications" />
-                </HBox>
-                <HBox styleClass="sidebar-item">
-                    <Label styleClass="sidebar-icon" text="🏷️" /> <!-- Categories -->
-                    <Label styleClass="sidebar-label" text="Categories" onMouseClicked="#navigateToCategories" />
-                </HBox>
-                <HBox styleClass="sidebar-item">
-                    <Label styleClass="sidebar-icon" text="✅" /> <!-- Evaluation -->
-                    <Label styleClass="sidebar-label" text="Evaluation" onMouseClicked="#navigateToEvaluation" />
-                </HBox>
-                <HBox styleClass="sidebar-item">
-                    <Label styleClass="sidebar-icon" text="📋" /> <!-- Liste d'inscription -->
-                    <Label styleClass="sidebar-label" text="Liste d'inscription" onMouseClicked="#navigateToListeInscription" />
-                </HBox>
-                <HBox styleClass="sidebar-item">
-                    <Label styleClass="sidebar-icon" text="🎁" /> <!-- Promotion List -->
-                    <Label styleClass="sidebar-label" text="Liste promotion" onMouseClicked="#navigateToPromotionList" />
-                </HBox>
-                <HBox styleClass="sidebar-item">
-                    <Label styleClass="sidebar-icon" text="➕" /> <!-- Ajouter Promotion -->
-                    <Label styleClass="sidebar-label" text="Ajouter Promotion" onMouseClicked="#navigateToAddPromotion" />
-                </HBox>
-            </VBox>
+            <Label styleClass="title-label" stylesheets="@login.css" text="FORMINI" />
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" pannable="true" styleClass="sidebar-scroll" vbarPolicy="NEVER">
+                <VBox spacing="10" styleClass="sidebar-menu">
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="📊" /> <!-- Dashboard -->
+                        <Label onMouseClicked="#navigateToDashboard" styleClass="sidebar-label" text="Dashboard" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="📚" /> <!-- Formations -->
+                        <Label onMouseClicked="#navigateToFormations" styleClass="sidebar-label" text="Formations" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="💬" /> <!-- Feedback -->
+                        <Label onMouseClicked="#navigateToFeedback" styleClass="sidebar-label" text="Feedback" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="👥" /> <!-- Utilisateurs -->
+                        <Label onMouseClicked="#navigateToUtilisateurs" styleClass="sidebar-label" text="Utilisateurs" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="📅" /> <!-- Evenements -->
+                        <Label onMouseClicked="#navigateToEvenements" styleClass="sidebar-label" text="Evenements" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="🔔" /> <!-- Notifications -->
+                        <Label onMouseClicked="#navigateToNotifications" styleClass="sidebar-label" text="Notifications" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="🏷️" /> <!-- Categories -->
+                        <Label onMouseClicked="#navigateToCategories" styleClass="sidebar-label" text="Categories" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="✅" /> <!-- Evaluation -->
+                        <Label onMouseClicked="#navigateToEvaluation" styleClass="sidebar-label" text="Evaluation" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="📈" /> <!-- CV Spider Chart -->
+                        <Label onMouseClicked="#navigateToReaderChart" styleClass="sidebar-label" text="CV Spider Chart" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="📋" /> <!-- Liste d'inscription -->
+                        <Label onMouseClicked="#navigateToListeInscription" styleClass="sidebar-label" text="Liste d'inscription" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="🎁" /> <!-- Promotion List -->
+                        <Label onMouseClicked="#navigateToPromotionList" styleClass="sidebar-label" text="Liste promotion" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="➕" /> <!-- Ajouter Promotion -->
+                        <Label onMouseClicked="#navigateToAddPromotion" styleClass="sidebar-label" text="Ajouter Promotion" />
+                    </HBox>
+                </VBox>
             </ScrollPane>
         </VBox>
     </left>
@@ -79,11 +80,10 @@
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header">
             <Label fx:id="pageTitle" styleClass="title-label" text="Dashboard" />
-            <TextField fx:id="searchField" promptText="Rechercher..." styleClass="search-field" onAction="#handleSearch" />
+            <TextField fx:id="searchField" onAction="#handleSearch" promptText="Rechercher..." styleClass="search-field" />
             <Region HBox.hgrow="ALWAYS" />
             <ImageView fx:id="adminImage" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                 <!-- Uncomment once the image path is fixed -->
-
             </ImageView>
             <ComboBox fx:id="adminDropdown" styleClass="admin-dropdown" />
         </HBox>

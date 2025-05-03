@@ -8,28 +8,28 @@ public class Promotion {
     private String description;
     private double remise;
     private LocalDate dateExpiration;
-    private int inscriptionCoursId;  // 🔸 Ajouté
-    private int apprenantId;         // 🔸 Ajouté
+    private int inscriptionCoursId;
 
+    // Constructeurs
     public Promotion() {}
 
-    public Promotion(int id, String codePromo, String description, double remise, LocalDate dateExpiration, int inscriptionCoursId, int apprenantId) {
+    public Promotion(String codePromo, String description, double remise,
+                     LocalDate dateExpiration, int inscriptionCoursId) {
+        this.codePromo = codePromo;
+        this.description = description;
+        this.remise = remise;
+        this.dateExpiration = dateExpiration;
+        this.inscriptionCoursId = inscriptionCoursId;
+    }
+
+    public Promotion(int id, String codePromo, String description, double remise,
+                     LocalDate dateExpiration, int inscriptionCoursId) {
         this.id = id;
         this.codePromo = codePromo;
         this.description = description;
         this.remise = remise;
         this.dateExpiration = dateExpiration;
         this.inscriptionCoursId = inscriptionCoursId;
-        this.apprenantId = apprenantId;
-    }
-
-    public Promotion(String codePromo, String description, double remise, LocalDate dateExpiration, int inscriptionCoursId, int apprenantId) {
-        this.codePromo = codePromo;
-        this.description = description;
-        this.remise = remise;
-        this.dateExpiration = dateExpiration;
-        this.inscriptionCoursId = inscriptionCoursId;
-        this.apprenantId = apprenantId;
     }
 
     // Getters & Setters
@@ -51,19 +51,12 @@ public class Promotion {
     public int getInscriptionCoursId() { return inscriptionCoursId; }
     public void setInscriptionCoursId(int inscriptionCoursId) { this.inscriptionCoursId = inscriptionCoursId; }
 
-    public int getApprenantId() { return apprenantId; }
-    public void setApprenantId(int apprenantId) { this.apprenantId = apprenantId; }
-
     @Override
     public String toString() {
         return "Promotion{" +
                 "id=" + id +
                 ", codePromo='" + codePromo + '\'' +
-                ", description='" + description + '\'' +
-                ", remise=" + remise +
-                ", dateExpiration=" + dateExpiration +
                 ", inscriptionCoursId=" + inscriptionCoursId +
-                ", apprenantId=" + apprenantId +
                 '}';
     }
 }

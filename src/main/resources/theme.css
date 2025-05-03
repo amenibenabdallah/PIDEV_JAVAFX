@@ -1,0 +1,84 @@
+/* === THÈME CLAIR === */
+.anchor-pane {
+    -fx-background-color: #fff5f5;
+}
+
+.form-pane {
+    -fx-background-color: white;
+}
+
+.welcome-pane {
+    -fx-background-color: linear-gradient(to bottom right, #e74c3c, #f1948a);
+}
+
+.title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2d3436;
+}
+
+.input-field {
+    -fx-background-radius: 12;
+    -fx-background-color: #f8f8f8;
+    -fx-padding: 10;
+}
+
+.primary-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 10 25;
+}
+
+.link-muted {
+    -fx-text-fill: #aaa;
+}
+
+.link-colored {
+    -fx-text-fill: #e74c3c;
+}
+
+.theme-toggle {
+    -fx-background-radius: 10;
+    -fx-padding: 5 15;
+    -fx-background-color: #f1f2f6;
+    -fx-text-fill: #333;
+    -fx-font-size: 12px;
+}
+
+/* === THÈME SOMBRE === */
+.dark .anchor-pane {
+    -fx-background-color: #2c2c2c;
+}
+
+.dark .form-pane {
+    -fx-background-color: #3b3b3b;
+}
+
+.dark .welcome-pane {
+    -fx-background-color: linear-gradient(to bottom right, #ff6b6b, #c0392b);
+}
+
+.dark .title {
+    -fx-text-fill: white;
+}
+
+.dark .input-field {
+    -fx-background-color: #555;
+    -fx-text-fill: white;
+}
+
+.dark .primary-button {
+    -fx-background-color: #ff6b6b;
+}
+
+.dark .link-muted,
+.dark .link-colored {
+    -fx-text-fill: #eee;
+}
+
+.dark .theme-toggle {
+    -fx-background-color: #444;
+    -fx-text-fill: white;
+}

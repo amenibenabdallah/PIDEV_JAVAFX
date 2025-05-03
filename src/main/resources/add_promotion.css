@@ -1,0 +1,48 @@
+.background-blue {
+    -fx-background-color: #f4f7fa; /* Fond général très clair */
+}
+
+.form-container {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-border-color: #007acc;         /* Bordure bleue */
+    -fx-border-width: 3;
+    -fx-border-radius: 15;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);
+}
+
+.form-title {
+    -fx-font-size: 22px;
+    -fx-text-fill: #007acc;
+    -fx-font-weight: bold;
+}
+
+.form-label {
+    -fx-text-fill: #333;
+    -fx-font-size: 14px;
+}
+
+.form-field, .form-textarea {
+    -fx-pref-width: 250px;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #ccc;
+    -fx-padding: 6 10 6 10;
+}
+
+.success-btn {
+    -fx-background-color: #007acc;
+    -fx-text-fill: white;
+    -fx-background-radius: 30;
+    -fx-padding: 6 20 6 20;
+    -fx-font-weight: bold;
+}
+
+.danger-btn {
+    -fx-background-color: #f44336;
+    -fx-text-fill: white;
+    -fx-background-radius: 30;
+    -fx-padding: 6 20 6 20;
+    -fx-font-weight: bold;
+}

@@ -9,12 +9,13 @@ import javafx.stage.Stage;
 public class MainFx extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Instructeur_Template.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
 
         Parent root = loader.load();
         primaryStage.setTitle("Formini application");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
+
     }
 //    @Override
 //    public void start(Stage primaryStage) throws Exception {
