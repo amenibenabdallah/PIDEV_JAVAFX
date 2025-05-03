@@ -1,30 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:id="rootPane"
             fx:controller="tn.esprit.controllers.AfficherPromotionsViewController"
             stylesheets="@promotion.css"
-            prefWidth="800" prefHeight="600">
+            prefWidth="1000" prefHeight="700">
 
-    <VBox spacing="10" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
-        <Label text="Liste des Promotions" styleClass="title-label" />
+    <VBox spacing="20" alignment="TOP_CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
 
-        <TableView fx:id="tablePromotions" styleClass="table-view">
-            <columns>
-                <TableColumn text="Code" fx:id="colCode" />
-                <TableColumn text="Description" fx:id="colDescription" />
-                <TableColumn text="Remise (%)" fx:id="colRemise" />
-                <TableColumn text="Expiration" fx:id="colExpiration" />
-                <TableColumn text="Actions" fx:id="colActions" />
-            </columns>
-        </TableView>
+        <!-- En-tête -->
+        <BorderPane>
+            <center>
+                <Label text="🎁 Liste des Promotions" styleClass="title"/>
+            </center>
+            <right>
+                <Button text="➕ Ajouter" onAction="#handleAjoutPromotion" styleClass="primary-btn"/>
+            </right>
+        </BorderPane>
 
-        <HBox spacing="10">
-            <Button text="Retour à l'ajout" onAction="#handleRetour" styleClass="button" />
+        <!-- Statistiques -->
+        <HBox spacing="10" alignment="CENTER">
+            <Label text="🔢 Total: 0" styleClass="stat-item" fx:id="totalLabel"/>
+            <Label text="✅ Actives: 0" styleClass="stat-item" fx:id="activeLabel"/>
+            <Label text="⌛ Expirées: 0" styleClass="stat-item" fx:id="expiredLabel"/>
         </HBox>
+
+
+
+        <!-- Cartes -->
+        <FlowPane fx:id="promoCardContainer" hgap="20" vgap="20" styleClass="card-container">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+        </FlowPane>
+        <!-- Pagination -->
+        <Pagination fx:id="pagination" styleClass="custom-pagination"/>
     </VBox>
 </AnchorPane>

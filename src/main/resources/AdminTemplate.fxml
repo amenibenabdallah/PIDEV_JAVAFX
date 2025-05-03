@@ -51,6 +51,10 @@
                         <Label onMouseClicked="#navigateToEvaluation" styleClass="sidebar-label" text="Evaluation" />
                     </HBox>
                     <HBox styleClass="sidebar-item">
+                        <Label styleClass="sidebar-icon" text="📈" /> <!-- CV Spider Chart -->
+                        <Label onMouseClicked="#navigateToReaderChart" styleClass="sidebar-label" text="CV Spider Chart" />
+                    </HBox>
+                    <HBox styleClass="sidebar-item">
                         <Label styleClass="sidebar-icon" text="📋" /> <!-- Liste d'inscription -->
                         <Label onMouseClicked="#navigateToListeInscription" styleClass="sidebar-label" text="Liste d'inscription" />
                     </HBox>
@@ -80,7 +84,6 @@
             <Region HBox.hgrow="ALWAYS" />
             <ImageView fx:id="adminImage" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                 <!-- Uncomment once the image path is fixed -->
-
             </ImageView>
             <ComboBox fx:id="adminDropdown" styleClass="admin-dropdown" />
         </HBox>

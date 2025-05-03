@@ -1,123 +1,219 @@
 package tn.esprit.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
+import javafx.scene.layout.*;
 import tn.esprit.models.Promotion;
 import tn.esprit.services.ServicePromotion;
+
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class AfficherPromotionsViewController {
 
-    @FXML private TableView<Promotion> tablePromotions;
-    @FXML private TableColumn<Promotion, String> colCode;
-    @FXML private TableColumn<Promotion, String> colDescription;
-    @FXML private TableColumn<Promotion, Double> colRemise;
-    @FXML private TableColumn<Promotion, LocalDate> colExpiration;
-    @FXML private TableColumn<Promotion, Void> colActions;
+    @FXML
+    private FlowPane promoCardContainer;
+    @FXML
+    private Label totalLabel;
+    @FXML
+    private Label activeLabel;
+    @FXML
+    private Label expiredLabel;
+    @FXML
+    private Pagination pagination;
 
+    private VBox contentArea; // Référence au contentArea du template admin
     private final ServicePromotion service = new ServicePromotion();
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private ObservableList<Promotion> promotionsList;
+    private final int ITEMS_PER_PAGE = 6;
+
+    // Méthode pour injecter le contentArea depuis AdminTemplateController
+    public void setContentArea(VBox contentArea) {
+        this.contentArea = contentArea;
+        System.out.println("setContentArea called in AfficherPromotionsViewController: contentArea = " + contentArea);
+    }
 
     @FXML
     public void initialize() {
-        configureColumns();
-        loadData();
+        loadAllAndPaginate();
+        configurePagination();
     }
 
-    private void configureColumns() {
-        // Configuration des PropertyValueFactory
-        colCode.setCellValueFactory(new PropertyValueFactory<>("codePromo"));
-        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colRemise.setCellValueFactory(new PropertyValueFactory<>("remise"));
-        colExpiration.setCellValueFactory(new PropertyValueFactory<>("dateExpiration"));
+    private void loadAllAndPaginate() {
+        List<Promotion> allPromotions = service.getAll();
+        promotionsList = FXCollections.observableArrayList(allPromotions);
+        updatePagination();
+        updateStats();
+    }
 
-        // Configuration de la colonne "Actions"
-        colActions.setCellFactory(param -> new TableCell<>() {
-            private final Button btnEdit = new Button("Modifier");
-            private final Button btnDelete = new Button("Supprimer");
-            private final HBox buttons = new HBox(5, btnEdit, btnDelete);
-
-            {
-                btnEdit.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
-                btnDelete.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
-                btnEdit.setOnAction(event -> handleEdit(getTableView().getItems().get(getIndex())));
-                btnDelete.setOnAction(event -> handleDelete(getTableView().getItems().get(getIndex())));
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : buttons);
-            }
+    private void configurePagination() {
+        pagination.currentPageIndexProperty().addListener((obs, oldVal, newVal) -> {
+            showPage(newVal.intValue());
         });
     }
 
-    private void loadData() {
-        tablePromotions.getItems().setAll(service.getAll());
+    private void updatePagination() {
+        int pageCount = (int) Math.ceil((double) promotionsList.size() / ITEMS_PER_PAGE);
+        pagination.setPageCount(pageCount);
+        pagination.setCurrentPageIndex(0);
+        showPage(0);
     }
 
-    private void handleEdit(Promotion promotion) {
-        try {
-            // Fermer la fenêtre actuelle (affichage)
-            Stage currentStage = (Stage) tablePromotions.getScene().getWindow();
-            currentStage.close();
+    private void showPage(int pageIndex) {
+        int from = pageIndex * ITEMS_PER_PAGE;
+        int to = Math.min(from + ITEMS_PER_PAGE, promotionsList.size());
 
-            // Ouvrir la fenêtre de modification
+        promoCardContainer.getChildren().clear();
+        promotionsList.subList(from, to).forEach(promo -> {
+            promoCardContainer.getChildren().add(createPromotionCard(promo));
+        });
+    }
+
+    private void updateStats() {
+        long total = promotionsList.size();
+        long active = promotionsList.stream()
+                .filter(p -> p.getDateExpiration().isAfter(LocalDate.now()))
+                .count();
+
+        totalLabel.setText("🔢 Total: " + total);
+        activeLabel.setText("✅ Actives: " + active);
+        expiredLabel.setText("⌛ Expirées: " + (total - active));
+    }
+
+    private VBox createPromotionCard(Promotion promotion) {
+        VBox card = new VBox(15);
+        card.getStyleClass().add("card");
+
+        // Header
+        HBox header = new HBox(10);
+        Label codeLabel = new Label(promotion.getCodePromo());
+        codeLabel.getStyleClass().add("card-title");
+
+        Label statusBadge = new Label();
+        statusBadge.getStyleClass().add(
+                promotion.getDateExpiration().isAfter(LocalDate.now())
+                        ? "badge-actif"
+                        : "badge-expire"
+        );
+        statusBadge.setText(promotion.getDateExpiration().isAfter(LocalDate.now())
+                ? "ACTIVE"
+                : "EXPIRÉE");
+
+        header.getChildren().addAll(codeLabel, statusBadge);
+
+        // Content
+        Label remiseLabel = new Label("Remise: " + promotion.getRemise() + "%");
+
+        // Extraire le nom de l'apprenant de la description
+        String description = promotion.getDescription();
+        String apprenantNom = "Non spécifié";
+        if (description.contains("(Apprenant: ")) {
+            apprenantNom = description.substring(
+                    description.indexOf("(Apprenant: ") + 12, // Position après "(Apprenant: "
+                    description.lastIndexOf(")") // Position avant le dernier ")"
+            );
+        }
+        Label apprenantLabel = new Label("Apprenant: " + apprenantNom);
+        apprenantLabel.setWrapText(true);
+
+        Label expLabel = new Label("Expire le: " + promotion.getDateExpiration().format(dateFormatter));
+
+        // Actions
+        HBox buttons = new HBox(10);
+        Button editBtn = new Button("Modifier");
+        Button deleteBtn = new Button("Supprimer");
+
+        editBtn.getStyleClass().addAll("button-modifier");
+        deleteBtn.getStyleClass().addAll("button-supprimer");
+
+        editBtn.setOnAction(e -> handleEdit(promotion));
+        deleteBtn.setOnAction(e -> handleDelete(promotion));
+
+        buttons.getChildren().addAll(editBtn, deleteBtn);
+        card.getChildren().addAll(header, remiseLabel, apprenantLabel, expLabel, buttons);
+
+        return card;
+    }
+
+    // Charge ModifierPromotionView.fxml dans contentArea
+    private void handleEdit(Promotion promotion) {
+        if (contentArea == null) {
+            showAlert("Erreur", "Le conteneur de contenu n'est pas initialisé. Contactez l'administrateur.");
+            System.err.println("Erreur : contentArea est null dans handleEdit");
+            return;
+        }
+
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierPromotionView.fxml"));
             Parent root = loader.load();
+
             ModifierPromotionViewController controller = loader.getController();
             controller.initData(promotion);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.showAndWait(); // Attendre la fermeture de la modification
+            controller.setContentArea(contentArea); // Injecte contentArea pour la navigation retour
 
-            // Réouvrir l'affichage après modification
-            FXMLLoader listLoader = new FXMLLoader(getClass().getResource("/AfficherPromotionsView.fxml"));
-            Parent listRoot = listLoader.load();
-            Stage listStage = new Stage();
-            listStage.setScene(new Scene(listRoot));
-            listStage.show();
+            contentArea.getChildren().clear(); // Vide le contentArea
+            contentArea.getChildren().add(root); // Ajoute la vue de modification
+            VBox.setVgrow(root, Priority.ALWAYS); // Assure que la vue occupe tout l'espace
 
         } catch (IOException e) {
-            showAlert("Erreur", "Impossible d'ouvrir la vue de modification.");
+            showAlert("Erreur", "Échec de l'ouverture de l'éditeur : " + e.getMessage());
         }
     }
 
     private void handleDelete(Promotion promotion) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Supprimer cette promotion ?", ButtonType.YES, ButtonType.NO);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Supprimer la promotion " + promotion.getCodePromo() + " ?",
+                ButtonType.YES,
+                ButtonType.NO
+        );
+
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.YES) {
-                service.delete(promotion); // ✅ Suppression par ID
-                loadData();
+                service.delete(promotion);
+                loadAllAndPaginate();
             }
         });
     }
 
     @FXML
-    private void handleRetour() {
+    private void handleAjoutPromotion() {
+        if (contentArea == null) {
+            showAlert("Erreur", "Le conteneur de contenu n'est pas initialisé. Contactez l'administrateur.");
+            System.err.println("Erreur : contentArea est null dans handleAjoutPromotion");
+            return;
+        }
+
         try {
-            Stage currentStage = (Stage) tablePromotions.getScene().getWindow();
-            currentStage.close();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjoutPromotionView.fxml"));
             Parent root = loader.load();
-            Stage newStage = new Stage();
-            newStage.setScene(new Scene(root));
-            newStage.show();
+
+            // Injection du contentArea dans le contrôleur d'ajout
+            Object controller = loader.getController();
+            if (controller instanceof AjoutPromotionViewController) {
+                ((AjoutPromotionViewController) controller).setContentArea(contentArea);
+            }
+
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(root);
+            VBox.setVgrow(root, Priority.ALWAYS);
+
         } catch (IOException e) {
-            showAlert("Erreur", "Impossible de charger la vue d'ajout.");
+            showAlert("Erreur", "Échec du chargement du formulaire : " + e.getMessage());
         }
     }
 
-    private void showAlert(String title, String content) {
+    private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
-        alert.setContentText(content);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 }

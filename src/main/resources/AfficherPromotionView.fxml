@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import java.net.URL?>
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.controllers.AfficherPromotionsViewController"
+      spacing="20" padding="20">
+
+    <!-- En-tête avec statistiques -->
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <Label fx:id="totalLabel" styleClass="stat-label"/>
+        <Label fx:id="activeLabel" styleClass="stat-label"/>
+        <Label fx:id="expiredLabel" styleClass="stat-label"/>
+    </HBox>
+
+    <!-- Barre de recherche et filtres -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Rechercher une promotion..."
+                   prefWidth="300"/>
+        <ComboBox fx:id="statusFilter" promptText="Filtrer par statut"
+                  prefWidth="150"/>
+        <ComboBox fx:id="sortComboBox" promptText="Trier par"
+                  prefWidth="200"/>
+    </HBox>
+
+    <!-- Conteneur des cartes de promotion -->
+    <FlowPane fx:id="promoCardContainer" hgap="20" vgap="20"
+              alignment="TOP_CENTER"/>
+
+    <!-- Pagination -->
+    <Pagination fx:id="pagination"
+                maxPageIndicatorCount="5"
+                styleClass="pagination"/>
+
+    <!-- Sélecteur d'éléments par page -->
+    <HBox alignment="CENTER_RIGHT" spacing="5">
+        <Label text="Éléments par page:"/>
+        <ComboBox fx:id="itemsPerPageCombo" prefWidth="100"/>
+    </HBox>
+
+    <stylesheets>
+        <URL value="@styles/promotion.css"/>
+    </stylesheets>
+</VBox>
