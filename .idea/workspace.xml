@@ -5,104 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="61da1348-b7bf-48d5-a107-6522b47ef517" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/config.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminDashboardController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ChatBotController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ForgotPasswordController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/GoogleSignupController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/HomePageController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/MainLayoutController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/PaymentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ProfilAdminController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ProfilApprenantController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ProfilInstructeurController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ResetPasswordController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/StripeConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/TokenVerificationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/VerificationPaiementController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/WelcomController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Formation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ChatBotService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceFormation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UsersService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/EmailUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/GoogleAuth.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/TwilioSMSUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/AdminDashboard.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/AfficherPromotionView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/ChatBotView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/GoogleSignupForm.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/MainLayout.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/PaymentView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/ProfilAdmin.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/ProfilApprenant.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/ProfilInstructeur.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/TokenVerification.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/VerificationPaiementView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/add_promotion.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/afficher_inscription.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/forgot_password.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/AdminDashboard.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/admin.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/burger-bar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/formini.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/img_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/logiin.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/oeil.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/oeilon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/menu.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/reset_password.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/sidebarPane.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/styles/chatbot.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/styles/modifierInscriptionCours.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/styles/modifierPromotion.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/styles/payment.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/styles/promotion.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/theme.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/welcome.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AdminTemplateController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherInscriptionsViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherInscriptionsViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherPromotionsViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AfficherPromotionsViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AjoutPromotionViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/AjoutPromotionViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/EditUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/EditUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionCoursViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionCoursViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ModifierInscriptionCoursController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ModifierInscriptionCoursController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ModifierPromotionViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/ModifierPromotionViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/UserListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/UserListController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/InscriptionCours.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/InscriptionCours.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Promotion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Promotion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EmailServiceA.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceInscriptionCours.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceInscriptionCours.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServicePromotion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServicePromotion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainFx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainFx.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainInscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/MainInscription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/SessionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/AdminTemplate.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AdminTemplate.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/AfficherPromotionsView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AfficherPromotionsView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/AjoutPromotionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AjoutPromotionView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ModifierPromotionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ModifierPromotionView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/UserList.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/UserList.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/afficherInscriptionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/afficherInscriptionView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/home.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/inscription.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/inscription.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/inscriptionCoursview.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/inscriptionCoursview.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/login.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/modifierInscriptionCoursView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/modifierInscriptionCoursView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/promotion.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/promotion.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/MainLayoutController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/MainLayoutController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/MainLayout.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MainLayout.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

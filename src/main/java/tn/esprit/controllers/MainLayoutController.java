@@ -80,6 +80,10 @@ public class MainLayoutController {
     }
 
     @FXML
+    private void handleFeedback() {
+        loadFXML("/ListAvis.fxml");
+    }
+    @FXML
     private void handleLogout(javafx.event.ActionEvent event) {
         SessionManager.getInstance().logout();
         try {
@@ -89,6 +93,7 @@ public class MainLayoutController {
             showAlert("Erreur", "Erreur lors de la déconnexion !");
         }
     }
+
 
     public void loadWelcomePage() {
         loadFXML("/Welcome.fxml"); // <-- Une nouvelle vue de Bienvenue
