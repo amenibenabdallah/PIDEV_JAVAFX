@@ -2,7 +2,7 @@ package tn.esprit.models;
 
 import java.time.LocalDate;
 
-public class Formation {
+public class Formation1 {
     private int id;
     private Integer categorieId; // Peut être null
     private String titre;
@@ -13,7 +13,7 @@ public class Formation {
     private double prix;
 
     // Constructeurs
-    public Formation() {}
+    public Formation1() {}
 
     // Getters et Setters
     public int getId() { return id; }

@@ -2,20 +2,14 @@ package tn.esprit.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import tn.esprit.models.*;
 import tn.esprit.services.ServiceInscriptionCours;
-import tn.esprit.services.ServiceFormation;
+import tn.esprit.services.ServiceFormation1;
 import tn.esprit.services.ServicePromotion;
 import tn.esprit.utils.SessionManager;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +27,7 @@ public class InscriptionCoursViewController {
     @FXML private TextField txtCodePromo;
 
     private final ServiceInscriptionCours service = new ServiceInscriptionCours();
-    private final ServiceFormation formationService = new ServiceFormation();
+    private final ServiceFormation1 formationService = new ServiceFormation1();
     private final ServicePromotion servicePromotion = new ServicePromotion();
     private Map<String, Integer> formationMap; // Associe titre à id
     private MainLayoutController mainLayoutController;
@@ -52,8 +46,8 @@ public class InscriptionCoursViewController {
 
     private void loadFormations() {
         formationMap = new HashMap<>();
-        List<Formation> formations = formationService.getIdAndTitre();
-        for (Formation formation : formations) {
+        List<Formation1> formations = formationService.getIdAndTitre();
+        for (Formation1 formation : formations) {
             formationMap.put(formation.getTitre(), formation.getId());
         }
         nomFormationComboBox.setItems(FXCollections.observableArrayList(formationMap.keySet()));
