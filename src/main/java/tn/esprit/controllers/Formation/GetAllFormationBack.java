@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -74,73 +75,165 @@ public class GetAllFormationBack implements Initializable {
         }
     }
 
-    private VBox createFormationCard(Formation formation) {
-        // Create card container
-        VBox card = new VBox();
-        card.getStyleClass().add("formation-card");
-        card.setSpacing(10);
-        card.setPadding(new Insets(15));
-        card.setMaxWidth(220);
+//    private VBox createFormationCard(Formation formation) {
+//        // Create card container
+//        VBox card = new VBox();
+//        card.getStyleClass().add("formation-card");
+//        card.setSpacing(10);
+//        card.setPadding(new Insets(15));
+//        card.setMaxWidth(220);
+//
+//        // Add image
+//        ImageView imageView = new ImageView();
+//        if (formation.getImageName() != null && !formation.getImageName().isEmpty()) {
+//            File imageFile = new File("images/formations/" + formation.getImageName());
+//            if (imageFile.exists()) {
+//                imageView.setImage(new Image(imageFile.toURI().toString()));
+//                imageView.setFitWidth(200);
+//                imageView.setFitHeight(120);
+//                imageView.setPreserveRatio(true);
+//
+//                // Clip image to rounded rectangle
+//                Rectangle clip = new Rectangle(200, 120);
+//                clip.setArcWidth(15);
+//                clip.setArcHeight(15);
+//                imageView.setClip(clip);
+//            }
+//        }
+//
+//        // Add title
+//        Label titleLabel = new Label(formation.getTitre());
+//        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14pt;");
+//        titleLabel.setWrapText(true);
+//
+//        // Add description (shortened)
+//        Label descLabel = new Label(formation.getDescription());
+//        descLabel.setWrapText(true);
+//        descLabel.setMaxWidth(200);
+//        descLabel.setMaxHeight(40);
+//
+//        // Add duration and level
+//        HBox detailsRow1 = new HBox(10);
+//        detailsRow1.getChildren().addAll(
+//                new Label("Durée: " + formation.getDuree()),
+//                new Label("Niveau: " + formation.getNiveau())
+//        );
+//
+//        // Add price
+//        Label priceLabel = new Label("Prix: " + formation.getPrix() + " DT");
+//        priceLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #2196F3;");
+//
+//        // Add action buttons
+//        HBox actionButtons = new HBox(10);
+//        Button editButton = new Button("Modifier");
+//        editButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+//        Button deleteButton = new Button("Supprimer");
+//        deleteButton.setStyle("-fx-background-color: #F44336; -fx-text-fill: white;");
+//
+//        // Set button actions
+//        editButton.setOnAction(event -> handleEditFormation(formation));
+//        deleteButton.setOnAction(event -> handleDeleteFormation(formation));
+//
+//        actionButtons.getChildren().addAll(editButton, deleteButton);
+//
+//        // Add all elements to card
+//        card.getChildren().addAll(imageView, titleLabel, descLabel, detailsRow1, priceLabel, actionButtons);
+//
+//        return card;
+//    }
+private VBox createFormationCard(Formation formation) {
+    // Create card container
+    VBox card = new VBox();
+    card.getStyleClass().add("formation-card");
+    card.setSpacing(10);
+    card.setPadding(new Insets(15));
+    card.setMaxWidth(240);
 
-        // Add image
-        ImageView imageView = new ImageView();
-        if (formation.getImageName() != null && !formation.getImageName().isEmpty()) {
-            File imageFile = new File("images/formations/" + formation.getImageName());
-            if (imageFile.exists()) {
-                imageView.setImage(new Image(imageFile.toURI().toString()));
-                imageView.setFitWidth(200);
-                imageView.setFitHeight(120);
-                imageView.setPreserveRatio(true);
+    // Add image
+    ImageView imageView = new ImageView();
+    if (formation.getImageName() != null && !formation.getImageName().isEmpty()) {
+        File imageFile = new File("images/formations/" + formation.getImageName());
+        if (imageFile.exists()) {
+            imageView.setImage(new Image(imageFile.toURI().toString()));
+            imageView.setFitWidth(220);
+            imageView.setFitHeight(140);
+            imageView.setPreserveRatio(false);
+            imageView.setSmooth(true);
 
-                // Clip image to rounded rectangle
-                Rectangle clip = new Rectangle(200, 120);
-                clip.setArcWidth(15);
-                clip.setArcHeight(15);
-                imageView.setClip(clip);
-            }
+            // Clip image to rounded rectangle
+            Rectangle clip = new Rectangle(220, 140);
+            clip.setArcWidth(15);
+            clip.setArcHeight(15);
+            imageView.setClip(clip);
         }
-
-        // Add title
-        Label titleLabel = new Label(formation.getTitre());
-        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14pt;");
-        titleLabel.setWrapText(true);
-
-        // Add description (shortened)
-        Label descLabel = new Label(formation.getDescription());
-        descLabel.setWrapText(true);
-        descLabel.setMaxWidth(200);
-        descLabel.setMaxHeight(40);
-
-        // Add duration and level
-        HBox detailsRow1 = new HBox(10);
-        detailsRow1.getChildren().addAll(
-                new Label("Durée: " + formation.getDuree()),
-                new Label("Niveau: " + formation.getNiveau())
-        );
-
-        // Add price
-        Label priceLabel = new Label("Prix: " + formation.getPrix() + " DT");
-        priceLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #2196F3;");
-
-        // Add action buttons
-        HBox actionButtons = new HBox(10);
-        Button editButton = new Button("Modifier");
-        editButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
-        Button deleteButton = new Button("Supprimer");
-        deleteButton.setStyle("-fx-background-color: #F44336; -fx-text-fill: white;");
-
-        // Set button actions
-        editButton.setOnAction(event -> handleEditFormation(formation));
-        deleteButton.setOnAction(event -> handleDeleteFormation(formation));
-
-        actionButtons.getChildren().addAll(editButton, deleteButton);
-
-        // Add all elements to card
-        card.getChildren().addAll(imageView, titleLabel, descLabel, detailsRow1, priceLabel, actionButtons);
-
-        return card;
     }
 
+    // Add title
+    Label titleLabel = new Label(formation.getTitre());
+    titleLabel.getStyleClass().add("title-label");
+    titleLabel.setWrapText(true);
+    titleLabel.setMaxWidth(220);
+
+    // Add description (shortened)
+    Label descLabel = new Label(formation.getDescription());
+    descLabel.getStyleClass().add("description-label");
+    descLabel.setWrapText(true);
+    descLabel.setMaxWidth(220);
+    descLabel.setMaxHeight(40);
+
+    // Add duration and level
+    HBox detailsRow1 = new HBox(10);
+    Label durationLabel = new Label("Durée: " + formation.getDuree());
+    durationLabel.getStyleClass().add("detail-label");
+    Label levelLabel = new Label("Niveau: " + formation.getNiveau());
+    levelLabel.getStyleClass().add("detail-label");
+    detailsRow1.getChildren().addAll(durationLabel, levelLabel);
+
+    // Add price
+    Label priceLabel = new Label("Prix: " + formation.getPrix() + " DT");
+    priceLabel.getStyleClass().add("price-label");
+
+    // Add action buttons with icons
+    HBox actionButtons = new HBox(10);
+    actionButtons.setAlignment(Pos.CENTER_RIGHT);
+
+    // Edit button with larger pen icon
+    Button editButton = new Button();
+    editButton.getStyleClass().addAll("icon-button", "edit-button");
+    try {
+        ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/icons/edit.png")));
+        editIcon.setFitWidth(30);  // Increased from 16 to 24
+        editIcon.setFitHeight(30); // Increased from 16 to 24
+        editButton.setGraphic(editIcon);
+    } catch (Exception e) {
+        editButton.setText("Modifier");
+        editButton.setStyle("-fx-text-fill: #4CAF50;"); // Green text if no icon
+    }
+
+    // Delete button with larger trash icon
+    Button deleteButton = new Button();
+    deleteButton.getStyleClass().addAll("icon-button", "delete-button");
+    try {
+        ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/icons/delete.png")));
+        deleteIcon.setFitWidth(30);  // Increased from 16 to 24
+        deleteIcon.setFitHeight(30); // Increased from 16 to 24
+        deleteButton.setGraphic(deleteIcon);
+    } catch (Exception e) {
+        deleteButton.setText("Supprimer");
+        deleteButton.setStyle("-fx-text-fill: #F44336;"); // Red text if no icon
+    }
+
+    // Set button actions
+    editButton.setOnAction(event -> handleEditFormation(formation));
+    deleteButton.setOnAction(event -> handleDeleteFormation(formation));
+
+    actionButtons.getChildren().addAll(editButton, deleteButton);
+
+    // Add all elements to card
+    card.getChildren().addAll(imageView, titleLabel, descLabel, detailsRow1, priceLabel, actionButtons);
+
+    return card;
+}
     @FXML
     private void handleAjouterFormation(ActionEvent event) {
         try {

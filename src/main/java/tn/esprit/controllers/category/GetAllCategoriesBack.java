@@ -8,7 +8,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -46,42 +49,60 @@ public class GetAllCategoriesBack {
     }
 
     private HBox createCategoryCard(Categorie category) {
+        // Text content
         Label categoryName = new Label(category.getNom());
-        categoryName.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        categoryName.getStyleClass().add("category-name");
 
         Label categoryDescription = new Label(category.getDescription());
-        categoryDescription.setWrapText(true);
-        categoryDescription.setStyle("-fx-text-fill: #555;");
+        categoryDescription.getStyleClass().add("category-description");
 
         VBox textContent = new VBox(5, categoryName, categoryDescription);
 
-        Button editButton = new Button("Edit");
-        editButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+        // Create edit button with larger icon
+        Button editButton = new Button();
+        editButton.getStyleClass().addAll("icon-button", "edit-button");
+        try {
+            ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/icons/edit.png")));
+            editIcon.setFitWidth(24);
+            editIcon.setFitHeight(24);
+            editButton.setGraphic(editIcon);
+        } catch (Exception e) {
+            // Fallback to text if icon not found
+            editButton.setText("Edit");
+            editButton.setStyle("-fx-text-fill: #4CAF50;");
+        }
         editButton.setOnAction(event -> handleEditCategory(category));
 
-        Button deleteButton = new Button("Delete");
-        deleteButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
+        // Create delete button with larger icon
+        Button deleteButton = new Button();
+        deleteButton.getStyleClass().addAll("icon-button", "delete-button");
+        try {
+            ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/icons/delete.png")));
+            deleteIcon.setFitWidth(24);
+            deleteIcon.setFitHeight(24);
+            deleteButton.setGraphic(deleteIcon);
+        } catch (Exception e) {
+            // Fallback to text if icon not found
+            deleteButton.setText("Delete");
+            deleteButton.setStyle("-fx-text-fill: #F44336;");
+        }
         deleteButton.setOnAction(event -> handleDeleteCategory(category));
 
+        // Button container
         HBox buttonBox = new HBox(10, editButton, deleteButton);
         buttonBox.setStyle("-fx-alignment: center-right;");
 
+        // Spacer to push buttons to the right
         Region spacer = new Region();
-        HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
+        // Card container
         HBox card = new HBox(10, textContent, spacer, buttonBox);
-        card.setStyle("""
-        -fx-padding: 15;
-        -fx-border-color: #ccc;
-        -fx-border-width: 1;
-        -fx-border-radius: 10;
-        -fx-background-color: #ffffff;
-        -fx-background-radius: 10;
-        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);
-        """);
+        card.getStyleClass().add("category-card");
+        card.setMaxWidth(Double.MAX_VALUE);
+
         return card;
     }
-
     private void handleEditCategory(Categorie category) {
         Dialog<Categorie> dialog = new Dialog<>();
         dialog.setTitle("Edit Category");
