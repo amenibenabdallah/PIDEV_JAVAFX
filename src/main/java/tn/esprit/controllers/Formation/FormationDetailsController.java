@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import tn.esprit.controllers.NavBar;
 import tn.esprit.models.Formation;
 
 import java.io.File;
@@ -24,13 +26,21 @@ public class FormationDetailsController {
     @FXML
     private Button backButton;
 
+
     @FXML
     private void initialize() {
         backButton.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/GetAllFormationFront.fxml"));
-                Parent root = loader.load();
-                backButton.getScene().setRoot(root);
+                Parent allFormations = loader.load();
+
+                // Same logic as before
+                FXMLLoader navLoader = new FXMLLoader(getClass().getResource("/NavBar.fxml"));
+                BorderPane navRoot = navLoader.load();
+                NavBar navBarController = navLoader.getController();
+                navBarController.setCenterContent(allFormations);
+
+                backButton.getScene().setRoot(navRoot);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -65,12 +75,21 @@ public class FormationDetailsController {
     private void handleAccessFormation() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Lecon/LeconsByFormation.fxml"));
-            Parent root = loader.load();
+            Parent leconsRoot = loader.load();
 
+            // Passer la formation au contrôleur
             tn.esprit.controllers.lecon.LeconByFormationController controller = loader.getController();
             controller.setFormation(formation);
 
-            backButton.getScene().setRoot(root);
+            // Charger la navbar
+            FXMLLoader navLoader = new FXMLLoader(getClass().getResource("/NavBar.fxml"));
+            BorderPane navRoot = navLoader.load();
+            NavBar navBarController = navLoader.getController();
+            navBarController.setCenterContent(leconsRoot);
+
+            // Afficher la nouvelle scène avec la navbar
+            backButton.getScene().setRoot(navRoot);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

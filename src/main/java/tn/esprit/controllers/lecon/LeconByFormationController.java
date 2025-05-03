@@ -8,7 +8,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import tn.esprit.controllers.NavBar;
 import tn.esprit.models.Formation;
 import tn.esprit.models.Lecon;
 import tn.esprit.services.LeconService;
@@ -169,13 +171,24 @@ public class LeconByFormationController {
     @FXML
     private void handleBack() {
         try {
+            // Charger la vue des formations
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/GetAllFormationFront.fxml"));
-            Parent root = loader.load();
-            tabPaneLecons.getScene().setRoot(root);
+            Parent allFormations = loader.load();
+
+            // Charger la navbar
+            FXMLLoader navLoader = new FXMLLoader(getClass().getResource("/NavBar.fxml"));
+            BorderPane navRoot = navLoader.load();
+            NavBar navBarController = navLoader.getController();
+            navBarController.setCenterContent(allFormations);
+
+            // Afficher la nouvelle scène avec navbar
+            tabPaneLecons.getScene().setRoot(navRoot);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

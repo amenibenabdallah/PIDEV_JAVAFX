@@ -36,6 +36,23 @@ public class GetAllFormationFront implements Initializable {
     @FXML
     private Button ajouterFormationBtn;
 
+    private void showPage(int page) {
+        cardsContainer.getChildren().clear();
+
+        int fromIndex = (page - 1) * itemsPerPage;
+        int toIndex = Math.min(fromIndex + itemsPerPage, allFormations.size());
+
+        List<Formation> pageItems = allFormations.subList(fromIndex, toIndex);
+        for (Formation formation : pageItems) {
+            VBox card = createFormationCard(formation);
+            cardsContainer.getChildren().add(card);
+        }
+
+        pageLabel.setText("Page " + page);
+        prevBtn.setDisable(page == 1);
+        nextBtn.setDisable(toIndex >= allFormations.size());
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadFormationCards();
@@ -100,18 +117,28 @@ public class GetAllFormationFront implements Initializable {
             cardsContainer.getChildren().add(card);
         }
     }
+    @FXML
+    private void handleNextPage() {
+        if ((currentPage * itemsPerPage) < allFormations.size()) {
+            currentPage++;
+            showPage(currentPage);
+        }
+    }
+
+    @FXML
+    private void handlePrevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            showPage(currentPage);
+        }
+    }
 
 
     private void loadFormationCards() {
         FormationService fs = new FormationService();
         try {
-            List<Formation> formations = fs.getAll();
-
-            for (Formation formation : formations) {
-                VBox card = createFormationCard(formation);
-                cardsContainer.getChildren().add(card);
-            }
-
+            allFormations = fs.getAll();  // stocke tout ici
+            showPage(currentPage);        // affiche la page actuelle
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -168,21 +195,38 @@ public class GetAllFormationFront implements Initializable {
         viewDetailsButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
         viewDetailsButton.setOnAction(event -> {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/FormationDetails.fxml"));
-                Parent root = loader.load();
-                FormationDetailsController controller = loader.getController();
+                FXMLLoader navbarLoader = new FXMLLoader(getClass().getResource("/NavBar.fxml"));
+                Parent navbarRoot = navbarLoader.load();
+
+                FXMLLoader detailsLoader = new FXMLLoader(getClass().getResource("/Formation/FormationDetails.fxml"));
+                Parent detailsContent = detailsLoader.load();
+
+                FormationDetailsController controller = detailsLoader.getController();
                 controller.setFormation(formation);
+
+                // Inject the details view inside the center of the navbar layout
+                BorderPane navbarLayout = (BorderPane) navbarRoot;
+                navbarLayout.setCenter(detailsContent);
+
                 Scene scene = viewDetailsButton.getScene();
-                scene.setRoot(root);
+                scene.setRoot(navbarRoot);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-
         card.getChildren().addAll(imageView, titreBox, categorieBox, descBox, prixBox, viewDetailsButton);
 
         return card;
     }
+    private final int itemsPerPage = 6;
+    private int currentPage = 1;
+    private List<Formation> allFormations;
+
+    @FXML
+    private Button prevBtn, nextBtn;
+
+    @FXML
+    private Label pageLabel;
 
     @FXML
     private void handleAjouterFormation() {
