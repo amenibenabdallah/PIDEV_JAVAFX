@@ -110,7 +110,15 @@ public class MainLayoutController {
     }
 
     @FXML
+  Ameni-Gestion-Avis-et-Evaluation
+    private void handleFeedback() {
+        loadFXML("/ListAvis.fxml");
+    }
+    @FXML
+    
+
     private void handleLogout(ActionEvent event) {
+       main
         SessionManager.getInstance().logout();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
@@ -119,6 +127,7 @@ public class MainLayoutController {
             showAlert("Erreur", "Erreur lors de la déconnexion : " + e.getMessage());
         }
     }
+
 
     public void loadWelcomePage() {
         loadFXML("/Welcome.fxml");
