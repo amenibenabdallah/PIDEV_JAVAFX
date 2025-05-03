@@ -1,0 +1,41 @@
+/* Styles pour MainLayout.fxml */
+.root {
+    -fx-background-color: #f5f5f5;
+}
+
+.sidebar-pane {
+    -fx-background-color: linear-gradient(to bottom right, #e74c3c, #f1948a);
+}
+
+.content-area {
+    -fx-background-color: white;
+    -fx-padding: 20;
+}
+
+/* Style pour le bouton du chatbot */
+.chatbot-image-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50;
+    -fx-padding: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);
+}
+
+/* Style pour le cercle autour de l'image */
+.chatbot-circle {
+    -fx-fill: rgba(231, 76, 60, 0.2); /* Fond semi-transparent pour contraste */
+    -fx-stroke: #e74c3c; /* Bordure rouge */
+    -fx-stroke-width: 2;
+}
+
+/* Style pour l'image du chatbot */
+#chatBotImage {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+/* Style pour le badge de notification */
+.notification-badge {
+    -fx-fill: #e74c3c;
+    -fx-stroke: white;
+    -fx-stroke-width: 2;
+}
