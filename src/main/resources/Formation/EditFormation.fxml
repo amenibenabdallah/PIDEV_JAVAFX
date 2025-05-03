@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.controllers.Formation.EditFormationController"
+            prefWidth="400" prefHeight="400">
+    <children>
+        <VBox spacing="10" alignment="CENTER" layoutX="50" layoutY="30">
+            <Label text="Modifier Formation" style="-fx-font-size: 18px;"/>
+            <TextField fx:id="titreField" promptText="Titre" />
+            <TextArea fx:id="descriptionField" promptText="Description" prefRowCount="3" />
+            <TextField fx:id="dureeField" promptText="Durée" />
+            <TextField fx:id="niveauField" promptText="Niveau" />
+            <TextField fx:id="prixField" promptText="Prix" />
+            <Button text="Enregistrer" onAction="#handleSave"/>
+        </VBox>
+    </children>
+</AnchorPane>

@@ -1,0 +1,29 @@
+
+.table-view .column-header {
+    -fx-background-color: linear-gradient(to bottom, #cf4747, #b32727); /* Dégradé de bleu */
+}
+
+
+.table-view .column-header .label {
+    -fx-text-fill: #FFFFFF; /* White text for headers */
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+.error {
+    -fx-border-color: red;
+}
+
+.error .text {
+    -fx-fill: red;
+}
+
+
+.button {
+    -fx-background-color: #FFFFFF; /* Bleu */
+    -fx-text-fill: #5462ff; /* Blanc */
+
+}
+
+.button:hover {
+    -fx-background-color: #F0F8FF; /* Mauve clair */
+}

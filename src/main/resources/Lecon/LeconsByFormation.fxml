@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tn.esprit.controllers.lecon.LeconByFormationController"
+      spacing="10" alignment="CENTER" style="-fx-padding: 20">
+
+    <Label fx:id="formationTitleLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <TabPane fx:id="tabPaneLecons" tabClosingPolicy="UNAVAILABLE" prefWidth="600" prefHeight="400"/>
+    <Button text="← Retour" onAction="#handleBack"/>
+</VBox>

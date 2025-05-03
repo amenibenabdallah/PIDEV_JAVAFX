@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.controllers.NavBar"
+            prefHeight="600.0" prefWidth="800.0">
+
+    <!-- Barre latérale -->
+    <left>
+        <VBox spacing="20" alignment="TOP_CENTER"
+              style="-fx-background-color: #4A4DE9; -fx-background-radius: 30 0 0 30;" prefWidth="80.0">
+            <padding>
+                <Insets top="20" bottom="20"/>
+            </padding>
+            <children>
+
+                <!-- Logo Formini -->
+                <ImageView fitWidth="40" fitHeight="40">
+                    <image>
+                        <Image url="@icons/formini.png" />
+                    </image>
+                </ImageView>
+
+                <!-- Bouton Home -->
+                <Button fx:id="btnHome" onAction="#handleClicks" style="-fx-background-color: transparent;">
+                    <graphic>
+                        <ImageView fitWidth="24" fitHeight="24">
+                            <image>
+                                <Image url="@icons/home.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+                <!-- Bouton Formations -->
+                <Button fx:id="btnFormations" onAction="#handleClicks" style="-fx-background-color: transparent;">
+                    <graphic>
+                        <ImageView fitWidth="24" fitHeight="24">
+                            <image>
+                                <Image url="@icons/formations.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+                <!-- Bouton Événements -->
+                <Button fx:id="btnEvents" onAction="#handleClicks" style="-fx-background-color: transparent;">
+                    <graphic>
+                        <ImageView fitWidth="24" fitHeight="24">
+                            <image>
+                                <Image url="@icons/events.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+                <!-- Bouton Profil -->
+                <Button fx:id="btnProfile" onAction="#btnProfile" style="-fx-background-color: transparent;">
+                    <graphic>
+                        <ImageView fitWidth="24" fitHeight="24">
+                            <image>
+                                <Image url="@icons/user.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </children>
+        </VBox>
+
+    </left>
+
+    <!-- Contenu principal -->
+    <center>
+        <Pane fx:id="pnItems"/>
+    </center>
+</BorderPane>

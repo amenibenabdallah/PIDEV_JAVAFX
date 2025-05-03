@@ -91,7 +91,11 @@ public class LoginController {
         FXMLLoader loader;
         if ("ADMIN".equalsIgnoreCase(user.getRole())) {
             loader = new FXMLLoader(getClass().getResource("/AdminTemplate.fxml"));
-        } else {
+        }
+        else if ("INSTRUCTEUR".equalsIgnoreCase(user.getRole())) {
+            loader = new FXMLLoader(getClass().getResource("/Instructeur_Template.fxml"));
+        }
+        else {
             loader = new FXMLLoader(getClass().getResource("/MainLayout.fxml"));
         }
         Parent root = loader.load();

@@ -1,42 +1,144 @@
 package tn.esprit.models;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Formation {
+
     private int id;
-    private Integer categorieId; // Peut être null
+    private String imageName;
     private String titre;
     private String description;
     private String duree;
     private String niveau;
     private LocalDate dateCreation;
-    private double prix;
+    private float prix;
+    private Categorie categorie;
+    private List<Lecon> lecons;
+    private LocalDateTime updatedAt;
 
-    // Constructeurs
-    public Formation() {}
+    public Formation() {
+        this.lecons = new ArrayList<>();
+        this.dateCreation = LocalDate.now();
+    }
 
-    // Getters et Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public Formation(int id, String titre, String description, String duree, String niveau, LocalDate dateCreation, float prix, String imageName) {
+        this();
+        this.id = id;
+        this.titre = titre;
+        this.description = description;
+        this.duree = duree;
+        this.niveau = niveau;
+        this.dateCreation = dateCreation;
+        this.prix = prix;
+        this.imageName = imageName;
+    }
 
-    public Integer getCategorieId() { return categorieId; }
-    public void setCategorieId(Integer categorieId) { this.categorieId = categorieId; }
+    // Getters & Setters
 
-    public String getTitre() { return titre; }
-    public void setTitre(String titre) { this.titre = titre; }
+    public int getId() {
+        return id;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getDuree() { return duree; }
-    public void setDuree(String duree) { this.duree = duree; }
+    public String getTitre() {
+        return titre;
+    }
 
-    public String getNiveau() { return niveau; }
-    public void setNiveau(String niveau) { this.niveau = niveau; }
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
 
-    public LocalDate getDateCreation() { return dateCreation; }
-    public void setDateCreation(LocalDate dateCreation) { this.dateCreation = dateCreation; }
+    @Override
+    public String toString() {
+        return  titre
+                ;
+    }
 
-    public double getPrix() { return prix; }
-    public void setPrix(double prix) { this.prix = prix; }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDuree() {
+        return duree;
+    }
+
+    public void setDuree(String duree) {
+        this.duree = duree;
+    }
+
+    public String getNiveau() {
+        return niveau;
+    }
+
+    public void setNiveau(String niveau) {
+        this.niveau = niveau;
+    }
+
+    public LocalDate getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(LocalDate dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public float getPrix() {
+        return prix;
+    }
+
+    public void setPrix(float prix) {
+        this.prix = prix;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
+
+    public List<Lecon> getLecons() {
+        return lecons;
+    }
+
+    public void addLecon(Lecon lecon) {
+        if (!lecons.contains(lecon)) {
+            lecons.add(lecon);
+            lecon.setFormation(this);
+        }
+    }
+
+    public void removeLecon(Lecon lecon) {
+        if (lecons.remove(lecon)) {
+            if (lecon.getFormation() == this) {
+                lecon.setFormation(null);
+            }
+        }
+    }
 }
