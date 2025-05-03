@@ -1,43 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="tn.esprit.controllers.ChatBotController"
-            styleClass="root">
-
-    <stylesheets>
-        <URL value="@styles/chatbot.css"/>
-    </stylesheets>
+            stylesheets="@styles/chatbot.css"
+            minWidth="700"
+            prefWidth="800"
+            minHeight="500">
 
     <center>
-        <VBox spacing="20" alignment="CENTER" styleClass="chat-container">
-            <Label text="🎓 Assistant Éducatif" styleClass="title-label">
+        <VBox styleClass="chat-container" spacing="20" alignment="TOP_CENTER">
+            <!-- En-tête -->
+            <Label text="🤖 Assistant Éducatif" styleClass="title-label">
                 <font>
-                    <Font name="System Bold" size="28.0" />
+                    <Font name="System Bold" size="24"/>
                 </font>
             </Label>
 
+            <!-- Liste de chat principale -->
             <ListView fx:id="chatListView"
                       styleClass="chat-list-view"
-                      prefHeight="550"
-                      prefWidth="700"
-                      fixedCellSize="-1"/>
+                      minWidth="680"
+                      prefWidth="760"
+                      prefHeight="500"
+                      maxHeight="700"/>
 
-            <HBox spacing="15" alignment="CENTER" styleClass="input-box">
+            <!-- Zone de saisie -->
+            <HBox styleClass="input-container" spacing="15" alignment="CENTER" VBox.vgrow="NEVER">
                 <TextField fx:id="userInputField"
-                           promptText="Poser une question sur l'éducation..."
-                           styleClass="input-field"
-                           HBox.hgrow="ALWAYS"/>
+                           styleClass="chat-input"
+                           promptText="Écrivez votre question ici..."
+                           HBox.hgrow="ALWAYS"
+                           prefHeight="45"/>
 
                 <Button fx:id="sendButton"
-                        text="➤"
+                        text="Envoyer"
                         styleClass="send-button"
                         onAction="#sendMessage"
-                        minWidth="60"/>
+                        minWidth="90"
+                        prefHeight="45"/>
             </HBox>
         </VBox>
     </center>

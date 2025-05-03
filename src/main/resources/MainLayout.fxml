@@ -6,9 +6,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane fx:id="mainContainer" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.MainLayoutController">
+<stylesheets>
+    <URL value="@mainlayout.css"/>
+    <URL value="@styles/chatbot.css"/>
 
+</stylesheets>
     <!-- Sidebar -->
     <StackPane fx:id="sidebarPane" prefWidth="240" style="-fx-background-color: linear-gradient(to bottom right, #e74c3c, #f1948a);"
                AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0">
@@ -27,9 +37,11 @@
             <Button prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="💬 Messages" />
             <Button prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="🔔 Notifications" />
             <Button onAction="#handleInscriptionCours" prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="InscriptionCours" />
+
             <Button onAction="#handleLogout" prefHeight="35.0" prefWidth="180.0" styleClass="login-button" stylesheets="@login.css" text="🚪 Déconnexion">
                 <VBox.margin><Insets /></VBox.margin>
             </Button>
+
         </VBox>
 
         <!-- Label pour afficher -->
@@ -45,4 +57,23 @@
                AnchorPane.bottomAnchor="0.0"
                AnchorPane.leftAnchor="240.0"
                AnchorPane.rightAnchor="0.0"/>
+    <!-- Bouton du chatbot -->
+    <!-- Bouton du chatbot -->
+    <StackPane AnchorPane.bottomAnchor="20" AnchorPane.rightAnchor="20">
+        <Button fx:id="chatBotButton" styleClass="chatbot-image-button" onAction="#handleChatBot">
+            <graphic>
+                <StackPane>
+                    <ImageView fx:id="chatBotImage" fitWidth="60" fitHeight="60" preserveRatio="true">
+                        <image>
+                            <Image url="@/robot.png" />
+                        </image>
+                        <clip>
+                            <Circle centerX="30" centerY="30" radius="30"/>
+                        </clip>
+                    </ImageView>
+                </StackPane>
+            </graphic>
+        </Button>
+        <Circle styleClass="notification-badge" translateX="20" translateY="-20" radius="8"/>
+    </StackPane>
 </AnchorPane>
