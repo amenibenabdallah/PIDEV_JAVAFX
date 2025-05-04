@@ -1,14 +1,20 @@
 package tn.esprit.controllers.Formation;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import tn.esprit.controllers.MainLayoutController;
 import tn.esprit.controllers.NavBar;
+import tn.esprit.controllers.lecon.LeconByFormationController;
 import tn.esprit.models.Formation;
 
 import java.io.File;
@@ -25,7 +31,11 @@ public class FormationDetailsController {
     @FXML private Label prixLabel;
     @FXML
     private Button backButton;
+    private MainLayoutController mainLayoutController;
 
+    public void setMainLayoutController(MainLayoutController mainLayoutController) {
+        this.mainLayoutController = mainLayoutController;
+    }
 
     @FXML
     private void initialize() {
@@ -34,18 +44,19 @@ public class FormationDetailsController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/GetAllFormationFront.fxml"));
                 Parent allFormations = loader.load();
 
-                // Same logic as before
-                FXMLLoader navLoader = new FXMLLoader(getClass().getResource("/NavBar.fxml"));
-                BorderPane navRoot = navLoader.load();
-                NavBar navBarController = navLoader.getController();
-                navBarController.setCenterContent(allFormations);
+                // Replace center content
+                mainLayoutController.getContentArea().getChildren().setAll(allFormations);
 
-                backButton.getScene().setRoot(navRoot);
             } catch (IOException e) {
                 e.printStackTrace();
+//                showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de revenir à la liste des formations.");
             }
         });
     }
+
+
+
+
 
     private Formation formation;
 
@@ -72,27 +83,35 @@ public class FormationDetailsController {
 
 
     @FXML
-    private void handleAccessFormation() {
+    private void handleAccessFormation(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Lecon/LeconsByFormation.fxml"));
-            Parent leconsRoot = loader.load();
+            // 1. Load MainLayout.fxml
+            FXMLLoader mainLayoutLoader = new FXMLLoader(getClass().getResource("/MainLayout.fxml"));
+            Parent mainLayoutRoot = mainLayoutLoader.load();
+            MainLayoutController mainLayoutController = mainLayoutLoader.getController();
 
-            // Passer la formation au contrôleur
-            tn.esprit.controllers.lecon.LeconByFormationController controller = loader.getController();
-            controller.setFormation(formation);
+            // 2. Load LeconsByFormation.fxml
+            FXMLLoader leconsLoader = new FXMLLoader(getClass().getResource("/Lecon/LeconsByFormation.fxml"));
+            Parent leconsContent = leconsLoader.load();
+            LeconByFormationController leconController = leconsLoader.getController();
 
-            // Charger la navbar
-            FXMLLoader navLoader = new FXMLLoader(getClass().getResource("/NavBar.fxml"));
-            BorderPane navRoot = navLoader.load();
-            NavBar navBarController = navLoader.getController();
-            navBarController.setCenterContent(leconsRoot);
+            // 3. Pass data to the Leçon controller
+            leconController.setFormation(formation);
+            leconController.setMainLayoutController(mainLayoutController);
 
-            // Afficher la nouvelle scène avec la navbar
-            backButton.getScene().setRoot(navRoot);
+            // 4. Inject the Leçons view into content area
+            mainLayoutController.getContentArea().getChildren().setAll(leconsContent);
+
+            // 5. Set the scene root to the main layout (from button source)
+            Scene scene = ((Node) event.getSource()).getScene();
+            scene.setRoot(mainLayoutRoot);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
+
 
 }

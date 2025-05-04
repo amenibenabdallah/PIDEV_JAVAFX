@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import tn.esprit.controllers.MainLayoutController;
 import tn.esprit.controllers.NavBar;
 import tn.esprit.models.Formation;
 import tn.esprit.models.Lecon;
@@ -37,6 +38,10 @@ public class LeconByFormationController {
 
     private Formation formation;
     private final LeconService leconService = new LeconService();
+    private MainLayoutController mainLayoutController;
+    public void setMainLayoutController(MainLayoutController mainLayoutController) {
+        this.mainLayoutController = mainLayoutController;
+    }
 
     public void setFormation(Formation formation) {
         this.formation = formation;
@@ -171,23 +176,19 @@ public class LeconByFormationController {
     @FXML
     private void handleBack() {
         try {
-            // Charger la vue des formations
+            // Load the Formation front view only (no need to reload MainLayout.fxml)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/GetAllFormationFront.fxml"));
             Parent allFormations = loader.load();
 
-            // Charger la navbar
-            FXMLLoader navLoader = new FXMLLoader(getClass().getResource("/NavBar.fxml"));
-            BorderPane navRoot = navLoader.load();
-            NavBar navBarController = navLoader.getController();
-            navBarController.setCenterContent(allFormations);
-
-            // Afficher la nouvelle scène avec navbar
-            tabPaneLecons.getScene().setRoot(navRoot);
+            // Inject into the already loaded main layout
+            mainLayoutController.getContentArea().getChildren().setAll(allFormations);
 
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de revenir à la liste des formations.");
         }
     }
+
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);

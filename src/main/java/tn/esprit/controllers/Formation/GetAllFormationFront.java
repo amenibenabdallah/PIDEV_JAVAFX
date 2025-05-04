@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.json.JSONArray;
+import tn.esprit.controllers.MainLayoutController;
 import tn.esprit.models.Formation;
 import tn.esprit.services.FormationService;
 
@@ -35,6 +36,12 @@ public class GetAllFormationFront implements Initializable {
 
     @FXML
     private Button ajouterFormationBtn;
+
+    private MainLayoutController mainLayoutController;
+
+    public void setMainLayoutController(MainLayoutController mainLayoutController) {
+        this.mainLayoutController = mainLayoutController;
+    }
 
     private void showPage(int page) {
         cardsContainer.getChildren().clear();
@@ -195,25 +202,32 @@ public class GetAllFormationFront implements Initializable {
         viewDetailsButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
         viewDetailsButton.setOnAction(event -> {
             try {
-                FXMLLoader navbarLoader = new FXMLLoader(getClass().getResource("/NavBar.fxml"));
-                Parent navbarRoot = navbarLoader.load();
+                // 1. Load MainLayout
+                FXMLLoader mainLayoutLoader = new FXMLLoader(getClass().getResource("/MainLayout.fxml"));
+                Parent mainLayoutRoot = mainLayoutLoader.load();
+                MainLayoutController mainLayoutController = mainLayoutLoader.getController();
 
+                // 2. Load FormationDetails
                 FXMLLoader detailsLoader = new FXMLLoader(getClass().getResource("/Formation/FormationDetails.fxml"));
                 Parent detailsContent = detailsLoader.load();
+                FormationDetailsController detailsController = detailsLoader.getController();
 
-                FormationDetailsController controller = detailsLoader.getController();
-                controller.setFormation(formation);
+                // 3. Set the Formation data and link the controller
+                detailsController.setFormation(formation); // your model object
+                detailsController.setMainLayoutController(mainLayoutController);
 
-                // Inject the details view inside the center of the navbar layout
-                BorderPane navbarLayout = (BorderPane) navbarRoot;
-                navbarLayout.setCenter(detailsContent);
+                // 4. Inject the details into contentArea
+                mainLayoutController.getContentArea().getChildren().setAll(detailsContent);
 
+                // 5. Set the scene root to the main layout
                 Scene scene = viewDetailsButton.getScene();
-                scene.setRoot(navbarRoot);
+                scene.setRoot(mainLayoutRoot);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+
         card.getChildren().addAll(imageView, titreBox, categorieBox, descBox, prixBox, viewDetailsButton);
 
         return card;
