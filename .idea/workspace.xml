@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="535e9fcc-f531-4525-a5cc-ff50e489a779" name="Changes" comment="commit session">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/Formation/AddFormation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/Formation/AddFormation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/EmailSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/EmailSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/lecon/AddLecon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/lecon/AddLecon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/lecon/LeconByFormationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/lecon/LeconByFormationController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -267,6 +268,7 @@
       <workItem from="1746366777840" duration="128000" />
       <workItem from="1746367462656" duration="8782000" />
       <workItem from="1746383584569" duration="1525000" />
+      <workItem from="1746385286399" duration="4106000" />
     </task>
     <task id="LOCAL-00001" summary="commit after  modifications">
       <option name="closed" value="true" />
