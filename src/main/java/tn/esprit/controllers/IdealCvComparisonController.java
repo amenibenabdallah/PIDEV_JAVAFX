@@ -92,6 +92,17 @@ public class IdealCvComparisonController {
     private void loadData() {
         EvaluationService service = new EvaluationService();
         idealCv = service.createIdealCvProfile(formation);
+        // Ensure Ideal CV is 100% for all categories
+        if (idealCv != null) {
+            idealCv.setEducationWeight(1.0);    // 100%
+            idealCv.setExperienceWeight(1.0);   // 100%
+            idealCv.setSkillsWeight(1.0);       // 100%
+            idealCv.setCertificationsWeight(1.0); // 100%
+            System.out.println("Ideal CV weights - Education: " + idealCv.getEducationWeight() +
+                    ", Experience: " + idealCv.getExperienceWeight() +
+                    ", Skills: " + idealCv.getSkillsWeight() +
+                    ", Certifications: " + idealCv.getCertificationsWeight());
+        }
         instructorEvaluations.clear();
 
         if (formation.getInstructors().isEmpty()) {
@@ -264,14 +275,13 @@ public class IdealCvComparisonController {
                 gc.fillText(label, labelX + xOffset, labelY + yOffset);
             }
 
-            // Draw ideal CV
+            // Draw ideal CV with debug logging
             if (idealCv != null) {
-                double[] idealValues = {
-                        clamp(idealCv.getEducationWeight(), 0, maxValue),
-                        clamp(idealCv.getExperienceWeight(), 0, maxValue),
-                        clamp(idealCv.getSkillsWeight(), 0, maxValue),
-                        clamp(idealCv.getCertificationsWeight(), 0, maxValue)
-                };
+                double[] idealValues = {1.0, 1.0, 1.0, 1.0}; // Forces full value for all axes
+                System.out.println("Ideal CV values: " + java.util.Arrays.toString(idealValues)); // Optional: verify values
+                drawPolygon(gc, "Perfect CV", idealValues, IDEAL_COLOR, centerX, centerY, radius, numAxes, 1.0);
+
+                System.out.println("Ideal CV values before drawing: " + java.util.Arrays.toString(idealValues));
                 drawPolygon(gc, "Perfect CV", idealValues, IDEAL_COLOR, centerX, centerY, radius, numAxes, maxValue);
             }
 
@@ -308,8 +318,8 @@ public class IdealCvComparisonController {
         double[] pointsY = new double[numAxes];
         for (int i = 0; i < numAxes; i++) {
             double angle = Math.toRadians(90 + i * 360.0 / numAxes);
-            double value = values[i] / maxValue;
-            double pointRadius = value * radius;
+            double value = values[i] / maxValue; // Normalize to 0-1
+            double pointRadius = value * radius; // Scale to chart radius
             pointsX[i] = centerX + pointRadius * Math.cos(angle);
             pointsY[i] = centerY - pointRadius * Math.sin(angle);
         }
