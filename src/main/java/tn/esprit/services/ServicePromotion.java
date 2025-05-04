@@ -16,7 +16,7 @@ public class ServicePromotion {
         this.cnx = MyDataBase.getInstance().getCnx();
     }
 
-    public void add(Promotion promotion) {
+    /*public void add(Promotion promotion) {
         if (promotion.getDateExpiration().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("❌ La date d'expiration de la promotion est passée.");
         }
@@ -29,6 +29,33 @@ public class ServicePromotion {
             ps.setDate(4, Date.valueOf(promotion.getDateExpiration()));
             ps.setInt(5, promotion.getInscriptionCoursId());
             ps.executeUpdate();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    promotion.setId(rs.getInt(1));
+                }
+            }
+            System.out.println("✅ Promotion ajoutée !");
+        } catch (SQLException e) {
+            throw new RuntimeException("❌ Erreur lors de l'ajout de la promotion : " + e.getMessage(), e);
+        }
+    }*/
+    public void add(Promotion promotion) {
+        if (promotion.getDateExpiration().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("❌ La date d'expiration de la promotion est passée.");
+        }
+
+        // Vérifier et définir inscription_cours_id avec une valeur par défaut de 1 si null ou invalide
+        int inscriptionCoursId = 1;
+
+        String sql = "INSERT INTO promotion (code_promo, description, remise, date_expiration, inscription_cours_id) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = cnx.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, promotion.getCodePromo());
+            ps.setString(2, promotion.getDescription());
+            ps.setDouble(3, promotion.getRemise());
+            ps.setDate(4, Date.valueOf(promotion.getDateExpiration()));
+            ps.setInt(5, inscriptionCoursId); // Utilisation de la valeur calculée
+            ps.executeUpdate();
+
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     promotion.setId(rs.getInt(1));

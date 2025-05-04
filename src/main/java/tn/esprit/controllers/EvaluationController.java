@@ -152,7 +152,14 @@ public class EvaluationController implements Initializable, Searchable {
                 createLabel("👤 " + instructor.getNom() + " " + instructor.getPrenom(), 150),
                 createLabel("📧 " + instructor.getEmail(), 200),
                 createLabel("⭐ " + String.format("%.1f", evaluation.getScore()), 80),
-                createLabel("🏆 " + evaluation.getNiveau(), 100, evaluation.getNiveau().equals("EXCELLENT") ? "#00CC00" : "#FF5555"),
+                createLabel(
+                        "🏆 " + evaluation.getNiveau(),
+                        100,
+                        evaluation.getNiveau().equals("EXCELLENT") ? "#00CC00" :
+                                evaluation.getNiveau().equals("GOOD") ? "#3399FF" :
+                                        "#FF5555"
+                )
+                ,
                 createStatusLabel(evaluation.getStatus(), 100),
                 createLabel("📅 " + evaluation.getDateCreation().toString().replace("-", "/"), 100),
                 createActionBox(evaluation)
