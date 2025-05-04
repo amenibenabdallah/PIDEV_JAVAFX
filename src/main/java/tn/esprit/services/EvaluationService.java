@@ -213,6 +213,7 @@ public class EvaluationService {
             } else if (!education.equals("N/A")) {
                 educationLevel = 1; // Some education
             }
+
         }
 
         // Extract years of experience

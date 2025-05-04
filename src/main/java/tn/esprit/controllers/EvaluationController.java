@@ -2,7 +2,6 @@ package tn.esprit.controllers;
 
 import tn.esprit.models.Evaluation;
 import tn.esprit.models.User;
-import tn.esprit.services.EvaluationService;
 import tn.esprit.utils.MyDataBase;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +18,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -28,7 +28,6 @@ public class EvaluationController implements Initializable, Searchable {
     private VBox cardsContainer;
 
     private final List<Evaluation> evaluations = new ArrayList<>();
-    private final List<User> instructors = new ArrayList<>();
     private AdminTemplateController templateController;
 
     public void setTemplateController(AdminTemplateController templateController) {
@@ -42,47 +41,60 @@ public class EvaluationController implements Initializable, Searchable {
     }
 
     private void loadEvaluations() {
+        evaluations.clear(); // Clear the list to avoid duplicates
         try (Connection conn = MyDataBase.getInstance().getCnx()) {
             if (conn == null) {
                 System.out.println("Failed to connect to the database.");
                 return;
             }
 
-            // Fetch instructors with role 'INSTRUCTEUR'
-            String selectInstructorSql = "SELECT id, email, nom, prenom, cv FROM user WHERE role = 'INSTRUCTEUR'";
-            try (PreparedStatement stmt = conn.prepareStatement(selectInstructorSql)) {
+            // Fetch all evaluations
+            String selectEvaluationsSql = "SELECT * FROM evaluation";
+            try (PreparedStatement stmt = conn.prepareStatement(selectEvaluationsSql)) {
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
-                        User instructor = new User(
-                                rs.getString("email"),
-                                rs.getString("nom"),
-                                rs.getString("prenom"),
-                                rs.getString("cv")
-                        );
-                        instructor.setId(rs.getInt("id"));
-                        instructors.add(instructor);
+                        int userId = rs.getInt("user_id");
+
+                        // Fetch the corresponding user (instructor) for this evaluation
+                        User instructor = fetchUserById(conn, userId);
+                        if (instructor == null) {
+                            System.out.println("No user found for user_id: " + userId + ". Skipping evaluation.");
+                            continue; // Skip this evaluation if the user doesn't exist
+                        }
+
+                        // Map the evaluation and associate the instructor
+                        Evaluation evaluation = mapResultSetToEvaluation(rs, instructor);
+                        evaluations.add(evaluation);
                     }
                 }
             }
 
-            // Fetch or evaluate each instructor's evaluation
-            EvaluationService service = new EvaluationService();
-            for (User instructor : instructors) {
-                String selectEvaluationSql = "SELECT * FROM evaluation WHERE user_id = ?";
-                try (PreparedStatement selectStmt = conn.prepareStatement(selectEvaluationSql)) {
-                    selectStmt.setInt(1, instructor.getId());
-                    try (ResultSet evalRs = selectStmt.executeQuery()) {
-                        Evaluation evaluation = evalRs.next() ? mapResultSetToEvaluation(evalRs, instructor) : service.evaluateInstructeur(instructor);
-                        if (evaluation != null) {
-                            evaluations.add(evaluation);
-                        }
-                    }
-                }
-            }
+            System.out.println("Number of evaluations loaded: " + evaluations.size()); // Debug log
+
         } catch (Exception e) {
             System.out.println("Error during evaluation loading: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private User fetchUserById(Connection conn, int userId) throws SQLException {
+        String selectUserSql = "SELECT id, email, nom, prenom, cv FROM user WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(selectUserSql)) {
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User(
+                            rs.getString("email"),
+                            rs.getString("nom"),
+                            rs.getString("prenom"),
+                            rs.getString("cv")
+                    );
+                    user.setId(rs.getInt("id"));
+                    return user;
+                }
+            }
+        }
+        return null; // Return null if no user is found
     }
 
     private Evaluation mapResultSetToEvaluation(ResultSet rs, User instructor) throws Exception {
@@ -107,11 +119,27 @@ public class EvaluationController implements Initializable, Searchable {
 
     private void displayEvaluations() {
         cardsContainer.getChildren().clear();
-        evaluations.forEach(this::createEvaluationCard);
+        if (evaluations.isEmpty()) {
+            Label noDataLabel = new Label("No evaluations available.");
+            noDataLabel.setStyle("-fx-font-size: 16; -fx-text-fill: #666666;");
+            cardsContainer.getChildren().add(noDataLabel);
+        } else {
+            evaluations.forEach(this::createEvaluationCard);
+        }
     }
 
     private HBox createEvaluationCard(Evaluation evaluation) {
         User instructor = evaluation.getInstructeur();
+        if (instructor == null) {
+            System.out.println("Instructor is null for evaluation ID: " + evaluation.getId());
+            HBox emptyBox = new HBox();
+            Label errorLabel = new Label("Instructor not found for evaluation ID: " + evaluation.getId());
+            errorLabel.setStyle("-fx-font-size: 14; -fx-text-fill: #FF5555;");
+            emptyBox.getChildren().add(errorLabel);
+            cardsContainer.getChildren().add(emptyBox);
+            return emptyBox;
+        }
+
         HBox cardBox = new HBox(50);
         cardBox.setAlignment(Pos.CENTER);
         cardBox.setPadding(new Insets(15));
@@ -130,6 +158,7 @@ public class EvaluationController implements Initializable, Searchable {
                 createActionBox(evaluation)
         );
 
+        cardsContainer.getChildren().add(cardBox);
         return cardBox;
     }
 
