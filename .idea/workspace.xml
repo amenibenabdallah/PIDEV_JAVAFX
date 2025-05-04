@@ -4,18 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="61da1348-b7bf-48d5-a107-6522b47ef517" name="Changes" comment="Refactor database schema, add Feedback functionality, and update UI login theme; includes inscription UI enhancements">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="61da1348-b7bf-48d5-a107-6522b47ef517" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionCoursViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionCoursViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/EvaluationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/EvaluationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/IdealCvComparisonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/IdealCvComparisonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/InscriptionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/MainLayoutController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/MainLayoutController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Formation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Formation1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceFormation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceFormation1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Evaluation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/Evaluation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/FormationA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/FormationA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/FormationServiceA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/FormationServiceA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/test/EvaluationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/test/EvaluationTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/MyDataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/MyDataBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ChatBotView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ChatBotView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MainLayout.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MainLayout.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/chatbot.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/chatbot.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,22 +45,22 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-    "lastFilter": {
-      "state": "OPEN",
-      "assignee": "Yassminette5"
+    &quot;lastFilter&quot;: {
+      &quot;state&quot;: &quot;OPEN&quot;,
+      &quot;assignee&quot;: &quot;Yassminette5&quot;
     }
   }</component>
   <component name="GithubPullRequestsUISettings">{
-    "selectedUrlAndAccountId": {
-      "url": "https://github.com/amenibenabdallah/PIDEV_JAVAFX.git",
-      "accountId": "a449f9f8-cadc-4d0c-9afd-7b71d4c0813a"
+    &quot;selectedUrlAndAccountId&quot;: {
+      &quot;url&quot;: &quot;https://github.com/amenibenabdallah/PIDEV_JAVAFX.git&quot;,
+      &quot;accountId&quot;: &quot;a449f9f8-cadc-4d0c-9afd-7b71d4c0813a&quot;
     }
   }</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-    "associatedIndex": 6
+    &quot;associatedIndex&quot;: 6
   }</component>
   <component name="ProjectId" id="2vTu56h9e5HqQYkKW6k21FMYCCr" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -68,40 +70,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-    "keyToString": {
-      "Application.Main.executor": "Run",
-      "Application.MainFx.executor": "Run",
-      "Application.MainInscription.executor": "Run",
-      "Application.TestApprenantCrud.executor": "Run",
-      "Application.TestAvis.executor": "Run",
-      "Application.TestPromotion.executor": "Run",
-      "Application.TestUserCrud.executor": "Run",
-      "Application.listtest.executor": "Run",
-      "DefaultHtmlFileTemplate": "HTML File",
-      "Maven.java_pi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
-      "RunOnceActivity.OpenProjectViewOnStart": "true",
-      "RunOnceActivity.ShowReadmeOnStart": "true",
-      "RunOnceActivity.git.unshallow": "true",
-      "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-      "WebServerToolWindowFactoryState": "false",
-      "git-widget-placeholder": "main",
-      "ignore.virus.scanning.warn.message": "true",
-      "kotlin-language-version-configured": "true",
-      "last_opened_file_path": "C:/PIDEV_JAVAFX",
-      "list.type.of.created.stylesheet": "CSS",
-      "node.js.detected.package.eslint": "true",
-      "node.js.detected.package.tslint": "true",
-      "node.js.selected.package.eslint": "(autodetect)",
-      "node.js.selected.package.tslint": "(autodetect)",
-      "nodejs_package_manager_path": "npm",
-      "project.structure.last.edited": "Modules",
-      "project.structure.proportion": "0.0",
-      "project.structure.side.proportion": "0.0",
-      "settings.editor.selected.configurable": "preferences.externalResources",
-      "vue.rearranger.settings.migration": "true"
-    }
-  }</component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.MainFx.executor": "Run",
+    "Application.MainInscription.executor": "Run",
+    "Application.TestApprenantCrud.executor": "Run",
+    "Application.TestAvis.executor": "Run",
+    "Application.TestPromotion.executor": "Run",
+    "Application.TestUserCrud.executor": "Run",
+    "Application.listtest.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Maven.java_pi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/PIDEV_JAVAFX",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.externalResources",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -206,9 +208,6 @@
       <item itemvalue="Application.MahdiCrudTest" />
       <item itemvalue="Application.EvaluationTest" />
       <item itemvalue="Application.TestUserCrud" />
-      <item itemvalue="Application.Main" />
-      <item itemvalue="Application.TestAvis" />
-      <item itemvalue="Application.TestPromotion" />
     </list>
     <recent_temporary>
       <list>
@@ -233,7 +232,7 @@
       <workItem from="1744282817868" duration="1215000" />
       <workItem from="1744357703447" duration="19508000" />
       <workItem from="1744447708210" duration="12178000" />
-      <workItem from="174447456orum/1744333198159" duration="2422000" />
+      <workItem from="0" duration="2422000" />
       <workItem from="1744367318400" duration="2103000" />
       <workItem from="1744370064117" duration="13545000" />
       <workItem from="1744406195942" duration="4207000" />

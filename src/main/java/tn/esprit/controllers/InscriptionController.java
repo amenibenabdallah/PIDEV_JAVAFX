@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import tn.esprit.models.User;
 import tn.esprit.services.UserService;
+import tn.esprit.models.Evaluation; // Assumed model class
+import tn.esprit.services.EvaluationService; // Assumed service class
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +44,7 @@ public class InscriptionController {
 
     private final UserService userService = new UserService();
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final EvaluationService evaluationService = new EvaluationService(); // Assumed serviceer();
 
     private static final long MAX_IMAGE_SIZE = 2 * 1024 * 1024;
     private static final long MAX_CV_SIZE = 5 * 1024 * 1024;
@@ -100,7 +103,7 @@ public class InscriptionController {
     }
 
     @FXML
-    private void inscrireUtilisateur() {
+    private void inscrireUtilisateur() throws Exception {
         ajouterUtilisateur();
     }
 
@@ -142,7 +145,7 @@ public class InscriptionController {
         }
     }
 
-    private void ajouterUtilisateur() {
+    private void ajouterUtilisateur() throws Exception {
         String nom = nomField.getText().trim();
         String prenom = prenomField.getText().trim();
         String email = emailField.getText().trim().toLowerCase();
@@ -188,11 +191,18 @@ public class InscriptionController {
         user.setCv(selectedCVFile != null ? selectedCVFile.getAbsolutePath() : null);
         user.setImage(selectedImageFile != null ? selectedImageFile.getAbsolutePath() : null);
         user.setNiveauEtude("APPRENANT".equals(role) ? niveau : null);
+        user.setFormation_id("INSTRUCTEUR".equals(role) ? 1 : 0); //
 
         boolean success = userService.addUser(user);
+        int userId = userService.getLastInsertedIdByEmail(email);
+        user.setId(userId);
 
         if (success) {
             showAlert("Succès", "Utilisateur enregistré avec succès !");
+            // Add evaluation for new instructor
+            if ("INSTRUCTEUR".equals(role)){
+                Evaluation evaluation = evaluationService.evaluateInstructeur(user);
+            }
             clearForm();
         } else {
             showAlert("Erreur", "Erreur lors de l'enregistrement !");

@@ -339,6 +339,20 @@ public class UserService {
         return false;
     }
 
+    public int getLastInsertedIdByEmail(String email) throws SQLException {
+        String sql = "SELECT id FROM user WHERE email = ? ORDER BY id DESC LIMIT 1";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id");
+                } else {
+                    throw new SQLException("Aucun ID trouvé pour l'email : " + email);
+                }
+            }
+        }
+    }
+
 
 
 }

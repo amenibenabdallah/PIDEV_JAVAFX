@@ -1,5 +1,6 @@
 package tn.esprit.test;
 
+import tn.esprit.models.User;
 import tn.esprit.models.instructeurs;
 import tn.esprit.models.Evaluation;
 import tn.esprit.services.EvaluationService;
@@ -68,7 +69,7 @@ public class EvaluationTest {
 
                 // Evaluate the instructor
                 System.out.println("No existing evaluation found. Creating new evaluation...");
-                Evaluation evaluation = service.evaluateInstructeur(instructor);
+                Evaluation evaluation = service.evaluateInstructeur(new User());
                 if (evaluation == null) {
                     System.out.println("Evaluation failed for instructor ID " + instructor.getId() + ". Check CV path or API key.");
                     continue;

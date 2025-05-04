@@ -110,7 +110,7 @@ public class MainLayoutController {
     }
 
     @FXML
-  Ameni-Gestion-Avis-et-Evaluation
+
     private void handleFeedback() {
         loadFXML("/ListAvis.fxml");
     }
@@ -118,7 +118,7 @@ public class MainLayoutController {
     
 
     private void handleLogout(ActionEvent event) {
-       main
+
         SessionManager.getInstance().logout();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));

@@ -3,7 +3,7 @@ package tn.esprit.services;
 import tn.esprit.models.Avis;
 import tn.esprit.models.FormationA;
 import tn.esprit.models.FormationScore;
-import tn.esprit.models.instructeurs;
+import tn.esprit.models.User;
 import tn.esprit.utils.MyDataBase;
 
 import java.sql.Connection;
@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service class for managing FormationA entities.
+ */
 public class FormationServiceA {
 
     private final Connection cnx;
@@ -49,7 +52,7 @@ public class FormationServiceA {
                 List<Avis> avisList = getAvisForFormation(id);
 
                 // Fetch instructors for this formation
-                List<instructeurs> instructors = getInstructorsForFormation(id);
+                List<User> instructors = getInstructorsForFormation(id);
 
                 formations.add(new FormationA(id, name, averageScore, avisCount, avisList, instructors, niveau, description, duree, categorieId, categoryName));
             }
@@ -57,10 +60,9 @@ public class FormationServiceA {
         return formations;
     }
 
-    // New method to retrieve the formation for a given instructor ID
     public FormationA getFormationByInstructeurId(int instructeurId) throws SQLException {
-        // First, get the formation_id from the instructeurs table
-        String queryInstructeur = "SELECT formation_id FROM instructeurs WHERE id = ?";
+        // First, get the formation_id from the user table
+        String queryInstructeur = "SELECT formation_id FROM user WHERE id = ? AND role = 'INSTRUCTEUR'";
         Integer formationId = null;
 
         try (PreparedStatement stmt = cnx.prepareStatement(queryInstructeur)) {
@@ -104,7 +106,7 @@ public class FormationServiceA {
                     List<Avis> avisList = getAvisForFormation(id);
 
                     // Fetch instructors for this formation
-                    List<instructeurs> instructors = getInstructorsForFormation(id);
+                    List<User> instructors = getInstructorsForFormation(id);
 
                     return new FormationA(id, name, averageScore, avisCount, avisList, instructors, niveau, description, duree, categorieId, categoryName);
                 }
@@ -159,24 +161,18 @@ public class FormationServiceA {
         return avisList;
     }
 
-    private List<instructeurs> getInstructorsForFormation(int formationId) throws SQLException {
-        List<instructeurs> instructors = new ArrayList<>();
-        String queryInstructors = "SELECT * FROM instructeurs WHERE formation_id = ?";
+    private List<User> getInstructorsForFormation(int formationId) throws SQLException {
+        List<User> instructors = new ArrayList<>();
+        String queryInstructors = "SELECT id, email, nom, prenom, cv FROM user WHERE formation_id = ? AND role = 'INSTRUCTEUR'";
 
         try (PreparedStatement stmt = cnx.prepareStatement(queryInstructors)) {
             stmt.setInt(1, formationId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    instructeurs instructor = new instructeurs(
-                            rs.getString("email_instructeur"),
-                            null,
-                            null,
-                            rs.getString("nom_instructeur"),
-                            rs.getString("prenom_instructeur"),
-                            null,
-                            null,
-                            null,
-                            null,
+                    User instructor = new User(
+                            rs.getString("email"),
+                            rs.getString("nom"),
+                            rs.getString("prenom"),
                             rs.getString("cv")
                     );
                     instructor.setId(rs.getInt("id"));
@@ -186,6 +182,7 @@ public class FormationServiceA {
         }
         return instructors;
     }
+
     public FormationA getById(int formationId) throws SQLException {
         String queryFormation = "SELECT f.id, f.titre, f.niveau, f.description, f.duree, f.categorie_id, c.nom AS category_name " +
                 "FROM formation f " +
@@ -213,7 +210,7 @@ public class FormationServiceA {
                     List<Avis> avisList = getAvisForFormation(id);
 
                     // Fetch instructors for this formation
-                    List<instructeurs> instructors = getInstructorsForFormation(id);
+                    List<User> instructors = getInstructorsForFormation(id);
 
                     return new FormationA(id, name, averageScore, avisCount, avisList, instructors, niveau, description, duree, categorieId, categoryName);
                 }

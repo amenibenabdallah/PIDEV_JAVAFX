@@ -3,12 +3,12 @@ package tn.esprit.models;
 import java.time.LocalDate;
 
 /**
- * Represents an evaluation for an instructor, with a one-to-one relationship to Instructeur.
- * Fields are populated from CV via API and score via ML model API.
+ * Represents an evaluation for an instructor, with a one-to-one relationship to a User.
+ * Fields are populated from CV data via an API and scored using an ML model API.
  */
 public class Evaluation {
     private int id;
-    private int instructorId;
+    private int userId; // Updated from instructorId to align with schema change
     private double score;
     private String niveau;
     private int status;
@@ -21,46 +21,72 @@ public class Evaluation {
     private double experienceWeight;
     private double skillsWeight;
     private double certificationsWeight;
-    private instructeurs instructeur;
+    private User instructeur;
 
+    /**
+     * Default constructor initializing default values.
+     */
     public Evaluation() {
         this.dateCreation = LocalDate.now();
         this.status = 0;
-        this.educationWeight = 0.25;
-        this.experienceWeight = 0.25;
-        this.skillsWeight = 0.25;
-        this.certificationsWeight = 0.25;
+        setDefaultWeights();
     }
 
-    public Evaluation(int id, int instructorId, double score, String niveau, int status,
+    /**
+     * Parameterized constructor with full evaluation details.
+     * @param id Unique identifier for the evaluation
+     * @param userId ID of the associated user (instructor)
+     * @param score Evaluation score (0-100)
+     * @param niveau Skill level (e.g., "EXCELLENT", "AVERAGE")
+     * @param status Status flag (e.g., 1 for accepted, 0 for not accepted)
+     * @param dateCreation Creation date of the evaluation
+     * @param education Educational background
+     * @param yearsOfExperience Years of professional experience
+     * @param skills List of skills
+     * @param certifications List of certifications
+     * @param instructeur Associated instructor (User object)
+     */
+    public Evaluation(int id, int userId, double score, String niveau, int status,
                       LocalDate dateCreation, String education, int yearsOfExperience,
-                      String skills, String certifications, instructeurs instructeur) {
+                      String skills, String certifications, User instructeur) {
         this.id = id;
-        this.instructorId = instructorId;
-        this.score = score;
+        this.userId = userId;
+        setScore(score);
         this.niveau = niveau;
         this.status = status;
-        this.dateCreation = dateCreation != null ? dateCreation : LocalDate.now();
+        this.dateCreation = (dateCreation != null) ? dateCreation : LocalDate.now();
         this.education = education;
-        this.yearsOfExperience = yearsOfExperience;
+        setYearsOfExperience(yearsOfExperience);
         this.skills = skills;
         this.certifications = certifications;
+        setDefaultWeights();
+        this.instructeur = instructeur;
+        if (instructeur != null) {
+            this.userId = instructeur.getId();
+        }
+    }
+
+    /**
+     * Sets default weights for evaluation criteria (25% each).
+     */
+    private void setDefaultWeights() {
         this.educationWeight = 0.25;
         this.experienceWeight = 0.25;
         this.skillsWeight = 0.25;
         this.certificationsWeight = 0.25;
-        this.instructeur = instructeur;
     }
 
+    // Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public int getInstructorId() { return instructorId; }
-    public void setInstructorId(int instructorId) { this.instructorId = instructorId; }
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
 
     public double getScore() { return score; }
     public void setScore(double score) {
         if (score >= 0 && score <= 100) this.score = score;
+        else throw new IllegalArgumentException("Score must be between 0 and 100");
     }
 
     public String getNiveau() { return niveau; }
@@ -78,6 +104,7 @@ public class Evaluation {
     public int getYearsOfExperience() { return yearsOfExperience; }
     public void setYearsOfExperience(int years) {
         if (years >= 0) this.yearsOfExperience = years;
+        else throw new IllegalArgumentException("Years of experience cannot be negative");
     }
 
     public String getSkills() { return skills; }
@@ -87,25 +114,54 @@ public class Evaluation {
     public void setCertifications(String certifications) { this.certifications = certifications; }
 
     public double getEducationWeight() { return educationWeight; }
-    public void setEducationWeight(double weight) {
-        if (weight >= 0 && weight <= 1) this.educationWeight = weight;
-    }
+    public void setEducationWeight(double weight) { setWeight(weight, "education"); }
 
     public double getExperienceWeight() { return experienceWeight; }
-    public void setExperienceWeight(double weight) {
-        if (weight >= 0 && weight <= 1) this.experienceWeight = weight; }
+    public void setExperienceWeight(double weight) { setWeight(weight, "experience"); }
 
     public double getSkillsWeight() { return skillsWeight; }
-    public void setSkillsWeight(double weight) {
-        if (weight >= 0 && weight <= 1) this.skillsWeight = weight; }
+    public void setSkillsWeight(double weight) { setWeight(weight, "skills"); }
 
     public double getCertificationsWeight() { return certificationsWeight; }
-    public void setCertificationsWeight(double weight) {
-        if (weight >= 0 && weight <= 1) this.certificationsWeight = weight; }
+    public void setCertificationsWeight(double weight) { setWeight(weight, "certifications"); }
 
-    public instructeurs getInstructeur() { return instructeur; }
-    public void setInstructeur(instructeurs instructeur) {
+    public User getInstructeur() { return instructeur; }
+    public void setInstructeur(User instructeur) {
         this.instructeur = instructeur;
-        this.instructorId = (instructeur != null) ? instructeur.getId() : 0;
+        this.userId = (instructeur != null) ? instructeur.getId() : 0;
+    }
+
+    /**
+     * Validates and sets a weight value for a specific criterion.
+     * @param weight The weight value to set (0 to 1)
+     * @param criterion The criterion being weighted (e.g., "education", "experience")
+     * @throws IllegalArgumentException if weight is out of range
+     */
+    private void setWeight(double weight, String criterion) {
+        if (weight >= 0 && weight <= 1) {
+            switch (criterion.toLowerCase()) {
+                case "education" -> this.educationWeight = weight;
+                case "experience" -> this.experienceWeight = weight;
+                case "skills" -> this.skillsWeight = weight;
+                case "certifications" -> this.certificationsWeight = weight;
+                default -> throw new IllegalArgumentException("Invalid criterion: " + criterion);
+            }
+            normalizeWeights();
+        } else {
+            throw new IllegalArgumentException("Weight must be between 0 and 1 for " + criterion);
+        }
+    }
+
+    /**
+     * Normalizes weights to ensure they sum to 1 after individual updates.
+     */
+    private void normalizeWeights() {
+        double total = educationWeight + experienceWeight + skillsWeight + certificationsWeight;
+        if (total > 0) {
+            educationWeight /= total;
+            experienceWeight /= total;
+            skillsWeight /= total;
+            certificationsWeight /= total;
+        }
     }
 }

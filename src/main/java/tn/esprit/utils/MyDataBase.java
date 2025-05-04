@@ -8,7 +8,7 @@ public class MyDataBase {
 
     private static MyDataBase instance;
 
-    private final String URL = "jdbc:mysql://127.0.0.1:3306/formini";
+    private final String URL = "jdbc:mysql://127.0.0.1:3306/forminifix";
 
     
 

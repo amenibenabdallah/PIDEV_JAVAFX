@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.util.Properties;
+import tn.esprit.models.User;
 
 public class EvaluationService {
     private static final String AFFINDA_API_URL = "https://api.affinda.com/v1/resumes"; // URL for Affinda API
@@ -173,8 +174,8 @@ public class EvaluationService {
     }
 
     // Evaluate the instructor based on their CV
-    public Evaluation evaluateInstructeur(instructeurs instructeur) throws Exception {
-        String cvPath = instructeur.getCv();
+    public Evaluation evaluateInstructeur(User user) throws Exception {
+        String cvPath = user.getCv();
         JSONObject cvData = parseCv(cvPath);
         if (cvData == null) {
             System.out.println("Evaluation failed: No CV data returned from Affinda API.");
@@ -272,15 +273,15 @@ public class EvaluationService {
 
         // Send email if instructor is accepted
         if (status == 1) {
-            emailService.sendAcceptanceEmail(instructeur.getEmail(), instructeur.getNom());
+            emailService.sendAcceptanceEmail(user.getEmail(), user.getNom());
         }
         if (status == 0) {
-            emailService.sendRejectionEmail(instructeur.getEmail(), instructeur.getNom());
+            emailService.sendRejectionEmail(user.getEmail(), user.getNom());
         }
 
         // Create a new Evaluation object
         Evaluation evaluation = new Evaluation();
-        evaluation.setInstructorId(instructeur.getId());
+        evaluation.setUserId(user.getId());
         evaluation.setScore(score);
         evaluation.setNiveau(niveau);
         evaluation.setStatus(status);
@@ -292,13 +293,13 @@ public class EvaluationService {
         evaluation.setExperienceWeight(experienceWeight);
         evaluation.setSkillsWeight(skillsWeight);
         evaluation.setCertificationsWeight(certificationsWeight);
-        evaluation.setInstructeur(instructeur);
+        /*evaluation.setInstructeur(user);*/
         evaluation.setDateCreation(LocalDate.now());
 
         // Save the evaluation to the database
-        String sql = "INSERT INTO evaluation (instructor_id, score, niveau, status, date_creation, education, years_of_experience, skills, certifications, education_weight, experience_weight, skills_weight, certifications_weight) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO evaluation (user_id, score, niveau, status, date_creation, education, years_of_experience, skills, certifications, education_weight, experience_weight, skills_weight, certifications_weight) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setInt(1, evaluation.getInstructorId());
+        stmt.setInt(1, evaluation.getUserId());
         stmt.setDouble(2, evaluation.getScore());
         stmt.setString(3, evaluation.getNiveau());
         stmt.setInt(4, evaluation.getStatus());
@@ -331,8 +332,8 @@ public class EvaluationService {
                 "/public/uploads/cv/ideal_cv.pdf" // CV path
         );
         idealInstructor.setId(-1); // Special ID to indicate this is the ideal profile
-        idealEvaluation.setInstructeur(idealInstructor);
-        idealEvaluation.setInstructorId(-1);
+        /*idealEvaluation.setInstructeur(idealInstructor);*/
+        idealEvaluation.setUserId(-1);
 
         // Set maximum weights (always 1.0 for ideal CV)
         idealEvaluation.setEducationWeight(1.0);
