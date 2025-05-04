@@ -13,6 +13,7 @@ import tn.esprit.models.Categorie;
 import tn.esprit.models.Formation;
 import tn.esprit.services.CategorieService;
 import tn.esprit.services.FormationService;
+import tn.esprit.utils.EmailSender;
 
 import java.io.File;
 import java.io.IOException;
@@ -126,9 +127,23 @@ public class AddFormation {
         Formation formation = new Formation(0, titre, description, duree, niveau, dateCreation, prix, imageName);
         formation.setCategorie(categorie);
         formationService.add(formation);
-        String emailBody = "Une nouvelle formation est disponible sur notre plateform Formini ! ";
-        tn.esprit.utils.EmailSender.sendEmail("gobjiwalid1@gmail.com", "Formation Ajouté svp consulter notre site !",emailBody);
-        showAlert(Alert.AlertType.INFORMATION, "Succès", "Formation ajoutée avec succès.");
+        String emailBody = "<html>" +
+                "<body style='font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;'>" +
+                "<div style='background-color: #ffffff; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0 2px 5px rgba(0,0,0,0.1);'>" +
+                "<h2 style='color: #2c3e50;'>🎉 Nouvelle formation disponible sur Formini !</h2>" +
+                "<p>Bonjour,</p>" +
+                "<p>Une <strong>nouvelle formation</strong> vient d’être ajoutée à notre plateforme Formini.</p>" +
+                "<p><a href='https://formini.tn/formations' style='background-color: #1abc9c; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;'>Découvrir la formation</a></p>" +
+                "<p style='color: #7f8c8d; font-size: 12px;'>Merci de faire partie de la communauté Formini. Nous vous souhaitons un excellent apprentissage !</p>" +
+                "<hr style='border: none; border-top: 1px solid #ecf0f1;'/>" +
+                "<p style='font-size: 12px; color: #bdc3c7;'>© 2025 Formini. Tous droits réservés.</p>" +
+                "</div>" +
+                "</body>" +
+                "</html>";
+
+        EmailSender.sendEmail("gobjiwalid1@gmail.com", "Nouvelle formation ajoutée sur Formini", emailBody);
+        showAlert(Alert.AlertType.INFORMATION, "Succès", "La formation a été ajoutée avec succès !");
+
     }
         private void showAlert(Alert.AlertType alertType, String title, String content) {
             Alert alert = new Alert(alertType);
