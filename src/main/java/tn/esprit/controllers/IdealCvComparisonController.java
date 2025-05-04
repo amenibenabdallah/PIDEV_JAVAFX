@@ -21,6 +21,7 @@ import javafx.scene.paint.Stop;
 import javafx.util.Duration;
 import tn.esprit.models.Evaluation;
 import tn.esprit.models.FormationA;
+import tn.esprit.models.User;
 import tn.esprit.services.EvaluationService;
 import tn.esprit.utils.MyDataBase;
 
@@ -74,7 +75,6 @@ public class IdealCvComparisonController {
     // Map to store legend positions for interactivity
     private final Map<String, double[]> legendPositions = new HashMap<>();
 
-
     public void setTemplateController(AdminTemplateController templateController) {
         this.templateController = templateController;
         if (templateController == null) {
@@ -92,6 +92,17 @@ public class IdealCvComparisonController {
     private void loadData() {
         EvaluationService service = new EvaluationService();
         idealCv = service.createIdealCvProfile(formation);
+        // Ensure Ideal CV is 100% for all categories
+        if (idealCv != null) {
+            idealCv.setEducationWeight(1.0);    // 100%
+            idealCv.setExperienceWeight(1.0);   // 100%
+            idealCv.setSkillsWeight(1.0);       // 100%
+            idealCv.setCertificationsWeight(1.0); // 100%
+            System.out.println("Ideal CV weights - Education: " + idealCv.getEducationWeight() +
+                    ", Experience: " + idealCv.getExperienceWeight() +
+                    ", Skills: " + idealCv.getSkillsWeight() +
+                    ", Certifications: " + idealCv.getCertificationsWeight());
+        }
         instructorEvaluations.clear();
 
         if (formation.getInstructors().isEmpty()) {
@@ -100,33 +111,35 @@ public class IdealCvComparisonController {
         }
 
         Connection conn = MyDataBase.getInstance().getCnx();
-        String query = "SELECT * FROM evaluation WHERE instructor_id = ?";
+        String query = "SELECT * FROM evaluation WHERE user_id = ?";
 
-        for (var instructor : formation.getInstructors()) {
+        for (User instructor : formation.getInstructors()) {
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.setInt(1, instructor.getId());
-                ResultSet rs = stmt.executeQuery();
-                if (rs.next()) {
-                    Evaluation evaluation = new Evaluation();
-                    evaluation.setInstructorId(rs.getInt("instructor_id"));
-                    evaluation.setScore(rs.getDouble("score"));
-                    evaluation.setNiveau(rs.getString("niveau"));
-                    evaluation.setStatus(rs.getInt("status"));
-                    evaluation.setEducation(rs.getString("education"));
-                    evaluation.setYearsOfExperience(rs.getInt("years_of_experience"));
-                    evaluation.setSkills(rs.getString("skills"));
-                    evaluation.setCertifications(rs.getString("certifications"));
-                    evaluation.setEducationWeight(rs.getDouble("education_weight"));
-                    evaluation.setExperienceWeight(rs.getDouble("experience_weight"));
-                    evaluation.setSkillsWeight(rs.getDouble("skills_weight"));
-                    evaluation.setCertificationsWeight(rs.getDouble("certifications_weight"));
-                    evaluation.setDateCreation(rs.getDate("date_creation").toLocalDate());
-                    evaluation.setInstructeur(instructor);
-                    instructorEvaluations.add(evaluation);
-                } else {
-                    Evaluation evaluation = service.evaluateInstructeur(instructor);
-                    if (evaluation != null) {
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        Evaluation evaluation = new Evaluation();
+                        evaluation.setId(rs.getInt("id"));
+                        evaluation.setUserId(rs.getInt("user_id"));
+                        evaluation.setScore(rs.getDouble("score"));
+                        evaluation.setNiveau(rs.getString("niveau"));
+                        evaluation.setStatus(rs.getInt("status"));
+                        evaluation.setEducation(rs.getString("education"));
+                        evaluation.setYearsOfExperience(rs.getInt("years_of_experience"));
+                        evaluation.setSkills(rs.getString("skills"));
+                        evaluation.setCertifications(rs.getString("certifications"));
+                        evaluation.setEducationWeight(rs.getDouble("education_weight"));
+                        evaluation.setExperienceWeight(rs.getDouble("experience_weight"));
+                        evaluation.setSkillsWeight(rs.getDouble("skills_weight"));
+                        evaluation.setCertificationsWeight(rs.getDouble("certifications_weight"));
+                        evaluation.setDateCreation(rs.getDate("date_creation").toLocalDate());
+                        evaluation.setInstructeur(instructor);
                         instructorEvaluations.add(evaluation);
+                    } else {
+                        Evaluation evaluation = service.evaluateInstructeur(instructor);
+                        if (evaluation != null) {
+                            instructorEvaluations.add(evaluation);
+                        }
                     }
                 }
             } catch (SQLException e) {
@@ -135,8 +148,6 @@ public class IdealCvComparisonController {
                 throw new RuntimeException(e);
             }
         }
-
-
 
         updateRadarChart();
     }
@@ -264,14 +275,13 @@ public class IdealCvComparisonController {
                 gc.fillText(label, labelX + xOffset, labelY + yOffset);
             }
 
-            // Draw ideal CV
+            // Draw ideal CV with debug logging
             if (idealCv != null) {
-                double[] idealValues = {
-                        clamp(idealCv.getEducationWeight(), 0, maxValue),
-                        clamp(idealCv.getExperienceWeight(), 0, maxValue),
-                        clamp(idealCv.getSkillsWeight(), 0, maxValue),
-                        clamp(idealCv.getCertificationsWeight(), 0, maxValue)
-                };
+                double[] idealValues = {1.0, 1.0, 1.0, 1.0}; // Forces full value for all axes
+                System.out.println("Ideal CV values: " + java.util.Arrays.toString(idealValues)); // Optional: verify values
+                drawPolygon(gc, "Perfect CV", idealValues, IDEAL_COLOR, centerX, centerY, radius, numAxes, 1.0);
+
+                System.out.println("Ideal CV values before drawing: " + java.util.Arrays.toString(idealValues));
                 drawPolygon(gc, "Perfect CV", idealValues, IDEAL_COLOR, centerX, centerY, radius, numAxes, maxValue);
             }
 
@@ -308,8 +318,8 @@ public class IdealCvComparisonController {
         double[] pointsY = new double[numAxes];
         for (int i = 0; i < numAxes; i++) {
             double angle = Math.toRadians(90 + i * 360.0 / numAxes);
-            double value = values[i] / maxValue;
-            double pointRadius = value * radius;
+            double value = values[i] / maxValue; // Normalize to 0-1
+            double pointRadius = value * radius; // Scale to chart radius
             pointsX[i] = centerX + pointRadius * Math.cos(angle);
             pointsY[i] = centerY - pointRadius * Math.sin(angle);
         }
@@ -603,7 +613,7 @@ public class IdealCvComparisonController {
 
     private String buildTooltipText(String name) {
         StringBuilder tooltipText = new StringBuilder(name + "\n");
-        Evaluation eval = name.equals("Red OV") ? idealCv : instructorEvaluations.stream()
+        Evaluation eval = name.equals("Perfect CV") ? idealCv : instructorEvaluations.stream()
                 .filter(e -> {
                     if (e.getInstructeur() == null) return false;
                     String fullName = e.getInstructeur().getNom() + " " + e.getInstructeur().getPrenom();
@@ -637,6 +647,4 @@ public class IdealCvComparisonController {
         }
         return Math.max(min, Math.min(max, value));
     }
-
-
 }

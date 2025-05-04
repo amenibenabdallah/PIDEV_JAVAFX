@@ -14,6 +14,7 @@ public class User {
     protected String cv;
     protected String image;
     protected String niveauEtude;
+    protected int formation_id;
     public User(String email, String role, String password, String nom, String prenom, LocalDate dateNaissance) {
         this.email = email;
         this.role = role;
@@ -21,6 +22,13 @@ public class User {
         this.nom = nom;
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
+    }
+    public User(String email,String nom, String prenom,String cv){
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.cv=cv;
+
     }
 
     public User(String email, String role, String password, String nom, String prenom,
@@ -66,6 +74,14 @@ public class User {
 
     public String getImage() { return image; }
     public void setImage(String image) { this.image = image; }
+
+    public int getFormation_id() {
+        return formation_id;
+    }
+
+    public void setFormation_id(int formation_id) {
+        this.formation_id = formation_id;
+    }
 
     @Override
     public String toString() {

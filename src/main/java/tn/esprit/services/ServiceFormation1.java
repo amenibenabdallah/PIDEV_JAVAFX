@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceFormation1 {
-    private static final String URL = "jdbc:mysql://localhost:3306/formini111";
+    private static final String URL = "jdbc:mysql://localhost:3306/forminifix";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 

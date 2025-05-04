@@ -7,26 +7,31 @@ import javafx.beans.property.SimpleStringProperty;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a training formation with associated metadata, reviews, and instructors.
+ */
 public class FormationA {
     private final int id;
     private final SimpleStringProperty name;
     private final SimpleDoubleProperty averageScore;
     private final SimpleIntegerProperty avisCount;
     private final List<Avis> avisList;
-    private final List<instructeurs> instructors;
+    private final List<User> instructors;
     private final SimpleStringProperty niveau;
     private final SimpleStringProperty description;
     private final SimpleStringProperty duree;
     private final SimpleIntegerProperty categorieId;
-    private final SimpleStringProperty categoryName; // Added field
+    private final SimpleStringProperty categoryName;
 
-    public FormationA(int id, String name, double averageScore, int avisCount, List<Avis> avisList, List<instructeurs> instructors, String niveau, String description, String duree, int categorieId, String categoryName) {
+    public FormationA(int id, String name, double averageScore, int avisCount, List<Avis> avisList,
+                      List<User> instructors, String niveau, String description, String duree,
+                      int categorieId, String categoryName) {
         this.id = id;
         this.name = new SimpleStringProperty(name);
         this.averageScore = new SimpleDoubleProperty(averageScore);
         this.avisCount = new SimpleIntegerProperty(avisCount);
-        this.avisList = avisList != null ? avisList : new ArrayList<>();
-        this.instructors = instructors != null ? instructors : new ArrayList<>();
+        this.avisList = avisList != null ? new ArrayList<>(avisList) : new ArrayList<>();
+        this.instructors = instructors != null ? new ArrayList<>(instructors) : new ArrayList<>();
         this.niveau = new SimpleStringProperty(niveau);
         this.description = new SimpleStringProperty(description);
         this.duree = new SimpleStringProperty(duree);
@@ -34,6 +39,7 @@ public class FormationA {
         this.categoryName = new SimpleStringProperty(categoryName);
     }
 
+    // Getters
     public int getId() {
         return id;
     }
@@ -66,7 +72,7 @@ public class FormationA {
         return avisList;
     }
 
-    public List<instructeurs> getInstructors() {
+    public List<User> getInstructors() {
         return instructors;
     }
 
@@ -108,5 +114,38 @@ public class FormationA {
 
     public SimpleStringProperty categoryNameProperty() {
         return categoryName;
+    }
+
+    // Setters for JavaFX properties
+    public void setName(String name) {
+        this.name.set(name);
+    }
+
+    public void setAverageScore(double averageScore) {
+        this.averageScore.set(averageScore);
+    }
+
+    public void setAvisCount(int avisCount) {
+        this.avisCount.set(avisCount);
+    }
+
+    public void setNiveau(String niveau) {
+        this.niveau.set(niveau);
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
+    }
+
+    public void setDuree(String duree) {
+        this.duree.set(duree);
+    }
+
+    public void setCategorieId(int categorieId) {
+        this.categorieId.set(categorieId);
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName.set(categoryName);
     }
 }

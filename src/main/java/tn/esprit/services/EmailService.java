@@ -44,7 +44,7 @@ public class EmailService {
                     <style>
                         body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
                         .container { max-width: 600px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-                        .header { text-align: center; background-color: #4CAF50; color: white; padding: 10px 0; border-radius: 8px 8px 0 0; }
+                        .header { text-align: center; background-color: #C0392B; color: white; padding: 10px 0; border-radius: 8px 8px 0 0; }
                         .content { padding: 20px; text-align: center; }
                         .promo-details { background-color: #f9f9f9; padding: 15px; border-radius: 5px; text-align: left; margin: 20px 0; }
                         .promo-details p { margin: 5px 0; font-size: 16px; }
@@ -54,7 +54,7 @@ public class EmailService {
                 </head>
                 <body>
                     <div class="container">
-                        <div class="header"><h1>PIDEV</h1></div>
+                        <div class="header"><h1>Formini</h1></div>
                         <div class="content">
                             <h2>Bonjour,</h2>
                             <p>Félicitations ! Vous avez reçu un code promotionnel à utiliser sur notre plateforme.</p>
@@ -68,7 +68,7 @@ public class EmailService {
                             
                             <p>À très bientôt sur notre plateforme !</p>
                         </div>
-                        <div class="footer">L'équipe PIDEV</div>
+                        <div class="footer">L'équipe Formini</div>
                     </div>
                 </body>
                 </html>
