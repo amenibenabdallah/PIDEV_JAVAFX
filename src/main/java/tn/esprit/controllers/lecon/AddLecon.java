@@ -61,6 +61,18 @@ public class AddLecon {
         lecon.setUpdatedAt(LocalDateTime.now());
 
         serviceLecon.add(lecon);
-        errorLabel.setText("Leçon ajoutée avec succès !");
-    }
-}
+
+        // Show success alert
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Succès");
+        alert.setHeaderText(null);
+        alert.setContentText("La leçon a été ajoutée avec succès !");
+        alert.showAndWait();
+
+        // Optionally, clear the form fields after successful addition
+        titreTextField.clear();
+        contenuTextArea.clear();
+        dateCreationPicker.setValue(null);
+        formationComboBox.setValue(null);
+        errorLabel.setText("");
+    }}

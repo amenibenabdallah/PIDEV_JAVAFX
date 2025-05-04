@@ -9,8 +9,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import tn.esprit.controllers.Formation.GetAllFormationFront;
 import tn.esprit.models.InscriptionCours;
 import tn.esprit.utils.SessionManager;
 
@@ -24,8 +26,16 @@ public class MainLayoutController {
     @FXML private Label off;
     @FXML private Label on;
     @FXML private Button chatBotButton;
+    @FXML private BorderPane borderPane;
 
     private boolean isSidebarCollapsed = false;
+    public StackPane getContentArea() {
+        return contentArea;
+    }
+
+    public void setCenterContent(Parent node) {
+        borderPane.setCenter(node);
+    }
 
     @FXML
     private void initialize() {
@@ -131,6 +141,18 @@ public class MainLayoutController {
             contentArea.getChildren().setAll(view);
         } catch (IOException e) {
             showAlert("Erreur", "Impossible de charger la vue " + fxmlFile + " : " + e.getMessage());
+        }
+    }
+    @FXML
+    private void handleFormation(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Formation/GetAllFormationFront.fxml"));
+            Parent view = loader.load();
+            GetAllFormationFront controller = loader.getController();
+            controller.setMainLayoutController(this);
+            contentArea.getChildren().setAll(view);
+        } catch (IOException e) {
+            showAlert("Erreur", "Impossible de charger l'interface d'inscription : " + e.getMessage());
         }
     }
 

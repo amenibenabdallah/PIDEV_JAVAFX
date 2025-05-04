@@ -48,6 +48,7 @@
             <classifier>win</classifier>
         </dependency>
 
+
         <!-- Dépendances pour Google API Client -->
         <dependency>
             <groupId>com.google.api-client</groupId>
