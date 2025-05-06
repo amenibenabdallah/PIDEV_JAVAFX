@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="tn.esprit.controllers.EvenementController" spacing="20" stylesheets="@evenementstyle.css">
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Label text="Gestion des Évènements" styleClass="evenement-header" />
+        <Button text="Ajouter Évènement" onAction="#toggleForm" styleClass="evenement-button, evenement-button-add" />
+    </HBox>
+
+    <!-- Main content with SplitPane -->
+    <SplitPane fx:id="splitPane" dividerPositions="1.0" styleClass="evenement-split-pane">
+        <!-- Card Layout -->
+        <VBox styleClass="evenement-cards-container">
+            <ScrollPane fitToWidth="true" styleClass="evenement-scroll-pane">
+                <VBox fx:id="evenementCards" spacing="10" styleClass="evenement-cards-vbox" />
+            </ScrollPane>
+        </VBox>
+
+        <!-- Form Panel (hidden by default) -->
+        <VBox fx:id="formPanel" styleClass="evenement-form-panel" prefWidth="0">
+            <VBox styleClass="evenement-form-card">
+                <Label text="Ajouter ou Modifier un Évènement" styleClass="evenement-form-title" />
+                <GridPane hgap="10" vgap="10">
+                    <Label text="Titre :" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="evenement-form-label" />
+                    <TextField fx:id="titreField" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="evenement-form-field" />
+
+                    <Label text="Date :" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="evenement-form-label" />
+                    <DatePicker fx:id="datePicker" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="evenement-date-picker" />
+
+                    <Label text="Description :" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="evenement-form-label" />
+                    <TextArea fx:id="descriptionArea" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="300" prefHeight="80" styleClass="evenement-form-field" />
+
+                    <Label text="Emplacement :" GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="evenement-form-label" />
+                    <TextField fx:id="emplacementField" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="evenement-form-field" onKeyReleased="#handleEmplacementChange" />
+
+                    <Label text="Photo :" GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="evenement-form-label" />
+                    <HBox GridPane.rowIndex="4" GridPane.columnIndex="1" spacing="10" alignment="CENTER_LEFT">
+                        <Button text="Choisir une image" onAction="#handleChooseImage" styleClass="evenement-button" style="-fx-background-color: #3B82F6;" />
+                        <ImageView fx:id="photoPreview" fitWidth="50" fitHeight="50" preserveRatio="true" />
+                    </HBox>
+
+                    <Label text="QR Code :" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="evenement-form-label" />
+                    <ImageView fx:id="qrCodePreview" GridPane.rowIndex="5" GridPane.columnIndex="1" fitWidth="100" fitHeight="100" preserveRatio="true" />
+                </GridPane>
+
+                <!-- Buttons -->
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Enregistrer" onAction="#handleSave" styleClass="evenement-button, evenement-button-add" />
+                    <Button text="Annuler" onAction="#handleCancel" styleClass="evenement-button, evenement-button-clear" />
+                </HBox>
+            </VBox>
+        </VBox>
+    </SplitPane>
+</VBox>

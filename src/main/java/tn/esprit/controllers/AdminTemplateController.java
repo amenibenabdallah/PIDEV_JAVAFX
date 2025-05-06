@@ -150,12 +150,12 @@ public class AdminTemplateController implements Initializable {
 
     @FXML
     private void navigateToEvenements() {
-        loadContent("/Evenements.fxml", "Evenements");
+        loadContent("/evenement_crud.fxml", "Evenements");
     }
 
     @FXML
     private void navigateToNotifications() {
-        loadContent("/Notifications.fxml", "Notifications");
+        loadContent("/Notificationcrud.fxml", "Notifications");
     }
 
     @FXML

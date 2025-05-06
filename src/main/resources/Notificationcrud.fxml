@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="tn.esprit.controllers.NotificationController" spacing="20" stylesheets="@notificationstyle.css">
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Label text="Gestion des Notifications" styleClass="notification-header" />
+        <Button text="Ajouter Notification" onAction="#toggleForm" styleClass="notification-button, notification-button-add" />
+        <TextField fx:id="searchField" promptText="Rechercher..." styleClass="notification-search-field" onAction="#handleSearchAction"/>
+    </HBox>
+
+    <!-- Main content with SplitPane -->
+    <SplitPane fx:id="splitPane" dividerPositions="1.0" styleClass="notification-split-pane">
+        <!-- Card Layout -->
+        <VBox styleClass="notification-cards-container">
+            <ScrollPane fitToWidth="true" styleClass="notification-scroll-pane">
+                <VBox fx:id="notificationCards" spacing="10" styleClass="notification-cards-vbox" />
+            </ScrollPane>
+        </VBox>
+
+        <!-- Form Panel (hidden by default) -->
+        <VBox fx:id="formPanel" styleClass="notification-form-panel" prefWidth="0">
+            <VBox styleClass="notification-form-card">
+                <Label text="Ajouter une Notification" styleClass="notification-form-title" />
+                <GridPane hgap="10" vgap="10">
+                    <Label text="Titre :" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="notification-form-label" />
+                    <TextField fx:id="titreField" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="notification-form-field" />
+
+                    <Label text="Contenu :" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="notification-form-label" />
+                    <TextArea fx:id="contenuArea" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="300" prefHeight="80" styleClass="notification-form-field" />
+
+                    <Label text="Événement :" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="notification-form-label" />
+                    <ComboBox fx:id="evenementComboBox" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="notification-form-field" prefWidth="300" />
+                </GridPane>
+
+                <!-- Buttons -->
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Enregistrer" onAction="#handleSave" styleClass="notification-button, notification-button-add" />
+                    <Button text="Annuler" onAction="#handleCancel" styleClass="notification-button, notification-button-clear" />
+                </HBox>
+            </VBox>
+        </VBox>
+    </SplitPane>
+</VBox>
