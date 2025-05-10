@@ -1,0 +1,199 @@
+/* src/main/resources/notificationstyle.css */
+
+/* Main container for the Notification page */
+.notification-container {
+    -fx-background-color: #E5E7EB; /* Slightly darker gray for depth */
+    -fx-padding: 25;
+}
+
+/* Header for the page */
+.notification-header {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827; /* Richer dark gray */
+    -fx-font-family: "Helvetica Neue";
+}
+
+/* Search field styling */
+.notification-search-field {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #9CA3AF; /* Softer gray border */
+    -fx-background-color: #F9FAFB;
+    -fx-font-family: "Helvetica Neue";
+    -fx-font-size: 15px;
+    -fx-text-fill: #111827;
+    -fx-prompt-text-fill: #6B7280;
+    -fx-padding: 8 12;
+}
+
+.notification-search-field:focused {
+    -fx-border-color: #1D4ED8; /* Vibrant blue on focus */
+    -fx-border-width: 1.5;
+}
+
+/* SplitPane styling */
+.notification-split-pane {
+    -fx-background-color: transparent;
+}
+
+/* Container for the cards section */
+.notification-cards-container {
+    -fx-padding: 15;
+    -fx-spacing: 12;
+}
+
+/* ScrollPane for the cards */
+.notification-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+/* Hide the scrollbar but keep functionality */
+.notification-scroll-pane .scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+
+/* VBox containing the cards */
+.notification-cards-vbox {
+    -fx-padding: 12;
+    -fx-alignment: center;
+}
+
+/* Individual card styling */
+.notification-card {
+    -fx-background-color: #F9FAFB;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 3);
+    -fx-padding: 20;
+    -fx-spacing: 12;
+    -fx-cursor: hand;
+    -fx-max-width: 320;
+    -fx-min-width: 320;
+}
+
+.notification-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 18, 0, 0, 4);
+    -fx-background-color: #E5E7EB;
+}
+
+/* Card content styling */
+.notification-card-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+    -fx-font-family: "Helvetica Neue";
+}
+
+.notification-card-content {
+    -fx-font-size: 15px;
+    -fx-text-fill: #111827;
+    -fx-font-family: "Helvetica Neue";
+}
+
+.notification-card-date {
+    -fx-font-size: 13px;
+    -fx-text-fill: #4B5563;
+    -fx-font-family: "Helvetica Neue";
+}
+
+.notification-card-event {
+    -fx-font-size: 13px;
+    -fx-text-fill: #4B5563;
+    -fx-font-family: "Helvetica Neue";
+}
+
+/* Form panel styling */
+.notification-form-panel {
+    -fx-background-color: #E5E7EB;
+    -fx-padding: 25;
+    -fx-max-width: 420;
+    -fx-min-width: 420;
+}
+
+/* Card container for the form */
+.notification-form-card {
+    -fx-background-color: #F9FAFB;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 3);
+    -fx-padding: 20;
+    -fx-spacing: 18;
+}
+
+/* Form title */
+.notification-form-title {
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+    -fx-font-family: "Helvetica Neue";
+}
+
+/* Labels for form fields */
+.notification-form-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #4B5563;
+    -fx-font-family: "Helvetica Neue";
+}
+
+/* TextField, TextArea, and ComboBox styles */
+.notification-form-field {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #9CA3AF;
+    -fx-background-color: #F9FAFB;
+    -fx-font-family: "Helvetica Neue";
+    -fx-font-size: 15px;
+    -fx-text-fill: #111827;
+}
+
+.notification-form-field:focused {
+    -fx-border-color: #1D4ED8;
+    -fx-border-width: 1.5;
+}
+
+/* Button styles */
+.notification-button {
+    -fx-font-family: "Helvetica Neue";
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-transition: -fx-background-color 0.3s ease;
+}
+
+/* Specific button colors */
+.notification-button-add {
+    -fx-background-color: #1D4ED8; /* Deeper blue */
+}
+
+.notification-button-update {
+    -fx-background-color: #059669; /* Rich green */
+}
+
+.notification-button-delete {
+    -fx-background-color: #B91C1C; /* Softer red */
+}
+
+.notification-button-clear {
+    -fx-background-color: #4B5563; /* Neutral gray */
+}
+
+/* Hover effects for buttons */
+.notification-button-add:hover {
+    -fx-background-color: #1E40AF; /* Darker blue */
+}
+
+.notification-button-update:hover {
+    -fx-background-color: #047857; /* Darker green */
+}
+
+.notification-button-delete:hover {
+    -fx-background-color: #991B1B; /* Darker red */
+}
+
+.notification-button-clear:hover {
+    -fx-background-color: #374151; /* Darker gray */
+}
