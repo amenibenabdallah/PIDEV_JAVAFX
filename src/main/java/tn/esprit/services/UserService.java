@@ -305,13 +305,47 @@ public class UserService {
         int x = (int)(Math.random() * 900000) + 100000;
         String token = String.valueOf(x);
         String sql = "UPDATE user SET reset_token = ? WHERE email = ?";
+
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, token);
             ps.setString(2, email);
             int updated = ps.executeUpdate();
+
             if (updated > 0) {
-                String body = "Voici votre Token de Réinitialisation : " + token;
-                EmailUtil.sendEmail(email, "Réinitialisation de mot de passe", body);
+                String htmlBody = String.format("""
+            <!DOCTYPE html>
+            <html lang="fr">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Réinitialisation de mot de passe</title>
+                <style>
+                    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                    .container { max-width: 600px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+                    .header { text-align: center; background-color: #e74c3c; color: white; padding: 10px 0; border-radius: 8px 8px 0 0; }
+                    .content { padding: 20px; text-align: center; }
+                    .token { font-size: 28px; color: #e74c3c; font-weight: bold; margin: 20px 0; }
+                    .footer { text-align: center; font-size: 14px; color: #777; padding-top: 10px; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header"><h1>Formini</h1></div>
+                    <div class="content">
+                        <h2>Réinitialisation de mot de passe</h2>
+                        <p>Bonjour,</p>
+                        <p>Vous avez demandé à réinitialiser votre mot de passe. Voici votre code de réinitialisation :</p>
+                        <div class="token">%s</div>
+                        <p>Veuillez utiliser ce code pour réinitialiser votre mot de passe. Il est valide pendant une durée limitée.</p>
+                        <p>Si vous n'êtes pas à l'origine de cette demande, veuillez ignorer cet e-mail.</p>
+                    </div>
+                    <div class="footer">L'équipe Formini</div>
+                </div>
+            </body>
+            </html>
+            """, token);
+
+                EmailUtil.sendHtmlEmail(email, "🔐 Code de réinitialisation", htmlBody);
                 return true;
             }
         } catch (SQLException e) {
