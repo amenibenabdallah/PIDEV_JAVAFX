@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import java.net.URL?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.controllers.EvenementViewController" spacing="10" style="-fx-padding: 20;">
+    <stylesheets>
+        <URL value="@viewstyles.css"/>
+    </stylesheets>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Événements" styleClass="view-header" />
+        <TextField fx:id="searchField" promptText="Rechercher un événement..." styleClass="view-search-field" onAction="#handleSearchAction" />
+    </HBox>
+
+    <!-- Liste des événements -->
+    <ScrollPane fitToWidth="true" styleClass="view-scroll-pane">
+        <VBox fx:id="evenementCards" spacing="10" styleClass="view-cards-vbox" />
+    </ScrollPane>
+</VBox>

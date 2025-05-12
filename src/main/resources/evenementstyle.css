@@ -1,0 +1,194 @@
+/* src/main/resources/evenementstyle.css */
+
+/* Main container for the Evenement page */
+.evenement-container {
+    -fx-background-color: #EDE9FE; /* Soft lavender background */
+    -fx-padding: 25;
+}
+
+/* Header for the page */
+.evenement-header {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2D3748; /* Deep slate gray */
+    -fx-font-family: "Roboto";
+}
+
+/* SplitPane styling */
+.evenement-split-pane {
+    -fx-background-color: transparent;
+}
+
+/* Container for the cards section */
+.evenement-cards-container {
+    -fx-padding: 15;
+    -fx-spacing: 12;
+}
+
+/* ScrollPane for the cards */
+.evenement-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+/* Hide the scrollbar but keep functionality */
+.evenement-scroll-pane .scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+
+/* VBox containing the cards */
+.evenement-cards-vbox {
+    -fx-padding: 12;
+    -fx-alignment: center;
+}
+
+/* Individual card styling */
+.evenement-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 3);
+    -fx-padding: 20;
+    -fx-spacing: 12;
+    -fx-cursor: hand;
+    -fx-max-width: 340;
+    -fx-min-width: 340;
+}
+
+.evenement-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.22), 18, 0, 0, 4);
+    -fx-background-color: #F5F3FF;
+}
+
+/* Card content styling */
+.evenement-card-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2D3748;
+    -fx-font-family: "Roboto";
+}
+
+.evenement-card-date {
+    -fx-font-size: 13px;
+    -fx-text-fill: #5B6476;
+    -fx-font-family: "Roboto";
+}
+
+.evenement-card-description {
+    -fx-font-size: 15px;
+    -fx-text-fill: #2D3748;
+    -fx-font-family: "Roboto";
+}
+
+.evenement-card-image {
+    -fx-fit-width: 80;
+    -fx-fit-height: 80;
+    -fx-preserve-ratio: true;
+}
+
+/* Form panel styling */
+.evenement-form-panel {
+    -fx-background-color: #EDE9FE;
+    -fx-padding: 25;
+    -fx-max-width: 450;
+    -fx-min-width: 450;
+}
+
+/* Card container for the form */
+.evenement-form-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 3);
+    -fx-padding: 20;
+    -fx-spacing: 18;
+}
+
+/* Form title */
+.evenement-form-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2D3748;
+    -fx-font-family: "Roboto";
+}
+
+/* Labels for form fields */
+.evenement-form-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #5B6476;
+    -fx-font-family: "Roboto";
+}
+
+/* TextField and TextArea styles */
+.evenement-form-field {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #A5B4FC; /* Light indigo border */
+    -fx-background-color: #F5F3FF;
+    -fx-font-family: "Roboto";
+    -fx-font-size: 15px;
+    -fx-text-fill: #2D3748;
+}
+
+.evenement-form-field:focused {
+    -fx-border-color: #6366F1; /* Vibrant indigo on focus */
+    -fx-border-width: 1.5;
+}
+
+/* DatePicker styles */
+.evenement-date-picker {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-family: "Roboto";
+    -fx-font-size: 15px;
+}
+
+.evenement-date-picker:focused {
+    -fx-border-color: #6366F1;
+    -fx-border-width: 1.5;
+}
+
+/* Button styles */
+.evenement-button {
+    -fx-font-family: "Roboto";
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-transition: -fx-background-color 0.3s ease;
+}
+
+/* Specific button colors */
+.evenement-button-add {
+    -fx-background-color: #6366F1; /* Indigo */
+}
+
+.evenement-button-update {
+    -fx-background-color: #22C55E; /* Lime green */
+}
+
+.evenement-button-delete {
+    -fx-background-color: #F43F5E; /* Rose red */
+}
+
+.evenement-button-clear {
+    -fx-background-color: #6B7280; /* Slate gray */
+}
+
+/* Hover effects for buttons */
+.evenement-button-add:hover {
+    -fx-background-color: #4F46E5; /* Darker indigo */
+}
+
+.evenement-button-update:hover {
+    -fx-background-color: #16A34A; /* Darker lime green */
+}
+
+.evenement-button-delete:hover {
+    -fx-background-color: #E11D48; /* Darker rose red */
+}
+
+.evenement-button-clear:hover {
+    -fx-background-color: #4B5563; /* Darker slate gray */
+}

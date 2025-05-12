@@ -10,6 +10,9 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/EmailUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/EmailUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/NotificationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/EvenementView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/EvenementView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/viewstyles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/viewstyles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,25 +40,25 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-    &quot;lastFilter&quot;: {
-      &quot;state&quot;: &quot;OPEN&quot;,
-      &quot;assignee&quot;: &quot;Yassminette5&quot;
-    }
-  }</component>
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Yassminette5"
+  }
+}</component>
   <component name="GithubPullRequestsUISettings">{
-    &quot;selectedUrlAndAccountId&quot;: {
-      &quot;url&quot;: &quot;https://github.com/amenibenabdallah/PIDEV_JAVAFX.git&quot;,
-      &quot;accountId&quot;: &quot;a449f9f8-cadc-4d0c-9afd-7b71d4c0813a&quot;
-    }
-  }</component>
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/amenibenabdallah/PIDEV_JAVAFX.git",
+    "accountId": "de313930-4cea-4b9a-8502-66894a3c319a"
+  }
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-    &quot;associatedIndex&quot;: 6
+    "associatedIndex": 6
   }</component>
   <component name="ProjectId" id="2vTu56h9e5HqQYkKW6k21FMYCCr" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -63,37 +66,37 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MainFx.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MainInscription.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestApprenantCrud.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestAvis.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestPromotion.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestUserCrud.executor&quot;: &quot;Run&quot;,
-    &quot;Application.listtest.executor&quot;: &quot;Run&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Maven.java_pi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/PIDEV_JAVAFX&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.externalResources&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.MainFx.executor": "Run",
+    "Application.MainInscription.executor": "Run",
+    "Application.TestApprenantCrud.executor": "Run",
+    "Application.TestAvis.executor": "Run",
+    "Application.TestPromotion.executor": "Run",
+    "Application.TestUserCrud.executor": "Run",
+    "Application.listtest.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Maven.java_pi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Mahdi-Gestion-Notifications",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Dell/Desktop/ppp/PIDEV_JAVAFX/src/main/resources",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.externalResources",
+    "vue.rearranger.settings.migration": "true"
   }
 }</component>
   <component name="ReactorSettings">
@@ -101,6 +104,10 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Dell\Desktop\ppp\PIDEV_JAVAFX\src\main\resources" />
+      <recent name="C:\Users\Dell\Desktop\ppp\PIDEV_JAVAFX\src\main\java\tn\esprit\controllers" />
+      <recent name="C:\Users\Dell\Desktop\ppp\PIDEV_JAVAFX\src\main\java\tn\esprit\services" />
+      <recent name="C:\Users\Dell\Desktop\ppp\PIDEV_JAVAFX\src\main\java\tn\esprit\models" />
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX\src\main\resources\images" />
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX\target\classes\images" />
       <recent name="C:\Users\LENOVO\Desktop\PIDEV_JAVAFX\src\main\resources\fonts" />
@@ -121,6 +128,7 @@
       <recent name="tn.esprit" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="tn.esprit.utils" />
       <recent name="tn.esprit.controllers" />
       <recent name="tn.esprit.services" />
     </key>

@@ -110,15 +110,22 @@ public class MainLayoutController {
     }
 
     @FXML
-
     private void handleFeedback() {
         loadFXML("/ListAvis.fxml");
     }
+
     @FXML
-    
+    private void handleNotifications() {
+        loadFXML("/NotificationView.fxml");
+    }
 
+    @FXML
+    private void handleEvents() {
+        loadFXML("/EvenementView.fxml");
+    }
+
+    @FXML
     private void handleLogout(ActionEvent event) {
-
         SessionManager.getInstance().logout();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
@@ -127,7 +134,6 @@ public class MainLayoutController {
             showAlert("Erreur", "Erreur lors de la déconnexion : " + e.getMessage());
         }
     }
-
 
     public void loadWelcomePage() {
         loadFXML("/Welcome.fxml");
