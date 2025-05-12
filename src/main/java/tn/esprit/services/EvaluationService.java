@@ -269,8 +269,8 @@ public class EvaluationService {
         }
 
         // Call Flask API to get the score (mocked to 61 to achieve status = 1)
-        double score = 61.0; // Mocked value to match desired status
-        // double score = callFlaskApi(educationLevel, yearsOfExperience, skillsCount, certificationsCount);
+
+         double score = callFlaskApi(educationLevel, yearsOfExperience, skillsCount, certificationsCount);
         System.out.println("testttttttt" + educationLevel + "  " + yearsOfExperience + " " + skillsCount + " " + certificationsCount);
 
         // Determine the level based on the score

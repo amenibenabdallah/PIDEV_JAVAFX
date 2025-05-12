@@ -6,12 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="61da1348-b7bf-48d5-a107-6522b47ef517" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/EvaluationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/controllers/EvaluationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EmailServiceA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EmailServiceA.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/EvaluationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceFormation1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServiceFormation1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServicePromotion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/ServicePromotion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/EmailUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/utils/EmailUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,10 +195,10 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.EvaluationTest" />
+      <item itemvalue="Application.MahdiCrudTest" />
       <item itemvalue="Application.MainFx" />
       <item itemvalue="Application.MainInscription" />
-      <item itemvalue="Application.MahdiCrudTest" />
-      <item itemvalue="Application.EvaluationTest" />
       <item itemvalue="Application.TestUserCrud" />
     </list>
     <recent_temporary>
@@ -243,7 +241,10 @@
       <workItem from="1745565606483" duration="43481000" />
       <workItem from="1745765698410" duration="31685000" />
       <workItem from="1746180137123" duration="250000" />
-      <workItem from="1746369453780" duration="11431000" />
+      <workItem from="1746369453780" duration="19086000" />
+      <workItem from="1746974121281" duration="615000" />
+      <workItem from="1746975767379" duration="9000" />
+      <workItem from="1746975785522" duration="6000" />
     </task>
     <task id="LOCAL-00001" summary="commit after modifications">
       <option name="closed" value="true" />
